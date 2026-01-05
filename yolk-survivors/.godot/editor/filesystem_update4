@@ -1,2 +1,5 @@
 res://scenes/units/unit.tscn
 res://scenes/units/unit.gd
+res://scenes/units/players/player.tscn
+res://scenes/units/players/player_well_rounded.tscn
+res://scenes/units/players/player.gd
