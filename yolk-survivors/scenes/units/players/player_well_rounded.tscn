@@ -8,7 +8,18 @@ radius = 27.074
 
 [node name="PlayerWellRounded" instance=ExtResource("1_gmevj")]
 script = ExtResource("2_us6fi")
+dash_duration = 0.5
+dash_speed_multi = 2.5
+dash_cooldown = 2.0
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -31)
 shape = SubResource("CircleShape2D_gmevj")
+
+[node name="DashTimer" type="Timer" parent="." index="3"]
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
