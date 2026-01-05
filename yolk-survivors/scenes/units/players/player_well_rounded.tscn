@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgbxwl6vgfu5u"]
+[gd_scene load_steps=5 format=3 uid="uid://bgbxwl6vgfu5u"]
 
 [ext_resource type="PackedScene" uid="uid://sbew4vc23htb" path="res://scenes/units/unit.tscn" id="1_gmevj"]
 [ext_resource type="Script" uid="uid://buivdun06gqjk" path="res://scenes/units/players/player.gd" id="2_us6fi"]
+[ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="3_us6fi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gmevj"]
 radius = 27.074
@@ -11,6 +12,7 @@ script = ExtResource("2_us6fi")
 dash_duration = 0.5
 dash_speed_multi = 2.5
 dash_cooldown = 2.0
+stats = ExtResource("3_us6fi")
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -31)
