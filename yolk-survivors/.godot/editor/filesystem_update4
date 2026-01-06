@@ -3,3 +3,10 @@ res://scenes/units/players/player_well_rounded.tscn
 res://scenes/units/players/player.gd
 res://scenes/units/unit.tscn
 res://scenes/units/players/player_crazy.tscn
+res://scenes/arena/arena.tscn
+res://scenes/units/players/player_bunny.tscn
+res://scenes/units/players/player_brawler.tscn
+res://scenes/units/players/player_knight.tscn
+res://scenes/arena/camera_2d.gd
+res://autoload/global.gd
+res://scenes/arena/arena.gd

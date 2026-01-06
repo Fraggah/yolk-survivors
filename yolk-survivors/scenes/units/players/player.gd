@@ -28,6 +28,8 @@ func _process(delta: float) -> void:
 
 	
 	position += current_velocity * delta
+	position.x = clamp(position.x, -1000, 1000)
+	position.y = clamp(position.y, -500, 485)
 	
 	update_animations()
 	update_rotation()

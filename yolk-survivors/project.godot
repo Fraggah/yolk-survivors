@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Yolk Survivors"
+run/main_scene="uid://dy6m2b3eopxya"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://autoload/global.gd"
 
 [display]
 
