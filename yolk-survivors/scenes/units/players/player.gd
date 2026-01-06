@@ -10,6 +10,7 @@ var move_dir: Vector2
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var trail: PlayerTrail = %Trail
 
 var is_dashing: bool
 
@@ -39,6 +40,7 @@ func start_dash() -> void:
 	dash_timer.start()
 	visuals.modulate.a = .5
 	collision.set_deferred("disabled", true)
+	trail.start_trail()
 
 func can_dash() -> bool:
 	return not is_dashing and\

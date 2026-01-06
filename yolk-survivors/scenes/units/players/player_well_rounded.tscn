@@ -1,8 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgbxwl6vgfu5u"]
+[gd_scene load_steps=7 format=3 uid="uid://bgbxwl6vgfu5u"]
 
 [ext_resource type="PackedScene" uid="uid://sbew4vc23htb" path="res://scenes/units/unit.tscn" id="1_gmevj"]
 [ext_resource type="Script" uid="uid://buivdun06gqjk" path="res://scenes/units/players/player.gd" id="2_us6fi"]
 [ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="3_us6fi"]
+[ext_resource type="Script" uid="uid://dhjylweqpmgsu" path="res://scenes/units/players/player_trail.gd" id="4_yaur4"]
+
+[sub_resource type="Curve" id="Curve_d3mmk"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gmevj"]
 radius = 27.074
@@ -14,6 +19,22 @@ dash_speed_multi = 2.5
 dash_cooldown = 2.0
 stats = ExtResource("3_us6fi")
 
+[node name="Trail" type="Line2D" parent="Visuals" index="0" node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+top_level = true
+position = Vector2(0, -30)
+width = 50.0
+width_curve = SubResource("Curve_d3mmk")
+script = ExtResource("4_yaur4")
+player = NodePath("../..")
+trail_length = 10
+
+[node name="Shadow" parent="Visuals" index="1"]
+z_index = 1
+
+[node name="Sprite" parent="Visuals" index="2"]
+z_index = 1
+
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -31)
 shape = SubResource("CircleShape2D_gmevj")
@@ -24,4 +45,8 @@ one_shot = true
 [node name="DashCooldownTimer" type="Timer" parent="." index="4"]
 one_shot = true
 
+[node name="TrailTimer" type="Timer" parent="." index="5"]
+unique_name_in_owner = true
+
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="TrailTimer" to="Visuals/Trail" method="_on_trail_timer_timeout"]

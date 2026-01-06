@@ -1,10 +1,4 @@
+res://scenes/units/players/player_trail.gd
 res://scenes/units/players/player_well_rounded.tscn
-res://resources/unit_stats.gd
-res://resources/units/players/player_well_rounded.tres
-res://resources/units/players/player_crazy.tres
-res://resources/units/players/player_bunny.tres
-res://resources/units/players/player_brawler.tres
-res://resources/units/players/player_knight.tres
-res://scenes/units/unit.tscn
-res://scenes/units/unit.gd
 res://scenes/units/players/player.gd
+res://scenes/units/unit.tscn
