@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://sbew4vc23htb"]
+[gd_scene load_steps=10 format=3 uid="uid://sbew4vc23htb"]
 
 [ext_resource type="Script" uid="uid://gmsqloqpo7kg" path="res://scenes/units/unit.gd" id="1_qgilm"]
 [ext_resource type="Texture2D" uid="uid://devt2xbk78rej" path="res://assets/sprites/shadow.png" id="2_cx6aj"]
 [ext_resource type="Texture2D" uid="uid://cproxhccob85g" path="res://assets/sprites/Players/Player_1.png" id="3_6k8ya"]
+[ext_resource type="PackedScene" uid="uid://di74owda5affs" path="res://scenes/components/hurtbox_component.tscn" id="4_6k8ya"]
 
 [sub_resource type="Animation" id="Animation_rk2mp"]
 length = 0.001
@@ -257,3 +258,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_fe0lq")
 }
 autoplay = "idle"
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_6k8ya")]

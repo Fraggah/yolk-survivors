@@ -20,9 +20,9 @@ func get_move_direction() -> Vector2:
 	
 	var direction := global_position.direction_to(Global.player.global_position)
 	for area: Area2D in vision_area.get_overlapping_areas():
-		if area != self and area.is_inside_tree():
-			var vector := global_position - area.global_position
-			direction += flock_push * vector.normalized() / vector.length()
+		if area != self and area.is_inside_tree(): #Check
+			var vector := global_position - area.global_position #Direccion opuesta a los otros enemigos
+			direction += flock_push * vector.normalized() / vector.length() #Blend de direccion a player y empuje entre enemigos
 	
 	return direction
 

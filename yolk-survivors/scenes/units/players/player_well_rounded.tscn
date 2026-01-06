@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgbxwl6vgfu5u"]
+[gd_scene load_steps=8 format=3 uid="uid://bgbxwl6vgfu5u"]
 
 [ext_resource type="PackedScene" uid="uid://sbew4vc23htb" path="res://scenes/units/unit.tscn" id="1_gmevj"]
 [ext_resource type="Script" uid="uid://buivdun06gqjk" path="res://scenes/units/players/player.gd" id="2_us6fi"]
@@ -10,9 +10,13 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gmevj"]
-radius = 27.074
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yaur4"]
+radius = 32.0
 
 [node name="PlayerWellRounded" instance=ExtResource("1_gmevj")]
+collision_mask = 0
 script = ExtResource("2_us6fi")
 dash_duration = 0.5
 dash_speed_multi = 2.5
@@ -47,6 +51,15 @@ one_shot = true
 
 [node name="TrailTimer" type="Timer" parent="." index="5"]
 unique_name_in_owner = true
+
+[node name="HurtboxComponent" parent="." index="6"]
+collision_layer = 32
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
+z_index = 1
+position = Vector2(0, -31)
+shape = SubResource("CircleShape2D_yaur4")
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="TrailTimer" to="Visuals/Trail" method="_on_trail_timer_timeout"]
