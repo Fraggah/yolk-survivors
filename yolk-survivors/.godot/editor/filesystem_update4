@@ -10,3 +10,14 @@ res://scenes/units/players/player_knight.tscn
 res://scenes/arena/camera_2d.gd
 res://autoload/global.gd
 res://scenes/arena/arena.gd
+res://scenes/units/enemies/enemy_chaser.tscn
+res://scenes/units/enemies/enemy.gd
+res://scenes/units/enemies/enemy_shooter.tscn
+res://resources/units/enemies/stats_enemy_chaser_slow.tres
+res://resources/units/enemies/stats_enemy_chaser_mid.tres
+res://resources/units/enemies/stats_enemy_chaser_fast.tres
+res://resources/units/enemies/stats_enemy_charger.tres
+res://resources/units/enemies/stats_enemy_shooter.tres
+res://scenes/units/enemies/enemy_chaser_mid.tscn
+res://scenes/units/enemies/enemy_chaser_fast.tscn
+res://scenes/units/enemies/enemy_charger.tscn
