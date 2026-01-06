@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://emsi6ifyt0vf" path="res://assets/sprites/Enemies/Enemy_5.png" id="2_esmqr"]
 
 [node name="EnemyCharger" instance=ExtResource("1_4uofp")]
+flock_push = 20.0
 stats = ExtResource("2_4a187")
 
 [node name="Sprite" parent="Visuals" index="1"]

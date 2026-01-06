@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://chfolf8npwgrh" path="res://resources/units/enemies/stats_enemy_chaser_fast.tres" id="2_iyvkc"]
 
 [node name="EnemyChaserFast" instance=ExtResource("1_odqf0")]
+flock_push = 20.0
 stats = ExtResource("2_iyvkc")
 
 [node name="Sprite" parent="Visuals" index="1"]

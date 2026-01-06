@@ -13,6 +13,7 @@ radius = 150.0
 
 [node name="EnemyChaser" instance=ExtResource("1_1rdpi")]
 script = ExtResource("2_ekmfq")
+flock_push = 20.0
 stats = ExtResource("3_ekmfq")
 
 [node name="Sprite" parent="Visuals" index="1"]
