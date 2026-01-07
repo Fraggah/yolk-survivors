@@ -15,6 +15,7 @@ var move_dir: Vector2
 var is_dashing: bool
 
 func _ready() -> void:
+	super._ready()
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
 
