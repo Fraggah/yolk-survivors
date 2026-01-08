@@ -13,3 +13,10 @@ res://scenes/units/players/player_trail.gd
 res://effects/flash.gdshader
 res://autoload/global.gd
 res://scenes/units/unit.gd
+res://resources/units/players/player_well_rounded.tres
+res://scenes/ui/floating_text/floating_text.tscn
+res://scenes/ui/floating_text/floating_text.gd
+res://scenes/arena/arena.gd
+res://resources/items/item_base.gd
+res://resources/items/weapons/item_weapon.gd
+res://resources/items/weapons/weapon_stats.gd

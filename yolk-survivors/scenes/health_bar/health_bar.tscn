@@ -22,6 +22,7 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [node name="HealthBar" type="Control"]
+z_index = 5
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 3
 anchors_preset = 0
