@@ -10,6 +10,7 @@ size = Vector2(108, 84)
 [node name="WeaponPunch" instance=ExtResource("1_soyvn")]
 
 [node name="Sprite2D" parent="." index="0"]
+position = Vector2(18, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_sv013")
 

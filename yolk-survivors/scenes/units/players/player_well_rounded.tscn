@@ -20,9 +20,9 @@ radius = 32.0
 [node name="PlayerWellRounded" instance=ExtResource("1_gmevj")]
 collision_mask = 0
 script = ExtResource("2_us6fi")
-dash_duration = 0.5
-dash_speed_multi = 2.5
-dash_cooldown = 2.0
+dash_duration = null
+dash_speed_multi = null
+dash_cooldown = null
 stats = ExtResource("3_us6fi")
 
 [node name="Trail" type="Line2D" parent="Visuals" index="0" node_paths=PackedStringArray("player")]

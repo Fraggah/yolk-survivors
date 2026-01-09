@@ -81,6 +81,8 @@ func update_rotation() -> void:
 	elif move_dir.x < 0:
 		visuals.scale = Vector2(.5, .5)
 
+func is_facing_right() -> bool:
+	return visuals.scale.x == -.5
 
 func _on_dash_timer_timeout() -> void:
 	is_dashing = false
