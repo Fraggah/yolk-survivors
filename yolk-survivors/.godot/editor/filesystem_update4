@@ -5,3 +5,17 @@ res://scenes/weapons/weapon.gd
 res://scenes/weapons/melee/weapon_punch.tscn
 res://scenes/units/players/player_well_rounded.tscn
 res://scenes/units/players/weapons_container.gd
+res://resources/items/weapons/melee/punch/item_punch_4.tres
+res://resources/items/weapons/melee/punch/item_punch_3.tres
+res://resources/items/weapons/melee/punch/item_punch_2.tres
+res://resources/items/weapons/melee/punch/item_punch_1.tres
+res://scenes/units/players/player.gd
+res://scenes/components/hitbox_component.tscn
+res://scenes/components/hurtbox_component.tscn
+res://scenes/arena/arena.tscn
+res://scenes/units/enemies/enemy_chaser.tscn
+res://scenes/units/unit.tscn
+res://scenes/components/health_component.tscn
+res://scenes/units/players/player_bunny.tscn
+res://scenes/health_bar/health_bar.tscn
+res://scenes/ui/floating_text/floating_text.tscn

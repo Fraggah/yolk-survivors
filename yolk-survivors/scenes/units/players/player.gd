@@ -11,13 +11,18 @@ var move_dir: Vector2
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var trail: PlayerTrail = %Trail
+@onready var weapons_container: WeaponsContainer = $Weapons
+
 
 var is_dashing: bool
+var current_weapons: Array[Weapon] = []
 
 func _ready() -> void:
 	super._ready()
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
+	
+	add_weapon(preload("res://resources/items/weapons/melee/punch/item_punch_1.tres"))
 
 
 func _process(delta: float) -> void:
@@ -37,6 +42,15 @@ func _process(delta: float) -> void:
 	
 	if can_dash():
 		start_dash()
+
+func add_weapon(data: ItemWeapon) -> void:
+	var weapon := data.scene.instantiate() as Weapon
+	add_child(weapon)
+	
+	weapon.global_position = position
+	weapon.setup_weapon(data)
+	current_weapons.append(weapon)
+	weapons_container.update_weapons_position(current_weapons)
 
 func start_dash() -> void:
 	is_dashing = true
