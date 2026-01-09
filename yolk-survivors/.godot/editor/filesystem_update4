@@ -1,12 +1,5 @@
-res://scenes/units/enemies/enemy_chaser.tscn
 res://effects/flash.gdshader
 res://effects/flash_material.tres
-res://resources/items/weapons/weapon_stats.gd
-res://resources/items/weapons/melee/punch/item_punch_1.tres
-res://resources/items/weapons/melee/punch/stats_punch_1.tres
-res://resources/items/weapons/melee/punch/item_punch_2.tres
-res://resources/items/weapons/melee/punch/item_punch_3.tres
-res://resources/items/weapons/melee/punch/item_punch_4.tres
-res://resources/items/weapons/melee/punch/stats_punch_2.tres
-res://resources/items/weapons/melee/punch/stats_punch_3.tres
-res://resources/items/weapons/melee/punch/stats_punch_4.tres
+res://scenes/weapons/weapon_base.tscn
+res://scenes/weapons/weapon.gd
+res://scenes/weapons/melee/weapon_punch.tscn
