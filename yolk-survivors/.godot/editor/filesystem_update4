@@ -19,3 +19,6 @@ res://scenes/components/health_component.tscn
 res://scenes/units/players/player_bunny.tscn
 res://scenes/health_bar/health_bar.tscn
 res://scenes/ui/floating_text/floating_text.tscn
+res://scenes/weapons/melee/weapon_behaviour.gd
+res://scenes/weapons/melee/melee_behaviour.gd
+res://resources/items/weapons/melee/punch/stats_punch_1.tres

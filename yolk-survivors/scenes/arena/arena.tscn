@@ -24,9 +24,6 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_aj7ud")
 
 [node name="PlayerWellRounded" parent="." instance=ExtResource("3_asdgj")]
-dash_duration = null
-dash_speed_multi = null
-dash_cooldown = null
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_aj7ud")
