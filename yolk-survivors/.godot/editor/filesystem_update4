@@ -3,3 +3,5 @@ res://effects/flash_material.tres
 res://scenes/weapons/weapon_base.tscn
 res://scenes/weapons/weapon.gd
 res://scenes/weapons/melee/weapon_punch.tscn
+res://scenes/units/players/player_well_rounded.tscn
+res://scenes/units/players/weapons_container.gd
