@@ -51,7 +51,7 @@ debug_color = Color(0.848969, 0.374296, 0, 0.42)
 collision_layer = 4
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" index="0"]
 position = Vector2(0, -29)
 shape = SubResource("CircleShape2D_v0hn2")
 debug_color = Color(0.985726, 0.117178, 1.92523e-07, 0.42)
@@ -59,3 +59,9 @@ debug_color = Color(0.985726, 0.117178, 1.92523e-07, 0.42)
 [node name="HealthBar" parent="." index="7"]
 back_color = Color(0.0156863, 0.054902, 0.168627, 1)
 fill_color = Color(0.372549, 0.537255, 0.756863, 1)
+
+[node name="KnockbackTimer" type="Timer" parent="." index="9"]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]

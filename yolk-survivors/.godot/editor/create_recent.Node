@@ -1,8 +1,8 @@
-WeaponBehaviour
 CollisionShape2D
+Timer
+WeaponBehaviour
 Marker2D
 Node2D
-Timer
 Area2D
 Sprite2D
 Label

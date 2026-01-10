@@ -1,3 +1,3 @@
-WeaponStats
 ItemWeapon
+WeaponStats
 UnitStats

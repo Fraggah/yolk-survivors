@@ -65,9 +65,9 @@ func get_rotation_to_target() -> float:
 
 func get_idle_rotation() -> float:
 	if Global.player.is_facing_right():
-		return PI
-	else:
 		return 0
+	else:
+		return PI
 
 func update_closest_target() -> void:
 	closest_target = get_closest_target()

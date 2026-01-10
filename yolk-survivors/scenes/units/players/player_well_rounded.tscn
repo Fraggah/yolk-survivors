@@ -20,9 +20,9 @@ radius = 32.0
 [node name="PlayerWellRounded" instance=ExtResource("1_gmevj")]
 collision_mask = 0
 script = ExtResource("2_us6fi")
-dash_duration = null
-dash_speed_multi = null
-dash_cooldown = null
+dash_duration = 0.5
+dash_speed_multi = 2.5
+dash_cooldown = 2.0
 stats = ExtResource("3_us6fi")
 
 [node name="Trail" type="Line2D" parent="Visuals" index="0" node_paths=PackedStringArray("player")]
@@ -59,75 +59,75 @@ position = Vector2(0, -15)
 visible = false
 
 [node name="Marker2D" type="Marker2D" parent="Weapons/Two" index="0"]
-position = Vector2(40, 20)
+position = Vector2(30, 0)
 
 [node name="Marker2D2" type="Marker2D" parent="Weapons/Two" index="1"]
-position = Vector2(-40, 20)
+position = Vector2(-30, 0)
 
 [node name="Three" type="Node2D" parent="Weapons" index="2"]
 visible = false
 
 [node name="Marker2D" type="Marker2D" parent="Weapons/Three" index="0"]
-position = Vector2(40, 20)
+position = Vector2(30, 0)
 
 [node name="Marker2D2" type="Marker2D" parent="Weapons/Three" index="1"]
-position = Vector2(-40, 20)
+position = Vector2(-30, 0)
 
 [node name="Marker2D3" type="Marker2D" parent="Weapons/Three" index="2"]
-position = Vector2(0, -115)
+position = Vector2(0, -70)
 
 [node name="Four" type="Node2D" parent="Weapons" index="3"]
 visible = false
 
 [node name="Marker2D" type="Marker2D" parent="Weapons/Four" index="0"]
-position = Vector2(40, 20)
+position = Vector2(30, 0)
 
 [node name="Marker2D2" type="Marker2D" parent="Weapons/Four" index="1"]
-position = Vector2(-40, 20)
+position = Vector2(-30, 0)
 
 [node name="Marker2D3" type="Marker2D" parent="Weapons/Four" index="2"]
-position = Vector2(40, -115)
+position = Vector2(30, -60)
 
 [node name="Marker2D4" type="Marker2D" parent="Weapons/Four" index="3"]
-position = Vector2(-40, -115)
+position = Vector2(-30, -60)
 
 [node name="Five" type="Node2D" parent="Weapons" index="4"]
 visible = false
 
 [node name="Marker2D" type="Marker2D" parent="Weapons/Five" index="0"]
-position = Vector2(40, 20)
+position = Vector2(30, 0)
 
 [node name="Marker2D2" type="Marker2D" parent="Weapons/Five" index="1"]
-position = Vector2(-40, 20)
+position = Vector2(-30, 0)
 
 [node name="Marker2D3" type="Marker2D" parent="Weapons/Five" index="2"]
-position = Vector2(60, -40)
+position = Vector2(40, -30)
 
 [node name="Marker2D4" type="Marker2D" parent="Weapons/Five" index="3"]
-position = Vector2(-60, -40)
+position = Vector2(-40, -30)
 
 [node name="Marker2D5" type="Marker2D" parent="Weapons/Five" index="4"]
-position = Vector2(0, -115)
+position = Vector2(0, -70)
 
 [node name="Six" type="Node2D" parent="Weapons" index="5"]
 
 [node name="Marker2D" type="Marker2D" parent="Weapons/Six" index="0"]
-position = Vector2(35, 30)
+position = Vector2(30, 0)
 
 [node name="Marker2D2" type="Marker2D" parent="Weapons/Six" index="1"]
-position = Vector2(-35, 30)
+position = Vector2(-30, 0)
 
 [node name="Marker2D3" type="Marker2D" parent="Weapons/Six" index="2"]
-position = Vector2(35, -115)
+position = Vector2(30, -70)
 
 [node name="Marker2D4" type="Marker2D" parent="Weapons/Six" index="3"]
-position = Vector2(-35, -115)
+position = Vector2(-30, -70)
 
 [node name="Marker2D5" type="Marker2D" parent="Weapons/Six" index="4"]
-position = Vector2(60, -40)
+position = Vector2(40, -30)
 
 [node name="Marker2D6" type="Marker2D" parent="Weapons/Six" index="5"]
-position = Vector2(-60, -40)
+position = Vector2(-40, -30)
 
 [node name="DashTimer" type="Timer" parent="." index="4"]
 one_shot = true

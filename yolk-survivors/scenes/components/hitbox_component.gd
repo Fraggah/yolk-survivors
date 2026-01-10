@@ -7,12 +7,17 @@ var damage := 1.0
 var critical := false
 var knockback_power := 0.0
 var source: Node2D
+@export var bb: CollisionShape2D
 
 func enable() -> void:
 	set_deferred("monitoring", true)
+	bb.disabled = false
+	print("Hitbox: activada")
 
 func disable() -> void:
 	set_deferred("monitoring", false)
+	bb.disabled = true
+	print("Hitbox: desactivada")
 
 func setup(p_damage: float, p_critical: bool, p_knockback: float, p_source: Node2D) -> void:
 	damage = p_damage
