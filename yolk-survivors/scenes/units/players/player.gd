@@ -22,11 +22,12 @@ func _ready() -> void:
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
 	
-	add_weapon(preload("res://resources/items/weapons/melee/punch/item_punch_1.tres"))
-	add_weapon(preload("res://resources/items/weapons/melee/axe/item_axe_1.tres"))
-	add_weapon(preload("res://resources/items/weapons/melee/mace/item_mace_1.tres"))
-	add_weapon(preload("res://resources/items/weapons/melee/sword/item_sword_1.tres"))
-	add_weapon(preload("res://resources/items/weapons/melee/chainsaw/item_chainsaw_1.tres"))
+	#add_weapon(preload("res://resources/items/weapons/melee/punch/item_punch_1.tres"))
+	#add_weapon(preload("res://resources/items/weapons/melee/axe/item_axe_1.tres"))
+	#add_weapon(preload("res://resources/items/weapons/melee/mace/item_mace_1.tres"))
+	#add_weapon(preload("res://resources/items/weapons/melee/sword/item_sword_1.tres"))
+	#add_weapon(preload("res://resources/items/weapons/melee/chainsaw/item_chainsaw_1.tres"))
+	add_weapon(preload("res://resources/items/weapons/range/pistol/item_pistol_1.tres"))
 
 func _process(delta: float) -> void:
 	move_dir = Input.get_vector("move_left","move_right","move_up","move_down")

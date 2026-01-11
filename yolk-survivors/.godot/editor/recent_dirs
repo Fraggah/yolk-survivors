@@ -1,5 +1,8 @@
-res://scenes/weapons/melee
+res://scenes/projectiles
+res://resources/items/weapons/range/pistol
+res://scenes/weapons/range
 res://scenes/weapons
+res://scenes/weapons/melee
 res://resources/items/weapons/melee/chainsaw
 res://resources/items/weapons/melee/sword
 res://resources/items/weapons/melee/mace

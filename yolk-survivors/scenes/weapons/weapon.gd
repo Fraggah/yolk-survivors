@@ -25,6 +25,7 @@ func _process(delta: float) -> void:
 			closest_target = null
 	
 	rotate_to_target()
+	update_visuals()
 	
 	if can_use_weapon():
 		use_weapon()
@@ -92,6 +93,12 @@ func get_closest_target() -> Node2D:
 func calculate_spread() -> void:
 	weapon_spread = randf_range(-1 + data.stats.accuracy, 1 - data.stats.accuracy)
 	rotation += weapon_spread
+
+func update_visuals() -> void:
+	if abs(rotation) > PI/2:
+		sprite_2d.scale.y = -.5
+	else:
+		sprite_2d.scale.y = .5
 
 func _on_range_area_area_entered(area: Area2D) -> void:
 	targets.push_back(area)
