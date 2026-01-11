@@ -59,3 +59,8 @@ res://resources/items/weapons/range/revolver/item_revolver_2.tres
 res://resources/items/weapons/range/revolver/item_revolver_3.tres
 res://resources/items/weapons/range/revolver/item_revolver_4.tres
 res://resources/items/weapons/range/revolver/stats_revolver_1.tres
+res://scenes/units/enemies/enemy_charger.tscn
+res://scenes/units/enemies/charge_attack_behaviour.gd
+res://scenes/units/enemies/enemy_shooter.tscn
+res://scenes/units/enemies/shooting_behaviour.gd
+res://scenes/projectiles/projectile_enemy.tscn
