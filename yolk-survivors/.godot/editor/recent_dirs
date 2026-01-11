@@ -1,6 +1,10 @@
+res://resources/items/weapons/range/revolver
+res://scenes/weapons/range
+res://resources/items/weapons/range/shotgun
+res://resources/items/weapons/range/smg
+res://resources/items/weapons/range/laser
 res://scenes/projectiles
 res://resources/items/weapons/range/pistol
-res://scenes/weapons/range
 res://scenes/weapons
 res://scenes/weapons/melee
 res://resources/items/weapons/melee/chainsaw
@@ -16,8 +20,4 @@ res://scenes/components
 res://resources/units/enemies
 res://scenes/units/enemies
 res://scenes/units
-res://autoload
-res://scenes/arena
-res://scenes/units/players
-res://resources/units/players
 D:/Docs/Downloads
