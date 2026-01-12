@@ -1,4 +1,10 @@
+Button
 Label
+TextureRect
+Control
+MarginContainer
+Panel
+VBoxContainer
 CanvasLayer
 Timer
 Node2D
@@ -7,8 +13,3 @@ Marker2D
 AnimationPlayer
 CollisionShape2D
 VisibleOnScreenNotifier2D
-VisibleOnScreenEnabler2D
-WeaponBehaviour
-Area2D
-ProgressBar
-Node

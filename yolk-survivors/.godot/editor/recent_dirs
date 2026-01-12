@@ -1,3 +1,7 @@
+res://styles
+res://scenes/ui/custom_button
+res://scenes/ui/upgrades
+res://scenes/ui/stats
 res://resources/wave/data
 res://scenes/projectiles
 res://resources/items/weapons/range/revolver
@@ -16,8 +20,4 @@ res://resources/items/weapons/melee/punch
 res://scenes/ui/floating_text
 res://effects
 res://assets/font
-res://scenes/health_bar
-res://scenes/components
-res://resources/units/enemies
-res://scenes/units/enemies
 D:/Docs/Downloads

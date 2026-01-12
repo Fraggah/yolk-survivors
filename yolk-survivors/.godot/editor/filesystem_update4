@@ -11,3 +11,8 @@ res://scenes/units/enemies/enemy.gd
 res://autoload/global.gd
 res://scenes/units/enemies/shooting_behaviour.gd
 res://scenes/weapons/weapon.gd
+res://scenes/ui/stats/stats_container.tscn
+res://scenes/ui/stats/stats_container.gd
+res://resources/unit_stats.gd
+res://scenes/ui/upgrades/upgrade_card.tscn
+res://scenes/ui/upgrades/upgrade_card.gd
