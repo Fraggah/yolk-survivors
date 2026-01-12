@@ -18,6 +18,8 @@ func _ready() -> void:
 	atk_start_pos = sprite_2d.position
 
 func _process(delta: float) -> void:
+	if Global.game_paused: return
+	
 	if not is_attacking:
 		if targets.size() > 0:
 			update_closest_target()

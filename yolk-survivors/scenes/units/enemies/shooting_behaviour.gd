@@ -16,6 +16,8 @@ func _ready() -> void:
 	
 
 func _process(delta: float) -> void:
+	if Global.game_paused: return
+	
 	if current_cooldown > 0:
 		current_cooldown -= delta
 	else:

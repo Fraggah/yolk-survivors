@@ -4,3 +4,10 @@ res://effects/flash_material.tres
 res://resources/wave/wave_unit_data.gd
 res://resources/wave/wave_data.gd
 res://resources/wave/data/wave_1_to_5.tres
+res://scenes/arena/spawner.gd
+res://scenes/units/players/player.gd
+res://scenes/arena/arena.gd
+res://scenes/units/enemies/enemy.gd
+res://autoload/global.gd
+res://scenes/units/enemies/shooting_behaviour.gd
+res://scenes/weapons/weapon.gd

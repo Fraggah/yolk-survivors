@@ -1,12 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=16 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Texture2D" uid="uid://cy4xfx762bxgb" path="res://assets/sprites/BG.png" id="1_5tue2"]
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://ov4fmsbglo55" path="res://assets/sprites/Map.png" id="2_aj7ud"]
 [ext_resource type="PackedScene" uid="uid://bgbxwl6vgfu5u" path="res://scenes/units/players/player_well_rounded.tscn" id="3_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
-[ext_resource type="PackedScene" uid="uid://c6031qsow5sjv" path="res://scenes/units/enemies/enemy_charger.tscn" id="6_jx0ua"]
-[ext_resource type="PackedScene" uid="uid://cab5sd7do0pfk" path="res://scenes/units/enemies/enemy_shooter.tscn" id="7_u52cf"]
+[ext_resource type="Script" uid="uid://cik2jcd8fmr6v" path="res://scenes/arena/spawner.gd" id="8_ii07k"]
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="9_t3vx8"]
+[ext_resource type="Resource" uid="uid://d3260jp73amhp" path="res://resources/wave/data/wave_1_to_5.tres" id="10_rhjlh"]
+[ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="11_tp84n"]
+[ext_resource type="Resource" uid="uid://b4044jccypcut" path="res://resources/units/enemies/stats_enemy_charger.tres" id="12_8kk48"]
+[ext_resource type="Resource" uid="uid://chfolf8npwgrh" path="res://resources/units/enemies/stats_enemy_chaser_fast.tres" id="13_wqbss"]
+[ext_resource type="Resource" uid="uid://c1h3b5i0wcw72" path="res://resources/units/enemies/stats_enemy_chaser_mid.tres" id="14_fir7s"]
+[ext_resource type="Resource" uid="uid://cwsf77lhyruan" path="res://resources/units/enemies/stats_enemy_chaser_slow.tres" id="15_gy0qm"]
+[ext_resource type="Resource" uid="uid://ceadrrvkl68an" path="res://resources/units/enemies/stats_enemy_shooter.tres" id="16_dh340"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
+font_size = 64
 
 [node name="Arena" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_asdgj")
@@ -29,8 +39,46 @@ texture = ExtResource("2_aj7ud")
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_aj7ud")
 
-[node name="EnemyCharger" parent="." instance=ExtResource("6_jx0ua")]
-position = Vector2(-534, -67)
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("8_ii07k")
+waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("10_rhjlh")])
+enemy_collection = Array[ExtResource("11_tp84n")]([ExtResource("12_8kk48"), ExtResource("13_wqbss"), ExtResource("14_fir7s"), ExtResource("15_gy0qm"), ExtResource("16_dh340")])
 
-[node name="EnemyShooter" parent="." instance=ExtResource("7_u52cf")]
-position = Vector2(-327, -371)
+[node name="WaveTimer" type="Timer" parent="Spawner"]
+one_shot = true
+
+[node name="SpawnTimer" type="Timer" parent="Spawner"]
+one_shot = true
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+
+[node name="WaveIndexLabel" type="Label" parent="GameUI"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -78.0
+offset_top = 20.0
+offset_right = 78.0
+offset_bottom = 97.3333
+grow_horizontal = 2
+text = "TEXT"
+label_settings = SubResource("LabelSettings_fv88w")
+horizontal_alignment = 1
+
+[node name="WaveTimerLabel" type="Label" parent="GameUI"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -78.0
+offset_top = 90.0
+offset_right = 78.0
+offset_bottom = 167.333
+grow_horizontal = 2
+text = "10"
+label_settings = SubResource("LabelSettings_fv88w")
+horizontal_alignment = 1
+
+[connection signal="timeout" from="Spawner/WaveTimer" to="Spawner" method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]

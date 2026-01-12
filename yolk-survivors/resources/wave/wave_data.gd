@@ -41,4 +41,6 @@ func get_random_unit_scene() -> PackedScene:
 				return unit_data.unit_scene
 	
 	return null
-	
+
+func is_valid_index(index: int) -> bool:
+	return index >= from and index <= to

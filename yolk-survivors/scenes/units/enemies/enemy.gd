@@ -11,6 +11,8 @@ var knockback_dir: Vector2
 var knockback_power: float
 
 func _process(delta: float) -> void:
+	if Global.game_paused: return
+	
 	if not can_move: return
 	if not can_move_towards_player(): return
 	
@@ -52,6 +54,12 @@ func update_rotation() -> void:
 func can_move_towards_player() -> bool:
 	return is_instance_valid(Global.player) and\
 	global_position.distance_to(Global.player.global_position) > 60
+
+func destroy_enemy() -> void:
+	can_move = false
+	anim_player.play("die")
+	await anim_player.animation_finished
+	queue_free()
 
 
 func _on_knockback_timer_timeout() -> void:
