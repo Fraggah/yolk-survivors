@@ -16,3 +16,5 @@ res://scenes/ui/stats/stats_container.gd
 res://resources/unit_stats.gd
 res://scenes/ui/upgrades/upgrade_card.tscn
 res://scenes/ui/upgrades/upgrade_card.gd
+res://scenes/ui/upgrades/upgrade_panel.tscn
+res://scenes/ui/upgrades/upgrade_panel.gd

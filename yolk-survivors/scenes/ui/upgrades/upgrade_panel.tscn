@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7hhtxfn6wpfg"]
+
+[ext_resource type="PackedScene" uid="uid://cw0dx3phrq4iu" path="res://scenes/ui/upgrades/upgrade_card.tscn" id="1_3qk7x"]
+[ext_resource type="Script" uid="uid://84nl0bn5o0in" path="res://scenes/ui/upgrades/upgrade_panel.gd" id="1_8r26f"]
+[ext_resource type="PackedScene" uid="uid://lsucb07nv2yt" path="res://scenes/ui/stats/stats_container.tscn" id="2_8r26f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ty206"]
+font_size = 120
+
+[node name="UpgradePanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8r26f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "wave completeed"
+label_settings = SubResource("LabelSettings_ty206")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="UpgradeCard" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+layout_mode = 2
+
+[node name="UpgradeCard2" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+layout_mode = 2
+
+[node name="UpgradeCard3" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+layout_mode = 2
+
+[node name="UpgradeCard4" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+layout_mode = 2
+
+[node name="StatsContainer" parent="HBoxContainer" instance=ExtResource("2_8r26f")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

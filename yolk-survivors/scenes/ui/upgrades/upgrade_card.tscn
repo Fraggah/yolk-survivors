@@ -31,6 +31,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 
 [node name="ItemIcon" type="TextureRect" parent="MarginContainer/Control"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 0
 offset_right = 40.0
@@ -40,32 +41,36 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ItemName" type="Label" parent="MarginContainer/Control"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -50.0
+offset_left = -45.0
 offset_top = 10.0
-offset_right = 86.0
+offset_right = 91.0
 offset_bottom = 48.6667
 grow_horizontal = 2
 text = "damage"
 label_settings = SubResource("LabelSettings_4ru3d")
 
 [node name="ItemDescription" type="Label" parent="MarginContainer/Control"]
+unique_name_in_owner = true
 modulate = Color(0.827451, 0.909804, 0.172549, 1)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -50.0
+offset_left = -45.0
 offset_top = 60.0
-offset_right = 86.0
+offset_right = 91.0
 offset_bottom = 98.6667
 grow_horizontal = 2
 text = "+1"
 label_settings = SubResource("LabelSettings_4ru3d")
 
 [node name="CustomButton" parent="MarginContainer/Control" instance=ExtResource("4_4ru3d")]
-layout_mode = 0
-anchors_preset = 0
+layout_mode = 1
+offset_left = -130.0
+offset_top = -70.0
+offset_right = 130.0
