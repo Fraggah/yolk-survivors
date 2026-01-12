@@ -1,3 +1,4 @@
+res://resources/wave/data
 res://scenes/projectiles
 res://resources/items/weapons/range/revolver
 res://scenes/weapons/range
@@ -19,5 +20,4 @@ res://scenes/health_bar
 res://scenes/components
 res://resources/units/enemies
 res://scenes/units/enemies
-res://scenes/units
 D:/Docs/Downloads
