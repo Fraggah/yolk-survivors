@@ -1,3 +1,4 @@
+ItemUpgrade
 WaveData
 ItemWeapon
 WeaponStats

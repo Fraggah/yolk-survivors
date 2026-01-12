@@ -18,3 +18,9 @@ res://scenes/ui/upgrades/upgrade_card.tscn
 res://scenes/ui/upgrades/upgrade_card.gd
 res://scenes/ui/upgrades/upgrade_panel.tscn
 res://scenes/ui/upgrades/upgrade_panel.gd
+res://resources/items/upgrades/item_upgrades.gd
+res://resources/items/upgrades/data/upgrade_block_1.tres
+res://resources/items/upgrades/data/upgrade_hervesting_1.tres
+res://resources/items/upgrades/data/upgrade_health_1.tres
+res://resources/items/upgrades/data/upgrade_hp_regen_1.tres
+res://resources/items/upgrades/data/upgrade_speed_1.tres
