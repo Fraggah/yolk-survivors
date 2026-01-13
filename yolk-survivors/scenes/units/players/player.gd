@@ -104,3 +104,12 @@ func _on_dash_timer_timeout() -> void:
 	#move_dir = Vector2.ZERO reset??
 	dash_cooldown_timer.start()
 	collision.set_deferred("disabled", false)
+
+
+func _on_hp_timer_timeout() -> void:
+	if health_component.current_health <= 0: return
+	
+	if health_component.current_health < stats.health:
+		var heal := stats.hp_regen
+		health_component.heal(heal)
+		Global.on_create_heal_text.emit(self, heal)

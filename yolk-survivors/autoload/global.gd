@@ -2,6 +2,7 @@ extends Node
 
 signal on_create_block_text(unit: Node2D)
 signal on_create_damage_text(unit: Node2D, info: HitboxComponent)
+signal on_create_heal_text(unit: Node2D, value: float)
 
 signal on_upgrade_selected
 

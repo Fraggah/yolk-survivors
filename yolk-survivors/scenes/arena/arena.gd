@@ -17,6 +17,7 @@ func _ready() -> void:
 	Global.player = player
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
+	Global.on_create_heal_text.connect(_on_create_heal_text)
 	Global.on_upgrade_selected.connect(_on_upgrade_selected)
 	
 	spawner.start_wave()
@@ -53,6 +54,9 @@ func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 	var color := critical_color if hitbox.critical else normal_color
 	text.setup_text(str(hitbox.damage), color)
 
+func _on_create_heal_text(unit: Node2D, value: float) -> void:
+	var text := create_floating_text(unit)
+	text.setup_text("+ %d" % value, hp_reg_color)
 
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return

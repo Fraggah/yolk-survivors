@@ -10,3 +10,5 @@ res://scenes/arena/arena.gd
 res://scenes/ui/stats/stats_container.tscn
 res://scenes/ui/upgrades/upgrade_panel.tscn
 res://scenes/units/players/player.gd
+res://scenes/units/players/player_well_rounded.tscn
+res://scenes/components/health_component.gd
