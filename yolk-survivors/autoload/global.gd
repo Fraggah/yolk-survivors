@@ -3,6 +3,8 @@ extends Node
 signal on_create_block_text(unit: Node2D)
 signal on_create_damage_text(unit: Node2D, info: HitboxComponent)
 
+signal on_upgrade_selected
+
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
 

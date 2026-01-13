@@ -91,6 +91,10 @@ func update_rotation() -> void:
 	elif move_dir.x < 0:
 		visuals.scale = Vector2(.5, .5)
 
+func upgrade_player_for_new_wave() -> void:
+	stats.health += stats.health_increase_per_wave
+	health_component.setup(stats)
+
 func is_facing_right() -> bool:
 	return visuals.scale.x == -.5
 

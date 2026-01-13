@@ -12,3 +12,9 @@ func _set_data(value: ItemUpgrade) -> void:
 	item_icon.texture = item.item_icon
 	item_name.text = item.item_name
 	item_description.text = item.description
+
+
+func _on_custom_button_pressed() -> void:
+	if item:
+		item.apply_upgrade()
+		Global.on_upgrade_selected.emit()

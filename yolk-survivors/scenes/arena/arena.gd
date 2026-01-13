@@ -10,12 +10,14 @@ class_name Arena
 @onready var wave_index_label: Label = %WaveIndexLabel
 @onready var wave_timer_label: Label = %WaveTimerLabel
 @onready var spawner: Spawner = $Spawner
+@onready var upgrade_panel: UpgradePanel = $GameUI/UpgradePanel
 
 
 func _ready() -> void:
 	Global.player = player
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
+	Global.on_upgrade_selected.connect(_on_upgrade_selected)
 	
 	spawner.start_wave()
 
@@ -32,6 +34,15 @@ func create_floating_text(unit: Node2D) -> FloatingText:
 	instance.global_position = spawn_pos
 	return instance
 
+func start_new_wave() -> void:
+	Global.game_paused = false
+	Global.player.upgrade_player_for_new_wave()
+	spawner.wave_index += 1
+	spawner.start_wave()
+	
+
+func show_upgrades() -> void:
+	upgrade_panel.show()
 
 func on_create_block_text(unit: Node2D) -> void:
 	var text := create_floating_text(unit)
@@ -41,3 +52,14 @@ func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 	var text := create_floating_text(unit)
 	var color := critical_color if hitbox.critical else normal_color
 	text.setup_text(str(hitbox.damage), color)
+
+
+func _on_spawner_on_wave_completed() -> void:
+	if not Global.player: return
+	
+	await get_tree().create_timer(1).timeout
+	show_upgrades()
+
+func _on_upgrade_selected() -> void:
+	upgrade_panel.hide()
+	start_new_wave()
