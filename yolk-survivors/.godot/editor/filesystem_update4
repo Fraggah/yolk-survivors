@@ -11,3 +11,6 @@ res://autoload/global.gd
 res://scenes/arena/arena.gd
 res://scenes/arena/spawner.gd
 res://scenes/ui/upgrades/upgrade_panel.gd
+res://styles/common_style.tres
+res://styles/rare_style.tres
+res://styles/epic_style.tres
