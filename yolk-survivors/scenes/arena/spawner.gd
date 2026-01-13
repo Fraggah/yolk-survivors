@@ -74,7 +74,7 @@ func update_enemies_new_wave() -> void:
 		stats.damage += stats.damage_increase_per_wave
 
 func get_wave_timer_text() -> String:
-	return str(int(wave_timer.time_left))
+	return str(int(wave_timer.time_left + 1))
 
 func get_wave_text() -> String:
 	return "Wave %d" % wave_index

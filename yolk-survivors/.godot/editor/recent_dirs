@@ -1,3 +1,4 @@
+res://resources/items/upgrades
 res://resources/items/upgrades/data
 res://scenes/ui/upgrades
 res://styles
@@ -19,5 +20,4 @@ res://resources/items/weapons/melee/mace
 res://resources/items/weapons/melee/axe
 res://resources/items/weapons/melee/punch
 res://scenes/ui/floating_text
-res://effects
 D:/Docs/Downloads

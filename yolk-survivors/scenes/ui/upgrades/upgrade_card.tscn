@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cw0dx3phrq4iu"]
+[gd_scene load_steps=7 format=3 uid="uid://cw0dx3phrq4iu"]
 
 [ext_resource type="Script" uid="uid://b7x4w0f8pdegh" path="res://scenes/ui/upgrades/upgrade_card.gd" id="1_fd2m1"]
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="1_ux013"]
 [ext_resource type="Texture2D" uid="uid://dn68qq5evmvwa" path="res://assets/sprites/Upgrades/12.png" id="2_tf707"]
+[ext_resource type="Resource" uid="uid://d02b0hc72ib3d" path="res://resources/items/upgrades/data/damage/upgrade_damage_1.tres" id="3_4ru3d"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_4ru3d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4ru3d"]
@@ -14,6 +15,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = ExtResource("1_ux013")
 script = ExtResource("1_fd2m1")
+item = ExtResource("3_4ru3d")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

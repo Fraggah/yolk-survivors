@@ -9,6 +9,9 @@ class_name UpgradeCard
 
 func _set_data(value: ItemUpgrade) -> void:
 	item = value
+	
+	if item_icon == null:
+		await ready
 	item_icon.texture = item.item_icon
 	item_name.text = item.item_name
 	item_description.text = item.description

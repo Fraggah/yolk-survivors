@@ -43,6 +43,8 @@ func start_new_wave() -> void:
 	
 
 func show_upgrades() -> void:
+	Global.calculate_tier_probability(spawner.wave_index, Global.UPGRADE_PROBABILITY_CONFIG)
+	upgrade_panel.load_upgrades(spawner.wave_index)
 	upgrade_panel.show()
 
 func on_create_block_text(unit: Node2D) -> void:
@@ -60,8 +62,9 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
-	
+	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
+	
 	show_upgrades()
 
 func _on_upgrade_selected() -> void:
