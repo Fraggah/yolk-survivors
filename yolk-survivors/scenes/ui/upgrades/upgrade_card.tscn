@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_4ru3d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4ru3d"]
-font_size = 32
+font_size = 30
 
 [node name="UpgradeCard" type="Panel"]
 custom_minimum_size = Vector2(300, 220)
@@ -48,8 +48,8 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -45.0
 offset_top = 10.0
-offset_right = 91.0
-offset_bottom = 48.6667
+offset_right = 147.0
+offset_bottom = 49.0
 grow_horizontal = 2
 text = "damage"
 label_settings = SubResource("LabelSettings_4ru3d")

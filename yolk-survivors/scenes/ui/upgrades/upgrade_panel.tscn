@@ -1,8 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7hhtxfn6wpfg"]
+[gd_scene load_steps=15 format=3 uid="uid://b7hhtxfn6wpfg"]
 
 [ext_resource type="PackedScene" uid="uid://cw0dx3phrq4iu" path="res://scenes/ui/upgrades/upgrade_card.tscn" id="1_3qk7x"]
 [ext_resource type="Script" uid="uid://84nl0bn5o0in" path="res://scenes/ui/upgrades/upgrade_panel.gd" id="1_8r26f"]
+[ext_resource type="Script" uid="uid://c3edxjqx8opr3" path="res://resources/items/upgrades/item_upgrades.gd" id="2_2l80c"]
 [ext_resource type="PackedScene" uid="uid://lsucb07nv2yt" path="res://scenes/ui/stats/stats_container.tscn" id="2_8r26f"]
+[ext_resource type="Resource" uid="uid://b87mhgafcydqg" path="res://resources/items/upgrades/data/upgrade_block_1.tres" id="3_pcnae"]
+[ext_resource type="Resource" uid="uid://bd13lwhkn4tje" path="res://resources/items/upgrades/data/upgrade_damage_1.tres" id="4_sfqbr"]
+[ext_resource type="Resource" uid="uid://4njv4vn1mk2c" path="res://resources/items/upgrades/data/upgrade_harvesting_1.tres" id="5_b766c"]
+[ext_resource type="Resource" uid="uid://cluerbcesaiuh" path="res://resources/items/upgrades/data/upgrade_health_1.tres" id="6_qb2uv"]
+[ext_resource type="Resource" uid="uid://d3hj566r37kw1" path="res://resources/items/upgrades/data/upgrade_hp_regen_1.tres" id="7_bcus1"]
+[ext_resource type="Resource" uid="uid://sq0q7l05h8mc" path="res://resources/items/upgrades/data/upgrade_life_steal_1.tres" id="8_k4r67"]
+[ext_resource type="Resource" uid="uid://cx66igapaxjgc" path="res://resources/items/upgrades/data/upgrade_luck_1.tres" id="9_3l5jg"]
+[ext_resource type="Resource" uid="uid://gffwxc8eqbpv" path="res://resources/items/upgrades/data/upgrade_speed_1.tres" id="10_ijaxu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2l80c"]
+bg_color = Color(0.214703, 0.214703, 0.214703, 0.941176)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ty206"]
 font_size = 120
@@ -13,7 +25,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2l80c")
 script = ExtResource("1_8r26f")
+upgrades = Array[ExtResource("2_2l80c")]([ExtResource("3_pcnae"), ExtResource("4_sfqbr"), ExtResource("5_b766c"), ExtResource("6_qb2uv"), ExtResource("7_bcus1"), ExtResource("8_k4r67"), ExtResource("9_3l5jg"), ExtResource("10_ijaxu")])
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -36,20 +50,21 @@ text = "wave completeed"
 label_settings = SubResource("LabelSettings_ty206")
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="ItemContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="UpgradeCard" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+[node name="UpgradeCard" parent="HBoxContainer/VBoxContainer/ItemContainer" instance=ExtResource("1_3qk7x")]
 layout_mode = 2
 
-[node name="UpgradeCard2" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+[node name="UpgradeCard2" parent="HBoxContainer/VBoxContainer/ItemContainer" instance=ExtResource("1_3qk7x")]
 layout_mode = 2
 
-[node name="UpgradeCard3" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+[node name="UpgradeCard3" parent="HBoxContainer/VBoxContainer/ItemContainer" instance=ExtResource("1_3qk7x")]
 layout_mode = 2
 
-[node name="UpgradeCard4" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_3qk7x")]
+[node name="UpgradeCard4" parent="HBoxContainer/VBoxContainer/ItemContainer" instance=ExtResource("1_3qk7x")]
 layout_mode = 2
 
 [node name="StatsContainer" parent="HBoxContainer" instance=ExtResource("2_8r26f")]
