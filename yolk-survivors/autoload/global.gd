@@ -5,6 +5,7 @@ signal on_create_damage_text(unit: Node2D, info: HitboxComponent)
 signal on_create_heal_text(unit: Node2D, value: float)
 
 signal on_upgrade_selected
+signal on_enemy_died(enemy: Enemy)
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
@@ -14,10 +15,19 @@ const EPIC_STYLE = preload("res://styles/epic_style.tres")
 const LEGENDARY_STYLE = preload("res://styles/legendary_style.tres")
 const RARE_STYLE = preload("res://styles/rare_style.tres")
 
+const COINS_SCENE = preload("res://scenes/coins/coins.tscn")
+const ITEM_CARD_SCENE = preload("res://scenes/ui/shop/item_card.tscn")
+
 const UPGRADE_PROBABILITY_CONFIG = {
 	"rare" : { "start_wave": 2, "base_mult": .06 },
 	"epic" : { "start_wave": 4, "base_mult": .02 },
 	"legendary" : { "start_wave": 7, "base_mult": .0023 },
+}
+
+const SHOP_PROBABILITY_CONFIG = {
+	"rare" : { "start_wave": 2, "base_mult": .1 },
+	"epic" : { "start_wave": 4, "base_mult": .05 },
+	"legendary" : { "start_wave": 7, "base_mult": .005 },
 }
 
 enum UpgradeTier {
@@ -27,8 +37,15 @@ enum UpgradeTier {
 	LEGENDARY
 }
 
+var coins: int = 500
 var player: Player
 var game_paused: bool
+
+var selected_weapon: ItemWeapon
+var equipped_weapons: Array[ItemWeapon]
+
+func get_harvesting_coins() -> void:
+	coins += player.stats.harvesting
 
 func get_chance_succes(chance: float) -> bool:
 	var random = randf_range(0, 1)

@@ -13,5 +13,5 @@ enum ItemType {
 @export var item_type: ItemType
 @export var item_cost: int
 
-func get_dedscription() -> String:
+func get_description() -> String:
 	return ""

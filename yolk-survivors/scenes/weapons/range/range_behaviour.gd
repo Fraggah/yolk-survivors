@@ -13,6 +13,7 @@ func execute_attack() -> void:
 	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.recoil_duration)
 	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.recoil_duration)
 	
+	apply_life_steal()
 	
 	await tween.finished
 	weapon.is_attacking = false

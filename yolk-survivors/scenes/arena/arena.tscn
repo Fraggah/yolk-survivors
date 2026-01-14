@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=19 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Texture2D" uid="uid://cy4xfx762bxgb" path="res://assets/sprites/BG.png" id="1_5tue2"]
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
@@ -13,8 +13,10 @@
 [ext_resource type="Resource" uid="uid://chfolf8npwgrh" path="res://resources/units/enemies/stats_enemy_chaser_fast.tres" id="13_wqbss"]
 [ext_resource type="Resource" uid="uid://c1h3b5i0wcw72" path="res://resources/units/enemies/stats_enemy_chaser_mid.tres" id="14_fir7s"]
 [ext_resource type="Resource" uid="uid://cwsf77lhyruan" path="res://resources/units/enemies/stats_enemy_chaser_slow.tres" id="15_gy0qm"]
+[ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="15_rhjlh"]
 [ext_resource type="PackedScene" uid="uid://b7hhtxfn6wpfg" path="res://scenes/ui/upgrades/upgrade_panel.tscn" id="15_w4nra"]
 [ext_resource type="Resource" uid="uid://ceadrrvkl68an" path="res://resources/units/enemies/stats_enemy_shooter.tres" id="16_dh340"]
+[ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
@@ -53,6 +55,9 @@ one_shot = true
 
 [node name="GameUI" type="CanvasLayer" parent="."]
 
+[node name="CoinsBag" parent="GameUI" instance=ExtResource("15_rhjlh")]
+unique_name_in_owner = true
+
 [node name="WaveIndexLabel" type="Label" parent="GameUI"]
 unique_name_in_owner = true
 anchors_preset = 5
@@ -84,6 +89,11 @@ horizontal_alignment = 1
 [node name="UpgradePanel" parent="GameUI" instance=ExtResource("15_w4nra")]
 visible = false
 
+[node name="ShopPanel" parent="GameUI" instance=ExtResource("16_t3vx8")]
+unique_name_in_owner = true
+visible = false
+
 [connection signal="on_wave_completed" from="Spawner" to="." method="_on_spawner_on_wave_completed"]
 [connection signal="timeout" from="Spawner/WaveTimer" to="Spawner" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
+[connection signal="on_shop_next_wave" from="GameUI/ShopPanel" to="." method="_on_shop_panel_on_shop_next_wave"]

@@ -1,3 +1,6 @@
+res://scenes/ui/shop
+res://scenes/coins
+res://scenes/ui/coins_bag
 res://styles
 res://resources/items/upgrades
 res://resources/items/upgrades/data
@@ -17,7 +20,4 @@ res://scenes/weapons/melee
 res://resources/items/weapons/melee/chainsaw
 res://resources/items/weapons/melee/sword
 res://resources/items/weapons/melee/mace
-res://resources/items/weapons/melee/axe
-res://resources/items/weapons/melee/punch
-res://scenes/ui/floating_text
 D:/Docs/Downloads

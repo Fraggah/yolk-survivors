@@ -22,6 +22,8 @@ func execute_attack() -> void:
 		hitbox.disable()
 	)
 	
+	apply_life_steal()
+	
 	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.back_duration)
 	
 	tween.finished.connect(func():

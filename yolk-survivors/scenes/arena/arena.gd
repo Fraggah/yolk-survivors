@@ -11,7 +11,10 @@ class_name Arena
 @onready var wave_timer_label: Label = %WaveTimerLabel
 @onready var spawner: Spawner = $Spawner
 @onready var upgrade_panel: UpgradePanel = $GameUI/UpgradePanel
+@onready var shop_panel: ShopPanel = %ShopPanel
+@onready var coins_bag: CoinsBag = %CoinsBag
 
+var gold_list: Array[Coins]
 
 func _ready() -> void:
 	Global.player = player
@@ -19,6 +22,7 @@ func _ready() -> void:
 	Global.on_create_damage_text.connect(_on_create_damage_text)
 	Global.on_create_heal_text.connect(_on_create_heal_text)
 	Global.on_upgrade_selected.connect(_on_upgrade_selected)
+	Global.on_enemy_died.connect(_on_enemy_died)
 	
 	spawner.start_wave()
 
@@ -47,6 +51,27 @@ func show_upgrades() -> void:
 	upgrade_panel.load_upgrades(spawner.wave_index)
 	upgrade_panel.show()
 
+func spawn_coins(enemy: Enemy) -> void:
+	var random_angle := randf_range(0, TAU)
+	var offset := Vector2.RIGHT.rotated(random_angle) * 35
+	var spawn_pos := enemy.global_position + offset
+	
+	var instance := Global.COINS_SCENE.instantiate()
+	gold_list.append(instance)
+	
+	instance.global_position = spawn_pos
+	instance.value = enemy.stats.coin_drop
+	call_deferred("add_child", instance)
+
+func clear_arena() -> void:
+	if gold_list.size() > 0:
+		var target_center_pos := coins_bag.global_position + coins_bag.size / 2
+		for coin: Coins in gold_list:
+			if is_instance_valid(coin):
+				coin.set_collection_target(target_center_pos)
+	
+	gold_list.clear()
+
 func on_create_block_text(unit: Node2D) -> void:
 	var text := create_floating_text(unit)
 	text.setup_text("Blocked", block_color)
@@ -62,11 +87,24 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
+	
+	clear_arena()
 	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
 	
+	Global.get_harvesting_coins()
 	show_upgrades()
+	clear_arena()
 
 func _on_upgrade_selected() -> void:
 	upgrade_panel.hide()
+	shop_panel.load_shop(spawner.wave_index)
+	shop_panel.show()
+	
+
+func _on_shop_panel_on_shop_next_wave() -> void:
+	shop_panel.hide()
 	start_new_wave()
+
+func _on_enemy_died(enemy: Enemy) -> void:
+	spawn_coins(enemy)
