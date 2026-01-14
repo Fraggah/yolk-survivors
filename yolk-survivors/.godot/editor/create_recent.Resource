@@ -1,3 +1,4 @@
+ItemPassive
 ItemUpgrade
 WaveData
 ItemWeapon

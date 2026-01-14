@@ -7,5 +7,8 @@
 [node name="PlayerKnight" instance=ExtResource("1_7aar1")]
 stats = ExtResource("2_b1q4v")
 
+[node name="Trail" parent="Visuals" index="0"]
+default_color = Color(0.0064667, 0.0064667, 0.0064667, 1)
+
 [node name="Sprite" parent="Visuals" index="2"]
 texture = ExtResource("3_krs0p")

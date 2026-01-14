@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1glvf3i1ofwc"]
+
+[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="1_hrky6"]
+[ext_resource type="Texture2D" uid="uid://cg8i01i4vek32" path="res://assets/sprites/Spawn_mark.png" id="2_kmy13"]
+[ext_resource type="Script" uid="uid://kb08fhafbh2s" path="res://scenes/effects/spawn_effect.gd" id="3_kmy13"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1i3i"]
+shader = ExtResource("1_hrky6")
+shader_parameter/outline_color = Color(0.279983, 0.0409221, 0.324055, 1)
+shader_parameter/outline_width = 4.105
+shader_parameter/glow_intensity = 1.5
+
+[sub_resource type="Animation" id="Animation_5024m"]
+resource_name = "spawn"
+length = 0.9
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2, 0.5, 0.55, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0.4, 0.4), Vector2(0.3, 0.3), Vector2(0.6, 0.6), Vector2(0.5, 0.5), Vector2(0.7, 0.7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wt7ua"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rqji3"]
+_data = {
+&"RESET": SubResource("Animation_wt7ua"),
+&"spawn": SubResource("Animation_5024m")
+}
+
+[node name="SpawnEffect" type="Sprite2D"]
+material = SubResource("ShaderMaterial_e1i3i")
+texture = ExtResource("2_kmy13")
+script = ExtResource("3_kmy13")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rqji3")
+}
+autoplay = "spawn"

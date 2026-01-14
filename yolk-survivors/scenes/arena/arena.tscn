@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cy4xfx762bxgb" path="res://assets/sprites/BG.png" id="1_5tue2"]
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://ov4fmsbglo55" path="res://assets/sprites/Map.png" id="2_aj7ud"]
-[ext_resource type="PackedScene" uid="uid://bgbxwl6vgfu5u" path="res://scenes/units/players/player_well_rounded.tscn" id="3_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
 [ext_resource type="Script" uid="uid://cik2jcd8fmr6v" path="res://scenes/arena/spawner.gd" id="8_ii07k"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="9_t3vx8"]
@@ -17,13 +16,13 @@
 [ext_resource type="PackedScene" uid="uid://b7hhtxfn6wpfg" path="res://scenes/ui/upgrades/upgrade_panel.tscn" id="15_w4nra"]
 [ext_resource type="Resource" uid="uid://ceadrrvkl68an" path="res://resources/units/enemies/stats_enemy_shooter.tres" id="16_dh340"]
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
+[ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
 
-[node name="Arena" type="Node2D" node_paths=PackedStringArray("player")]
+[node name="Arena" type="Node2D"]
 script = ExtResource("1_asdgj")
-player = NodePath("PlayerWellRounded")
 normal_color = Color(1, 1, 1, 1)
 block_color = Color(1, 0.290196, 0.454902, 1)
 critical_color = Color(0.996078, 0.780392, 0.380392, 1)
@@ -36,8 +35,6 @@ texture = ExtResource("1_5tue2")
 [node name="GrassBG" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("2_aj7ud")
-
-[node name="PlayerWellRounded" parent="." instance=ExtResource("3_asdgj")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_aj7ud")
@@ -93,7 +90,10 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
+[node name="SelectionPanel" parent="GameUI" instance=ExtResource("17_rhjlh")]
+
 [connection signal="on_wave_completed" from="Spawner" to="." method="_on_spawner_on_wave_completed"]
 [connection signal="timeout" from="Spawner/WaveTimer" to="Spawner" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="on_shop_next_wave" from="GameUI/ShopPanel" to="." method="_on_shop_panel_on_shop_next_wave"]
+[connection signal="on_selection_completed" from="GameUI/SelectionPanel" to="." method="_on_selection_panel_on_selection_completed"]

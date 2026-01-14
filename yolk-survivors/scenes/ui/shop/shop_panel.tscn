@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c4xdsqfy0uqgj"]
+[gd_scene load_steps=58 format=3 uid="uid://c4xdsqfy0uqgj"]
 
 [ext_resource type="PackedScene" uid="uid://dpqx5cjywg1wo" path="res://scenes/ui/shop/shop_card.tscn" id="1_g5vmb"]
 [ext_resource type="Script" uid="uid://tawhd5hlgqhi" path="res://scenes/ui/shop/shop_panel.gd" id="1_ir0lx"]
@@ -45,7 +45,11 @@
 [ext_resource type="Resource" uid="uid://dat2tnp55dshp" path="res://resources/items/weapons/range/smg/item_smg_2.tres" id="40_qbn8f"]
 [ext_resource type="Resource" uid="uid://bms5wcsk60gjs" path="res://resources/items/weapons/range/smg/item_smg_3.tres" id="41_qhkj7"]
 [ext_resource type="Resource" uid="uid://cq1vexm2abw7r" path="res://resources/items/weapons/range/smg/item_smg_4.tres" id="42_f13ul"]
+[ext_resource type="Resource" uid="uid://btyn753ktmvya" path="res://resources/items/passives/data/passive_item_ball.tres" id="43_auh5d"]
+[ext_resource type="Resource" uid="uid://doeyhvpueysyu" path="res://resources/items/passives/data/passive_item_cape.tres" id="44_fltqq"]
+[ext_resource type="Resource" uid="uid://baulcq7h7qjgk" path="res://resources/items/passives/data/passive_item_rage.tres" id="45_ykntx"]
 [ext_resource type="PackedScene" uid="uid://5iyy26qoqtgp" path="res://scenes/ui/shop/item_card.tscn" id="46_e8kvv"]
+[ext_resource type="Resource" uid="uid://copo21438tdpp" path="res://resources/items/passives/data/passive_item_sword.tres" id="46_rq155"]
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="46_xnehm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pt5se"]
@@ -86,7 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pt5se")
 script = ExtResource("1_ir0lx")
-shop_items = Array[ExtResource("2_2rpxx")]([ExtResource("3_xnehm"), ExtResource("4_e8kvv"), ExtResource("5_xg118"), ExtResource("6_ikmqp"), ExtResource("7_eb4ko"), ExtResource("8_auh5d"), ExtResource("9_fltqq"), ExtResource("10_ykntx"), ExtResource("11_rq155"), ExtResource("12_kfl71"), ExtResource("13_v7d0x"), ExtResource("14_2qkey"), ExtResource("15_hdqjg"), ExtResource("16_kt0ms"), ExtResource("17_a1d76"), ExtResource("18_gywsb"), ExtResource("19_hnykb"), ExtResource("20_atkh0"), ExtResource("21_058qg"), ExtResource("22_g8pmg"), ExtResource("23_eaodt"), ExtResource("24_f6r64"), ExtResource("25_miqpl"), ExtResource("26_0f55u"), ExtResource("27_sue62"), ExtResource("28_hg33w"), ExtResource("29_0mm06"), ExtResource("30_0hkb6"), ExtResource("31_51kni"), ExtResource("32_kpjlc"), ExtResource("33_mk8bd"), ExtResource("34_isyeg"), ExtResource("35_diukg"), ExtResource("36_o5bfx"), ExtResource("37_gdp41"), ExtResource("38_qrt2o"), ExtResource("39_5pudo"), ExtResource("40_qbn8f"), ExtResource("41_qhkj7"), ExtResource("42_f13ul")])
+shop_items = Array[ExtResource("2_2rpxx")]([ExtResource("3_xnehm"), ExtResource("4_e8kvv"), ExtResource("5_xg118"), ExtResource("6_ikmqp"), ExtResource("7_eb4ko"), ExtResource("8_auh5d"), ExtResource("9_fltqq"), ExtResource("10_ykntx"), ExtResource("11_rq155"), ExtResource("12_kfl71"), ExtResource("13_v7d0x"), ExtResource("14_2qkey"), ExtResource("15_hdqjg"), ExtResource("16_kt0ms"), ExtResource("17_a1d76"), ExtResource("18_gywsb"), ExtResource("19_hnykb"), ExtResource("20_atkh0"), ExtResource("21_058qg"), ExtResource("22_g8pmg"), ExtResource("23_eaodt"), ExtResource("24_f6r64"), ExtResource("25_miqpl"), ExtResource("26_0f55u"), ExtResource("27_sue62"), ExtResource("28_hg33w"), ExtResource("29_0mm06"), ExtResource("30_0hkb6"), ExtResource("31_51kni"), ExtResource("32_kpjlc"), ExtResource("33_mk8bd"), ExtResource("34_isyeg"), ExtResource("35_diukg"), ExtResource("36_o5bfx"), ExtResource("37_gdp41"), ExtResource("38_qrt2o"), ExtResource("39_5pudo"), ExtResource("40_qbn8f"), ExtResource("41_qhkj7"), ExtResource("42_f13ul"), ExtResource("43_auh5d"), ExtResource("44_fltqq"), ExtResource("45_ykntx"), ExtResource("46_rq155")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

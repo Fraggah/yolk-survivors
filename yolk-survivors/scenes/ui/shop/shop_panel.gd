@@ -35,6 +35,11 @@ func create_item_card() -> ItemCard:
 	item_card.on_item_card_selected.connect(_on_item_card_selected)
 	return item_card
 
+func create_item_weapon(weapon: ItemWeapon) -> void:
+	var item_card := create_item_card()
+	weapon_container.add_child(item_card)
+	item_card.item = weapon
+
 func _on_new_wave_button_pressed() -> void:
 	on_shop_next_wave.emit()
 
@@ -46,6 +51,10 @@ func _on_item_purchased(item: ItemBase) -> void:
 		var weapon := item as ItemWeapon
 		Global.player.add_weapon(weapon)
 		Global.equipped_weapons.append(weapon)
+	elif item.item_type == ItemBase.ItemType.PASSIVE:
+		passive_container. add_child(item_card)
+		var passive := item as ItemPassive
+		passive.apply_passive_values()
 		
 	item_card.item = item
 

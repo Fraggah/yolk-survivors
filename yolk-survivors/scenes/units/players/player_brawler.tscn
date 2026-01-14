@@ -7,5 +7,8 @@
 [node name="PlayerBrawler" instance=ExtResource("1_m4j1l")]
 stats = ExtResource("2_gs2py")
 
+[node name="Trail" parent="Visuals" index="0"]
+default_color = Color(1, 0.142953, 0.101453, 1)
+
 [node name="Sprite" parent="Visuals" index="2"]
 texture = ExtResource("3_0qof3")

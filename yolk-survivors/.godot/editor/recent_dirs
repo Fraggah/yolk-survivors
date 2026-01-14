@@ -1,7 +1,11 @@
+res://scenes/effects
+res://shaders
+res://scenes/ui/selection_panel
+res://styles
+res://resources/items/passives/data
 res://scenes/ui/shop
 res://scenes/coins
 res://scenes/ui/coins_bag
-res://styles
 res://resources/items/upgrades
 res://resources/items/upgrades/data
 res://scenes/ui/upgrades
@@ -16,8 +20,4 @@ res://resources/items/weapons/range/smg
 res://resources/items/weapons/range/laser
 res://resources/items/weapons/range/pistol
 res://scenes/weapons
-res://scenes/weapons/melee
-res://resources/items/weapons/melee/chainsaw
-res://resources/items/weapons/melee/sword
-res://resources/items/weapons/melee/mace
 D:/Docs/Downloads

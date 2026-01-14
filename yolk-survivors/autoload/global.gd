@@ -17,6 +17,7 @@ const RARE_STYLE = preload("res://styles/rare_style.tres")
 
 const COINS_SCENE = preload("res://scenes/coins/coins.tscn")
 const ITEM_CARD_SCENE = preload("res://scenes/ui/shop/item_card.tscn")
+const SPAWN_EFFECT_SCENE = preload("res://scenes/effects/spawn_effect.tscn")
 
 const UPGRADE_PROBABILITY_CONFIG = {
 	"rare" : { "start_wave": 2, "base_mult": .06 },
@@ -30,6 +31,12 @@ const SHOP_PROBABILITY_CONFIG = {
 	"legendary" : { "start_wave": 7, "base_mult": .005 },
 }
 
+const TIER_COLORS: Dictionary[UpgradeTier, Color] = {
+	UpgradeTier.RARE: Color(.0, .557, .741),
+	UpgradeTier.EPIC: Color(.478, .251, .71),
+	UpgradeTier.LEGENDARY: Color(.906, .212, .212)
+}
+
 enum UpgradeTier {
 	COMMON,
 	RARE,
@@ -37,15 +44,34 @@ enum UpgradeTier {
 	LEGENDARY
 }
 
+var available_players: Dictionary[String, PackedScene] = {
+	"Brawler": preload("res://scenes/units/players/player_brawler.tscn"),
+	"Bunny": preload("res://scenes/units/players/player_bunny.tscn"),
+	"Crazy": preload("res://scenes/units/players/player_crazy.tscn"),
+	"Knight": preload("res://scenes/units/players/player_knight.tscn"),
+	"Weel Rounded": preload("res://scenes/units/players/player_well_rounded.tscn"),
+}
+
 var coins: int = 500
 var player: Player
 var game_paused: bool
+
+var main_player_selected: UnitStats
+var main_weapon_selected: ItemWeapon
 
 var selected_weapon: ItemWeapon
 var equipped_weapons: Array[ItemWeapon]
 
 func get_harvesting_coins() -> void:
 	coins += player.stats.harvesting
+	
+
+func get_selected_player() -> Player:
+	var player_path: PackedScene = available_players[main_player_selected.name]
+	var player_instance := player_path.instantiate()
+	player = player_instance
+	return player
+
 
 func get_chance_succes(chance: float) -> bool:
 	var random = randf_range(0, 1)

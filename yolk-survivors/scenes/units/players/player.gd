@@ -21,17 +21,6 @@ func _ready() -> void:
 	super._ready()
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
-	
-	add_weapon(preload("res://resources/items/weapons/melee/punch/item_punch_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/melee/axe/item_axe_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/melee/mace/item_mace_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/melee/sword/item_sword_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/melee/chainsaw/item_chainsaw_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/range/pistol/item_pistol_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/range/laser/item_laser_1.tres"))
-	add_weapon(preload("res://resources/items/weapons/range/smg/item_smg_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/range/shotgun/item_shotgun_1.tres"))
-	#add_weapon(preload("res://resources/items/weapons/range/revolver/item_revolver_1.tres"))
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
@@ -65,7 +54,7 @@ func add_weapon(data: ItemWeapon) -> void:
 func start_dash() -> void:
 	is_dashing = true
 	dash_timer.start()
-	visuals.modulate.a = .5
+	visuals.modulate.a = .9
 	collision.set_deferred("disabled", true)
 	trail.start_trail()
 
