@@ -28,6 +28,5 @@ func setup(p_damage: float, p_critical: bool, p_knockback: float, p_source: Node
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is HurtboxComponent:
-		#var hurtbox := area as HurtboxComponent
+		SoundManager.play_sound(SoundManager.Sound.ENEMY_HIT)
 		on_hit_hurtbox.emit(area)
-		print(area.owner.name)

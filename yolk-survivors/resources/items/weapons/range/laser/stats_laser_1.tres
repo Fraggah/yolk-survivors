@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_cjtyd")
-damage = 10
+damage = 3
 accuracy = 1.0
 cooldown = 1.5
 crit_chance = 0.05

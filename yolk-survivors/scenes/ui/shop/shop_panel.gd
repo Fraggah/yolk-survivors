@@ -44,6 +44,7 @@ func _on_new_wave_button_pressed() -> void:
 	on_shop_next_wave.emit()
 
 func _on_item_purchased(item: ItemBase) -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	var item_card := create_item_card()
 	
 	if item.item_type == ItemBase.ItemType.WEAPON:
@@ -75,6 +76,7 @@ func _on_item_card_selected(card: ItemCard) -> void:
 
 
 func _on_combine_button_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	if not context_card: return
 	
 	var clicked_weapon := context_card.item as ItemWeapon
@@ -108,6 +110,7 @@ func _on_combine_button_pressed() -> void:
 
 
 func _on_sell_weapon_button_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	if not context_card: return
 	
 	var clicked_weapon := context_card.item as ItemWeapon

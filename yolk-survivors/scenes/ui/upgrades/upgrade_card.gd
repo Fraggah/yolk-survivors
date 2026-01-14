@@ -24,3 +24,4 @@ func _on_custom_button_pressed() -> void:
 	if item:
 		item.apply_upgrade()
 		Global.on_upgrade_selected.emit()
+		SoundManager.play_sound(SoundManager.Sound.UI_CLICK)

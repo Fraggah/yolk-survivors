@@ -67,6 +67,7 @@ func _on_weapon_selected(weapon: ItemWeapon) -> void:
 
 
 func _on_custom_button_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	if not Global.main_player_selected and not Global.main_weapon_selected: return
 	
 	on_selection_completed.emit()

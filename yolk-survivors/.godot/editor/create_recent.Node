@@ -1,3 +1,5 @@
+AudioStreamPlayer
+Node
 AnimationPlayer
 Sprite2D
 Button
@@ -10,6 +12,3 @@ TextureRect
 MarginContainer
 Panel
 CollisionShape2D
-AnimatedSprite2D
-Area2D
-GridContainer
