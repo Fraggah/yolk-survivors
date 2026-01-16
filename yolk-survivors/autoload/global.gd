@@ -18,6 +18,7 @@ const RARE_STYLE = preload("res://styles/rare_style.tres")
 const COINS_SCENE = preload("res://scenes/coins/coins.tscn")
 const ITEM_CARD_SCENE = preload("res://scenes/ui/shop/item_card.tscn")
 const SPAWN_EFFECT_SCENE = preload("res://scenes/effects/spawn_effect.tscn")
+const FRIED_SCENE = preload("res://scenes/units/fried.tscn")
 
 const UPGRADE_PROBABILITY_CONFIG = {
 	"rare" : { "start_wave": 2, "base_mult": .06 },
@@ -49,10 +50,10 @@ var available_players: Dictionary[String, PackedScene] = {
 	"Bunny": preload("res://scenes/units/players/player_bunny.tscn"),
 	"Crazy": preload("res://scenes/units/players/player_crazy.tscn"),
 	"Knight": preload("res://scenes/units/players/player_knight.tscn"),
-	"Weel Rounded": preload("res://scenes/units/players/player_well_rounded.tscn"),
+	"Well Rounded": preload("res://scenes/units/players/player_well_rounded.tscn"),
 }
 
-var coins: int = 500
+var coins: int = 10
 var player: Player
 var game_paused: bool
 
@@ -63,7 +64,8 @@ var selected_weapon: ItemWeapon
 var equipped_weapons: Array[ItemWeapon]
 
 func get_harvesting_coins() -> void:
-	coins += player.stats.harvesting
+	if is_instance_valid(player):
+		coins += player.stats.harvesting
 	
 
 func get_selected_player() -> Player:

@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dywyacqv3a5ay"]
+
+[ext_resource type="PackedScene" uid="uid://cc2q4650v5nly" path="res://scenes/weapons/weapon_base.tscn" id="1_yh8ni"]
+[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="2_0aqas"]
+[ext_resource type="Texture2D" uid="uid://bg0kj3r0wx16w" path="res://assets/sprites/Weapons/Range/weapon_knifer.png" id="3_k2iav"]
+[ext_resource type="Script" uid="uid://dnq721qxn30t8" path="res://scenes/weapons/range/range_behaviour.gd" id="4_5rq0l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_adply"]
+resource_local_to_scene = true
+shader = ExtResource("2_0aqas")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 7.0
+shader_parameter/glow_intensity = 3.5
+
+[node name="WeaponKnifer" instance=ExtResource("1_yh8ni")]
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_adply")
+position = Vector2(26, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_k2iav")
+
+[node name="Muzzle" type="Marker2D" parent="Sprite2D" index="0"]
+unique_name_in_owner = true
+position = Vector2(86.6667, -28.3333)
+
+[node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("weapon")]
+script = ExtResource("4_5rq0l")
+weapon = NodePath("..")

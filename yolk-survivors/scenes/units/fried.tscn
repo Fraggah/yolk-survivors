@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgjlg5b2lig3n"]
+
+[ext_resource type="Script" uid="uid://c3gqpuomspikj" path="res://fried.gd" id="1_cm4p0"]
+[ext_resource type="Texture2D" uid="uid://baeyi0jt21av2" path="res://assets/sprites/Fried.png" id="1_lyqle"]
+
+[sub_resource type="Animation" id="Animation_esxwq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_lyqle"]
+resource_name = "fried"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 0.8, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y103m"]
+_data = {
+&"RESET": SubResource("Animation_esxwq"),
+&"fried": SubResource("Animation_lyqle")
+}
+
+[node name="Fried" type="Sprite2D"]
+modulate = Color(0.860369, 0.860369, 0.860369, 1)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_lyqle")
+script = ExtResource("1_cm4p0")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_y103m")
+}
+autoplay = "fried"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

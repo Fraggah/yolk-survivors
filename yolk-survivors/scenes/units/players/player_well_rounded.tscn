@@ -39,7 +39,7 @@ trail_length = 10
 z_index = 1
 
 [node name="Sprite" parent="Visuals" index="2"]
-z_index = 1
+z_index = 2
 texture = ExtResource("5_d3mmk")
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -152,6 +152,8 @@ position = Vector2(0, -31)
 shape = SubResource("CircleShape2D_yaur4")
 
 [node name="HealthBar" parent="." index="10"]
+offset_top = -96.0
+offset_bottom = -76.0
 back_color = Color(0.137255, 0.0196078, 0.027451, 1)
 fill_color = Color(1, 0.290196, 0.454902, 1)
 

@@ -12,6 +12,9 @@ class_name Arena
 @onready var upgrade_panel: UpgradePanel = $GameUI/UpgradePanel
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var coins_bag: CoinsBag = %CoinsBag
+@onready var coocking_player: AudioStreamPlayer = $CoockingPlayer
+@onready var music_player: AudioStreamPlayer = $MusicPlayer
+
 
 var gold_list: Array[Coins]
 
@@ -21,6 +24,7 @@ func _ready() -> void:
 	Global.on_create_heal_text.connect(_on_create_heal_text)
 	Global.on_upgrade_selected.connect(_on_upgrade_selected)
 	Global.on_enemy_died.connect(_on_enemy_died)
+	coocking_player.stream_paused = true
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
@@ -40,6 +44,7 @@ func start_new_wave() -> void:
 	Global.player.upgrade_player_for_new_wave()
 	spawner.wave_index += 1
 	spawner.start_wave()
+	coocking_player.stream_paused = false
 	
 
 func show_upgrades() -> void:
@@ -84,7 +89,7 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
-	
+	coocking_player.stream_paused = true
 	clear_arena()
 	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
@@ -104,6 +109,9 @@ func _on_shop_panel_on_shop_next_wave() -> void:
 	start_new_wave()
 
 func _on_enemy_died(enemy: Enemy) -> void:
+	var instance := Global.FRIED_SCENE.instantiate()
+	add_child(instance)
+	instance.global_position = enemy.global_position
 	spawn_coins(enemy)
 
 func _on_selection_panel_on_selection_completed() -> void:
@@ -112,6 +120,6 @@ func _on_selection_panel_on_selection_completed() -> void:
 	player.add_weapon(Global.main_weapon_selected)
 	shop_panel.create_item_weapon(Global.main_weapon_selected)
 	Global.equipped_weapons.append(Global.main_weapon_selected)
-	
+	coocking_player.stream_paused = false
 	spawner.start_wave()
 	Global.game_paused = false

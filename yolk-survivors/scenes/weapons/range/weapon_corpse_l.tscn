@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c62mlcx8wrcnj"]
+
+[ext_resource type="PackedScene" uid="uid://dywyacqv3a5ay" path="res://scenes/weapons/range/weapon_knifer.tscn" id="1_t4t44"]
+[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="2_or71w"]
+[ext_resource type="Texture2D" uid="uid://n6u6brlxgusd" path="res://assets/sprites/Weapons/Range/weapon_corpse_launcher.png" id="3_spmo4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rhmde"]
+resource_local_to_scene = true
+shader = ExtResource("2_or71w")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 7.0
+shader_parameter/glow_intensity = 3.5
+
+[node name="WeaponCorpseL" instance=ExtResource("1_t4t44")]
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_rhmde")
+position = Vector2(29, 0)
+texture = ExtResource("3_spmo4")
+
+[node name="Muzzle" parent="Sprite2D" index="0"]
+position = Vector2(72, -22)

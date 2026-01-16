@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=5 format=3 uid="uid://ctgyhk1dhao86"]
+
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="1_dxh7k"]
+[ext_resource type="Script" uid="uid://bna3jq5lnsfd3" path="res://resources/wave/wave_unit_data.gd" id="2_380tk"]
+[ext_resource type="PackedScene" uid="uid://c6031qsow5sjv" path="res://scenes/units/enemies/enemy_charger.tscn" id="3_dxh7k"]
+
+[sub_resource type="Resource" id="Resource_eix6o"]
+script = ExtResource("2_380tk")
+unit_scene = ExtResource("3_dxh7k")
+weight = 1.0
+metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
+
+[resource]
+script = ExtResource("1_dxh7k")
+from = 8
+to = 8
+wave_time = 30.0
+units = Array[ExtResource("2_380tk")]([SubResource("Resource_eix6o")])
+spawn_type = 0
+fixed_spawn_time = 0.4
+min_spawn_time = 1.0
+max_spawn_time = 2.5
+metadata/_custom_type_script = "uid://cu8bripac0efh"

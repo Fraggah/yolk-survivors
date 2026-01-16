@@ -3,7 +3,7 @@ class_name ShootingBehaviour
 
 @export var enemy: Enemy
 @export var fire_pos: Marker2D
-@export var cooldown := 4.0
+@export var cooldown := 2.0
 @export var projectile_count := 3
 @export var arc_angle := 45
 @export var projectile_scene: PackedScene

@@ -1,7 +1,9 @@
+AudioStreamPlayer2D
+AnimationPlayer
+Timer
+Sprite2D
 AudioStreamPlayer
 Node
-AnimationPlayer
-Sprite2D
 Button
 HBoxContainer
 VBoxContainer
@@ -11,4 +13,3 @@ Label
 TextureRect
 MarginContainer
 Panel
-CollisionShape2D

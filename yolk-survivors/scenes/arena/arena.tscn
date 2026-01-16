@@ -1,14 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=28 format=3 uid="uid://dy6m2b3eopxya"]
 
-[ext_resource type="Texture2D" uid="uid://cy4xfx762bxgb" path="res://assets/sprites/BG.png" id="1_5tue2"]
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
-[ext_resource type="Texture2D" uid="uid://ov4fmsbglo55" path="res://assets/sprites/Map.png" id="2_aj7ud"]
+[ext_resource type="Texture2D" uid="uid://cd7m6sfgvipc7" path="res://assets/BG.png" id="2_wqbss"]
+[ext_resource type="Texture2D" uid="uid://cgpemv1u8p7qf" path="res://assets/MapB.png" id="3_tp84n"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
+[ext_resource type="Texture2D" uid="uid://vmoudrlvder0" path="res://assets/mango.png" id="4_fir7s"]
 [ext_resource type="Script" uid="uid://cik2jcd8fmr6v" path="res://scenes/arena/spawner.gd" id="8_ii07k"]
+[ext_resource type="Resource" uid="uid://b4cp53n85irlc" path="res://resources/wave/data/wave_config_2.tres" id="9_fir7s"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="9_t3vx8"]
+[ext_resource type="Resource" uid="uid://c7q3ejofiacok" path="res://resources/wave/data/wave_config_0.tres" id="10_gy0qm"]
 [ext_resource type="Resource" uid="uid://d3260jp73amhp" path="res://resources/wave/data/wave_config_1.tres" id="10_rhjlh"]
+[ext_resource type="Resource" uid="uid://dmr4tor8re5ru" path="res://resources/wave/data/wave_config_3.tres" id="11_5ilg6"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="11_tp84n"]
 [ext_resource type="Resource" uid="uid://b4044jccypcut" path="res://resources/units/enemies/stats_enemy_charger.tres" id="12_8kk48"]
+[ext_resource type="Resource" uid="uid://ctgyhk1dhao86" path="res://resources/wave/data/wave_config_4.tres" id="12_bxbl0"]
+[ext_resource type="Resource" uid="uid://dolrnwknjjwvn" path="res://resources/wave/data/wave_config_5.tres" id="13_c13hg"]
 [ext_resource type="Resource" uid="uid://chfolf8npwgrh" path="res://resources/units/enemies/stats_enemy_chaser_fast.tres" id="13_wqbss"]
 [ext_resource type="Resource" uid="uid://c1h3b5i0wcw72" path="res://resources/units/enemies/stats_enemy_chaser_mid.tres" id="14_fir7s"]
 [ext_resource type="Resource" uid="uid://cwsf77lhyruan" path="res://resources/units/enemies/stats_enemy_chaser_slow.tres" id="15_gy0qm"]
@@ -17,7 +23,9 @@
 [ext_resource type="Resource" uid="uid://ceadrrvkl68an" path="res://resources/units/enemies/stats_enemy_shooter.tres" id="16_dh340"]
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
 [ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
-[ext_resource type="AudioStream" uid="uid://prc8bub0x4s1" path="res://assets/audio/Bg Music.mp3" id="18_tp84n"]
+[ext_resource type="Texture2D" uid="uid://buv0jnbidpc3a" path="res://assets/MapF.png" id="19_8kk48"]
+[ext_resource type="AudioStream" uid="uid://bcssvm5ayxdv3" path="res://assets/audio/Midnight Kitchen Groove.mp3" id="24_5ilg6"]
+[ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
@@ -30,19 +38,29 @@ critical_color = Color(0.996078, 0.780392, 0.380392, 1)
 hp_reg_color = Color(0, 0.627451, 0.482353, 1)
 
 [node name="BlackBG" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("1_5tue2")
+modulate = Color(1, 0.705882, 0.580392, 1)
+position = Vector2(0, 826)
+scale = Vector2(4, 4)
+texture = ExtResource("2_wqbss")
 
 [node name="GrassBG" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0.803922, 1)
 scale = Vector2(2, 2)
-texture = ExtResource("2_aj7ud")
+texture = ExtResource("3_tp84n")
+
+[node name="MangoBG" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0.741176, 1)
+position = Vector2(-1316, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("4_fir7s")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.2, 1.2)
 script = ExtResource("4_aj7ud")
 
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("8_ii07k")
-waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("10_rhjlh")])
+waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("10_rhjlh"), ExtResource("9_fir7s"), ExtResource("10_gy0qm"), ExtResource("11_5ilg6"), ExtResource("12_bxbl0"), ExtResource("13_c13hg")])
 enemy_collection = Array[ExtResource("11_tp84n")]([ExtResource("12_8kk48"), ExtResource("13_wqbss"), ExtResource("14_fir7s"), ExtResource("15_gy0qm"), ExtResource("16_dh340")])
 
 [node name="WaveTimer" type="Timer" parent="Spawner"]
@@ -94,9 +112,25 @@ visible = false
 [node name="SelectionPanel" parent="GameUI" instance=ExtResource("17_rhjlh")]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("18_tp84n")
+stream = ExtResource("24_5ilg6")
 volume_db = -12.0
 autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="CoockingPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("25_o7rjm")
+volume_db = -20.0
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="BottomBorderBG" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0.776471, 1)
+z_index = 20
+position = Vector2(0, 453)
+scale = Vector2(2, 3)
+texture = ExtResource("19_8kk48")
 
 [connection signal="on_wave_completed" from="Spawner" to="." method="_on_spawner_on_wave_completed"]
 [connection signal="timeout" from="Spawner/WaveTimer" to="Spawner" method="_on_wave_timer_timeout"]

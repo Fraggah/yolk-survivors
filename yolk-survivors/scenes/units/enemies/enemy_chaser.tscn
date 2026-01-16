@@ -26,6 +26,7 @@ flock_push = 20.0
 stats = ExtResource("3_ekmfq")
 
 [node name="Sprite" parent="Visuals" index="1"]
+z_index = 2
 texture = ExtResource("2_c4rqr")
 
 [node name="CollisionShape2D" parent="." index="1"]

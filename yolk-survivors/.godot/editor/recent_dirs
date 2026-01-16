@@ -1,3 +1,4 @@
+res://scenes/units
 res://autoload
 res://scenes/effects
 res://shaders
@@ -19,5 +20,4 @@ res://scenes/weapons/range
 res://resources/items/weapons/range/shotgun
 res://resources/items/weapons/range/smg
 res://resources/items/weapons/range/laser
-res://resources/items/weapons/range/pistol
 D:/Docs/Downloads

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://c0g0ywuqconk1"]
 
-[ext_resource type="Texture2D" uid="uid://cmlrktiwatuhw" path="res://assets/sprites/Weapons/Icons/weapon_mace_icon.png" id="1_8kfa5"]
+[ext_resource type="Texture2D" uid="uid://bb5xjh3jrwujd" path="res://assets/sprites/Weapons/Icons/weapon_wood_mace_icon.png" id="1_6yo20"]
 [ext_resource type="PackedScene" uid="uid://disdx5r6ny02e" path="res://scenes/weapons/melee/weapon_mace.tscn" id="2_6yo20"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="2_a8rrv"]
 [ext_resource type="Resource" uid="uid://j7yrn6w23i83" path="res://resources/items/weapons/melee/mace/stats_mace_2.tres" id="3_8kfa5"]
@@ -12,8 +12,8 @@ type = 0
 scene = ExtResource("2_6yo20")
 stats = ExtResource("3_8kfa5")
 upgrade_to = ExtResource("4_a8rrv")
-item_name = "Mace II"
-item_icon = ExtResource("1_8kfa5")
+item_name = "Wood Mace II"
+item_icon = ExtResource("1_6yo20")
 item_tier = 1
 item_type = 0
 item_cost = 40

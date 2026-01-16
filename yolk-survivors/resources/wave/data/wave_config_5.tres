@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=7 format=3 uid="uid://dolrnwknjjwvn"]
+
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="1_r8kfc"]
+[ext_resource type="Script" uid="uid://bna3jq5lnsfd3" path="res://resources/wave/wave_unit_data.gd" id="2_r55xw"]
+[ext_resource type="PackedScene" uid="uid://c6031qsow5sjv" path="res://scenes/units/enemies/enemy_charger.tscn" id="3_os44p"]
+[ext_resource type="PackedScene" uid="uid://cab5sd7do0pfk" path="res://scenes/units/enemies/enemy_shooter.tscn" id="4_r55xw"]
+
+[sub_resource type="Resource" id="Resource_eix6o"]
+script = ExtResource("2_r55xw")
+unit_scene = ExtResource("3_os44p")
+weight = 1.0
+metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
+
+[sub_resource type="Resource" id="Resource_os44p"]
+script = ExtResource("2_r55xw")
+unit_scene = ExtResource("4_r55xw")
+weight = 1.0
+metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
+
+[resource]
+script = ExtResource("1_r8kfc")
+from = 9
+to = 10
+wave_time = 30.0
+units = Array[ExtResource("2_r55xw")]([SubResource("Resource_eix6o"), SubResource("Resource_os44p")])
+spawn_type = 0
+fixed_spawn_time = 0.2
+min_spawn_time = 1.0
+max_spawn_time = 2.5
+metadata/_custom_type_script = "uid://cu8bripac0efh"
