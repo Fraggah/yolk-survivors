@@ -25,7 +25,7 @@
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="19_hu73q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_un15a"]
-bg_color = Color(0.163953, 0.197873, 0.182255, 1)
+bg_color = Color(0.91003, 0.661642, 0.559987, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_3scu4"]
 font = ExtResource("19_hu73q")

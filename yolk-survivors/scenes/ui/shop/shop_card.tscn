@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://chm4srsn6xd8y" path="res://assets/sprites/Gold/gold_1.png" id="5_xbnkv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qayt"]
-bg_color = Color(0.294118, 0.294118, 0.294118, 0.784314)
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12

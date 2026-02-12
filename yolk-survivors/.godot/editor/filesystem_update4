@@ -15,3 +15,8 @@ res://resources/wave/data/wave_config_5.tres
 res://scenes/ui/selection_panel/selection_panel.gd
 res://scenes/ui/selection_panel/selection_panel.tscn
 res://scenes/arena/arena.gd
+res://scenes/ui/shop/item_card.tscn
+res://scenes/ui/custom_button/custom_button.tscn
+res://scenes/ui/stats/stats_container.tscn
+res://scenes/ui/shop/shop_panel.tscn
+res://scenes/ui/shop/shop_card.tscn

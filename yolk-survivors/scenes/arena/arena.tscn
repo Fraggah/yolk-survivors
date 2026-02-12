@@ -37,7 +37,7 @@ font = ExtResource("24_bxbl0")
 font_size = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c13hg"]
-bg_color = Color(0.599794, 0.434415, 0.246102, 1)
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
 border_width_left = 15
 border_width_top = 15
 border_width_right = 15
@@ -49,7 +49,7 @@ corner_radius_bottom_right = 45
 corner_radius_bottom_left = 45
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7rjm"]
-bg_color = Color(0.92549, 0.788235, 0.643137, 1)
+bg_color = Color(0.751779, 0.560029, 0.472645, 1)
 border_width_left = 15
 border_width_top = 15
 border_width_right = 15

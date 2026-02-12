@@ -53,7 +53,7 @@
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="46_xnehm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pt5se"]
-bg_color = Color(0.203922, 0.203922, 0.203922, 1)
+bg_color = Color(0.91003, 0.661642, 0.559987, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_463h5"]
 font_size = 64

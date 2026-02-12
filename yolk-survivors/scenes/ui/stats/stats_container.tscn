@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="1_uqsga"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omr38"]
-bg_color = Color(0.0392157, 0.713726, 0.878431, 0.313726)
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
