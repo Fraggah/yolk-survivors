@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=27 format=3 uid="uid://85rf32ecc04m"]
 
 [ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="2_7k3kw"]
@@ -22,9 +22,14 @@
 [ext_resource type="Resource" uid="uid://btond2h0jjbga" path="res://resources/items/weapons/range/corpse_l/item_corpse_l_1.tres" id="16_4wjk5"]
 [ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="17_tx3iw"]
 [ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="18_lur41"]
+[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="19_hu73q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_un15a"]
 bg_color = Color(0.163953, 0.197873, 0.182255, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3scu4"]
+font = ExtResource("19_hu73q")
+font_size = 46
 
 [sub_resource type="LabelSettings" id="LabelSettings_mgmnq"]
 font_size = 24
@@ -47,14 +52,37 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
+theme_override_constants/margin_left = 46
+theme_override_constants/margin_top = 46
+theme_override_constants/margin_right = 46
 theme_override_constants/margin_bottom = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+text = "Select Player And Weapon"
+label_settings = SubResource("LabelSettings_3scu4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CustomButton" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -260.0
+offset_top = 8.0
+offset_right = 0.0
+offset_bottom = 78.0
+grow_horizontal = 0
+grow_vertical = 1
+text = "continue"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 550)
@@ -144,21 +172,6 @@ theme_override_font_sizes/bold_font_size = 24
 bbcode_enabled = true
 text = "description"
 
-[node name="CustomButton" parent="MarginContainer/VBoxContainer/Control" instance=ExtResource("4_un15a")]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-offset_left = -260.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 70.0
-grow_horizontal = 0
-grow_vertical = 1
-text = "continue"
-
 [node name="Items" type="Control" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
@@ -230,4 +243,4 @@ layout_mode = 2
 [node name="SelectionCard10" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/WeaponsContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/CustomButton" to="." method="_on_custom_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButton" to="." method="_on_custom_button_pressed"]

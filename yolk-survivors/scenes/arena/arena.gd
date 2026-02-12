@@ -14,6 +14,8 @@ class_name Arena
 @onready var coins_bag: CoinsBag = %CoinsBag
 @onready var coocking_player: AudioStreamPlayer = $CoockingPlayer
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
+@onready var instructions: Label = %Instructions
+@onready var start_screen: Control = $GameUI/StartScreen
 
 
 var gold_list: Array[Coins]
@@ -122,4 +124,19 @@ func _on_selection_panel_on_selection_completed() -> void:
 	Global.equipped_weapons.append(Global.main_weapon_selected)
 	coocking_player.stream_paused = false
 	spawner.start_wave()
+	show_controls()
 	Global.game_paused = false
+
+func show_controls() -> void:
+	instructions.show()
+	await get_tree().create_timer(3).timeout
+	var tween := create_tween()
+	tween.tween_property(instructions,"modulate:a", 0, 3)
+	await tween.finished
+	instructions.hide()
+
+
+func _on_start_button_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	start_screen.hide()
+	

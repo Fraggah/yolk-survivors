@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=34 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://cd7m6sfgvipc7" path="res://assets/BG.png" id="2_wqbss"]
@@ -25,10 +25,46 @@
 [ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
 [ext_resource type="Texture2D" uid="uid://buv0jnbidpc3a" path="res://assets/MapF.png" id="19_8kk48"]
 [ext_resource type="AudioStream" uid="uid://bcssvm5ayxdv3" path="res://assets/audio/Midnight Kitchen Groove.mp3" id="24_5ilg6"]
+[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="24_bxbl0"]
+[ext_resource type="Texture2D" uid="uid://c8upuwgr7nwcg" path="res://assets/startscreen.png" id="25_c13hg"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_c13hg"]
+font = ExtResource("24_bxbl0")
+font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c13hg"]
+bg_color = Color(0.599794, 0.434415, 0.246102, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7rjm"]
+bg_color = Color(0.92549, 0.788235, 0.643137, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_xr6px"]
+font = ExtResource("24_bxbl0")
+font_size = 46
+outline_size = 6
+outline_color = Color(0.694118, 0.494118, 0.345098, 1)
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_asdgj")
@@ -111,6 +147,74 @@ visible = false
 
 [node name="SelectionPanel" parent="GameUI" instance=ExtResource("17_rhjlh")]
 
+[node name="Instructions" type="Label" parent="GameUI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -181.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Controls:
+WASD - Movement
+Space - dash"
+label_settings = SubResource("LabelSettings_c13hg")
+
+[node name="StartScreen" type="Control" parent="GameUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartScreenTexture" type="TextureRect" parent="GameUI/StartScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("25_c13hg")
+
+[node name="StartButton" type="Button" parent="GameUI/StartScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -277.0
+offset_top = -309.0
+offset_right = 323.0
+offset_bottom = -189.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/hover = SubResource("StyleBoxFlat_c13hg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_o7rjm")
+
+[node name="Label" type="Label" parent="GameUI/StartScreen/StartButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press To Play"
+label_settings = SubResource("LabelSettings_xr6px")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("24_5ilg6")
 volume_db = -12.0
@@ -137,3 +241,4 @@ texture = ExtResource("19_8kk48")
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="on_shop_next_wave" from="GameUI/ShopPanel" to="." method="_on_shop_panel_on_shop_next_wave"]
 [connection signal="on_selection_completed" from="GameUI/SelectionPanel" to="." method="_on_selection_panel_on_selection_completed"]
+[connection signal="pressed" from="GameUI/StartScreen/StartButton" to="." method="_on_start_button_pressed"]
