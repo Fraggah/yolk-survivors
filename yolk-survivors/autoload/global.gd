@@ -6,6 +6,7 @@ signal on_create_heal_text(unit: Node2D, value: float)
 
 signal on_upgrade_selected
 signal on_enemy_died(enemy: Enemy)
+signal on_player_died
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")

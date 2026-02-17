@@ -12,6 +12,7 @@ var move_dir: Vector2
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var trail: PlayerTrail = %Trail
 @onready var weapons_container: WeaponsContainer = $Weapons
+@onready var shadow: Sprite2D = $Visuals/Shadow
 
 
 var is_dashing: bool
@@ -21,6 +22,7 @@ func _ready() -> void:
 	super._ready()
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
+	shadow.material.set_shader_parameter("outline_color", trail.default_color)
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
@@ -42,6 +44,7 @@ func _process(delta: float) -> void:
 	if can_dash():
 		start_dash()
 
+
 func add_weapon(data: ItemWeapon) -> void:
 	var weapon := data.scene.instantiate() as Weapon
 	add_child(weapon)
@@ -57,6 +60,7 @@ func start_dash() -> void:
 	visuals.modulate.a = .9
 	collision.set_deferred("disabled", true)
 	trail.start_trail()
+	shadow.material.set_shader_parameter("outline_color", Color(.0,.0,.0,.0))
 
 func can_dash() -> bool:
 	return not is_dashing and\
@@ -93,6 +97,7 @@ func _on_dash_timer_timeout() -> void:
 	#move_dir = Vector2.ZERO reset??
 	dash_cooldown_timer.start()
 	collision.set_deferred("disabled", false)
+	#sprite_2d.material.set_shader_parameter("outline_color", outline_color)
 
 
 func _on_hp_timer_timeout() -> void:
@@ -102,3 +107,12 @@ func _on_hp_timer_timeout() -> void:
 		var heal := stats.hp_regen
 		health_component.heal(heal)
 		Global.on_create_heal_text.emit(self, heal)
+
+
+func _on_health_component_on_unit_died() -> void:
+	Global.on_player_died.emit()
+	print("final player") # se emite
+
+
+func _on_dash_cooldown_timer_timeout() -> void:
+	shadow.material.set_shader_parameter("outline_color", trail.default_color)

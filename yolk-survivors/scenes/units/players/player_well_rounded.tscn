@@ -1,11 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgbxwl6vgfu5u"]
+[gd_scene load_steps=12 format=3 uid="uid://bgbxwl6vgfu5u"]
 
 [ext_resource type="PackedScene" uid="uid://sbew4vc23htb" path="res://scenes/units/unit.tscn" id="1_gmevj"]
 [ext_resource type="Script" uid="uid://buivdun06gqjk" path="res://scenes/units/players/player.gd" id="2_us6fi"]
 [ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="3_us6fi"]
 [ext_resource type="Script" uid="uid://dhjylweqpmgsu" path="res://scenes/units/players/player_trail.gd" id="4_yaur4"]
 [ext_resource type="Texture2D" uid="uid://cproxhccob85g" path="res://assets/sprites/Players/Player_1.png" id="5_d3mmk"]
+[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="5_n48mq"]
 [ext_resource type="Script" uid="uid://cfrbp4gsm8bpb" path="res://scenes/units/players/weapons_container.gd" id="6_udkk8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n48mq"]
+shader = ExtResource("5_n48mq")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 5.0
+shader_parameter/glow_intensity = 5.0
 
 [sub_resource type="Curve" id="Curve_d3mmk"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -25,18 +32,22 @@ dash_speed_multi = 2.5
 dash_cooldown = 2.0
 stats = ExtResource("3_us6fi")
 
-[node name="Trail" type="Line2D" parent="Visuals" index="0" node_paths=PackedStringArray("player")]
+[node name="Shadow" parent="Visuals" index="0"]
+modulate = Color(0.137255, 0.137255, 0.137255, 1)
+self_modulate = Color(0.625597, 0.625597, 0.625597, 1)
+z_index = 1
+material = SubResource("ShaderMaterial_n48mq")
+
+[node name="Trail" type="Line2D" parent="Visuals" index="1" node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 top_level = true
+z_index = 1
 position = Vector2(0, -30)
 width = 50.0
 width_curve = SubResource("Curve_d3mmk")
 script = ExtResource("4_yaur4")
 player = NodePath("../..")
 trail_length = 10
-
-[node name="Shadow" parent="Visuals" index="1"]
-z_index = 1
 
 [node name="Sprite" parent="Visuals" index="2"]
 z_index = 2
@@ -158,5 +169,7 @@ back_color = Color(0.137255, 0.0196078, 0.027451, 1)
 fill_color = Color(1, 0.290196, 0.454902, 1)
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
 [connection signal="timeout" from="TrailTimer" to="Visuals/Trail" method="_on_trail_timer_timeout"]
 [connection signal="timeout" from="HPTimer" to="." method="_on_hp_timer_timeout"]
+[connection signal="on_unit_died" from="HealthComponent" to="." method="_on_health_component_on_unit_died"]

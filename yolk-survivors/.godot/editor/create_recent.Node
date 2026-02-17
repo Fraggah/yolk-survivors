@@ -1,8 +1,8 @@
 Label
 Button
+Panel
 Control
 TextureRect
-Panel
 AudioStreamPlayer2D
 AnimationPlayer
 Timer

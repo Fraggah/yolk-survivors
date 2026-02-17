@@ -16,6 +16,9 @@ class_name Arena
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 @onready var instructions: Label = %Instructions
 @onready var start_screen: Control = $GameUI/StartScreen
+@onready var final_screen: Control = $GameUI/FinalScreen
+@onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
+@onready var final_label: Label = %FinalLabel
 
 
 var gold_list: Array[Coins]
@@ -26,6 +29,7 @@ func _ready() -> void:
 	Global.on_create_heal_text.connect(_on_create_heal_text)
 	Global.on_upgrade_selected.connect(_on_upgrade_selected)
 	Global.on_enemy_died.connect(_on_enemy_died)
+	Global.on_player_died.connect(_on_player_died)
 	coocking_player.stream_paused = true
 
 func _process(delta: float) -> void:
@@ -91,12 +95,18 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
+	Global.game_paused = true
 	coocking_player.stream_paused = true
 	clear_arena()
 	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
-	
 	Global.get_harvesting_coins()
+	if spawner.wave_index == 10: # Hardcoding vibes XD
+		final_label.text = "YOU WIN!"
+		final_screen.show()
+		Global.player.queue_free()
+		Global.player = null
+		return
 	show_upgrades()
 	clear_arena()
 
@@ -108,6 +118,7 @@ func _on_upgrade_selected() -> void:
 
 func _on_shop_panel_on_shop_next_wave() -> void:
 	shop_panel.hide()
+	Global.game_paused = false
 	start_new_wave()
 
 func _on_enemy_died(enemy: Enemy) -> void:
@@ -140,3 +151,22 @@ func _on_start_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	start_screen.hide()
 	
+
+func _on_player_died() -> void:
+	spawner.spawn_timer.stop()
+	Global.game_paused = true
+	clear_arena()
+	final_label.text = "YOU LOOSE!"
+	final_screen.show()
+
+func _on_final_button_pressed() -> void:
+	Global.game_paused = true
+	spawner.wave_index = 1
+	Global.coins = 10
+	Global.main_player_selected = null
+	Global.main_weapon_selected = null
+	Global.selected_weapon = null
+	Global.equipped_weapons.clear()
+	final_screen.hide()
+	selection_panel.show()
+	clear_arena()

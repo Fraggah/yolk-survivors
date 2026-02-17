@@ -14,7 +14,7 @@ func setup(stats: UnitStats) -> void:
 	on_health_changed.emit(current_health, max_health)
 
 func take_damage(value: float) -> void:
-	if current_health <= 0: return
+	if current_health <= 0 or Global.game_paused: return
 	
 	current_health -= value
 	current_health = max(current_health, 0) #Selecciona el valor mas alto, para no tener valores negativos

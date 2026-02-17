@@ -1,4 +1,4 @@
-res://scenes/arena/arena.tscn
+res://scenes/units/players/player_well_rounded.tscn
 res://effects/flash.gdshader
 res://effects/flash_material.tres
 res://styles/common_style.tres
@@ -12,9 +12,9 @@ res://resources/wave/data/wave_config_1.tres
 res://resources/wave/data/wave_config_3.tres
 res://resources/wave/data/wave_config_4.tres
 res://resources/wave/data/wave_config_5.tres
-res://scenes/ui/selection_panel/selection_panel.gd
+res://scenes/units/players/player.gd
+res://scenes/arena/arena.tscn
 res://scenes/ui/selection_panel/selection_panel.tscn
-res://scenes/arena/arena.gd
 res://scenes/ui/shop/item_card.tscn
 res://scenes/ui/custom_button/custom_button.tscn
 res://scenes/ui/stats/stats_container.tscn

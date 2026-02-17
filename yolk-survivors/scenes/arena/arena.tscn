@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=35 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://cd7m6sfgvipc7" path="res://assets/BG.png" id="2_wqbss"]
@@ -65,6 +65,10 @@ font = ExtResource("24_bxbl0")
 font_size = 46
 outline_size = 6
 outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_o7rjm"]
+font = ExtResource("24_bxbl0")
+font_size = 102
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_asdgj")
@@ -215,6 +219,71 @@ label_settings = SubResource("LabelSettings_xr6px")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="FinalScreen" type="Control" parent="GameUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="GameUI/FinalScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FinalLabel" type="Label" parent="GameUI/FinalScreen/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -232.0
+offset_top = -140.0
+offset_right = 232.0
+offset_bottom = -16.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ganaste"
+label_settings = SubResource("LabelSettings_o7rjm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FinalButton" type="Button" parent="GameUI/FinalScreen/Panel"]
+custom_minimum_size = Vector2(600, 120)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_c13hg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_o7rjm")
+
+[node name="Label" type="Label" parent="GameUI/FinalScreen/Panel/FinalButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play again?"
+label_settings = SubResource("LabelSettings_xr6px")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("24_5ilg6")
 volume_db = -12.0
@@ -242,3 +311,4 @@ texture = ExtResource("19_8kk48")
 [connection signal="on_shop_next_wave" from="GameUI/ShopPanel" to="." method="_on_shop_panel_on_shop_next_wave"]
 [connection signal="on_selection_completed" from="GameUI/SelectionPanel" to="." method="_on_selection_panel_on_selection_completed"]
 [connection signal="pressed" from="GameUI/StartScreen/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="GameUI/FinalScreen/Panel/FinalButton" to="." method="_on_final_button_pressed"]
