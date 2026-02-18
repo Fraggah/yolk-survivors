@@ -103,6 +103,7 @@ func _on_spawner_on_wave_completed() -> void:
 	Global.get_harvesting_coins()
 	if spawner.wave_index == 10: # Hardcoding vibes XD
 		final_label.text = "YOU WIN!"
+		coocking_player.stream_paused = true
 		final_screen.show()
 		Global.player.queue_free()
 		Global.player = null
@@ -129,6 +130,7 @@ func _on_enemy_died(enemy: Enemy) -> void:
 
 func _on_selection_panel_on_selection_completed() -> void:
 	var player := Global.get_selected_player()
+	spawner.reset_enemies_stats()
 	add_child(player)
 	player.add_weapon(Global.main_weapon_selected)
 	shop_panel.create_item_weapon(Global.main_weapon_selected)
@@ -157,6 +159,7 @@ func _on_player_died() -> void:
 	Global.game_paused = true
 	clear_arena()
 	final_label.text = "YOU LOOSE!"
+	coocking_player.stream_paused = true
 	final_screen.show()
 
 func _on_final_button_pressed() -> void:

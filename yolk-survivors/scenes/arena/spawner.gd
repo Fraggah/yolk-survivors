@@ -87,6 +87,11 @@ func get_wave_timer_text() -> String:
 func get_wave_text() -> String:
 	return "Wave %d" % wave_index
 
+func reset_enemies_stats() -> void:
+	for stats: UnitStats in enemy_collection:
+		stats.health = stats.initial_health
+		stats.damage = stats.initial_damage
+
 func _on_spawn_timer_timeout() -> void:
 	if not current_wave_data or wave_timer.is_stopped():
 		spawn_timer.stop()
