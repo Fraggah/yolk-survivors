@@ -15,8 +15,7 @@ const SHOP_CARD_SCENE = preload("res://scenes/ui/shop/shop_card.tscn")
 var context_card: ItemCard
 
 func _ready() -> void:
-	for child in passive_container.get_children(): child.queue_free()
-	for child in weapon_container.get_children(): child.queue_free()
+	clear_items()
 
 func load_shop(current_wave: int) -> void:
 	for child in items_container.get_children(): child.queue_free()
@@ -74,6 +73,9 @@ func _on_item_card_selected(card: ItemCard) -> void:
 	
 	combine_button.disabled = not can_merge
 
+func clear_items() -> void:
+	for child in passive_container.get_children(): child.queue_free()
+	for child in weapon_container.get_children(): child.queue_free()
 
 func _on_combine_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)

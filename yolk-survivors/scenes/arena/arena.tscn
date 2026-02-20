@@ -24,10 +24,10 @@
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
 [ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
 [ext_resource type="Texture2D" uid="uid://buv0jnbidpc3a" path="res://assets/MapF.png" id="19_8kk48"]
-[ext_resource type="AudioStream" uid="uid://bcssvm5ayxdv3" path="res://assets/audio/Midnight Kitchen Groove.mp3" id="24_5ilg6"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="24_bxbl0"]
 [ext_resource type="Texture2D" uid="uid://c8upuwgr7nwcg" path="res://assets/startscreen.png" id="25_c13hg"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
+[ext_resource type="AudioStream" uid="uid://b2qhtos1ey4l3" path="res://assets/audio/armados.mp3" id="26_c13hg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
@@ -285,8 +285,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("24_5ilg6")
-volume_db = -12.0
+stream = ExtResource("26_c13hg")
+volume_db = -5.0
 autoplay = true
 bus = &"Music"
 parameters/looping = true

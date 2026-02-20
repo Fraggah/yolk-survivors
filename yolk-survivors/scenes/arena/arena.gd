@@ -163,13 +163,15 @@ func _on_player_died() -> void:
 	final_screen.show()
 
 func _on_final_button_pressed() -> void:
-	Global.game_paused = true
 	spawner.wave_index = 1
 	Global.coins = 10
 	Global.main_player_selected = null
 	Global.main_weapon_selected = null
 	Global.selected_weapon = null
 	Global.equipped_weapons.clear()
+	shop_panel.clear_items()
 	final_screen.hide()
-	selection_panel.show()
 	clear_arena()
+	Global.game_paused = true
+	selection_panel.show()
+	
