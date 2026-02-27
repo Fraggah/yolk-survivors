@@ -5,6 +5,7 @@ signal on_create_damage_text(unit: Node2D, info: HitboxComponent)
 signal on_create_heal_text(unit: Node2D, value: float)
 
 signal on_upgrade_selected
+signal on_level_selected(level: int)
 signal on_enemy_died(enemy: Enemy)
 signal on_player_died
 
@@ -63,6 +64,9 @@ var main_weapon_selected: ItemWeapon
 
 var selected_weapon: ItemWeapon
 var equipped_weapons: Array[ItemWeapon]
+
+var level_reached := 0
+var level_selected := 0
 
 func get_harvesting_coins() -> void:
 	if is_instance_valid(player):

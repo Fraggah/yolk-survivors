@@ -19,6 +19,7 @@ class_name Arena
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
 @onready var final_label: Label = %FinalLabel
+@onready var level_panel: LevelPanel = $GameUI/LevelPanel
 
 
 var gold_list: Array[Coins]
@@ -28,6 +29,7 @@ func _ready() -> void:
 	Global.on_create_damage_text.connect(_on_create_damage_text)
 	Global.on_create_heal_text.connect(_on_create_heal_text)
 	Global.on_upgrade_selected.connect(_on_upgrade_selected)
+	Global.on_level_selected.connect(_on_level_selected)
 	Global.on_enemy_died.connect(_on_enemy_died)
 	Global.on_player_died.connect(_on_player_died)
 	coocking_player.stream_paused = true
@@ -103,6 +105,8 @@ func _on_spawner_on_wave_completed() -> void:
 	Global.get_harvesting_coins()
 	if spawner.wave_index == 10: # Hardcoding vibes XD
 		final_label.text = "YOU WIN!"
+		if Global.level_reached < 5: Global.level_reached += 1
+		level_panel.enable_buttons(Global.level_reached)
 		coocking_player.stream_paused = true
 		final_screen.show()
 		Global.player.queue_free()
@@ -135,10 +139,17 @@ func _on_selection_panel_on_selection_completed() -> void:
 	player.add_weapon(Global.main_weapon_selected)
 	shop_panel.create_item_weapon(Global.main_weapon_selected)
 	Global.equipped_weapons.append(Global.main_weapon_selected)
+	level_panel.show()
+	selection_panel.hide()
+
+func _on_level_selected(level: int) -> void:
 	coocking_player.stream_paused = false
 	spawner.start_wave()
 	show_controls()
 	Global.game_paused = false
+	Global.level_selected = level
+	spawner.difficult_index = level
+	level_panel.hide()
 
 func show_controls() -> void:
 	instructions.show()
@@ -152,6 +163,7 @@ func show_controls() -> void:
 func _on_start_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	start_screen.hide()
+	selection_panel.show()
 	
 
 func _on_player_died() -> void:

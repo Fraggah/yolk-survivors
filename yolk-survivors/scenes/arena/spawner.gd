@@ -13,6 +13,8 @@ signal on_wave_completed
 var wave_index := 1
 var current_wave_data: WaveData
 var spawned_enemies: Array[Enemy] = []
+var difficult_multiplier: Array[float] = [1, 1.2, 1.4, 1.6, 1.8, 2]
+var difficult_index := 0
 
 func find_wave_data() -> WaveData:
 	for wave: WaveData in waves_data:
@@ -78,8 +80,8 @@ func clear_enemies() -> void:
 
 func update_enemies_new_wave() -> void:
 	for stats: UnitStats in enemy_collection:
-		stats.health += stats.health_increase_per_wave
-		stats.damage += stats.damage_increase_per_wave
+		stats.health += stats.health_increase_per_wave * difficult_multiplier[difficult_index]
+		stats.damage += stats.damage_increase_per_wave * difficult_multiplier[difficult_index]
 
 func get_wave_timer_text() -> String:
 	return str(int(wave_timer.time_left + 1))

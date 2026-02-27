@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=36 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://cd7m6sfgvipc7" path="res://assets/BG.png" id="2_wqbss"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://c8upuwgr7nwcg" path="res://assets/startscreen.png" id="25_c13hg"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
 [ext_resource type="AudioStream" uid="uid://b2qhtos1ey4l3" path="res://assets/audio/armados.mp3" id="26_c13hg"]
+[ext_resource type="PackedScene" uid="uid://d20lcl5nw3b7d" path="res://scenes/ui/level_panel/level_panel.tscn" id="26_o7rjm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
@@ -150,6 +151,7 @@ unique_name_in_owner = true
 visible = false
 
 [node name="SelectionPanel" parent="GameUI" instance=ExtResource("17_rhjlh")]
+visible = false
 
 [node name="Instructions" type="Label" parent="GameUI"]
 unique_name_in_owner = true
@@ -283,6 +285,9 @@ text = "Play again?"
 label_settings = SubResource("LabelSettings_xr6px")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LevelPanel" parent="GameUI" instance=ExtResource("26_o7rjm")]
+visible = false
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_c13hg")

@@ -1,5 +1,10 @@
 Label
 Button
+HBoxContainer
+ItemCard
+SelectionCard
+VBoxContainer
+MarginContainer
 Panel
 Control
 TextureRect
@@ -7,8 +12,3 @@ AudioStreamPlayer2D
 AnimationPlayer
 Timer
 Sprite2D
-AudioStreamPlayer
-Node
-HBoxContainer
-VBoxContainer
-RichTextLabel

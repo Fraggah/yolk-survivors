@@ -1,3 +1,4 @@
+res://scenes/ui/level_panel
 res://scenes/units
 res://autoload
 res://scenes/effects
@@ -15,9 +16,5 @@ res://scenes/ui/custom_button
 res://scenes/ui/stats
 res://resources/wave/data
 res://scenes/projectiles
-res://resources/items/weapons/range/revolver
 res://scenes/weapons/range
-res://resources/items/weapons/range/shotgun
-res://resources/items/weapons/range/smg
-res://resources/items/weapons/range/laser
 D:/Docs/Downloads
