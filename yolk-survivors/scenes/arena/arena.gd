@@ -105,15 +105,16 @@ func _on_spawner_on_wave_completed() -> void:
 	Global.get_harvesting_coins()
 	if spawner.wave_index == 10: # Hardcoding vibes XD
 		final_label.text = "YOU WIN!"
-		if Global.level_reached < 5: Global.level_reached += 1
-		level_panel.enable_buttons(Global.level_reached)
+		if Global.level_selected == Global.level_reached:
+			if Global.level_reached < 5: Global.level_reached += 1
+			level_panel.enable_buttons(Global.level_reached)
 		coocking_player.stream_paused = true
 		final_screen.show()
 		Global.player.queue_free()
 		Global.player = null
 		return
 	show_upgrades()
-	clear_arena()
+	spawner.clear_enemies()
 
 func _on_upgrade_selected() -> void:
 	upgrade_panel.hide()
