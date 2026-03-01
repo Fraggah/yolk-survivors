@@ -1,6 +1,8 @@
 extends Panel
 class_name LevelPanel
 
+signal on_level_selection_exited
+
 @export var buttons: Array[Button] = []
 
 func enable_buttons(level: int) -> void:
@@ -29,3 +31,7 @@ func _on_level_4_button_pressed() -> void:
 
 func _on_level_5_button_pressed() -> void:
 	Global.on_level_selected.emit(5)
+
+
+func _on_custom_button_pressed() -> void:
+	on_level_selection_exited.emit()

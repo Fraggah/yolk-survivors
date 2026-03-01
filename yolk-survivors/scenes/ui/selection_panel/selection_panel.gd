@@ -2,6 +2,7 @@ extends Panel
 class_name SelectionPanel
 
 signal on_selection_completed
+signal on_level_select_exited
 
 const SELECTION_CARD = preload("res://scenes/ui/selection_panel/selection_card.tscn")
 
@@ -72,3 +73,7 @@ func _on_custom_button_pressed() -> void:
 
 	on_selection_completed.emit()
 	hide()
+
+
+func _on_custom_button_exit_pressed() -> void:
+	on_level_select_exited.emit()

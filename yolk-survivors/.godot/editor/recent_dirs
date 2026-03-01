@@ -1,3 +1,6 @@
+res://scenes/ui/start_panel
+res://scenes/ui/credits_panel
+res://scenes/ui/options_panel
 res://scenes/ui/level_panel
 res://scenes/units
 res://autoload

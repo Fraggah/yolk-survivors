@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://d20lcl5nw3b7d"]
+[gd_scene load_steps=9 format=3 uid="uid://d20lcl5nw3b7d"]
 
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_d6l55"]
 [ext_resource type="Script" uid="uid://clghdlon2p61t" path="res://scenes/ui/level_panel/level_panel.gd" id="1_j37y7"]
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="2_j37y7"]
+[ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_801sb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_801sb"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)
@@ -172,9 +173,25 @@ label_settings = SubResource("LabelSettings_gt1hl")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CustomButton" parent="." instance=ExtResource("4_801sb")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -320.0
+offset_top = 25.0
+offset_right = -60.0
+offset_bottom = 95.0
+grow_horizontal = 0
+grow_vertical = 1
+text = "Back"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level0Button" to="." method="_on_level_0_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level2Button" to="." method="_on_level_2_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level3Button" to="." method="_on_level_3_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level4Button" to="." method="_on_level_4_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level5Button" to="." method="_on_level_5_button_pressed"]
+[connection signal="pressed" from="CustomButton" to="." method="_on_custom_button_pressed"]

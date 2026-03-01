@@ -15,11 +15,13 @@ class_name Arena
 @onready var coocking_player: AudioStreamPlayer = $CoockingPlayer
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 @onready var instructions: Label = %Instructions
-@onready var start_screen: Control = $GameUI/StartScreen
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
 @onready var final_label: Label = %FinalLabel
 @onready var level_panel: LevelPanel = $GameUI/LevelPanel
+@onready var start_panel: StartPanel = $GameUI/StartPanel
+@onready var options_panel: OptionsPanel = $GameUI/OptionsPanel
+@onready var credits_panel: CreditsPanel = $GameUI/CreditsPanel
 
 
 var gold_list: Array[Coins]
@@ -34,7 +36,7 @@ func _ready() -> void:
 	Global.on_player_died.connect(_on_player_died)
 	coocking_player.stream_paused = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Global.game_paused: return
 	wave_index_label.text = spawner.get_wave_text()
 	wave_timer_label.text = spawner.get_wave_timer_text()
@@ -160,13 +162,6 @@ func show_controls() -> void:
 	await tween.finished
 	instructions.hide()
 
-
-func _on_start_button_pressed() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
-	start_screen.hide()
-	selection_panel.show()
-	
-
 func _on_player_died() -> void:
 	spawner.spawn_timer.stop()
 	Global.game_paused = true
@@ -187,4 +182,41 @@ func _on_final_button_pressed() -> void:
 	clear_arena()
 	Global.game_paused = true
 	selection_panel.show()
-	
+
+func _on_start_panel_on_credits_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	start_panel.hide()
+	credits_panel.show()
+
+func _on_start_panel_on_options_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	start_panel.hide()
+	options_panel.show()
+
+func _on_start_panel_on_play_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	start_panel.hide()
+	selection_panel.show()
+
+
+func _on_options_panel_on_options_exited() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	options_panel.hide()
+	start_panel.show()
+
+func _on_credits_panel_on_credits_exited() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	credits_panel.hide()
+	start_panel.show()
+
+
+func _on_level_panel_on_level_selection_exited() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	level_panel.hide()
+	selection_panel.show()
+
+
+func _on_selection_panel_on_level_select_exited() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	selection_panel.hide()
+	start_panel.show()

@@ -1,0 +1,224 @@
+[gd_scene load_steps=14 format=3 uid="uid://f2xh1o8ymjuc"]
+
+[ext_resource type="Script" uid="uid://pwbfkc84dn0x" path="res://scenes/ui/options_panel/options_panel.gd" id="1_5q1cw"]
+[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_frfar"]
+[ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="1_ueidv"]
+[ext_resource type="Texture2D" uid="uid://dq63ocnu3lset" path="res://assets/sprites/Players/Player_3}.png" id="3_tkw8s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ueidv"]
+bg_color = Color(0.91003, 0.661642, 0.559987, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5q1cw"]
+font = ExtResource("1_frfar")
+font_size = 54
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tkw8s"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_qsh87"]
+font = ExtResource("1_frfar")
+font_size = 36
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eeyy2"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mf5w"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mg6jx"]
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bquwv"]
+bg_color = Color(0.751779, 0.560029, 0.472645, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_25kvo"]
+font = ExtResource("1_frfar")
+font_size = 46
+outline_size = 6
+outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[node name="OptionsPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ueidv")
+script = ExtResource("1_5q1cw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 44
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+label_settings = SubResource("LabelSettings_5q1cw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_tkw8s")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Music Volume"
+label_settings = SubResource("LabelSettings_qsh87")
+
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_eeyy2")
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "SFX Volume      "
+label_settings = SubResource("LabelSettings_qsh87")
+
+[node name="SFXSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_7mf5w")
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="SaveGameButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_mg6jx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bquwv")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SaveGameButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save Game"
+label_settings = SubResource("LabelSettings_25kvo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadGameButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_mg6jx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bquwv")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/LoadGameButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load Game"
+label_settings = SubResource("LabelSettings_25kvo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/VBoxContainer"]
+position = Vector2(444, 22)
+texture = ExtResource("3_tkw8s")
+
+[node name="Sprite2D2" type="Sprite2D" parent="MarginContainer/VBoxContainer"]
+position = Vector2(65, 22)
+scale = Vector2(-1, 1)
+texture = ExtResource("3_tkw8s")
+
+[node name="CustomButton" parent="." instance=ExtResource("1_ueidv")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1600.0
+offset_top = 25.0
+offset_right = 1860.0
+offset_bottom = 95.0
+grow_horizontal = 0
+grow_vertical = 1
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Back"
+
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer2/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="CustomButton" to="." method="_on_custom_button_pressed"]

@@ -243,4 +243,20 @@ layout_mode = 2
 [node name="SelectionCard10" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/WeaponsContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2
 
+[node name="CustomButtonExit" parent="." instance=ExtResource("4_un15a")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -1869.0
+offset_top = 21.0
+offset_right = -1609.0
+offset_bottom = 91.0
+grow_horizontal = 0
+grow_vertical = 1
+text = "Back"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButton" to="." method="_on_custom_button_pressed"]
+[connection signal="pressed" from="CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

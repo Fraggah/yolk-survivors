@@ -1,0 +1,186 @@
+[gd_scene load_steps=11 format=3 uid="uid://dxk24jn6jkt71"]
+
+[ext_resource type="Script" uid="uid://c6e4r5ja4dokm" path="res://scenes/ui/start_panel/start_panel.gd" id="1_qaue6"]
+[ext_resource type="Texture2D" uid="uid://dosdcfgx6ygpj" path="res://assets/startscreenarmados.png" id="1_t6u4c"]
+[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="2_qaue6"]
+[ext_resource type="Texture2D" uid="uid://dpxw8tsbgrfse" path="res://assets/sprites/Players/Player_2.png" id="3_ulc2j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u55lt"]
+bg_color = Color(0.91003, 0.661642, 0.559987, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ut7xg"]
+font = ExtResource("2_qaue6")
+font_size = 150
+
+[sub_resource type="LabelSettings" id="LabelSettings_34l6n"]
+font = ExtResource("2_qaue6")
+font_size = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5q5w"]
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wf4mc"]
+bg_color = Color(0.751779, 0.560029, 0.472645, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_7u0dm"]
+font = ExtResource("2_qaue6")
+font_size = 46
+outline_size = 6
+outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[node name="StartPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u55lt")
+script = ExtResource("1_qaue6")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t6u4c")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "ARMADOS"
+label_settings = SubResource("LabelSettings_ut7xg")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "(Hasta los huevos)"
+label_settings = SubResource("LabelSettings_34l6n")
+horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/VBoxContainer/Label2"]
+position = Vector2(610, -112)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("3_ulc2j")
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Game"
+label_settings = SubResource("LabelSettings_7u0dm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/OptionsButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "options"
+label_settings = SubResource("LabelSettings_7u0dm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CreditsButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "credits"
+label_settings = SubResource("LabelSettings_7u0dm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]

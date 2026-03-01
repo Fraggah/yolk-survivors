@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=38 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Texture2D" uid="uid://cd7m6sfgvipc7" path="res://assets/BG.png" id="2_wqbss"]
@@ -25,10 +25,12 @@
 [ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
 [ext_resource type="Texture2D" uid="uid://buv0jnbidpc3a" path="res://assets/MapF.png" id="19_8kk48"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="24_bxbl0"]
-[ext_resource type="Texture2D" uid="uid://c8upuwgr7nwcg" path="res://assets/startscreen.png" id="25_c13hg"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
 [ext_resource type="AudioStream" uid="uid://b2qhtos1ey4l3" path="res://assets/audio/armados.mp3" id="26_c13hg"]
 [ext_resource type="PackedScene" uid="uid://d20lcl5nw3b7d" path="res://scenes/ui/level_panel/level_panel.tscn" id="26_o7rjm"]
+[ext_resource type="PackedScene" uid="uid://dxgobdv45wbll" path="res://scenes/ui/credits_panel/credits_panel.tscn" id="26_vspv4"]
+[ext_resource type="PackedScene" uid="uid://f2xh1o8ymjuc" path="res://scenes/ui/options_panel/options_panel.tscn" id="27_io46r"]
+[ext_resource type="PackedScene" uid="uid://dxk24jn6jkt71" path="res://scenes/ui/start_panel/start_panel.tscn" id="28_f7e6h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
 font_size = 64
@@ -36,6 +38,10 @@ font_size = 64
 [sub_resource type="LabelSettings" id="LabelSettings_c13hg"]
 font = ExtResource("24_bxbl0")
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_o7rjm"]
+font = ExtResource("24_bxbl0")
+font_size = 102
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c13hg"]
 bg_color = Color(0.531067, 0.337933, 0.288052, 1)
@@ -66,10 +72,6 @@ font = ExtResource("24_bxbl0")
 font_size = 46
 outline_size = 6
 outline_color = Color(0.694118, 0.494118, 0.345098, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_o7rjm"]
-font = ExtResource("24_bxbl0")
-font_size = 102
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_asdgj")
@@ -170,57 +172,6 @@ WASD - Movement
 Space - dash"
 label_settings = SubResource("LabelSettings_c13hg")
 
-[node name="StartScreen" type="Control" parent="GameUI"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="StartScreenTexture" type="TextureRect" parent="GameUI/StartScreen"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("25_c13hg")
-
-[node name="StartButton" type="Button" parent="GameUI/StartScreen"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -277.0
-offset_top = -309.0
-offset_right = 323.0
-offset_bottom = -189.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/hover = SubResource("StyleBoxFlat_c13hg")
-theme_override_styles/normal = SubResource("StyleBoxFlat_o7rjm")
-
-[node name="Label" type="Label" parent="GameUI/StartScreen/StartButton"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -9.66667
-offset_right = 20.0
-offset_bottom = 9.66667
-grow_horizontal = 2
-grow_vertical = 2
-text = "Press To Play"
-label_settings = SubResource("LabelSettings_xr6px")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="FinalScreen" type="Control" parent="GameUI"]
 visible = false
 layout_mode = 3
@@ -289,6 +240,14 @@ vertical_alignment = 1
 [node name="LevelPanel" parent="GameUI" instance=ExtResource("26_o7rjm")]
 visible = false
 
+[node name="CreditsPanel" parent="GameUI" instance=ExtResource("26_vspv4")]
+visible = false
+
+[node name="OptionsPanel" parent="GameUI" instance=ExtResource("27_io46r")]
+visible = false
+
+[node name="StartPanel" parent="GameUI" instance=ExtResource("28_f7e6h")]
+
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_c13hg")
 volume_db = -5.0
@@ -314,6 +273,12 @@ texture = ExtResource("19_8kk48")
 [connection signal="timeout" from="Spawner/WaveTimer" to="Spawner" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="on_shop_next_wave" from="GameUI/ShopPanel" to="." method="_on_shop_panel_on_shop_next_wave"]
+[connection signal="on_level_select_exited" from="GameUI/SelectionPanel" to="." method="_on_selection_panel_on_level_select_exited"]
 [connection signal="on_selection_completed" from="GameUI/SelectionPanel" to="." method="_on_selection_panel_on_selection_completed"]
-[connection signal="pressed" from="GameUI/StartScreen/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="GameUI/FinalScreen/Panel/FinalButton" to="." method="_on_final_button_pressed"]
+[connection signal="on_level_selection_exited" from="GameUI/LevelPanel" to="." method="_on_level_panel_on_level_selection_exited"]
+[connection signal="on_credits_exited" from="GameUI/CreditsPanel" to="." method="_on_credits_panel_on_credits_exited"]
+[connection signal="on_options_exited" from="GameUI/OptionsPanel" to="." method="_on_options_panel_on_options_exited"]
+[connection signal="on_credits_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_credits_pressed"]
+[connection signal="on_options_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_options_pressed"]
+[connection signal="on_play_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_play_pressed"]
