@@ -4,6 +4,7 @@ class_name StartPanel
 signal on_play_pressed
 signal on_options_pressed
 signal on_credits_pressed
+signal on_exit_pressed
 
 
 func _on_play_button_pressed() -> void:
@@ -16,3 +17,7 @@ func _on_options_button_pressed() -> void:
 
 func _on_credits_button_pressed() -> void:
 	on_credits_pressed.emit()
+
+
+func _on_exit_button_pressed() -> void:
+	on_exit_pressed.emit()

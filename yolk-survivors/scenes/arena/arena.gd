@@ -22,9 +22,12 @@ class_name Arena
 @onready var start_panel: StartPanel = $GameUI/StartPanel
 @onready var options_panel: OptionsPanel = $GameUI/OptionsPanel
 @onready var credits_panel: CreditsPanel = $GameUI/CreditsPanel
+@onready var pause_panel: PausePanel = $GameUI/PausePanel
 
 
 var gold_list: Array[Coins]
+
+var in_arena := false
 
 func _ready() -> void:
 	Global.on_create_block_text.connect(on_create_block_text)
@@ -37,6 +40,7 @@ func _ready() -> void:
 	coocking_player.stream_paused = true
 
 func _process(_delta: float) -> void:
+	toggle_pause()
 	if Global.game_paused: return
 	wave_index_label.text = spawner.get_wave_text()
 	wave_timer_label.text = spawner.get_wave_timer_text()
@@ -97,6 +101,16 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	var text := create_floating_text(unit)
 	text.setup_text("+ %d" % value, hp_reg_color)
 
+func toggle_pause() -> void:
+	if not in_arena: return
+	if not Input.is_action_just_pressed("pause"): return
+	Global.game_paused = !Global.game_paused
+	pause_panel.visible = Global.game_paused
+	spawner.wave_timer.paused = Global.game_paused
+	spawner.spawn_timer.paused = Global.game_paused
+	coocking_player.stream_paused = Global.game_paused
+	music_player.stream_paused = Global.game_paused
+
 func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
 	Global.game_paused = true
@@ -136,22 +150,28 @@ func _on_enemy_died(enemy: Enemy) -> void:
 	spawn_coins(enemy)
 
 func _on_selection_panel_on_selection_completed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	level_panel.show()
+	selection_panel.hide()
+
+func _on_level_selected(level: int) -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	var player := Global.get_selected_player()
 	spawner.reset_enemies_stats()
 	add_child(player)
 	player.add_weapon(Global.main_weapon_selected)
 	shop_panel.create_item_weapon(Global.main_weapon_selected)
 	Global.equipped_weapons.append(Global.main_weapon_selected)
-	level_panel.show()
-	selection_panel.hide()
-
-func _on_level_selected(level: int) -> void:
 	coocking_player.stream_paused = false
+	spawner.wave_timer.paused = false
+	spawner.spawn_timer.paused = false
 	spawner.start_wave()
 	show_controls()
 	Global.game_paused = false
 	Global.level_selected = level
 	spawner.difficult_index = level
+	Global.coins = 10
+	in_arena = true
 	level_panel.hide()
 
 func show_controls() -> void:
@@ -171,6 +191,7 @@ func _on_player_died() -> void:
 	final_screen.show()
 
 func _on_final_button_pressed() -> void:
+	in_arena = false
 	spawner.wave_index = 1
 	Global.coins = 10
 	Global.main_player_selected = null
@@ -220,3 +241,38 @@ func _on_selection_panel_on_level_select_exited() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	selection_panel.hide()
 	start_panel.show()
+
+
+func _on_pause_panel_on_exit_pressed() -> void:
+	in_arena = false
+	spawner.wave_index = 1
+	Global.coins = 10
+	Global.main_player_selected = null
+	Global.main_weapon_selected = null
+	Global.selected_weapon = null
+	Global.equipped_weapons.clear()
+	shop_panel.clear_items()
+	final_screen.hide()
+	clear_arena()
+	Global.player.queue_free()
+	Global.player = null
+	Global.game_paused = true
+	start_panel.show()
+	music_player.stop()
+	music_player.play()
+	pause_panel.hide()
+
+
+func _on_pause_panel_on_return_pressed() -> void:
+	Global.game_paused = !Global.game_paused
+	pause_panel.visible = Global.game_paused
+	spawner.wave_timer.paused = Global.game_paused
+	spawner.spawn_timer.paused = Global.game_paused
+	coocking_player.stream_paused = Global.game_paused
+	music_player.stream_paused = Global.game_paused
+
+
+func _on_start_panel_on_exit_pressed() -> void:
+	#podria guardar los datos aca tambien.. pero perderia un poco de sentido el boton de guardado
+	get_tree().quit()
+	

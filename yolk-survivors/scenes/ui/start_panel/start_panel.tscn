@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxk24jn6jkt71"]
+[gd_scene load_steps=13 format=3 uid="uid://dxk24jn6jkt71"]
 
 [ext_resource type="Script" uid="uid://c6e4r5ja4dokm" path="res://scenes/ui/start_panel/start_panel.gd" id="1_qaue6"]
 [ext_resource type="Texture2D" uid="uid://dosdcfgx6ygpj" path="res://assets/startscreenarmados.png" id="1_t6u4c"]
@@ -45,6 +45,22 @@ font = ExtResource("2_qaue6")
 font_size = 46
 outline_size = 6
 outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[sub_resource type="FontFile" id="FontFile_qaue6"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ulc2j"]
+font = SubResource("FontFile_qaue6")
+font_size = 24
 
 [node name="StartPanel" type="Panel"]
 anchors_preset = 15
@@ -181,6 +197,49 @@ label_settings = SubResource("LabelSettings_7u0dm")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ExitButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -9.66667
+offset_right = 20.0
+offset_bottom = 9.66667
+grow_horizontal = 2
+grow_vertical = 2
+text = "exit"
+label_settings = SubResource("LabelSettings_7u0dm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -48.0
+offset_right = 96.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Silvio Stefanucci©"
+label_settings = SubResource("LabelSettings_ulc2j")
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

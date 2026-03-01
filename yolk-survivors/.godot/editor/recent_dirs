@@ -1,3 +1,4 @@
+res://scenes/ui/pause_panel
 res://scenes/ui/start_panel
 res://scenes/ui/credits_panel
 res://scenes/ui/options_panel
@@ -19,5 +20,4 @@ res://scenes/ui/custom_button
 res://scenes/ui/stats
 res://resources/wave/data
 res://scenes/projectiles
-res://scenes/weapons/range
 D:/Docs/Downloads

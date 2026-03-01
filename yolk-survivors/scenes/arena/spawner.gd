@@ -53,6 +53,7 @@ func get_random_spawn_position() -> Vector2:
 	return Vector2(random_x, random_y)
 
 func spawn_enemy() -> void:
+	if Global.game_paused: return
 	var enemy_scene := current_wave_data.get_random_unit_scene() as PackedScene
 	if enemy_scene:
 		var spawn_pos := get_random_spawn_position()

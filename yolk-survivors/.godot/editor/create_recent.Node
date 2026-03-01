@@ -1,10 +1,10 @@
+Label
+VBoxContainer
+Panel
 Sprite2D
 TextureRect
 Control
-Label
-VBoxContainer
 MarginContainer
-Panel
 BoxContainer
 HBoxContainer
 HSeparator

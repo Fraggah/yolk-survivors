@@ -30,3 +30,6 @@ res://scenes/units/players/player_well_rounded.tscn
 res://scenes/ui/level_panel/level_panel.tscn
 res://scenes/ui/level_panel/level_panel.gd
 res://scenes/ui/selection_panel/selection_panel.gd
+res://scenes/ui/pause_panel/pause_panel.gd
+res://scenes/ui/pause_panel/pause_panel.tscn
+res://scenes/arena/spawner.gd
