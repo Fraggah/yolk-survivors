@@ -35,7 +35,7 @@ const SHOP_PROBABILITY_CONFIG = {
 }
 
 const TIER_COLORS: Dictionary[UpgradeTier, Color] = {
-	UpgradeTier.RARE: Color(.0, .557, .741),
+	UpgradeTier.RARE: Color(.0, .857, .041),
 	UpgradeTier.EPIC: Color(.478, .251, .71),
 	UpgradeTier.LEGENDARY: Color(.906, .212, .212)
 }

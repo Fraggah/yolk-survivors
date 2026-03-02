@@ -16,6 +16,8 @@ const SELECTION_CARD = preload("res://scenes/ui/selection_panel/selection_card.t
 @onready var player_name: Label = %PlayerName
 @onready var player_title: Label = %PlayerTitle
 @onready var player_description: RichTextLabel = %PlayerDescription
+@onready var weapon_label: Label = $WeaponLabel
+@onready var player_label: Label = $PlayerLabel
 
 func _ready() -> void:
 	for child in players_container.get_children(): child.queue_free()
@@ -69,6 +71,22 @@ func _on_weapon_selected(weapon: ItemWeapon) -> void:
 
 func _on_custom_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	if not Global.main_player_selected: 
+		player_label.modulate.a = 1
+		player_label.show()
+		var tween := create_tween()
+		tween.tween_property(player_label, "modulate:a", 0, 1)
+		await tween.finished
+		player_label.hide()
+		
+	if not Global.main_weapon_selected: 
+		weapon_label.modulate.a = 1
+		weapon_label.show()
+		var tween := create_tween()
+		tween.tween_property(weapon_label, "modulate:a", 0, 1)
+		await tween.finished
+		weapon_label.hide()
+		
 	if not Global.main_player_selected or not Global.main_weapon_selected: return
 
 	on_selection_completed.emit()
@@ -76,4 +94,5 @@ func _on_custom_button_pressed() -> void:
 
 
 func _on_custom_button_exit_pressed() -> void:
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	on_level_select_exited.emit()

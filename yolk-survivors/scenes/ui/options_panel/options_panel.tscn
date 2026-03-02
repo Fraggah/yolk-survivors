@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://f2xh1o8ymjuc"]
+[gd_scene load_steps=15 format=3 uid="uid://f2xh1o8ymjuc"]
 
 [ext_resource type="Script" uid="uid://pwbfkc84dn0x" path="res://scenes/ui/options_panel/options_panel.gd" id="1_5q1cw"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_frfar"]
@@ -63,6 +63,10 @@ font = ExtResource("1_frfar")
 font_size = 46
 outline_size = 6
 outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tkw8s"]
+font = ExtResource("1_frfar")
+font_size = 46
 
 [node name="OptionsPanel" type="Panel"]
 anchors_preset = 15
@@ -219,6 +223,26 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Back"
 
+[node name="Message" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -252.0
+offset_top = -220.0
+offset_right = 253.0
+offset_bottom = -164.417
+grow_horizontal = 2
+grow_vertical = 0
+text = "Game Loaded"
+label_settings = SubResource("LabelSettings_tkw8s")
+horizontal_alignment = 1
+
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer2/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/SaveGameButton" to="." method="_on_save_game_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/LoadGameButton" to="." method="_on_load_game_button_pressed"]
 [connection signal="pressed" from="CustomButton" to="." method="_on_custom_button_pressed"]

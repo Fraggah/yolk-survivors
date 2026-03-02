@@ -276,3 +276,7 @@ func _on_start_panel_on_exit_pressed() -> void:
 	#podria guardar los datos aca tambien.. pero perderia un poco de sentido el boton de guardado
 	get_tree().quit()
 	
+
+
+func _on_options_panel_on_load_game() -> void:
+	level_panel.enable_buttons(Global.level_reached)

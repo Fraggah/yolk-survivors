@@ -173,7 +173,8 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Controls:
 WASD - Movement
-Space - dash"
+Space - dash
+Pause - Esc"
 label_settings = SubResource("LabelSettings_c13hg")
 
 [node name="FinalScreen" type="Control" parent="GameUI"]
@@ -284,6 +285,7 @@ texture = ExtResource("19_8kk48")
 [connection signal="pressed" from="GameUI/FinalScreen/Panel/FinalButton" to="." method="_on_final_button_pressed"]
 [connection signal="on_level_selection_exited" from="GameUI/LevelPanel" to="." method="_on_level_panel_on_level_selection_exited"]
 [connection signal="on_credits_exited" from="GameUI/CreditsPanel" to="." method="_on_credits_panel_on_credits_exited"]
+[connection signal="on_load_game" from="GameUI/OptionsPanel" to="." method="_on_options_panel_on_load_game"]
 [connection signal="on_options_exited" from="GameUI/OptionsPanel" to="." method="_on_options_panel_on_options_exited"]
 [connection signal="on_credits_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_credits_pressed"]
 [connection signal="on_exit_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_exit_pressed"]

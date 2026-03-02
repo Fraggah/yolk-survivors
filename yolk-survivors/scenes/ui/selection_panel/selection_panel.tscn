@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=28 format=3 uid="uid://85rf32ecc04m"]
 
 [ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="2_7k3kw"]
@@ -33,6 +33,10 @@ font_size = 46
 
 [sub_resource type="LabelSettings" id="LabelSettings_mgmnq"]
 font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_hu73q"]
+font = ExtResource("19_hu73q")
+font_size = 46
 
 [node name="SelectionPanel" type="Panel"]
 anchors_preset = 15
@@ -257,6 +261,40 @@ offset_bottom = 95.0
 grow_horizontal = 0
 grow_vertical = 1
 text = "Back"
+
+[node name="WeaponLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_top = -145.0
+offset_right = 188.0
+offset_bottom = -89.4167
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select Weapon"
+label_settings = SubResource("LabelSettings_hu73q")
+
+[node name="PlayerLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_top = -303.0
+offset_right = 188.0
+offset_bottom = -247.417
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select Player"
+label_settings = SubResource("LabelSettings_hu73q")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButton" to="." method="_on_custom_button_pressed"]
 [connection signal="pressed" from="CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

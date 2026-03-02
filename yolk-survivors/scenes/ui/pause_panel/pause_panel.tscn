@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmcklq2cvmlyg"]
+[gd_scene load_steps=10 format=3 uid="uid://bmcklq2cvmlyg"]
 
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_mrpda"]
 [ext_resource type="Script" uid="uid://816bmo144xkw" path="res://scenes/ui/pause_panel/pause_panel.gd" id="1_t84es"]
@@ -51,6 +51,10 @@ font = ExtResource("1_mrpda")
 font_size = 46
 outline_size = 6
 outline_color = Color(0.694118, 0.494118, 0.345098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_t84es"]
+font = ExtResource("1_mrpda")
+font_size = 32
 
 [node name="PausePanel" type="Panel"]
 anchors_preset = 15
@@ -139,6 +143,24 @@ text = "Exit"
 label_settings = SubResource("LabelSettings_xnb25")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Instructions" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -181.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Controls:
+WASD - Movement
+Space - dash
+Pause - Esc"
+label_settings = SubResource("LabelSettings_t84es")
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
