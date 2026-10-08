@@ -29,6 +29,7 @@ class_name Arena
 var gold_list: Array[Coins]
 
 var in_arena := false
+var wave_active := false
 
 func _ready() -> void:
 	Global.on_create_block_text.connect(on_create_block_text)
@@ -73,6 +74,7 @@ func start_new_wave() -> void:
 	Global.player.upgrade_player_for_new_wave()
 	spawner.wave_index += 1
 	spawner.start_wave()
+	wave_active = not spawner.wave_timer.is_stopped()
 	coocking_player.stream_paused = false
 	
 
@@ -117,16 +119,21 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	text.setup_text("+ %d" % value, hp_reg_color)
 
 func toggle_pause() -> void:
-	if not in_arena: return
+	if not in_arena or not wave_active: return
 	if not Input.is_action_just_pressed("pause"): return
-	Global.game_paused = !Global.game_paused
-	pause_panel.visible = Global.game_paused
-	spawner.wave_timer.paused = Global.game_paused
-	spawner.spawn_timer.paused = Global.game_paused
-	coocking_player.stream_paused = Global.game_paused
-	music_player.stream_paused = Global.game_paused
+	set_wave_paused(not Global.game_paused)
+
+func set_wave_paused(paused: bool) -> void:
+	if not in_arena or not wave_active: return
+	Global.game_paused = paused
+	pause_panel.visible = paused
+	spawner.wave_timer.paused = paused
+	spawner.spawn_timer.paused = paused
+	coocking_player.stream_paused = paused
+	music_player.stream_paused = paused
 
 func _on_spawner_on_wave_completed() -> void:
+	wave_active = false
 	if not Global.player: return
 	Global.game_paused = true
 	coocking_player.stream_paused = true
@@ -182,6 +189,7 @@ func _on_level_selected(level: int) -> void:
 	spawner.wave_timer.paused = false
 	spawner.spawn_timer.paused = false
 	spawner.start_wave()
+	wave_active = not spawner.wave_timer.is_stopped()
 	show_controls()
 	Global.game_paused = false
 	Global.level_selected = level
@@ -199,6 +207,7 @@ func show_controls() -> void:
 	instructions.hide()
 
 func _on_player_died() -> void:
+	wave_active = false
 	spawner.clear_fueguito()
 	spawner.spawn_timer.stop()
 	Global.game_paused = true
@@ -208,6 +217,7 @@ func _on_player_died() -> void:
 	final_screen.show()
 
 func _on_final_button_pressed() -> void:
+	wave_active = false
 	spawner.clear_fueguito()
 	_apply_wave_environment(1)
 	in_arena = false
@@ -263,6 +273,7 @@ func _on_selection_panel_on_level_select_exited() -> void:
 
 
 func _on_pause_panel_on_exit_pressed() -> void:
+	wave_active = false
 	spawner.clear_fueguito()
 	_apply_wave_environment(1)
 	in_arena = false
@@ -285,12 +296,7 @@ func _on_pause_panel_on_exit_pressed() -> void:
 
 
 func _on_pause_panel_on_return_pressed() -> void:
-	Global.game_paused = !Global.game_paused
-	pause_panel.visible = Global.game_paused
-	spawner.wave_timer.paused = Global.game_paused
-	spawner.spawn_timer.paused = Global.game_paused
-	coocking_player.stream_paused = Global.game_paused
-	music_player.stream_paused = Global.game_paused
+	set_wave_paused(false)
 
 
 func _on_start_panel_on_exit_pressed() -> void:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv5fb6hu8f8lk"]
 
 [ext_resource type="PackedScene" uid="uid://msxokhtleg2x" path="res://scenes/projectiles/projectile_pistol.tscn" id="1_s2juw"]
-[ext_resource type="Texture2D" uid="uid://bf4yrlp8dofx1" path="res://assets/sprites/Projectiles/Projectile_5.png" id="2_7qwbs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/hydrant.svg" id="2_7qwbs"]
 
 [node name="ProjectileSMG" instance=ExtResource("1_s2juw")]
 

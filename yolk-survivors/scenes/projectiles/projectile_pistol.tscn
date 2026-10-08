@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://msxokhtleg2x"]
 
 [ext_resource type="Script" uid="uid://1sovn3d1q334" path="res://scenes/projectiles/projectile.gd" id="1_71gtn"]
-[ext_resource type="Texture2D" uid="uid://45dwbyxmy4wd" path="res://assets/sprites/Projectiles/Projectile_2.png" id="2_yt6ye"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/knifer.svg" id="2_yt6ye"]
 [ext_resource type="PackedScene" uid="uid://d18p1knfamgj0" path="res://scenes/components/hitbox_component.tscn" id="3_reban"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l3el7"]

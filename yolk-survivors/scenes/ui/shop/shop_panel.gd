@@ -4,6 +4,7 @@ class_name ShopPanel
 signal on_shop_next_wave
 
 const SHOP_CARD_SCENE = preload("res://scenes/ui/shop/shop_card.tscn")
+const WEAPON_TOOLTIP_SCENE = preload("res://scenes/ui/shop/weapon_tooltip.tscn")
 
 @export var shop_items: Array[ItemBase]
 
@@ -13,9 +14,21 @@ const SHOP_CARD_SCENE = preload("res://scenes/ui/shop/shop_card.tscn")
 @onready var combine_button: Button = %CombineButton
 
 var context_card: ItemCard
+var weapon_tooltip: WeaponTooltip
 
 func _ready() -> void:
+	weapon_tooltip = WEAPON_TOOLTIP_SCENE.instantiate() as WeaponTooltip
+	add_child(weapon_tooltip)
+	visibility_changed.connect(_on_visibility_changed)
 	clear_items()
+
+func _on_visibility_changed() -> void:
+	if not is_visible_in_tree():
+		weapon_tooltip.dismiss()
+
+func _on_item_card_hovered(card: ItemCard) -> void:
+	if is_visible_in_tree() and card.get_parent() == weapon_container:
+		weapon_tooltip.show_for_card(card)
 
 func load_shop(current_wave: int) -> void:
 	for child in items_container.get_children(): child.queue_free()
@@ -32,6 +45,8 @@ func load_shop(current_wave: int) -> void:
 func create_item_card() -> ItemCard:
 	var item_card := Global.ITEM_CARD_SCENE.instantiate()
 	item_card.on_item_card_selected.connect(_on_item_card_selected)
+	item_card.mouse_entered.connect(_on_item_card_hovered.bind(item_card))
+	item_card.mouse_exited.connect(weapon_tooltip.hide_for_card.bind(item_card))
 	return item_card
 
 func create_item_weapon(weapon: ItemWeapon) -> void:
@@ -109,6 +124,7 @@ func _on_item_card_selected(card: ItemCard) -> void:
 	combine_button.disabled = not can_merge
 
 func clear_items() -> void:
+	weapon_tooltip.dismiss()
 	context_card = null
 	Global.selected_weapon = null
 	combine_button.disabled = true
