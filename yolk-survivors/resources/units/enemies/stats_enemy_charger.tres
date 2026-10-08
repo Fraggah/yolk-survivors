@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://b4044jccypcut"]
 
-[ext_resource type="Texture2D" uid="uid://emsi6ifyt0vf" path="res://assets/sprites/Enemies/Enemy_5.png" id="1_0ttbq"]
+[ext_resource type="Texture2D" uid="uid://btbujker1vitm" path="res://assets/sprites/Enemies/Redesign/charger.png" id="1_0ttbq"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_tweav"]
 
 [resource]
@@ -16,7 +16,9 @@ initial_damage = 5.0
 damage_increase_per_wave = 1.0
 speed = 230.0
 luck = 0.0
+initial_luck = 1.0
 block_chance = 0.0
+initial_block_chance = 0.0
 coin_drop = 10
 hp_regen = 0.0
 life_steal = 0.0

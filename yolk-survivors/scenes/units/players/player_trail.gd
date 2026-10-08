@@ -13,7 +13,7 @@ var is_active := false
 func _process(_delta: float) -> void:
 	if not is_active: return
 	
-	points_array.append(player.global_position)
+	points_array.append(to_local(player.global_position))
 	if points_array.size() > trail_length:
 		points_array.pop_front()
 	

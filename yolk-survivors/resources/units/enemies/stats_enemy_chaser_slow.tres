@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://cwsf77lhyruan"]
 
-[ext_resource type="Texture2D" uid="uid://d1ou504pylric" path="res://assets/sprites/Enemies/Enemy_1.png" id="1_cneyk"]
+[ext_resource type="Texture2D" uid="uid://b04vk2ii0rqb3" path="res://assets/sprites/Enemies/Redesign/chaser_slow.png" id="1_cneyk"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="1_m42qi"]
 
 [resource]
@@ -16,7 +16,9 @@ initial_damage = 3.0
 damage_increase_per_wave = 0.5
 speed = 150.0
 luck = 0.0
+initial_luck = 1.0
 block_chance = 0.0
+initial_block_chance = 0.0
 coin_drop = 3
 hp_regen = 0.0
 life_steal = 0.0

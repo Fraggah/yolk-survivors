@@ -1,6 +1,7 @@
 extends Node2D
 class_name Arena
 
+
 @export var normal_color: Color
 @export var block_color: Color
 @export var critical_color: Color

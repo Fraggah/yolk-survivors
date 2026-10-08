@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://wjxii7k20fpj"]
 
 [ext_resource type="PackedScene" uid="uid://sbew4vc23htb" path="res://scenes/units/unit.tscn" id="1_1rdpi"]
-[ext_resource type="Texture2D" uid="uid://d1ou504pylric" path="res://assets/sprites/Enemies/Enemy_1.png" id="2_c4rqr"]
+[ext_resource type="Texture2D" uid="uid://b04vk2ii0rqb3" path="res://assets/sprites/Enemies/Redesign/chaser_slow.png" id="2_c4rqr"]
 [ext_resource type="Script" uid="uid://00a7ubrlb0t" path="res://scenes/units/enemies/enemy.gd" id="2_ekmfq"]
 [ext_resource type="Resource" uid="uid://cwsf77lhyruan" path="res://resources/units/enemies/stats_enemy_chaser_slow.tres" id="3_ekmfq"]
 [ext_resource type="PackedScene" uid="uid://d18p1knfamgj0" path="res://scenes/components/hitbox_component.tscn" id="5_go2lf"]

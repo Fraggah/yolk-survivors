@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://wjxii7k20fpj" path="res://scenes/units/enemies/enemy_chaser.tscn" id="1_4uofp"]
 [ext_resource type="Resource" uid="uid://b4044jccypcut" path="res://resources/units/enemies/stats_enemy_charger.tres" id="2_4a187"]
-[ext_resource type="Texture2D" uid="uid://emsi6ifyt0vf" path="res://assets/sprites/Enemies/Enemy_5.png" id="2_esmqr"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Enemies/Redesign/charger.png" id="2_esmqr"]
 [ext_resource type="Script" uid="uid://yfgwlai35r6l" path="res://scenes/units/enemies/charge_attack_behaviour.gd" id="4_4a187"]
 
 [sub_resource type="Animation" id="Animation_esmqr"]

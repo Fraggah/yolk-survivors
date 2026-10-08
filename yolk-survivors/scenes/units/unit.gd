@@ -10,6 +10,7 @@ class_name Unit
 @onready var flash_timer: Timer = $FlashTimer
 
 func _ready() -> void:
+	scale *= Global.GAME_ENTITY_SCALE
 	health_component.setup(stats)
 
 func set_flash_material() -> void:

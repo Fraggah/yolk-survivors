@@ -6,6 +6,7 @@ class_name Projectile
 var velocity: Vector2
 
 func _ready() -> void:
+	scale *= Global.GAME_ENTITY_SCALE
 	hitbox.enable()
 
 func _process(delta: float) -> void:

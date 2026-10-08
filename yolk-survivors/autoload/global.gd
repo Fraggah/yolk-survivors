@@ -16,6 +16,8 @@ signal on_enemy_died(enemy: Enemy)
 @warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_player_died
 
+const GAME_ENTITY_SCALE := 1.5
+
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
 

@@ -33,3 +33,6 @@ func add_coins() -> void:
 
 func _on_area_entered(_area: Area2D) -> void:
 	collected = true
+
+func _ready() -> void:
+	scale *= Global.GAME_ENTITY_SCALE
