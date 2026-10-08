@@ -7,7 +7,7 @@ class_name ArenaEnvironmentController
 var current: ArenaEnvironment
 
 func apply_wave(wave: int) -> ArenaEnvironment:
-	var selected: ArenaEnvironment
+	var selected: ArenaEnvironment = null
 	for environment in environments:
 		if environment.first_wave <= wave and (not selected or environment.first_wave > selected.first_wave):
 			selected = environment

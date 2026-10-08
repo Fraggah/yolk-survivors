@@ -10,7 +10,7 @@ class_name StatsContainer
 @onready var block_label: Label = %BlockLabel
 @onready var harvesting_label: Label = %HarvestingLabel
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not is_instance_valid(Global.player): return
 	
 	health_label.text = str(Global.player.stats.health)

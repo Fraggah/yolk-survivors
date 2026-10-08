@@ -1,12 +1,19 @@
 extends Node
 
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_create_block_text(unit: Node2D)
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_create_damage_text(unit: Node2D, info: HitboxComponent)
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_create_heal_text(unit: Node2D, value: float)
 
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_upgrade_selected
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_level_selected(level: int)
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_enemy_died(enemy: Enemy)
+@warning_ignore("unused_signal") # Emitted by other nodes through Global.
 signal on_player_died
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
@@ -48,11 +55,16 @@ enum UpgradeTier {
 }
 
 var available_players: Dictionary[String, PackedScene] = {
-	"Brawler": preload("res://scenes/units/players/player_brawler.tscn"),
-	"Bunny": preload("res://scenes/units/players/player_bunny.tscn"),
-	"Crazy": preload("res://scenes/units/players/player_crazy.tscn"),
-	"Knight": preload("res://scenes/units/players/player_knight.tscn"),
 	"Well Rounded": preload("res://scenes/units/players/player_well_rounded.tscn"),
+	"Tiny Egg": preload("res://scenes/units/players/player_tiny_egg.tscn"),
+	"Hardboiled": preload("res://scenes/units/players/player_hardboiled.tscn"),
+	"Mutant": preload("res://scenes/units/players/player_mutant.tscn"),
+	"Vampire": preload("res://scenes/units/players/player_vampire.tscn"),
+	"Gambler": preload("res://scenes/units/players/player_gambler.tscn"),
+	"Scrapper": preload("res://scenes/units/players/player_scrapper.tscn"),
+	"Glass Egg": preload("res://scenes/units/players/player_glass_egg.tscn"),
+	"Hoarder": preload("res://scenes/units/players/player_hoarder.tscn"),
+	"Berserker": preload("res://scenes/units/players/player_berserker.tscn"),
 }
 
 var coins: int = 10
@@ -70,12 +82,14 @@ var level_selected := 0
 
 func get_harvesting_coins() -> void:
 	if is_instance_valid(player):
-		coins += player.stats.harvesting
+		coins += int(player.stats.harvesting)
 	
 
 func get_selected_player() -> Player:
 	var player_path: PackedScene = available_players[main_player_selected.name]
-	var player_instance := player_path.instantiate()
+	var player_instance := player_path.instantiate() as Player
+	# Keep roster resources immutable; upgrades affect only this run's copy.
+	player_instance.stats = main_player_selected.duplicate() as UnitStats
 	player = player_instance
 	return player
 

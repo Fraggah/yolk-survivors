@@ -105,6 +105,7 @@ func _on_dash_timer_timeout() -> void:
 
 
 func _on_hp_timer_timeout() -> void:
+	if Global.game_paused: return
 	if health_component.current_health <= 0 or health_component.current_health >= stats.health: return
 	
 	if health_component.current_health < stats.health:
@@ -114,7 +115,6 @@ func _on_hp_timer_timeout() -> void:
 
 
 func _on_health_component_on_unit_died() -> void:
-	stats.reset_player_stats()
 	Global.on_player_died.emit()
 	print("final player") # se emite
 

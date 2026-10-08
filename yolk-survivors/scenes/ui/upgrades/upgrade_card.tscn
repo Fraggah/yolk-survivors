@@ -64,12 +64,13 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -45.0
-offset_top = 60.0
+offset_top = 49.0
 offset_right = 91.0
-offset_bottom = 98.6667
+offset_bottom = 100.0
 grow_horizontal = 2
 text = "+1"
 label_settings = SubResource("LabelSettings_4ru3d")
+vertical_alignment = 1
 
 [node name="CustomButton" parent="MarginContainer/Control" instance=ExtResource("4_4ru3d")]
 layout_mode = 1

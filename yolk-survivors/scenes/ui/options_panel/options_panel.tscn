@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://pwbfkc84dn0x" path="res://scenes/ui/options_panel/options_panel.gd" id="1_5q1cw"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_frfar"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="1_ueidv"]
-[ext_resource type="Texture2D" uid="uid://dq63ocnu3lset" path="res://assets/sprites/Players/Player_3}.png" id="3_tkw8s"]
+[ext_resource type="Texture2D" uid="uid://blxi2x1t80ic4" path="res://assets/sprites/Players/Redesign/mutant.png" id="3_tkw8s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ueidv"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)

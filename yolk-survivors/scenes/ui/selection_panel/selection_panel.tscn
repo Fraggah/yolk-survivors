@@ -1,16 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=33 format=3 uid="uid://85rf32ecc04m"]
 
 [ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
 [ext_resource type="StyleBox" uid="uid://b8f1yuybm4wml" path="res://styles/common_style.tres" id="2_7k3kw"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_dh0xd"]
-[ext_resource type="Texture2D" uid="uid://bt0lww88864ws" path="res://assets/sprites/Players/Player_5.png" id="3_a22ni"]
-[ext_resource type="Resource" uid="uid://c3eu8taafcdde" path="res://resources/units/players/player_brawler.tres" id="3_m67jx"]
-[ext_resource type="Resource" uid="uid://cscw6rcy5xn8b" path="res://resources/units/players/player_bunny.tres" id="4_5ne7w"]
+[ext_resource type="Texture2D" uid="uid://nh3ybvr0gbvm" path="res://assets/sprites/Players/Redesign/hardboiled.png" id="3_a22ni"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_un15a"]
-[ext_resource type="Resource" uid="uid://pxx6jnbe84qn" path="res://resources/units/players/player_crazy.tres" id="5_6e6br"]
 [ext_resource type="PackedScene" uid="uid://b1l4wi7epuqgy" path="res://scenes/ui/selection_panel/selection_card.tscn" id="5_mgmnq"]
-[ext_resource type="Resource" uid="uid://dgqorm6wrih3t" path="res://resources/units/players/player_knight.tres" id="6_3c111"]
-[ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="7_v1nb4"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="8_4mw87"]
 [ext_resource type="Resource" uid="uid://7penwi2bugth" path="res://resources/items/weapons/melee/spatula/item_spatula_1.tres" id="9_hu73q"]
 [ext_resource type="Resource" uid="uid://cvd3sekdhe5pu" path="res://resources/items/weapons/melee/blender/item_blender_1.tres" id="10_3scu4"]
@@ -23,6 +18,16 @@
 [ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="17_tx3iw"]
 [ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="18_lur41"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="19_hu73q"]
+[ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="player_0"]
+[ext_resource type="Resource" path="res://resources/units/players/player_tiny_egg.tres" id="player_1"]
+[ext_resource type="Resource" path="res://resources/units/players/player_hardboiled.tres" id="player_2"]
+[ext_resource type="Resource" path="res://resources/units/players/player_mutant.tres" id="player_3"]
+[ext_resource type="Resource" path="res://resources/units/players/player_vampire.tres" id="player_4"]
+[ext_resource type="Resource" path="res://resources/units/players/player_gambler.tres" id="player_5"]
+[ext_resource type="Resource" path="res://resources/units/players/player_scrapper.tres" id="player_6"]
+[ext_resource type="Resource" path="res://resources/units/players/player_glass_egg.tres" id="player_7"]
+[ext_resource type="Resource" path="res://resources/units/players/player_hoarder.tres" id="player_8"]
+[ext_resource type="Resource" path="res://resources/units/players/player_berserker.tres" id="player_9"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_un15a"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)
@@ -46,7 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_un15a")
 script = ExtResource("1_3miu1")
-player_list = Array[ExtResource("2_dh0xd")]([ExtResource("3_m67jx"), ExtResource("4_5ne7w"), ExtResource("5_6e6br"), ExtResource("6_3c111"), ExtResource("7_v1nb4")])
+player_list = Array[ExtResource("2_dh0xd")]([ExtResource("player_0"), ExtResource("player_1"), ExtResource("player_2"), ExtResource("player_3"), ExtResource("player_4"), ExtResource("player_5"), ExtResource("player_6"), ExtResource("player_7"), ExtResource("player_8"), ExtResource("player_9")])
 weapons_list = Array[ExtResource("8_4mw87")]([ExtResource("9_hu73q"), ExtResource("10_3scu4"), ExtResource("11_10geq"), ExtResource("12_0pu13"), ExtResource("13_ie7rk"), ExtResource("14_y6xu8"), ExtResource("15_q3p5q"), ExtResource("16_4wjk5"), ExtResource("17_tx3iw"), ExtResource("18_lur41")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -75,18 +80,33 @@ vertical_alignment = 1
 
 [node name="CustomButton" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
-anchor_top = 0.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 0.0
+anchor_bottom = 0.5
 offset_left = -260.0
-offset_top = 6.0
+offset_top = -35.0
 offset_right = 0.0
-offset_bottom = 76.0
+offset_bottom = 35.0
 grow_horizontal = 0
-grow_vertical = 1
+grow_vertical = 2
 text = "continue"
+
+[node name="CustomButtonExit" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
+layout_mode = 1
+anchors_preset = 4
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 0.0
+offset_top = -35.0
+offset_right = 260.0
+offset_bottom = 35.0
+grow_horizontal = 1
+grow_vertical = 2
+text = "Back"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 550)
@@ -168,6 +188,7 @@ offset_top = -353.0
 offset_right = 166.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/line_separation = 8
 theme_override_font_sizes/bold_italics_font_size = 24
 theme_override_font_sizes/italics_font_size = 24
 theme_override_font_sizes/mono_font_size = 24
@@ -252,6 +273,7 @@ offset_top = -353.0
 offset_right = 166.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/line_separation = 8
 theme_override_font_sizes/bold_italics_font_size = 24
 theme_override_font_sizes/italics_font_size = 24
 theme_override_font_sizes/mono_font_size = 24
@@ -331,21 +353,6 @@ layout_mode = 2
 [node name="SelectionCard10" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/WeaponsContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2
 
-[node name="CustomButtonExit" parent="." instance=ExtResource("4_un15a")]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-offset_left = -1870.0
-offset_top = 25.0
-offset_right = -1610.0
-offset_bottom = 95.0
-grow_horizontal = 0
-grow_vertical = 1
-text = "Back"
-
 [node name="WeaponLabel" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -381,4 +388,4 @@ text = "Select Player"
 label_settings = SubResource("LabelSettings_hu73q")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButton" to="." method="_on_custom_button_pressed"]
-[connection signal="pressed" from="CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

@@ -85,13 +85,19 @@ func _on_player_selected(player: UnitStats) -> void:
 	
 	player_icon.texture = player.icon
 	player_name.text = player.name
-	player_description.text = "[code]
-	Health: [color=green]%s[/color]\n
-	Damage: [color=green]%s[/color]\n
-	Speed: [color=green]%s[/color]\n
-	Luck: [color=green]%s[/color]\n
-	Block Chance: [color=green]%s[/color]
-	[/code]" % [player.health, player.damage, player.speed, player.luck, player.block_chance]
+	var stat_lines: PackedStringArray = [
+		"Health: [color=green]%s[/color]" % player.health,
+		"Damage bonus: [color=green]%s[/color]" % player.damage,
+		"Speed: [color=green]%s[/color]" % player.speed,
+		"Luck: [color=green]%s[/color]" % player.luck,
+		"Block chance: [color=green]%s%%[/color]" % player.block_chance,
+		"HP regen / 3 s: [color=green]%s[/color]" % player.hp_regen,
+		"Life steal: [color=green]%s%%[/color]" % player.life_steal,
+		"Harvesting: [color=green]%s[/color]" % player.harvesting
+	]
+	if player.health_increase_per_wave > 0:
+		stat_lines.append("HP / wave: [color=green]+%s[/color]" % player.health_increase_per_wave)
+	player_description.text = "\n".join(stat_lines)
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
 	Global.main_weapon_selected = weapon
@@ -101,7 +107,7 @@ func _on_weapon_selected(weapon: ItemWeapon) -> void:
 	weapon_name.text = weapon.item_name
 	weapon_title.text = "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
 	var stats := weapon.stats
-	weapon_description.text = "Damage: [color=green]%s[/color]\n\nCooldown: [color=green]%s s[/color]\n\nRange: [color=green]%s[/color]\n\nCritical chance: [color=green]%s%%[/color]\n\nAccuracy: [color=green]%s%%[/color]\n\nKnockback: [color=green]%s[/color]" % [stats.damage, stats.cooldown, stats.max_range, stats.crit_chance * 100, stats.accuracy * 100, stats.knockback]
+	weapon_description.text = "Damage: [color=green]%s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]\nAccuracy: [color=green]%s%%[/color]\nKnockback: [color=green]%s[/color]" % [stats.damage, stats.cooldown, stats.max_range, stats.crit_chance * 100, stats.accuracy * 100, stats.knockback]
 
 
 func _update_selected_slots() -> void:

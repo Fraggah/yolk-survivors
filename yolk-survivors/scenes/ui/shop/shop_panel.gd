@@ -171,7 +171,7 @@ func _on_sell_weapon_button_pressed() -> void:
 	if not context_card: return
 	
 	var clicked_weapon := context_card.item as ItemWeapon
-	var coins := clicked_weapon.item_cost * .75
+	var coins := int(clicked_weapon.item_cost * .75)
 	
 	var weapon_to_remove: Weapon = Global.player.current_weapons.filter(func(w: Weapon):
 		return w.data.item_name == clicked_weapon.item_name).front()

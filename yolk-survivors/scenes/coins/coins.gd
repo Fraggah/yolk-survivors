@@ -31,5 +31,5 @@ func add_coins() -> void:
 	Global.coins += value
 	queue_free()
 
-func _on_area_entered(area: Area2D) -> void:
+func _on_area_entered(_area: Area2D) -> void:
 	collected = true

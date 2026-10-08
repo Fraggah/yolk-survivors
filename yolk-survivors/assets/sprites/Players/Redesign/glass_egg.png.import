@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cproxhccob85g"
-path="res://.godot/imported/Player_1.png-53cb52ba3cfb957259ea9dedee4bf149.ctex"
+uid="uid://bdudnxchwqr51"
+path="res://.godot/imported/glass_egg.png-9c15d23c34811464b51f63cddebf548a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Players/Player_1.png"
-dest_files=["res://.godot/imported/Player_1.png-53cb52ba3cfb957259ea9dedee4bf149.ctex"]
+source_file="res://assets/sprites/Players/Redesign/glass_egg.png"
+dest_files=["res://.godot/imported/glass_egg.png-9c15d23c34811464b51f63cddebf548a.ctex"]
 
 [params]
 

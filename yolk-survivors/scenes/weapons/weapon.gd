@@ -17,7 +17,7 @@ var closest_target: Enemy
 func _ready() -> void:
 	atk_start_pos = sprite_2d.position
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Global.game_paused: return
 	
 	if not is_attacking:
@@ -32,9 +32,9 @@ func _process(delta: float) -> void:
 	if can_use_weapon():
 		use_weapon()
 
-func setup_weapon(data: ItemWeapon) -> void:
-	self.data = data
-	collision.shape.radius = data.stats.max_range
+func setup_weapon(weapon_data: ItemWeapon) -> void:
+	self.data = weapon_data
+	collision.shape.radius = weapon_data.stats.max_range
 	apply_tier_outline()
 
 func can_use_weapon() -> bool:

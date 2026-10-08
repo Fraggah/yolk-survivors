@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dtb2ydasayh8s" path="res://scenes/ui/credits_panel/credits_panel.gd" id="1_42624"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="2_pjbwu"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="3_fo6ey"]
-[ext_resource type="Texture2D" uid="uid://dmox6e28kf6ax" path="res://assets/sprites/Players/Player_4.png" id="3_pjbwu"]
+[ext_resource type="Texture2D" uid="uid://d0r1sryiih8ny" path="res://assets/sprites/Players/Redesign/tiny_egg.png" id="3_pjbwu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gh34"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)

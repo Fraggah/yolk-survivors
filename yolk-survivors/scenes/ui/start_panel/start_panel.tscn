@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://dxk24jn6jkt71"]
 
 [ext_resource type="Script" uid="uid://c6e4r5ja4dokm" path="res://scenes/ui/start_panel/start_panel.gd" id="1_qaue6"]
-[ext_resource type="Texture2D" uid="uid://dosdcfgx6ygpj" path="res://assets/startscreenarmados.png" id="1_t6u4c"]
+[ext_resource type="Texture2D" uid="uid://cyqwdjbm5s4ei" path="res://assets/startscreen_roster.png" id="1_t6u4c"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="2_qaue6"]
-[ext_resource type="Texture2D" uid="uid://dpxw8tsbgrfse" path="res://assets/sprites/Players/Player_2.png" id="3_ulc2j"]
+[ext_resource type="Texture2D" uid="uid://djthvdwamlhu8" path="res://assets/sprites/Players/Redesign/berserker.png" id="3_ulc2j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u55lt"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)
