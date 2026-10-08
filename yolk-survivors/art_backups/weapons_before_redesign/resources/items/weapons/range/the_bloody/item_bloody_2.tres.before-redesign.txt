@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://d05hqao2kakxg"]
+
+[ext_resource type="Texture2D" uid="uid://davpy8swtn8sh" path="res://assets/sprites/Weapons/Icons/weapon_the_bloody_icon.png" id="1_uf062"]
+[ext_resource type="PackedScene" uid="uid://e7qe8knjp7ou" path="res://scenes/weapons/range/weapon_the_bloody.tscn" id="2_a6mo0"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_kjjc7"]
+[ext_resource type="Resource" uid="uid://cvxhk641uadsd" path="res://resources/items/weapons/range/the_bloody/stats_bloody_2.tres" id="4_a6mo0"]
+[ext_resource type="Resource" uid="uid://cvtlw57nrysod" path="res://resources/items/weapons/range/the_bloody/item_bloody_3.tres" id="5_kjjc7"]
+
+[resource]
+script = ExtResource("3_kjjc7")
+type = 1
+scene = ExtResource("2_a6mo0")
+stats = ExtResource("4_a6mo0")
+upgrade_to = ExtResource("5_kjjc7")
+item_name = "Bloody II"
+item_icon = ExtResource("1_uf062")
+item_tier = 1
+item_type = 0
+item_cost = 52
+metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

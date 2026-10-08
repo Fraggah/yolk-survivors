@@ -2,10 +2,14 @@ extends Node2D
 class_name Spawner
 
 signal on_wave_completed
+signal on_wave_started(wave: int)
+
+const FUEGUITO_SCENE = preload("res://scenes/units/enemies/enemy_fueguito.tscn")
 
 @export var spawn_area_size := Vector2(1000, 500)
 @export var waves_data: Array[WaveData]
 @export var enemy_collection: Array[UnitStats]
+@export_range(100.0, 1500.0, 10.0) var fueguito_min_spawn_distance := 450.0
 
 @onready var wave_timer: Timer = $WaveTimer
 @onready var spawn_timer: Timer = $SpawnTimer
@@ -15,6 +19,8 @@ var current_wave_data: WaveData
 var spawned_enemies: Array[Enemy] = []
 var difficult_multiplier: Array[float] = [1, 1.2, 1.4, 1.6, 1.8, 2]
 var difficult_index := 0
+var fueguito: Enemy
+var arena_environment: ArenaEnvironment
 
 func find_wave_data() -> WaveData:
 	for wave: WaveData in waves_data:
@@ -30,10 +36,49 @@ func start_wave() -> void:
 		wave_timer.stop()
 		return
 	
+	on_wave_started.emit(wave_index)
 	wave_timer.wait_time = current_wave_data.wave_time
 	wave_timer.start()
+	spawn_fueguito_if_needed()
 	
 	start_spawn_timer()
+
+func spawn_fueguito_if_needed() -> void:
+	if wave_index < 2 or is_instance_valid(fueguito): return
+	var spawn_pos := get_fueguito_spawn_position()
+	if is_instance_valid(Global.player) and spawn_pos.distance_to(Global.player.global_position) < fueguito_min_spawn_distance:
+		# A future arena may be too small: never force an unfair nearby spawn.
+		return
+	fueguito = FUEGUITO_SCENE.instantiate() as Enemy
+	fueguito.position = get_parent().to_local(spawn_pos)
+	get_parent().add_child(fueguito)
+
+func get_fueguito_spawn_position() -> Vector2:
+	if not is_instance_valid(Global.player): return get_random_spawn_position()
+	var player_pos := Global.player.global_position
+	var min_distance_squared := fueguito_min_spawn_distance * fueguito_min_spawn_distance
+	for attempt in 32:
+		var candidate := get_random_spawn_position()
+		if candidate.distance_squared_to(player_pos) >= min_distance_squared:
+			return candidate
+	# Bounded fallback searches the arena perimeter instead of retrying forever.
+	var bounds := arena_environment.movement_bounds if arena_environment else Rect2(-spawn_area_size, spawn_area_size * 2.0)
+	var farthest := bounds.get_center()
+	for step in 64:
+		var candidate := bounds.get_center() + Vector2.RIGHT.rotated(TAU * step / 64.0) * bounds.size.length()
+		if arena_environment:
+			candidate = arena_environment.clamp_position(candidate)
+		else:
+			candidate = Vector2(clampf(candidate.x, bounds.position.x, bounds.end.x), clampf(candidate.y, bounds.position.y, bounds.end.y))
+		if candidate.distance_squared_to(player_pos) > farthest.distance_squared_to(player_pos):
+			farthest = candidate
+	return farthest
+
+func clear_fueguito() -> void:
+	# Remove the wave's Fueguito explicitly, bypassing its death immunity.
+	if is_instance_valid(fueguito):
+		fueguito.queue_free()
+	fueguito = null
 
 func start_spawn_timer() -> void:
 	match current_wave_data.spawn_type:
@@ -48,6 +93,8 @@ func start_spawn_timer() -> void:
 		spawn_timer.start()
 
 func get_random_spawn_position() -> Vector2:
+	if arena_environment:
+		return arena_environment.random_spawn_position()
 	var random_x := randf_range(-spawn_area_size.x, spawn_area_size.x)
 	var random_y := randf_range(-spawn_area_size.y, spawn_area_size.y)
 	return Vector2(random_x, random_y)
@@ -91,6 +138,7 @@ func get_wave_text() -> String:
 	return "Wave %d" % wave_index
 
 func reset_enemies_stats() -> void:
+	clear_fueguito()
 	for stats: UnitStats in enemy_collection:
 		stats.health = stats.initial_health
 		stats.damage = stats.initial_damage
@@ -105,6 +153,7 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_wave_timer_timeout() -> void:
 	Global.game_paused = true
+	clear_fueguito()
 	on_wave_completed.emit()
 	spawn_timer.stop()
 	clear_enemies()

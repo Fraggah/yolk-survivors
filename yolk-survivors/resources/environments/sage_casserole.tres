@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ArenaEnvironment" load_steps=4 format=3 uid="uid://iqj50rbehi6l"]
+
+[ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://4ro4k1fewbtt" path="res://assets/environments/sage_kitchen.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://di3f5lyuw00an" path="res://assets/environments/sage_casserole.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+first_wave = 2
+background = ExtResource("2")
+vessel = ExtResource("3")
+background_size = Vector2(3840, 2560)
+background_offset = Vector2(0, 0)
+vessel_size = Vector2(2500, 1900)
+vessel_offset = Vector2(0, 0)
+movement_bounds = Rect2(-740, -510, 1480, 1020)
+oval = true
+corner_radius = 0.0
+camera_zoom = 1.1

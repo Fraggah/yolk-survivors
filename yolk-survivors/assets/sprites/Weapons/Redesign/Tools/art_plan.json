@@ -1,0 +1,102 @@
+[
+  {
+    "name": "spatula",
+    "original_bounds": [
+      10,
+      21,
+      174,
+      55
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "blender",
+    "original_bounds": [
+      13,
+      21,
+      172,
+      56
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "mace",
+    "original_bounds": [
+      20,
+      29,
+      163,
+      43
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "mitten",
+    "original_bounds": [
+      37,
+      7,
+      119,
+      91
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "butcher_knife",
+    "original_bounds": [
+      16,
+      22,
+      168,
+      59
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "bloody",
+    "original_bounds": [
+      39,
+      7,
+      127,
+      88
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "knifer",
+    "original_bounds": [
+      21,
+      5,
+      162,
+      89
+    ],
+    "outline_padding": 3
+  },
+  {
+    "name": "corpse_launcher",
+    "original_bounds": [
+      25,
+      7,
+      155,
+      87
+    ],
+    "outline_padding": 2
+  },
+  {
+    "name": "smasher",
+    "original_bounds": [
+      30,
+      8,
+      149,
+      83
+    ],
+    "outline_padding": 0
+  },
+  {
+    "name": "hydrant",
+    "original_bounds": [
+      12,
+      7,
+      180,
+      85
+    ],
+    "outline_padding": 1
+  }
+]

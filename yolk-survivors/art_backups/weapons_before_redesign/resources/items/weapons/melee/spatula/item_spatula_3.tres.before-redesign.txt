@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://dkraxdw1aanmh"]
+
+[ext_resource type="Texture2D" uid="uid://blf76kty3ojmi" path="res://assets/sprites/Weapons/Icons/weapon_spatula_icon.png" id="1_nt27y"]
+[ext_resource type="PackedScene" uid="uid://b7uh86ri17523" path="res://scenes/weapons/melee/weapon_spatula.tscn" id="2_7mx2l"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_jnew3"]
+[ext_resource type="Resource" uid="uid://cbsvnhqf7dp4u" path="res://resources/items/weapons/melee/spatula/stats_spatula_3.tres" id="4_0l5ek"]
+[ext_resource type="Resource" uid="uid://buplffvsoh01l" path="res://resources/items/weapons/melee/spatula/item_spatula_4.tres" id="5_iq4cq"]
+
+[resource]
+script = ExtResource("3_jnew3")
+type = 0
+scene = ExtResource("2_7mx2l")
+stats = ExtResource("4_0l5ek")
+upgrade_to = ExtResource("5_iq4cq")
+item_name = "Spatula III"
+item_icon = ExtResource("1_nt27y")
+item_tier = 2
+item_type = 0
+item_cost = 60
+metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

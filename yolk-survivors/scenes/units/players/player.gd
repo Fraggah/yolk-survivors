@@ -17,6 +17,7 @@ var move_dir: Vector2
 
 var is_dashing: bool
 var current_weapons: Array[Weapon] = []
+var arena_environment: ArenaEnvironment
 
 func _ready() -> void:
 	super._ready()
@@ -35,8 +36,11 @@ func _process(delta: float) -> void:
 
 	
 	position += current_velocity * delta
-	position.x = clamp(position.x, -1000, 1000)
-	position.y = clamp(position.y, -500, 485)
+	if arena_environment:
+		global_position = arena_environment.clamp_position(global_position)
+	else:
+		position.x = clamp(position.x, -1000, 1000)
+		position.y = clamp(position.y, -500, 485)
 	
 	update_animations()
 	update_rotation()

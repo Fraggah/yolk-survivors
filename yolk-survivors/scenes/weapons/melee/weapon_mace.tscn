@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cc2q4650v5nly" path="res://scenes/weapons/weapon_base.tscn" id="1_t23au"]
 [ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="2_cp5tk"]
-[ext_resource type="Texture2D" uid="uid://b5tl2rm7oe23y" path="res://assets/sprites/Weapons/Melee/weapon_wood_mace.png" id="3_rifvi"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/InGame/mace.png" id="3_rifvi"]
 [ext_resource type="PackedScene" uid="uid://d18p1knfamgj0" path="res://scenes/components/hitbox_component.tscn" id="3_wi2b8"]
 [ext_resource type="Script" uid="uid://6ltfp33hbbs2" path="res://scenes/weapons/melee/melee_behaviour.gd" id="4_rifvi"]
 

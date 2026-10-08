@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://c0g0ywuqconk1"]
 
-[ext_resource type="Texture2D" uid="uid://bb5xjh3jrwujd" path="res://assets/sprites/Weapons/Icons/weapon_wood_mace_icon.png" id="1_6yo20"]
+[ext_resource type="Texture2D" uid="uid://lemg7t4ymyrj" path="res://assets/sprites/Weapons/Redesign/Icons/mace.png" id="1_6yo20"]
 [ext_resource type="PackedScene" uid="uid://disdx5r6ny02e" path="res://scenes/weapons/melee/weapon_mace.tscn" id="2_6yo20"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="2_a8rrv"]
 [ext_resource type="Resource" uid="uid://j7yrn6w23i83" path="res://resources/items/weapons/melee/mace/stats_mace_2.tres" id="3_8kfa5"]

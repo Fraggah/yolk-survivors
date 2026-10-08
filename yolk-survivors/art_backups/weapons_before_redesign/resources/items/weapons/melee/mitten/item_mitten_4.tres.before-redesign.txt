@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3 uid="uid://shpgo1j0ha2a"]
+
+[ext_resource type="Texture2D" uid="uid://cs7c50m2xjktg" path="res://assets/sprites/Weapons/Icons/weapon_mitten_icon.png" id="1_guh31"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="2_503wk"]
+[ext_resource type="PackedScene" uid="uid://bdmv5l6abbkej" path="res://scenes/weapons/melee/weapon_mitten.tscn" id="2_tm866"]
+[ext_resource type="Resource" uid="uid://co45u5kkupkp2" path="res://resources/items/weapons/melee/mitten/stats_mitten_4.tres" id="3_f1uf4"]
+
+[resource]
+script = ExtResource("2_503wk")
+type = 0
+scene = ExtResource("2_tm866")
+stats = ExtResource("3_f1uf4")
+item_name = "Mitten IV"
+item_icon = ExtResource("1_guh31")
+item_tier = 3
+item_type = 0
+item_cost = 126
+metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

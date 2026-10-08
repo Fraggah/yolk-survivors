@@ -142,6 +142,8 @@ func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[
 	]
 
 func select_items_for_offer(item_pool: Array, current_wave: int, config: Dictionary) -> Array:
+	
+	# Calcular prob tier
 	var tier_chances: Array[float] = calculate_tier_probability(current_wave, config)
 	
 	var legendary_limit := tier_chances[3]
@@ -150,9 +152,12 @@ func select_items_for_offer(item_pool: Array, current_wave: int, config: Diction
 	
 	var offered_items: Array = []
 	
+	# sacar 4
 	while offered_items.size() < 4:
+		
 		var roll := randf()
 		var chosen_tier_index := 0
+		
 		if roll < legendary_limit:
 			chosen_tier_index = 3 # Legendary
 		elif roll < epic_limit:
@@ -163,8 +168,11 @@ func select_items_for_offer(item_pool: Array, current_wave: int, config: Diction
 		var potential_items: Array = []
 		var current_search_tier_index := chosen_tier_index
 		
+		# bajo tier sino (Se soluciona al agregar mas items legendarios)
 		while potential_items.is_empty() and current_search_tier_index >= 0:
-			potential_items = item_pool.filter(func(item: ItemBase): return item.item_tier == current_search_tier_index)
+			potential_items = item_pool.filter(
+				func(item: ItemBase): return item.item_tier == current_search_tier_index
+			)
 			
 			if potential_items.is_empty():
 				current_search_tier_index -= 1
@@ -172,6 +180,8 @@ func select_items_for_offer(item_pool: Array, current_wave: int, config: Diction
 				break
 		
 		if not potential_items.is_empty():
+			
+			# saco uno random
 			var random_item = potential_items.pick_random()
 			
 			if not offered_items.has(random_item):

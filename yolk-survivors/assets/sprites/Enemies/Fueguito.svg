@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+  <!-- Original provisional art: flat colors, rounded dark outline, transparent canvas. -->
+  <path d="M74 134 C39 136 23 117 27 94 C30 78 41 68 42 49 C51 52 56 62 57 72 C68 54 84 34 79 15 C103 31 109 51 103 69 C114 65 120 57 119 49 C132 70 138 95 130 112 C121 130 99 135 74 134 Z" fill="#e77739" stroke="#242124" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M74 129 C49 128 40 113 46 97 C51 85 65 77 68 61 C82 70 80 86 87 90 C98 84 99 74 100 67 C115 86 119 108 108 119 C100 128 87 131 74 129 Z" fill="#f2c45c"/>
+  <path d="M77 128 C63 128 58 117 64 107 C69 100 73 97 76 90 C86 99 89 107 96 110 C100 122 89 128 77 128 Z" fill="#f8f4e7"/>
+  <ellipse cx="57" cy="91" rx="5" ry="8" fill="#242124"/>
+  <ellipse cx="99" cy="91" rx="5" ry="8" fill="#242124"/>
+  <path d="M71 100 Q78 107 85 100" fill="none" stroke="#242124" stroke-width="4" stroke-linecap="round"/>
+</svg>

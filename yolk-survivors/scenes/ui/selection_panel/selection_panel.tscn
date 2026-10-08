@@ -100,9 +100,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -190.0
+offset_left = -400.0
 offset_top = -275.0
-offset_right = 190.0
+offset_right = -20.0
 offset_bottom = 275.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -176,8 +176,92 @@ theme_override_font_sizes/bold_font_size = 24
 bbcode_enabled = true
 text = "description"
 
+[node name="WeaponPanel" type="Panel" parent="MarginContainer/VBoxContainer/Control"]
+custom_minimum_size = Vector2(380, 550)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -275.0
+offset_right = 400.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_7k3kw")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/WeaponPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="WeaponIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 128.0
+offset_top = 5.0
+offset_right = 332.0
+offset_bottom = 78.0
+text = "weapon name"
+label_settings = SubResource("LabelSettings_mgmnq")
+autowrap_mode = 2
+
+[node name="WeaponTitle" type="Label" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+modulate = Color(0.803922, 0.678431, 0.0980392, 1)
+layout_mode = 0
+offset_left = 128.0
+offset_top = 55.0
+offset_right = 332.0
+offset_bottom = 84.0
+text = "weapon"
+label_settings = SubResource("LabelSettings_mgmnq")
+
+[node name="WeaponDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(332, 353)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -166.0
+offset_top = -353.0
+offset_right = 166.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "description"
+
 [node name="Items" type="Control" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 400)
+custom_minimum_size = Vector2(0, 320)
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Items"]

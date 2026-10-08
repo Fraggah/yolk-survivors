@@ -22,6 +22,7 @@ func _set_data(value: ItemUpgrade) -> void:
 
 func _on_custom_button_pressed() -> void:
 	if item:
+		add_theme_stylebox_override("panel", SlotSelectionStyle.darkened(Global.get_tier_style(item.item_tier)))
 		item.apply_upgrade()
 		Global.on_upgrade_selected.emit()
 		SoundManager.play_sound(SoundManager.Sound.UI_CLICK)

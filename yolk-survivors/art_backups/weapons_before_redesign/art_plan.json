@@ -1,0 +1,142 @@
+[
+  {
+    "name": "spatula",
+    "old": "Melee/weapon_spatula.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-2933675f-219e-4248-a41b-6956838c9247.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A kitchen spatula: short warm golden wooden handle on LEFT, straight shaft, broad rounded ivory-gray spatula head on RIGHT with just three simple dark slots.",
+    "old_icon": "Icons/weapon_spatula_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      10,
+      21,
+      174,
+      55
+    ]
+  },
+  {
+    "name": "blender",
+    "old": "Melee/weapon_blender.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-b26f4b52-73a2-4dce-b592-71ce4a1a51ac.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A kitchen wire whisk (called Blender in the game): short honey wooden handle on LEFT, simple oval ivory wire head on RIGHT with just three bold loops, no fine metallic detail.",
+    "old_icon": "Icons/weapon_blender_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      13,
+      21,
+      172,
+      56
+    ]
+  },
+  {
+    "name": "mace",
+    "old": "Melee/weapon_wood_mace.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-2366f4fe-16ed-4094-94db-920f2e9d6c78.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A wooden kitchen rolling pin used as a mace: small honey wooden grip on LEFT, wide chunky cylindrical rolling-pin body on RIGHT, just one muted brown cel shaded patch.",
+    "old_icon": "Icons/weapon_wood_mace_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      20,
+      29,
+      163,
+      43
+    ]
+  },
+  {
+    "name": "mitten",
+    "old": "Melee/weapon_mitten.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-0367b807-98d9-4378-87ba-d234e760e1f0.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: An ivory oven mitt used as a fist weapon: wrist cuff on LEFT, rounded padded fingers on RIGHT, small thumb projecting down, one simple muted lilac seam. No quilting grid.",
+    "old_icon": "Icons/weapon_mitten_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      37,
+      7,
+      119,
+      91
+    ]
+  },
+  {
+    "name": "butcher_knife",
+    "old": "Melee/weapon_butcher_knife.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-8f2f1fec-c46f-4934-93ea-8c6dec7ead85.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A butcher kitchen cleaver: short honey wood handle on LEFT with one cream rivet, big wide blunt rectangular ivory-gray blade on RIGHT with rounded far corners and one small circular hole, one muted gray cel shade patch.",
+    "old_icon": "Icons/weapon_butcher_knife_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      16,
+      22,
+      168,
+      59
+    ]
+  },
+  {
+    "name": "bloody",
+    "old": "Range/weapon_the_bloody.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-8d7b6060-a9b0-4005-af50-33af0d582668.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A cute cooking-themed pistol: muted coral grip down-left, honey orange thick horizontal barrel running left to RIGHT across the upper third, tiny ivory muzzle ring at right end, one rounded near-black trigger loop. Only simple chunky forms, no fine mechanisms or etching.",
+    "old_icon": "Icons/weapon_the_bloody_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      39,
+      7,
+      127,
+      88
+    ]
+  },
+  {
+    "name": "knifer",
+    "old": "Range/weapon_knifer.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-3bbf9f11-52f9-4095-a8cc-a4e98c33a561.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A cute cleaver-shaped cooking pistol: honey wooden pistol grip down-left, chunky straight rectangular ivory-gray blade-shaped barrel pointing RIGHT across upper third, one small dark hole near muzzle, black simple trigger loop. Minimal flat shape design.",
+    "old_icon": "Icons/weapon_knifer_icon.png",
+    "outline_padding": 3,
+    "original_bounds": [
+      21,
+      5,
+      162,
+      89
+    ]
+  },
+  {
+    "name": "corpse_launcher",
+    "old": "Range/weapon_corpse_launcher.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-14cf8d5a-161e-44ba-ba14-1654bbcfe740.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A cute compact egg-launcher pistol: honey wooden grip down-left, charcoal and muted sage rounded bulky barrel pointing RIGHT across upper third, one ivory oval with a flat golden yolk badge on the barrel side, simple dark trigger loop. Egg badge is a graphic symbol, no character face. No fine mechanisms.",
+    "old_icon": "Icons/weapon_corpse_launcher_icon.png",
+    "outline_padding": 2,
+    "original_bounds": [
+      25,
+      7,
+      155,
+      87
+    ]
+  },
+  {
+    "name": "smasher",
+    "old": "Range/weapon_the_smasher.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-7d0d7ea7-7b32-4fac-b524-78ffe30eb821.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A cute cooking-themed compact long-barrel submachine pistol: warm golden thick horizontal barrel pointing RIGHT across upper third, short cream grip pointing down-left, one tiny muted coral panel and dark rounded trigger loop. Simple friendly silhouette, not realistic gun mechanics.",
+    "old_icon": "Icons/weapon_the_smasher_icon.png",
+    "outline_padding": 0,
+    "original_bounds": [
+      30,
+      8,
+      149,
+      83
+    ]
+  },
+  {
+    "name": "hydrant",
+    "old": "Range/weapon_hydrant.png",
+    "generated_source": "C:\\Users\\Fraggah\\.codex\\generated_images\\01a11b78-da3e-72d2-a50a-f45071f63ad7\\exec-fb76d9f0-cd33-4d1c-bf3b-5c4aad81e5ef.png",
+    "prompt": "Use case: stylized-concept. Asset type: original 2D weapon sprite for a cartoon egg cooking survival game. STYLE: match the FIRST reference (egg character) exactly: thick clean near-black rounded outlines, simple flat muted colors, no texture, no tiny details, no realistic highlights, at most one flat shadow patch. The SECOND reference establishes weapon identity and silhouette only, discard its detailed rendering. Composition: single isolated object on genuinely transparent alpha, strict flat side view, main axis perfectly horizontal (0 degrees), handle/grip LEFT, head or muzzle RIGHT. Object centered and completely visible with ample transparent margins. No diagonal tilt, perspective, background, text, face or watermark. Keep forms chunky and legible at 200x100 pixels; use a near-black outline thick enough to remain about 3-4 pixels after downsampling to that size. Subject: A cute cooking-themed piping-bag pistol: muted coral pistol grip pointing down-left, barrel ending in a large ivory rounded pastry piping bag with a short gray nozzle pointing RIGHT across upper third, simple dark trigger loop. Minimal clean cartoon forms.",
+    "old_icon": "Icons/weapon_hydrant_icon.png",
+    "outline_padding": 1,
+    "original_bounds": [
+      12,
+      7,
+      180,
+      85
+    ]
+  }
+]

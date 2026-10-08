@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cc2q4650v5nly" path="res://scenes/weapons/weapon_base.tscn" id="1_qc06k"]
 [ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="2_vcyvs"]
-[ext_resource type="Texture2D" uid="uid://boqxvy2h1g8xn" path="res://assets/sprites/Weapons/Melee/weapon_blender.png" id="3_yrade"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/InGame/blender.png" id="3_yrade"]
 [ext_resource type="PackedScene" uid="uid://d18p1knfamgj0" path="res://scenes/components/hitbox_component.tscn" id="4_dc5ub"]
 [ext_resource type="Script" uid="uid://6ltfp33hbbs2" path="res://scenes/weapons/melee/melee_behaviour.gd" id="5_s13gl"]
 

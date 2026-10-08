@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://bdmv5l6abbkej"]
+
+[ext_resource type="PackedScene" uid="uid://cc2q4650v5nly" path="res://scenes/weapons/weapon_base.tscn" id="1_soyvn"]
+[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="2_dslpn"]
+[ext_resource type="PackedScene" uid="uid://d18p1knfamgj0" path="res://scenes/components/hitbox_component.tscn" id="3_etoc4"]
+[ext_resource type="Texture2D" uid="uid://clfta51si252l" path="res://assets/sprites/Weapons/Melee/weapon_mitten.png" id="3_x7sx8"]
+[ext_resource type="Script" uid="uid://6ltfp33hbbs2" path="res://scenes/weapons/melee/melee_behaviour.gd" id="4_etoc4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5x8da"]
+resource_local_to_scene = true
+shader = ExtResource("2_dslpn")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 7.0
+shader_parameter/glow_intensity = 3.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etoc4"]
+size = Vector2(108, 84)
+
+[node name="WeaponMitten" instance=ExtResource("1_soyvn")]
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_5x8da")
+position = Vector2(18, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_x7sx8")
+
+[node name="HitboxComponent" parent="Sprite2D" index="0" node_paths=PackedStringArray("bb") instance=ExtResource("3_etoc4")]
+collision_layer = 16
+collision_mask = 8
+monitoring = false
+bb = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitboxComponent" index="0"]
+shape = SubResource("RectangleShape2D_etoc4")
+
+[node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("hitbox", "weapon")]
+script = ExtResource("4_etoc4")
+hitbox = NodePath("../Sprite2D/HitboxComponent")
+weapon = NodePath("..")

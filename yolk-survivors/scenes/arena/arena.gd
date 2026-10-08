@@ -23,6 +23,7 @@ class_name Arena
 @onready var options_panel: OptionsPanel = $GameUI/OptionsPanel
 @onready var credits_panel: CreditsPanel = $GameUI/CreditsPanel
 @onready var pause_panel: PausePanel = $GameUI/PausePanel
+@onready var environment_controller: ArenaEnvironmentController = $Environment
 
 
 var gold_list: Array[Coins]
@@ -38,6 +39,20 @@ func _ready() -> void:
 	Global.on_enemy_died.connect(_on_enemy_died)
 	Global.on_player_died.connect(_on_player_died)
 	coocking_player.stream_paused = true
+	spawner.on_wave_started.connect(_apply_wave_environment)
+	_apply_wave_environment(1)
+
+func _apply_wave_environment(wave: int) -> void:
+	var environment := environment_controller.apply_wave(wave)
+	if not environment: return
+	spawner.arena_environment = environment
+	$Camera2D.zoom = Vector2.ONE * environment.camera_zoom
+	$Camera2D.world_bounds = Rect2(environment.background_offset - environment.background_size * 0.5, environment.background_size)
+	if is_instance_valid(Global.player):
+		Global.player.arena_environment = environment
+		Global.player.global_position = environment.clamp_position(Global.player.global_position)
+	if is_instance_valid(spawner.fueguito):
+		spawner.fueguito.global_position = environment.clamp_position(spawner.fueguito.global_position)
 
 func _process(_delta: float) -> void:
 	toggle_pause()
@@ -120,6 +135,7 @@ func _on_spawner_on_wave_completed() -> void:
 	await get_tree().create_timer(1).timeout
 	Global.get_harvesting_coins()
 	if spawner.wave_index == 10: # Hardcoding vibes XD
+		spawner.clear_fueguito()
 		final_label.text = "YOU WIN!"
 		if Global.level_selected == Global.level_reached:
 			if Global.level_reached < 5: Global.level_reached += 1
@@ -183,6 +199,7 @@ func show_controls() -> void:
 	instructions.hide()
 
 func _on_player_died() -> void:
+	spawner.clear_fueguito()
 	spawner.spawn_timer.stop()
 	Global.game_paused = true
 	clear_arena()
@@ -191,6 +208,8 @@ func _on_player_died() -> void:
 	final_screen.show()
 
 func _on_final_button_pressed() -> void:
+	spawner.clear_fueguito()
+	_apply_wave_environment(1)
 	in_arena = false
 	spawner.wave_index = 1
 	Global.coins = 10
@@ -244,6 +263,8 @@ func _on_selection_panel_on_level_select_exited() -> void:
 
 
 func _on_pause_panel_on_exit_pressed() -> void:
+	spawner.clear_fueguito()
+	_apply_wave_environment(1)
 	in_arena = false
 	spawner.wave_index = 1
 	Global.coins = 10

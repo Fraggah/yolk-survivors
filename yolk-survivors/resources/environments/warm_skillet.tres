@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ArenaEnvironment" load_steps=4 format=3 uid="uid://c0w7nuiawsoc4"]
+
+[ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cvmfjoth8idhy" path="res://assets/environments/warm_kitchen.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cgtmamge1nofu" path="res://assets/environments/coral_skillet.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+first_wave = 1
+background = ExtResource("2")
+vessel = ExtResource("3")
+background_size = Vector2(4608, 3072)
+background_offset = Vector2(870, -180)
+vessel_size = Vector2(3100, 2400)
+vessel_offset = Vector2(-300, 0)
+movement_bounds = Rect2(-1000, -450, 2000, 900)
+oval = false
+corner_radius = 150.0
+camera_zoom = 1.05

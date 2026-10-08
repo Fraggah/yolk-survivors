@@ -2,6 +2,7 @@ extends Panel
 class_name ShopCard
 
 signal on_item_purchased(item: ItemBase)
+var purchase_handler: Callable
 
 @export var shop_item: ItemBase: set = _set_shop_item
 
@@ -25,8 +26,7 @@ func _set_shop_item(value: ItemBase) -> void:
 
 func _on_custom_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
-	if shop_item.item_type == ItemBase.ItemType.WEAPON and Global.equipped_weapons.size() >= 6: return
-	if Global.coins >= shop_item.item_cost:
-		Global.coins -= shop_item.item_cost
+	if purchase_handler.is_valid() and purchase_handler.call(shop_item):
+		add_theme_stylebox_override("panel", SlotSelectionStyle.darkened(Global.get_tier_style(shop_item.item_tier)))
 		on_item_purchased.emit(shop_item)
 		queue_free()

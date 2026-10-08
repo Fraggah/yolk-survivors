@@ -16,8 +16,14 @@ const SELECTION_CARD = preload("res://scenes/ui/selection_panel/selection_card.t
 @onready var player_name: Label = %PlayerName
 @onready var player_title: Label = %PlayerTitle
 @onready var player_description: RichTextLabel = %PlayerDescription
+@onready var weapon_icon: TextureRect = %WeaponIcon
+@onready var weapon_name: Label = %WeaponName
+@onready var weapon_title: Label = %WeaponTitle
+@onready var weapon_description: RichTextLabel = %WeaponDescription
 @onready var weapon_label: Label = $WeaponLabel
 @onready var player_label: Label = $PlayerLabel
+var player_group := ButtonGroup.new()
+var weapon_group := ButtonGroup.new()
 
 func _ready() -> void:
 	for child in players_container.get_children(): child.queue_free()
@@ -26,6 +32,23 @@ func _ready() -> void:
 	load_players()
 	load_weapons()
 	show_player_info(false)
+	show_weapon_info(false)
+	visibility_changed.connect(_refresh_selection_info)
+	_refresh_selection_info()
+
+func _refresh_selection_info() -> void:
+	if not is_visible_in_tree(): return
+	_update_selected_slots()
+	show_player_info(Global.main_player_selected != null)
+	show_weapon_info(Global.main_weapon_selected != null)
+	if Global.main_player_selected: _on_player_selected(Global.main_player_selected)
+	if Global.main_weapon_selected: _on_weapon_selected(Global.main_weapon_selected)
+
+func show_weapon_info(value: bool) -> void:
+	weapon_icon.visible = value
+	weapon_name.visible = value
+	weapon_title.visible = value
+	weapon_description.visible = value
 
 func load_players() -> void:
 	if player_list.is_empty(): return
@@ -33,6 +56,8 @@ func load_players() -> void:
 	for player: UnitStats in player_list:
 		var card := SELECTION_CARD.instantiate() as SelectionCard
 		card.pressed.connect(_on_player_selected.bind(player))
+		card.button_group = player_group
+		card.set_meta("selection_data", player)
 		players_container.add_child(card)
 		card.set_icon(player.icon)
 
@@ -42,6 +67,8 @@ func load_weapons() -> void:
 	for weapon: ItemWeapon in weapons_list:
 		var card := SELECTION_CARD.instantiate() as SelectionCard
 		card.pressed.connect(_on_weapon_selected.bind(weapon))
+		card.button_group = weapon_group
+		card.set_meta("selection_data", weapon)
 		weapons_container.add_child(card)
 		card.set_icon(weapon.item_icon)
 
@@ -53,6 +80,7 @@ func show_player_info(value: bool) -> void:
 
 func _on_player_selected(player: UnitStats) -> void:
 	Global.main_player_selected = player
+	_update_selected_slots()
 	show_player_info(true)
 	
 	player_icon.texture = player.icon
@@ -67,7 +95,22 @@ func _on_player_selected(player: UnitStats) -> void:
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
 	Global.main_weapon_selected = weapon
+	_update_selected_slots()
+	show_weapon_info(true)
+	weapon_icon.texture = weapon.item_icon
+	weapon_name.text = weapon.item_name
+	weapon_title.text = "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
+	var stats := weapon.stats
+	weapon_description.text = "Damage: [color=green]%s[/color]\n\nCooldown: [color=green]%s s[/color]\n\nRange: [color=green]%s[/color]\n\nCritical chance: [color=green]%s%%[/color]\n\nAccuracy: [color=green]%s%%[/color]\n\nKnockback: [color=green]%s[/color]" % [stats.damage, stats.cooldown, stats.max_range, stats.crit_chance * 100, stats.accuracy * 100, stats.knockback]
 
+
+func _update_selected_slots() -> void:
+	for card in players_container.get_children():
+		if not card.has_meta("selection_data"): continue
+		card.set_pressed_no_signal(card.get_meta("selection_data", null) == Global.main_player_selected and Global.main_player_selected != null)
+	for card in weapons_container.get_children():
+		if not card.has_meta("selection_data"): continue
+		card.set_pressed_no_signal(card.get_meta("selection_data", null) == Global.main_weapon_selected and Global.main_weapon_selected != null)
 
 func _on_custom_button_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3 uid="uid://brep71d0ajp0h"]
+
+[ext_resource type="Texture2D" uid="uid://db5nhhh5xqspf" path="res://assets/sprites/Weapons/Icons/weapon_knifer_icon.png" id="1_q3hy3"]
+[ext_resource type="PackedScene" uid="uid://dywyacqv3a5ay" path="res://scenes/weapons/range/weapon_knifer.tscn" id="2_jj2dv"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_wnglx"]
+[ext_resource type="Resource" uid="uid://csowxoqxob7x" path="res://resources/items/weapons/range/knifer/stats_knifer_4.tres" id="4_ts4e5"]
+
+[resource]
+script = ExtResource("3_wnglx")
+type = 1
+scene = ExtResource("2_jj2dv")
+stats = ExtResource("4_ts4e5")
+item_name = "Knifer IV"
+item_icon = ExtResource("1_q3hy3")
+item_tier = 3
+item_type = 0
+item_cost = 180
+metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

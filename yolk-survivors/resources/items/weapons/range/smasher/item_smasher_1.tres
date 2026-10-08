@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://naxhceers3bm"]
 
-[ext_resource type="Texture2D" uid="uid://bpi2v02u6hyrl" path="res://assets/sprites/Weapons/Icons/weapon_the_smasher_icon.png" id="1_8lfvj"]
+[ext_resource type="Texture2D" uid="uid://dv6e0u1bcv6st" path="res://assets/sprites/Weapons/Redesign/Icons/smasher.png" id="1_8lfvj"]
 [ext_resource type="PackedScene" uid="uid://48stbcirvp8y" path="res://scenes/weapons/range/weapon_smasher.tscn" id="2_vr5f2"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_c67k8"]
 [ext_resource type="Resource" uid="uid://dnm5war3drpr3" path="res://resources/items/weapons/range/smasher/stats_smasher_1.tres" id="4_37vfr"]
