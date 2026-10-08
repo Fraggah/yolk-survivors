@@ -96,17 +96,25 @@ func spawn_coins(enemy: Enemy) -> void:
 	instance.value = enemy.stats.coin_drop
 	call_deferred("add_child", instance)
 
-func clear_arena() -> void:
+func clear_arena(bank_yolks: bool = false) -> void:
 	# Player projectiles live under the root, enemy projectiles under Arena.
 	# A shared group clears both when the wave/run ends, including while paused.
 	for projectile in get_tree().get_nodes_in_group("projectiles"):
 		projectile.hide()
 		projectile.queue_free()
-	if gold_list.size() > 0:
-		var target_center_pos := coins_bag.global_position + coins_bag.size / 2
-		for coin: Coins in gold_list:
-			if is_instance_valid(coin):
-				coin.set_collection_target(target_center_pos)
+	# Replace (never accumulate) the old unused bonus with this wave's base drops.
+	Global.yolk_reserve = 0
+	for coin in gold_list:
+		if not is_instance_valid(coin) or coin.is_queued_for_deletion(): continue
+		if bank_yolks:
+			Global.yolk_reserve += maxi(0, coin.value)
+			coin.call_deferred("fly_to_jar", coins_bag.jar_icon)
+		else:
+			coin.queue_free()
+	if not bank_yolks:
+		# Includes flights already removed from gold_list by a previous wave end.
+		for coin in get_tree().get_nodes_in_group("yolks"):
+			coin.queue_free()
 	
 	gold_list.clear()
 	spawner.clear_enemies()
@@ -143,7 +151,7 @@ func _on_spawner_on_wave_completed() -> void:
 	if not Global.player: return
 	Global.game_paused = true
 	coocking_player.stream_paused = true
-	clear_arena()
+	clear_arena(spawner.wave_index < 10)
 	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
 	Global.get_harvesting_coins()
@@ -173,6 +181,7 @@ func _on_shop_panel_on_shop_next_wave() -> void:
 	start_new_wave()
 
 func _on_enemy_died(enemy: Enemy) -> void:
+	if not wave_active: return
 	var instance := Global.FRIED_SCENE.instantiate()
 	add_child(instance)
 	instance.global_position = enemy.global_position
@@ -185,6 +194,7 @@ func _on_selection_panel_on_selection_completed() -> void:
 
 func _on_level_selected(level: int) -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	Global.yolk_reserve = 0
 	var player := Global.get_selected_player()
 	level = spawner.DIFFICULTY_RULES.normalize_level(level)
 	Global.level_selected = level
@@ -200,7 +210,7 @@ func _on_level_selected(level: int) -> void:
 	wave_active = not spawner.wave_timer.is_stopped()
 	show_controls()
 	Global.game_paused = false
-	Global.coins = 10
+	Global.coins = Global.STARTING_COINS
 	in_arena = true
 	level_panel.hide()
 
@@ -229,7 +239,7 @@ func _on_final_button_pressed() -> void:
 	_apply_wave_environment(1)
 	in_arena = false
 	spawner.wave_index = 1
-	Global.coins = 10
+	Global.coins = Global.STARTING_COINS
 	Global.main_player_selected = null
 	Global.main_weapon_selected = null
 	Global.selected_weapon = null
@@ -287,7 +297,7 @@ func _on_pause_panel_on_exit_pressed() -> void:
 	_apply_wave_environment(1)
 	in_arena = false
 	spawner.wave_index = 1
-	Global.coins = 10
+	Global.coins = Global.STARTING_COINS
 	Global.main_player_selected = null
 	Global.main_weapon_selected = null
 	Global.selected_weapon = null

@@ -17,6 +17,7 @@ signal on_enemy_died(enemy: Enemy)
 signal on_player_died
 
 const GAME_ENTITY_SCALE := 1.5
+const STARTING_COINS := 0
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
@@ -69,7 +70,9 @@ var available_players: Dictionary[String, PackedScene] = {
 	"Berserker": preload("res://scenes/units/players/player_berserker.tscn"),
 }
 
-var coins: int = 10
+var coins: int = STARTING_COINS
+# Unspent pickups from the previous wave, redeemed only by real pickups.
+var yolk_reserve: int = 0
 var player: Player
 var game_paused: bool
 
@@ -81,6 +84,13 @@ var equipped_weapons: Array[ItemWeapon]
 
 var level_reached := 0
 var level_selected := 0
+
+func collect_yolk(base_value: int) -> int:
+	var base := maxi(0, base_value)
+	var bonus := mini(base, yolk_reserve)
+	yolk_reserve -= bonus
+	coins += base + bonus
+	return bonus
 
 func get_harvesting_coins() -> void:
 	if is_instance_valid(player):
@@ -121,13 +131,13 @@ func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[
 	
 	# RARE
 	if current_wave >= config.rare.start_wave:
-		rare_chance = min(1.0, (current_wave - 1) * config.rare.base_mult)
+		rare_chance = clampf((current_wave - 1) * config.rare.base_mult, 0.0, 1.0)
 	# EPIC
 	if current_wave >= config.epic.start_wave:
-		epic_chance = min(1.0, (current_wave - 3) * config.epic.base_mult)
+		epic_chance = clampf((current_wave - 3) * config.epic.base_mult, 0.0, 1.0)
 	# LEGENDARY
 	if current_wave >= config.legendary.start_wave:
-		legendary_chance = min(1.0, (current_wave - 6) * config.legendary.base_mult)
+		legendary_chance = clampf((current_wave - 6) * config.legendary.base_mult, 0.0, 1.0)
 	
 	# LUCK
 	# Player -> Luck 10 -> 10% chance -> 1.1 Mult
@@ -157,50 +167,25 @@ func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[
 		max(.0, legendary_chance)
 	]
 
-func select_items_for_offer(item_pool: Array, current_wave: int, config: Dictionary) -> Array:
-	
-	# Calcular prob tier
-	var tier_chances: Array[float] = calculate_tier_probability(current_wave, config)
-	
-	var legendary_limit := tier_chances[3]
-	var epic_limit := legendary_limit + tier_chances[2]
-	var rare_limit := epic_limit + tier_chances[1]
-	
-	var offered_items: Array = []
-	
-	# sacar 4
-	while offered_items.size() < 4:
-		
+func select_items_for_offer(item_pool: Array, current_wave: int, config: Dictionary, offer_count: int = 4, excluded_keys: Array = []) -> Array:
+	var chances: Array[float] = calculate_tier_probability(current_wave, config)
+	var remaining := item_pool.filter(func(item: ItemBase):
+		return item != null and not excluded_keys.has(item.get_offer_key()))
+	var offers: Array = []
+	while offers.size() < offer_count and not remaining.is_empty():
 		var roll := randf()
-		var chosen_tier_index := 0
-		
-		if roll < legendary_limit:
-			chosen_tier_index = 3 # Legendary
-		elif roll < epic_limit:
-			chosen_tier_index = 2 # Epic
-		elif roll < rare_limit:
-			chosen_tier_index = 1 # Rare
-		
-		var potential_items: Array = []
-		var current_search_tier_index := chosen_tier_index
-		
-		# bajo tier sino (Se soluciona al agregar mas items legendarios)
-		while potential_items.is_empty() and current_search_tier_index >= 0:
-			potential_items = item_pool.filter(
-				func(item: ItemBase): return item.item_tier == current_search_tier_index
-			)
-			
-			if potential_items.is_empty():
-				current_search_tier_index -= 1
-			else:
-				break
-		
-		if not potential_items.is_empty():
-			
-			# saco uno random
-			var random_item = potential_items.pick_random()
-			
-			if not offered_items.has(random_item):
-				offered_items.append(random_item)
-	
-	return offered_items
+		var tier := 0
+		if roll < chances[3]: tier = 3
+		elif roll < chances[3] + chances[2]: tier = 2
+		elif roll < chances[3] + chances[2] + chances[1]: tier = 1
+		var candidates: Array = []
+		while candidates.is_empty() and tier >= 0:
+			candidates = remaining.filter(func(item: ItemBase): return item.item_tier == tier)
+			tier -= 1
+		if candidates.is_empty():
+			candidates = remaining.filter(func(item: ItemBase): return chances[item.item_tier] > 0.0)
+		if candidates.is_empty(): break
+		var chosen: ItemBase = candidates.pick_random()
+		offers.append(chosen)
+		remaining = remaining.filter(func(item: ItemBase): return item.get_offer_key() != chosen.get_offer_key())
+	return offers

@@ -9,15 +9,14 @@ const UPGRADE_CARD_SCENE = preload("res://scenes/ui/upgrades/upgrade_card.tscn")
 
 
 func load_upgrades(current_wave: int) -> void:
-	print("AAAAAAAAAAAAAAAA")
 	if item_container.get_child_count() > 0:
 		for child in item_container.get_children():
+			item_container.remove_child(child)
 			child.queue_free()
 	
 	var config := Global.UPGRADE_PROBABILITY_CONFIG
 	var selected_upgrades := Global.select_items_for_offer(upgrades, current_wave, config)
 	
-	print(selected_upgrades)
 	for upgrade: ItemUpgrade in selected_upgrades:
 		var upgraded_instance := UPGRADE_CARD_SCENE.instantiate()
 		item_container.add_child(upgraded_instance)

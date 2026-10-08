@@ -13,5 +13,5 @@ item_name = "Rage"
 item_icon = ExtResource("1_wcq10")
 item_tier = 3
 item_type = 2
-item_cost = 125
+item_cost = 50
 metadata/_custom_type_script = "uid://dat33idgol7a7"

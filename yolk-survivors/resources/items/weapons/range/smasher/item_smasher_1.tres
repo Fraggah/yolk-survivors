@@ -16,5 +16,5 @@ item_name = "Smasher I"
 item_icon = ExtResource("1_8lfvj")
 item_tier = 0
 item_type = 0
-item_cost = 17
+item_cost = 14
 metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

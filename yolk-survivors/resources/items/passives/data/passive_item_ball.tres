@@ -13,5 +13,5 @@ item_name = "Power Ball"
 item_icon = ExtResource("1_6frek")
 item_tier = 0
 item_type = 2
-item_cost = 30
+item_cost = 12
 metadata/_custom_type_script = "uid://dat33idgol7a7"

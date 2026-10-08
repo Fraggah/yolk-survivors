@@ -8,6 +8,8 @@
 script = ExtResource("2_380tk")
 unit_scene = ExtResource("3_dxh7k")
 weight = 1.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [resource]

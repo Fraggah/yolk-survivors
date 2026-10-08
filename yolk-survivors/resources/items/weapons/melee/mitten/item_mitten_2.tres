@@ -16,5 +16,5 @@ item_name = "Mitten II"
 item_icon = ExtResource("1_c26q3")
 item_tier = 1
 item_type = 0
-item_cost = 24
+item_cost = 16
 metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

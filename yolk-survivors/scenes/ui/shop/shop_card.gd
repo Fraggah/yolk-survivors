@@ -3,6 +3,8 @@ class_name ShopCard
 
 signal on_item_purchased(item: ItemBase)
 var purchase_handler: Callable
+var shop_wave := 1
+var purchase_in_progress := false
 
 @export var shop_item: ItemBase: set = _set_shop_item
 
@@ -21,15 +23,15 @@ func _set_shop_item(value: ItemBase) -> void:
 		item_description.text = (shop_item as ItemWeapon).get_description(Global.player.stats if is_instance_valid(Global.player) else null)
 	else:
 		item_description.text = shop_item.get_description()
-	item_cost.text = str(shop_item.item_cost)
+	item_cost.text = str(shop_item.get_shop_price(shop_wave))
 	
 	var style := Global.get_tier_style(shop_item.item_tier)
 	add_theme_stylebox_override("panel", style)
 
 
 func _on_custom_button_pressed() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	if purchase_in_progress: return
+	purchase_in_progress = true
 	if purchase_handler.is_valid() and purchase_handler.call(shop_item):
-		add_theme_stylebox_override("panel", SlotSelectionStyle.darkened(Global.get_tier_style(shop_item.item_tier)))
 		on_item_purchased.emit(shop_item)
-		queue_free()
+	purchase_in_progress = false

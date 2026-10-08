@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://b6ou105sk78bh"]
 
-[ext_resource type="Script" path="res://resources/unit_stats.gd" id="1_stats"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Players/Redesign/tiny_egg.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="1_stats"]
+[ext_resource type="Texture2D" uid="uid://d0r1sryiih8ny" path="res://assets/sprites/Players/Redesign/tiny_egg.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_stats")
@@ -12,6 +12,10 @@ health = 14.0
 initial_health = 14.0
 health_increase_per_wave = 0.0
 damage = 0.0
+damage_percent = 0.0
+melee_damage = 0.0
+ranged_damage = 0.0
+attack_speed = 0.0
 initial_damage = 0.0
 damage_increase_per_wave = 0.0
 speed = 375.0
@@ -23,7 +27,3 @@ coin_drop = 0
 hp_regen = 0.0
 life_steal = 0.0
 harvesting = 0.0
-damage_percent = -10.0
-melee_damage = 0.0
-ranged_damage = 0.0
-attack_speed = 30.0

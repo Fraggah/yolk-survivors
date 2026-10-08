@@ -16,5 +16,5 @@ item_name = "Corpse L I"
 item_icon = ExtResource("1_th1bf")
 item_tier = 0
 item_type = 0
-item_cost = 22
+item_cost = 12
 metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

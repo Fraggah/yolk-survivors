@@ -10,18 +10,24 @@
 script = ExtResource("2_733qk")
 unit_scene = ExtResource("3_gxiuf")
 weight = 4.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_7gla6"]
 script = ExtResource("2_733qk")
 unit_scene = ExtResource("4_1y6vl")
 weight = 2.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_32rfi"]
 script = ExtResource("2_733qk")
 unit_scene = ExtResource("5_kk61a")
 weight = 1.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [resource]

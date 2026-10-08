@@ -5,34 +5,39 @@
 [ext_resource type="PackedScene" uid="uid://wjxii7k20fpj" path="res://scenes/units/enemies/enemy_chaser.tscn" id="3_f317c"]
 [ext_resource type="PackedScene" uid="uid://ddrv7th17lmsp" path="res://scenes/units/enemies/enemy_chaser_mid.tscn" id="4_jgwwd"]
 [ext_resource type="PackedScene" uid="uid://63jckry2lsdv" path="res://scenes/units/enemies/enemy_chaser_fast.tscn" id="5_ly8xl"]
-
-[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_shooter.tscn" id="early_shooter"]
-[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_charger.tscn" id="early_charger"]
+[ext_resource type="PackedScene" uid="uid://c6031qsow5sjv" path="res://scenes/units/enemies/enemy_charger.tscn" id="early_charger"]
+[ext_resource type="PackedScene" uid="uid://cab5sd7do0pfk" path="res://scenes/units/enemies/enemy_shooter.tscn" id="early_shooter"]
 
 [sub_resource type="Resource" id="Resource_eomi3"]
 script = ExtResource("2_q3sp3")
 unit_scene = ExtResource("3_f317c")
 weight = 4.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_7gla6"]
 script = ExtResource("2_q3sp3")
 unit_scene = ExtResource("4_jgwwd")
 weight = 3.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_32rfi"]
 script = ExtResource("2_q3sp3")
 unit_scene = ExtResource("5_ly8xl")
 weight = 2.0
+minimum_difficulty = 0
+first_wave = 1
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_qmgf4"]
 script = ExtResource("2_q3sp3")
 unit_scene = ExtResource("early_shooter")
+weight = 1.0
 minimum_difficulty = 1
 first_wave = 3
-weight = 1.0
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="early_charger_entry"]

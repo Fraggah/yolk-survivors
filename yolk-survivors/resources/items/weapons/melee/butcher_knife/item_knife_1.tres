@@ -16,5 +16,5 @@ item_name = "B Knife I"
 item_icon = ExtResource("1_t0x0k")
 item_tier = 0
 item_type = 0
-item_cost = 13
+item_cost = 9
 metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

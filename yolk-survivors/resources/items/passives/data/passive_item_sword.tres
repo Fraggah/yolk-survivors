@@ -13,5 +13,5 @@ item_name = "Mighty Sword"
 item_icon = ExtResource("1_ho43o")
 item_tier = 2
 item_type = 2
-item_cost = 88
+item_cost = 30
 metadata/_custom_type_script = "uid://dat33idgol7a7"

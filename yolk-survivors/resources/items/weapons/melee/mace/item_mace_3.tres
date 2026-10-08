@@ -16,5 +16,5 @@ item_name = "Wood Mace III"
 item_icon = ExtResource("1_6oyqa")
 item_tier = 2
 item_type = 0
-item_cost = 80
+item_cost = 48
 metadata/_custom_type_script = "uid://c0q0amdc3e7tu"

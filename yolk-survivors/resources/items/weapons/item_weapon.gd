@@ -33,3 +33,6 @@ static func format_number(value: float) -> String:
 
 func get_description(player_stats: UnitStats = null) -> String:
 	return "Damage: [color=green]%s[/color]\nScaling: [color=green]%s%% %s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]\nAccuracy: [color=green]%s%%[/color]\nKnockback: [color=green]%s[/color]" % [format_number(get_effective_damage(player_stats)), format_number(stats.damage_scaling * 100.0), "melee" if type == Type.MELEE else "ranged", format_number(get_effective_cooldown(player_stats)), format_number(stats.max_range), format_number(stats.crit_chance * 100.0), format_number(stats.accuracy * 100.0), format_number(stats.knockback)]
+
+func get_offer_key() -> String:
+	return "weapon:%s:%s" % [type, scene.resource_path if scene else item_name]

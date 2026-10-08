@@ -1,7 +1,10 @@
-extends HBoxContainer
+extends VBoxContainer
 class_name CoinsBag
 
-@onready var coins_label: Label = $CoinsLabel
+@onready var coins_label: Label = $BalanceRow/CoinsLabel
+@onready var reserve_label: Label = $ReserveRow/ReserveLabel
+@onready var jar_icon: TextureRect = $ReserveRow/JarIcon
 
 func _process(_delta: float) -> void:
 	coins_label.text = str(Global.coins)
+	reserve_label.text = str(Global.yolk_reserve)

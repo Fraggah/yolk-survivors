@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://c4xdsqfy0uqgj"]
+[gd_scene load_steps=59 format=3 uid="uid://c4xdsqfy0uqgj"]
 
 [ext_resource type="PackedScene" uid="uid://dpqx5cjywg1wo" path="res://scenes/ui/shop/shop_card.tscn" id="1_g5vmb"]
 [ext_resource type="Script" uid="uid://tawhd5hlgqhi" path="res://scenes/ui/shop/shop_panel.gd" id="1_ir0lx"]
@@ -51,6 +51,7 @@
 [ext_resource type="PackedScene" uid="uid://5iyy26qoqtgp" path="res://scenes/ui/shop/item_card.tscn" id="46_e8kvv"]
 [ext_resource type="Resource" uid="uid://copo21438tdpp" path="res://resources/items/passives/data/passive_item_sword.tres" id="46_rq155"]
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="46_xnehm"]
+[ext_resource type="Texture2D" uid="uid://dmpftpbmwokai" path="res://assets/sprites/Yolk/yolk.png" id="47_yolk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pt5se"]
 bg_color = Color(0.91003, 0.661642, 0.559987, 1)
@@ -357,6 +358,49 @@ theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_h1ng6")
 text = "sell"
 
+[node name="RerollButton" type="Button" parent="MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -426.0
+offset_right = -90.0
+offset_bottom = -366.0
+grow_horizontal = 0
+grow_vertical = 2
+tooltip_text = "Refresh all offers for yolks. Each refresh costs more until the next shop."
+theme_override_styles/normal = ExtResource("3_463h5")
+
+[node name="Content" type="HBoxContainer" parent="MarginContainer/Control/RerollButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="CostLabel" type="Label" parent="MarginContainer/Control/RerollButton/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "refresh 1"
+vertical_alignment = 1
+
+[node name="YolkIcon" type="TextureRect" parent="MarginContainer/Control/RerollButton/Content"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("47_yolk")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="CoinsBag" parent="MarginContainer/Control" instance=ExtResource("46_xnehm")]
 layout_mode = 0
 offset_left = 0.0
@@ -367,3 +411,4 @@ offset_bottom = 77.0
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/NewWaveButton" to="." method="_on_new_wave_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/CombineButton" to="." method="_on_combine_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/SellWeaponButton" to="." method="_on_sell_weapon_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/RerollButton" to="." method="_on_reroll_button_pressed"]

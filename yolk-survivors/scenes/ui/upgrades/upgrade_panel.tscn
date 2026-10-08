@@ -50,7 +50,10 @@
 [ext_resource type="Resource" uid="uid://c1t0jhsjhjgio" path="res://resources/items/upgrades/data/speed/upgrade_speed_12.tres" id="46_kc7m0"]
 [ext_resource type="Resource" uid="uid://bk16w8e7dx5um" path="res://resources/items/upgrades/data/speed/upgrade_speed_15.tres" id="47_5mlx1"]
 [ext_resource type="Resource" uid="uid://6wjvxltxc0mh" path="res://resources/items/upgrades/data/speed/upgrade_speed_20.tres" id="48_waa54"]
-
+[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_1.tres" id="rework_attack_speed_0"]
+[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_2.tres" id="rework_attack_speed_1"]
+[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_3.tres" id="rework_attack_speed_2"]
+[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_4.tres" id="rework_attack_speed_3"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_1.tres" id="rework_melee_damage_0"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_2.tres" id="rework_melee_damage_1"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_3.tres" id="rework_melee_damage_2"]
@@ -59,10 +62,6 @@
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_2.tres" id="rework_ranged_damage_1"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_3.tres" id="rework_ranged_damage_2"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_4.tres" id="rework_ranged_damage_3"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_1.tres" id="rework_attack_speed_0"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_2.tres" id="rework_attack_speed_1"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_3.tres" id="rework_attack_speed_2"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_4.tres" id="rework_attack_speed_3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1k2b"]
 bg_color = Color(0.164706, 0.196078, 0.180392, 0.392157)
