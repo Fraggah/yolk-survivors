@@ -48,8 +48,27 @@ func verify() -> void:
 	assert(not enemy_projectile.is_queued_for_deletion())
 	enemy_projectile.queue_free()
 	global.game_paused = true
+	await process_frame
+	var arena = load("res://scenes/arena/arena.tscn").instantiate()
+	root.add_child(arena)
+	for scene_name in ["enemy_chaser_fast", "enemy_chaser_mid", "enemy_chaser", "enemy_charger", "enemy_shooter", "enemy_fueguito"]:
+		var enemy = load("res://scenes/units/enemies/%s.tscn" % scene_name).instantiate()
+		arena.add_child(enemy)
+		assert(not enemy.get_node("HealthBar").visible, "Enemy health bars stay hidden")
+		enemy.queue_free()
+	var player_shot = load("res://scenes/projectiles/projectile_smg.tscn").instantiate()
+	root.add_child(player_shot)
+	var enemy_shot = load("res://scenes/projectiles/projectile_enemy.tscn").instantiate()
+	arena.add_child(enemy_shot)
+	assert(get_nodes_in_group("projectiles").size() == 2)
+	arena._on_spawner_on_wave_completed()
+	assert(player_shot.is_queued_for_deletion() and enemy_shot.is_queued_for_deletion())
+	assert(not player_shot.visible and not enemy_shot.visible)
+	await create_timer(1.1).timeout
+	assert(get_nodes_in_group("projectiles").is_empty(), "No shots remain in upgrades")
+	arena.queue_free()
 	global.player = null
 	player.queue_free()
 	await process_frame
-	print("PASS: 20 ranged weapon tiers share detection/projectile range; pause, moving shooter, exact travel cap and enemy projectile compatibility")
+	print("PASS: 20 ranged tiers, travel cap, pause, enemy compatibility, wave-end cleanup and six hidden enemy health bars")
 	quit()

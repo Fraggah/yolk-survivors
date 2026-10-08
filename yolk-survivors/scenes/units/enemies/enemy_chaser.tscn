@@ -60,6 +60,7 @@ shape = SubResource("CircleShape2D_v0hn2")
 debug_color = Color(0.985726, 0.117178, 1.92523e-07, 0.42)
 
 [node name="HealthBar" parent="." index="7"]
+visible = false
 back_color = Color(0.0156863, 0.054902, 0.168627, 1)
 fill_color = Color(0.372549, 0.537255, 0.756863, 1)
 

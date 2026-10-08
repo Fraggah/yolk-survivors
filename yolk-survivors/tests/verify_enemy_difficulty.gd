@@ -72,6 +72,22 @@ func verify() -> void:
 	assert(spawner.pending_spawns == 0 and spawner.alive_enemy_count() == count_before)
 	spawner.spawn_timer.stop()
 	# Cancel a pending effect by restarting; no enemy may leak into the new run.
+	# Counting must tolerate freed, queued and null entries without losing typing.
+	var freed_enemy = load("res://scenes/units/enemies/enemy_chaser_mid.tscn").instantiate()
+	spawner.spawned_enemies.append(freed_enemy)
+	freed_enemy.free()
+	var queued_enemy = load("res://scenes/units/enemies/enemy_chaser_mid.tscn").instantiate()
+	root.add_child(queued_enemy)
+	spawner.spawned_enemies.append(queued_enemy)
+	queued_enemy.queue_free()
+	spawner.spawned_enemies.append(null)
+	assert(spawner.alive_enemy_count() == 1, "Ignore freed, queued and null enemies")
+	assert(spawner.spawned_enemies.size() == 1 and spawner.spawned_enemies.is_typed())
+	var saved_health: float = spawned.health_component.current_health
+	spawned.health_component.current_health = 0.0
+	assert(spawner.alive_enemy_count() == 0, "Dead enemies do not consume live capacity")
+	spawned.health_component.current_health = saved_health
+	assert(spawner.alive_enemy_count() == 1)
 	spawner.clear_enemies()
 	spawner.spawn_enemy()
 	assert(spawner.pending_spawns == 1)

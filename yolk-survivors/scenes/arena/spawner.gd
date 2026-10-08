@@ -111,9 +111,14 @@ func get_random_spawn_position() -> Vector2:
 	return Vector2(random_x, random_y)
 
 func alive_enemy_count() -> int:
-	spawned_enemies = spawned_enemies.filter(func(enemy: Enemy): return is_instance_valid(enemy) and not enemy.is_queued_for_deletion())
 	var alive := 0
-	for enemy in spawned_enemies:
+	# Inspect validity before using a typed callback: freed references cannot be
+	# converted to Enemy. Remove backwards to preserve the Array[Enemy] type.
+	for index in range(spawned_enemies.size() - 1, -1, -1):
+		var enemy = spawned_enemies[index]
+		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion():
+			spawned_enemies.remove_at(index)
+			continue
 		if enemy.health_component.current_health > 0.0:
 			alive += 1
 	return alive

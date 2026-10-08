@@ -97,6 +97,11 @@ func spawn_coins(enemy: Enemy) -> void:
 	call_deferred("add_child", instance)
 
 func clear_arena() -> void:
+	# Player projectiles live under the root, enemy projectiles under Arena.
+	# A shared group clears both when the wave/run ends, including while paused.
+	for projectile in get_tree().get_nodes_in_group("projectiles"):
+		projectile.hide()
+		projectile.queue_free()
 	if gold_list.size() > 0:
 		var target_center_pos := coins_bag.global_position + coins_bag.size / 2
 		for coin: Coins in gold_list:

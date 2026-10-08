@@ -3,6 +3,7 @@ class_name Weapon
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = %CollisionShape2D
+@onready var range_area: Area2D = $RangeArea
 @onready var cooldown_timer: Timer = $CooldownTimer
 @onready var weapon_behaviour: WeaponBehaviour = $WeaponBehaviour
 
@@ -16,15 +17,20 @@ var closest_target: Enemy
 
 func _ready() -> void:
 	atk_start_pos = sprite_2d.position
+	center_range_on_player()
+
+func _physics_process(_delta: float) -> void:
+	center_range_on_player()
+
+func center_range_on_player() -> void:
+	if is_instance_valid(Global.player):
+		range_area.global_position = Global.player.global_position
 
 func _process(_delta: float) -> void:
+	center_range_on_player()
 	if Global.game_paused: return
 	
-	if not is_attacking:
-		if targets.size() > 0:
-			update_closest_target()
-		else:
-			closest_target = null
+	update_closest_target()
 	
 	rotate_to_target()
 	update_visuals()
@@ -35,6 +41,7 @@ func _process(_delta: float) -> void:
 func setup_weapon(weapon_data: ItemWeapon) -> void:
 	self.data = weapon_data
 	collision.shape.radius = weapon_data.stats.max_range
+	center_range_on_player()
 	apply_tier_outline()
 
 func can_use_weapon() -> bool:
@@ -67,7 +74,7 @@ func get_custom_rotation_to_target() -> float:
 	return rot + weapon_spread
 
 func get_rotation_to_target() -> float:
-	if targets.size() == 0:
+	if not is_instance_valid(closest_target):
 		return get_idle_rotation()
 	
 	var rot := global_position.direction_to(closest_target.global_position).angle()
@@ -83,22 +90,28 @@ func get_idle_rotation() -> float:
 func update_closest_target() -> void:
 	closest_target = get_closest_target()
 
-func get_closest_target() -> Node2D:
-	if targets.size() == 0:
-		return null
-	
-	var clos_target := targets[0] #tomo el primer enemigo del arreglo para poder hacer la comparacion de distancia
-	var closest_distance_sqr := position.distance_squared_to(clos_target.global_position) #compara distancias sin necesidad de saber el valor exacto (mas barato)
-	
-	for i in range(1, targets.size()):
-		var target : Enemy = targets[i]
-		var distance_sqr := position.distance_squared_to(target.global_position)
-		
-		if distance_sqr < closest_distance_sqr:
-			clos_target = target
-			closest_distance_sqr = distance_sqr
-		
-	return clos_target
+func get_closest_target() -> Enemy:
+	# Targets come from this weapon's range area; prioritize distance to the
+	# player in world coordinates, regardless of the weapon's local slot.
+	var origin := Global.player.global_position if is_instance_valid(Global.player) else global_position
+	var nearest: Enemy = null
+	var nearest_distance_squared := INF
+	var world_range := data.stats.max_range * absf(collision.global_scale.x)
+	var range_squared := world_range * world_range
+	for index in range(targets.size() - 1, -1, -1):
+		var target = targets[index]
+		if not is_instance_valid(target) or target.is_queued_for_deletion():
+			targets.remove_at(index)
+			continue
+		if target.health_component.current_health <= 0.0:
+			continue
+		var distance_squared := origin.distance_squared_to(target.global_position)
+		if distance_squared > range_squared:
+			continue
+		if distance_squared < nearest_distance_squared:
+			nearest = target
+			nearest_distance_squared = distance_squared
+	return nearest
 
 func calculate_spread() -> void:
 	weapon_spread = randf_range(-1 + data.stats.accuracy, 1 - data.stats.accuracy)
@@ -119,10 +132,10 @@ func apply_tier_outline() -> void:
 	sprite_2d.material.set_shader_parameter("outline_color", outline_color)
 
 func _on_range_area_area_entered(area: Area2D) -> void:
-	targets.push_back(area)
+	if area is Enemy and not targets.has(area):
+		targets.push_back(area)
 
 
 func _on_range_area_area_exited(area: Area2D) -> void:
 	targets.erase(area)
-	if targets.size() == 0:
-		closest_target = null
+	update_closest_target()
