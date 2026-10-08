@@ -15,7 +15,7 @@ var value_labels: Array[Label] = []
 
 func _ready() -> void:
 	_ignore_mouse(self)
-	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Knockback", "Life steal"]:
+	for stat_name: String in ["Damage", "Scaling", "Cooldown", "Range", "Critical chance", "Knockback", "Life steal"]:
 		var caption := Label.new()
 		caption.text = stat_name
 		caption.add_theme_font_size_override("font_size", 22)
@@ -68,8 +68,7 @@ func _process(_delta: float) -> void:
 	if not hovered_card.item is ItemWeapon:
 		dismiss()
 		return
-	if hovered_card.item != displayed_weapon:
-		_update_weapon(hovered_card.item as ItemWeapon)
+	_update_weapon(hovered_card.item as ItemWeapon)
 	_position_above_card()
 
 func _update_weapon(weapon: ItemWeapon) -> void:
@@ -86,8 +85,9 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	add_theme_stylebox_override("panel", style)
 	var stats := weapon.stats
 	var values: Array[String] = [
-		_format_number(stats.damage),
-		"%s s" % _format_number(stats.cooldown),
+		_format_number(weapon.get_effective_damage(Global.player.stats if is_instance_valid(Global.player) else null)),
+		"%s%% %s" % [_format_number(stats.damage_scaling * 100.0), "melee" if weapon.type == ItemWeapon.Type.MELEE else "ranged"],
+		"%s s" % _format_number(weapon.get_effective_cooldown(Global.player.stats if is_instance_valid(Global.player) else null)),
 		_format_number(stats.max_range),
 		"%s%%" % _format_number(stats.crit_chance * 100.0),
 		_format_number(stats.knockback),

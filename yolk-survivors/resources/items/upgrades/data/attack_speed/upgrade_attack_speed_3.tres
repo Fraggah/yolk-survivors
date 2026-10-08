@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/Upgrades/11.png" id="1_icon"]
+[ext_resource type="Script" path="res://resources/items/upgrades/item_upgrades.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+value = 15.0
+description = "+15%"
+stat_id = "attack_speed"
+item_name = "Attack speed"
+item_icon = ExtResource("1_icon")
+item_tier = 2
+item_type = 1
+item_cost = 0

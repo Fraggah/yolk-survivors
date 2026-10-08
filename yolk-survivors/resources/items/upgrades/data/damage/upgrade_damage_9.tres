@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("2_rllvo")
-value = 9.0
-description = "+9"
-stat_id = "damage"
-item_name = "Damage"
+value = 16.0
+description = "+16%"
+stat_id = "damage_percent"
+item_name = "Damage %"
 item_icon = ExtResource("1_24534")
 item_tier = 3
 item_type = 1

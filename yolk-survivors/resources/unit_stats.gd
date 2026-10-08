@@ -11,8 +11,14 @@ enum UnitType {
 @export var icon: Texture2D
 @export var health := 1.0
 @export var initial_health := 1.0
+# Per-wave growth is consumed only by the enemy spawner.
 @export var health_increase_per_wave := 1.0
+# Enemy contact damage remains independent from player weapon bonuses.
 @export var damage := 1.0
+@export var damage_percent := 0.0
+@export var melee_damage := 0.0
+@export var ranged_damage := 0.0
+@export var attack_speed := 0.0
 @export var initial_damage := 1.0
 @export var damage_increase_per_wave := 1.0
 @export var speed := 300.0

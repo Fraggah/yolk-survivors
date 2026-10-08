@@ -14,6 +14,11 @@ func _set_data(value: ItemUpgrade) -> void:
 		await ready
 	item_icon.texture = item.item_icon
 	item_name.text = item.item_name
+	var settings := item_name.label_settings.duplicate() as LabelSettings
+	var font := item_name.get_theme_font("font")
+	var text_width := font.get_string_size(item.item_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 30).x
+	settings.font_size = int(clampf(30.0 * 180.0 / maxf(text_width, 180.0), 16.0, 30.0))
+	item_name.label_settings = settings
 	item_description.text = item.description
 	
 	var style := Global.get_tier_style(item.item_tier)

@@ -17,7 +17,10 @@ func _set_shop_item(value: ItemBase) -> void:
 	item_icon.texture = shop_item.item_icon
 	item_name.text = shop_item.item_name
 	item_type.text = ItemBase.ItemType.keys()[shop_item.item_type]
-	item_description.text = shop_item.get_description()
+	if shop_item is ItemWeapon:
+		item_description.text = (shop_item as ItemWeapon).get_description(Global.player.stats if is_instance_valid(Global.player) else null)
+	else:
+		item_description.text = shop_item.get_description()
 	item_cost.text = str(shop_item.item_cost)
 	
 	var style := Global.get_tier_style(shop_item.item_tier)

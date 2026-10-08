@@ -5,6 +5,9 @@ class_name StatsContainer
 @onready var hp_regen_label: Label = %HpRegenLabel
 @onready var life_steal_label: Label = %LifeStealLabel
 @onready var damage_label: Label = %DamageLabel
+@onready var melee_damage_label: Label = %MeleeDamageLabel
+@onready var ranged_damage_label: Label = %RangedDamageLabel
+@onready var attack_speed_label: Label = %AttackSpeedLabel
 @onready var luck_label: Label = %LuckLabel
 @onready var speed_label: Label = %SpeedLabel
 @onready var block_label: Label = %BlockLabel
@@ -16,7 +19,10 @@ func _process(_delta: float) -> void:
 	health_label.text = str(Global.player.stats.health)
 	hp_regen_label.text = str(Global.player.stats.hp_regen)
 	life_steal_label.text = str(Global.player.stats.life_steal) + "%"
-	damage_label.text = str(Global.player.stats.damage)
+	damage_label.text = str(Global.player.stats.damage_percent) + "%"
+	melee_damage_label.text = str(Global.player.stats.melee_damage)
+	ranged_damage_label.text = str(Global.player.stats.ranged_damage)
+	attack_speed_label.text = str(Global.player.stats.attack_speed) + "%"
 	luck_label.text = str(Global.player.stats.luck)
 	block_label.text = str(Global.player.stats.block_chance) + "%"
 	speed_label.text = str(Global.player.stats.speed)

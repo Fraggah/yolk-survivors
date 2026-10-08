@@ -4,11 +4,15 @@ class_name Spawner
 signal on_wave_completed
 signal on_wave_started(wave: int)
 
+const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
+const HORDE_SCENES = [preload("res://scenes/units/enemies/enemy_chaser_fast.tscn"), preload("res://scenes/units/enemies/enemy_chaser_mid.tscn"), preload("res://scenes/units/enemies/enemy_chaser.tscn")]
+
 const FUEGUITO_SCENE = preload("res://scenes/units/enemies/enemy_fueguito.tscn")
+
+@export_range(1, 500) var max_alive_enemies := 80
 
 @export var spawn_area_size := Vector2(1000, 500)
 @export var waves_data: Array[WaveData]
-@export var enemy_collection: Array[UnitStats]
 @export_range(100.0, 1500.0, 10.0) var fueguito_min_spawn_distance := 450.0
 
 @onready var wave_timer: Timer = $WaveTimer
@@ -17,8 +21,10 @@ const FUEGUITO_SCENE = preload("res://scenes/units/enemies/enemy_fueguito.tscn")
 var wave_index := 1
 var current_wave_data: WaveData
 var spawned_enemies: Array[Enemy] = []
-var difficult_multiplier: Array[float] = [1, 1.2, 1.4, 1.6, 1.8, 2]
-var difficult_index := 0
+var difficulty_index := 0:
+	set(value): difficulty_index = DIFFICULTY_RULES.normalize_level(value)
+var spawn_generation := 0
+var pending_spawns := 0
 var fueguito: Enemy
 var arena_environment: ArenaEnvironment
 
@@ -29,6 +35,8 @@ func find_wave_data() -> WaveData:
 	return null
 
 func start_wave() -> void:
+	spawn_generation += 1
+	pending_spawns = 0
 	current_wave_data = find_wave_data()
 	if not current_wave_data:
 		printerr("No valid wave.")
@@ -89,6 +97,9 @@ func start_spawn_timer() -> void:
 			var max_t := current_wave_data.max_spawn_time
 			spawn_timer.wait_time = randf_range(min_t, max_t)
 	
+	if DIFFICULTY_RULES.is_horde(difficulty_index, wave_index):
+		spawn_timer.wait_time *= DIFFICULTY_RULES.HORDE_SPAWN_INTERVAL_MULTIPLIER
+	spawn_timer.wait_time = maxf(0.05, spawn_timer.wait_time)
 	if spawn_timer.is_stopped():
 		spawn_timer.start()
 
@@ -99,26 +110,68 @@ func get_random_spawn_position() -> Vector2:
 	var random_y := randf_range(-spawn_area_size.y, spawn_area_size.y)
 	return Vector2(random_x, random_y)
 
+func alive_enemy_count() -> int:
+	spawned_enemies = spawned_enemies.filter(func(enemy: Enemy): return is_instance_valid(enemy) and not enemy.is_queued_for_deletion())
+	var alive := 0
+	for enemy in spawned_enemies:
+		if enemy.health_component.current_health > 0.0:
+			alive += 1
+	return alive
+
+func get_enemy_scene() -> PackedScene:
+	if DIFFICULTY_RULES.is_horde(difficulty_index, wave_index):
+		# Favor fragile, mobile enemies over projectile saturation in horde waves.
+		var roll := randf()
+		return HORDE_SCENES[0] if roll < 0.5 else (HORDE_SCENES[1] if roll < 0.875 else HORDE_SCENES[2])
+	return current_wave_data.get_random_unit_scene(difficulty_index, wave_index)
+
+func prepare_enemy(instance: Enemy) -> void:
+	# Each spawned enemy owns its stats; roster resources never accumulate growth.
+	var base := instance.stats
+	var scaled := base.duplicate() as UnitStats
+	var elapsed_waves := maxi(0, wave_index - 1)
+	var multiplier := DIFFICULTY_RULES.stat_multiplier(difficulty_index)
+	scaled.health = (base.initial_health + base.health_increase_per_wave * elapsed_waves) * multiplier
+	scaled.damage = (base.initial_damage + base.damage_increase_per_wave * elapsed_waves) * multiplier
+	instance.stats = scaled
+
 func spawn_enemy() -> void:
-	if Global.game_paused: return
-	var enemy_scene := current_wave_data.get_random_unit_scene() as PackedScene
-	if enemy_scene:
-		var spawn_pos := get_random_spawn_position()
-		
-		var spawn_effect := Global.SPAWN_EFFECT_SCENE.instantiate()
-		get_parent().add_child(spawn_effect)
-		spawn_effect.global_position = spawn_pos
-		await spawn_effect.anim_player.animation_finished
-		spawn_effect.queue_free()
-		
-		var instance := enemy_scene.instantiate() as Enemy
-		instance.global_position = spawn_pos
-		get_parent().add_child(instance)
-		spawned_enemies.append(instance)
-	
+	if Global.game_paused or not current_wave_data or wave_timer.is_stopped(): return
+	if alive_enemy_count() + pending_spawns >= max_alive_enemies:
+		start_spawn_timer()
+		return
+	var enemy_scene := get_enemy_scene()
+	if not enemy_scene:
+		start_spawn_timer()
+		return
+	var generation := spawn_generation
+	pending_spawns += 1
+	# Schedule independently from the visual warning; pending reservations enforce the cap.
 	start_spawn_timer()
+	var spawn_pos := get_random_spawn_position()
+	var spawn_effect := Global.SPAWN_EFFECT_SCENE.instantiate()
+	get_parent().add_child(spawn_effect)
+	spawn_effect.global_position = spawn_pos
+	await spawn_effect.anim_player.animation_finished
+	spawn_effect.queue_free()
+	if generation != spawn_generation: return
+	pending_spawns -= 1
+	# Ended/exited waves cannot finish an old asynchronous spawn.
+	if wave_timer.is_stopped() or not is_instance_valid(Global.player): return
+	while Global.game_paused:
+		await get_tree().process_frame
+		if generation != spawn_generation or wave_timer.is_stopped(): return
+	if alive_enemy_count() >= max_alive_enemies:
+		return
+	var instance := enemy_scene.instantiate() as Enemy
+	prepare_enemy(instance)
+	instance.global_position = spawn_pos
+	get_parent().add_child(instance)
+	spawned_enemies.append(instance)
 
 func clear_enemies() -> void:
+	spawn_generation += 1
+	pending_spawns = 0
 	if spawned_enemies.size() > 0:
 		for enemy: Enemy in spawned_enemies:
 			if is_instance_valid(enemy):
@@ -126,22 +179,22 @@ func clear_enemies() -> void:
 	
 	spawned_enemies.clear()
 
-func update_enemies_new_wave() -> void:
-	for stats: UnitStats in enemy_collection:
-		stats.health += stats.health_increase_per_wave * difficult_multiplier[difficult_index]
-		stats.damage += stats.damage_increase_per_wave * difficult_multiplier[difficult_index]
-
 func get_wave_timer_text() -> String:
 	return str(int(wave_timer.time_left + 1))
 
 func get_wave_text() -> String:
-	return "Wave %d" % wave_index
+	return "Wave %d%s" % [wave_index, " - Horde" if DIFFICULTY_RULES.is_horde(difficulty_index, wave_index) else ""]
 
-func reset_enemies_stats() -> void:
+func reset_run(level: int) -> void:
+	wave_timer.stop()
+	spawn_timer.stop()
+	wave_timer.paused = false
+	spawn_timer.paused = false
+	clear_enemies()
 	clear_fueguito()
-	for stats: UnitStats in enemy_collection:
-		stats.health = stats.initial_health
-		stats.damage = stats.initial_damage
+	wave_index = 1
+	difficulty_index = level
+	current_wave_data = null
 
 func _on_spawn_timer_timeout() -> void:
 	if not current_wave_data or wave_timer.is_stopped():
@@ -157,4 +210,3 @@ func _on_wave_timer_timeout() -> void:
 	on_wave_completed.emit()
 	spawn_timer.stop()
 	clear_enemies()
-	update_enemies_new_wave()

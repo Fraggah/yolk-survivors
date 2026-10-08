@@ -1,18 +1,24 @@
-# Yolk Survivors — Estadísticas base
+# Yolk Survivors â€” EstadÃ­sticas base
 
-| Personaje | Vida | Daño adicional | Velocidad | Suerte | Bloqueo % | Regen / 3 s | Robo de vida % | Cosecha | Vida / oleada |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Well Rounded | 20 | 5 | 300 | 5 | 5 | 0 | 0 | 0 | 0 |
-| Tiny Egg | 14 | 3 | 375 | 10 | 12 | 0 | 0 | 0 | 0 |
-| Hardboiled | 36 | 4 | 250 | 0 | 22 | 0 | 0 | 0 | 0 |
-| Mutant | 22 | 5 | 285 | 0 | 3 | 1 | 0 | 0 | 1 |
-| Vampire | 18 | 5 | 310 | 0 | 0 | 0 | 12 | 0 | 0 |
-| Gambler | 16 | 4 | 310 | 35 | 5 | 0 | 0 | 0 | 0 |
-| Scrapper | 24 | 4 | 290 | 5 | 10 | 1 | 0 | 5 | 0 |
-| Glass Egg | 10 | 12 | 325 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Hoarder | 22 | 2 | 275 | 15 | 5 | 0 | 0 | 15 | 0 |
-| Berserker | 16 | 10 | 335 | 0 | 0 | 0 | 0 | 0 | 0 |
+Primera pasada del rework de daÃ±o y cadencia.
 
-Daño adicional se suma al daño del arma antes del crítico. Velocidad: unidades de Godot por segundo. Bloqueo y robo de vida: porcentaje. Regeneración: vida recuperada cada 3 segundos. Robo de vida: probabilidad de recuperar 1 HP por ataque. Cosecha: monedas al finalizar cada oleada (según el flujo actual). Vida / oleada: aumento de vida máxima al entrar en la siguiente oleada. Suerte conserva la fórmula de probabilidades existente; no es un porcentaje de crítico. No se agregaron estadísticas ni habilidades nuevas.
+| Personaje | Vida | DaÃ±o % | Melee | A distancia | Ataque % | Velocidad | Suerte | Bloqueo % | Regen / 3 s | Robo % | Cosecha |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Well Rounded | 20 | 10 | 2 | 2 | 5 | 300 | 5 | 5 | 0 | 0 | 0 |
+| Tiny Egg | 14 | -10 | 0 | 0 | 30 | 375 | 10 | 12 | 0 | 0 | 0 |
+| Hardboiled | 36 | 0 | 5 | 0 | -10 | 250 | 0 | 22 | 0 | 0 | 0 |
+| Mutant | 22 | 5 | 3 | 3 | 0 | 285 | 0 | 3 | 1 | 0 | 0 |
+| Vampire | 18 | 0 | 2 | 2 | 10 | 310 | 0 | 0 | 0 | 12 | 0 |
+| Gambler | 16 | 0 | 0 | 2 | 5 | 310 | 35 | 5 | 0 | 0 | 0 |
+| Scrapper | 24 | 0 | 4 | 1 | 10 | 290 | 5 | 10 | 1 | 0 | 5 |
+| Glass Egg | 10 | 40 | 0 | 0 | 0 | 325 | 0 | 0 | 0 | 0 | 0 |
+| Hoarder | 22 | -10 | 0 | 0 | 0 | 275 | 15 | 5 | 0 | 0 | 15 |
+| Berserker | 16 | 15 | 8 | -2 | 15 | 335 | 0 | 0 | 0 | 0 | 0 |
 
-Esta es una primera distribución de balance basada en la identidad de los personajes, pendiente de ajuste tras partidas completas.
+DaÃ±o por impacto: mÃ¡ximo entre 1 y `(base del arma + bono del tipo Ã— escalado) Ã— (1 + daÃ±o % / 100)`. El crÃ­tico se aplica despuÃ©s. Se conservan decimales.
+
+Cooldown positivo: `base / (1 + ataque % / 100)`. Con penalizaciÃ³n: `base Ã— (1 + abs(ataque %) / 100)`. MÃ­nimo: 0,05 s. Las animaciones se acortan cuando es necesario para completar cada ataque antes del siguiente.
+
+Velocidad de movimiento, bloqueo, regeneraciÃ³n, robo de vida y cosecha conservan su funcionamiento previo. Los valores requieren ajuste despuÃ©s de partidas completas.
+
+Los jugadores no aumentan su vida máxima por oleada. El crecimiento por oleada pertenece a los enemigos; las mejoras de vida máxima del jugador siguen funcionando.

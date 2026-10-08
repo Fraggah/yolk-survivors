@@ -10,9 +10,10 @@ func execute_attack() -> void:
 	SoundManager.play_sound(SoundManager.Sound.FIRE)
 	
 	var tween := create_tween()
+	var time_scale := weapon.get_animation_time_scale(weapon.data.stats.recoil_duration * 2.0)
 	var attack_pos := Vector2(weapon.atk_start_pos.x - weapon.data.stats.recoil, weapon.atk_start_pos.y)
-	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.recoil_duration)
-	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.recoil_duration)
+	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.recoil_duration * time_scale)
+	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.recoil_duration * time_scale)
 	
 	apply_life_steal()
 	
@@ -26,4 +27,6 @@ func create_projectile() -> void:
 	instance.global_position = muzzle.global_position
 	
 	var velocity := Vector2.RIGHT.rotated(weapon.rotation) * weapon.data.stats.projectile_speed
-	instance.setup_projectile(velocity, get_damage(), critical, weapon.data.stats.knockback, weapon.get_parent())
+	# Match the detection circle's world-space radius, including the entity scale.
+	var travel_range := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x)
+	instance.setup_projectile(velocity, get_damage(), critical, weapon.data.stats.knockback, weapon.get_parent(), travel_range)

@@ -87,7 +87,10 @@ func _on_player_selected(player: UnitStats) -> void:
 	player_name.text = player.name
 	var stat_lines: PackedStringArray = [
 		"Health: [color=green]%s[/color]" % player.health,
-		"Damage bonus: [color=green]%s[/color]" % player.damage,
+		"Damage: [color=green]%s%%[/color]" % player.damage_percent,
+		"Melee damage: [color=green]%s[/color]" % player.melee_damage,
+		"Ranged damage: [color=green]%s[/color]" % player.ranged_damage,
+		"Attack speed: [color=green]%s%%[/color]" % player.attack_speed,
 		"Speed: [color=green]%s[/color]" % player.speed,
 		"Luck: [color=green]%s[/color]" % player.luck,
 		"Block chance: [color=green]%s%%[/color]" % player.block_chance,
@@ -95,9 +98,9 @@ func _on_player_selected(player: UnitStats) -> void:
 		"Life steal: [color=green]%s%%[/color]" % player.life_steal,
 		"Harvesting: [color=green]%s[/color]" % player.harvesting
 	]
-	if player.health_increase_per_wave > 0:
-		stat_lines.append("HP / wave: [color=green]+%s[/color]" % player.health_increase_per_wave)
 	player_description.text = "\n".join(stat_lines)
+	if Global.main_weapon_selected:
+		_on_weapon_selected(Global.main_weapon_selected)
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
 	Global.main_weapon_selected = weapon
@@ -106,8 +109,7 @@ func _on_weapon_selected(weapon: ItemWeapon) -> void:
 	weapon_icon.texture = weapon.item_icon
 	weapon_name.text = weapon.item_name
 	weapon_title.text = "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
-	var stats := weapon.stats
-	weapon_description.text = "Damage: [color=green]%s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]\nAccuracy: [color=green]%s%%[/color]\nKnockback: [color=green]%s[/color]" % [stats.damage, stats.cooldown, stats.max_range, stats.crit_chance * 100, stats.accuracy * 100, stats.knockback]
+	weapon_description.text = weapon.get_description(Global.main_player_selected)
 
 
 func _update_selected_slots() -> void:

@@ -17,14 +17,14 @@ enum SpawnType {
 @export var max_spawn_time := 2.5
 
 
-func get_random_unit_scene() -> PackedScene:
+func get_random_unit_scene(difficulty: int = 0, wave: int = 1) -> PackedScene:
 	if units.is_empty():
 		printerr("No units.")
 		return null
 	
 	var total_weight := .0
 	for unit_data: WaveUnitData in units:
-		if unit_data and unit_data.weight > .0:
+		if unit_data and unit_data.is_eligible(difficulty, wave):
 			total_weight += unit_data.weight
 	
 	if total_weight <= .0:
@@ -35,7 +35,7 @@ func get_random_unit_scene() -> PackedScene:
 	
 	var current_weight_sum := .0
 	for unit_data: WaveUnitData in units:
-		if unit_data and unit_data.weight > .0:
+		if unit_data and unit_data.is_eligible(difficulty, wave):
 			current_weight_sum += unit_data.weight
 			if random_weight <= current_weight_sum:
 				return unit_data.unit_scene

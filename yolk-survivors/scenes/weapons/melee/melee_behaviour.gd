@@ -7,8 +7,10 @@ func execute_attack() -> void:
 	weapon.is_attacking = true
 	
 	var tween := create_tween()
+	var stats := weapon.data.stats
+	var time_scale := weapon.get_animation_time_scale(stats.recoil_duration + stats.attack_duration + stats.back_duration)
 	var recoild_pos := Vector2(weapon.atk_start_pos.x - weapon.data.stats.recoil, weapon.atk_start_pos.y)
-	tween.tween_property(weapon.sprite_2d, "position", recoild_pos, weapon.data.stats.recoil_duration)
+	tween.tween_property(weapon.sprite_2d, "position", recoild_pos, weapon.data.stats.recoil_duration * time_scale)
 	
 	tween.tween_callback(func():
 		hitbox.enable()
@@ -16,7 +18,7 @@ func execute_attack() -> void:
 	)
 	
 	var attack_pos := Vector2(weapon.atk_start_pos.x + weapon.data.stats.max_range, weapon.atk_start_pos.y)
-	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.attack_duration)
+	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.attack_duration * time_scale)
 	
 	tween.tween_callback(func():
 		hitbox.disable()
@@ -24,7 +26,7 @@ func execute_attack() -> void:
 	
 	apply_life_steal()
 	
-	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.back_duration)
+	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.back_duration * time_scale)
 	
 	tween.finished.connect(func():
 		weapon.is_attacking = false

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/Upgrades/12.png" id="1_icon"]
+[ext_resource type="Script" path="res://resources/items/upgrades/item_upgrades.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+value = 1.0
+description = "+1"
+stat_id = "ranged_damage"
+item_name = "Ranged damage"
+item_icon = ExtResource("1_icon")
+item_tier = 0
+item_type = 1
+item_cost = 0

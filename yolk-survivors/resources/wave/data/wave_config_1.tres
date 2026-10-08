@@ -1,10 +1,13 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=10 format=3 uid="uid://d3260jp73amhp"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=13 format=3 uid="uid://d3260jp73amhp"]
 
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="1_qmgf4"]
 [ext_resource type="Script" uid="uid://bna3jq5lnsfd3" path="res://resources/wave/wave_unit_data.gd" id="2_q3sp3"]
 [ext_resource type="PackedScene" uid="uid://wjxii7k20fpj" path="res://scenes/units/enemies/enemy_chaser.tscn" id="3_f317c"]
 [ext_resource type="PackedScene" uid="uid://ddrv7th17lmsp" path="res://scenes/units/enemies/enemy_chaser_mid.tscn" id="4_jgwwd"]
 [ext_resource type="PackedScene" uid="uid://63jckry2lsdv" path="res://scenes/units/enemies/enemy_chaser_fast.tscn" id="5_ly8xl"]
+
+[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_shooter.tscn" id="early_shooter"]
+[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_charger.tscn" id="early_charger"]
 
 [sub_resource type="Resource" id="Resource_eomi3"]
 script = ExtResource("2_q3sp3")
@@ -26,15 +29,25 @@ metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
 
 [sub_resource type="Resource" id="Resource_qmgf4"]
 script = ExtResource("2_q3sp3")
+unit_scene = ExtResource("early_shooter")
+minimum_difficulty = 1
+first_wave = 3
 weight = 1.0
 metadata/_custom_type_script = "uid://bna3jq5lnsfd3"
+
+[sub_resource type="Resource" id="early_charger_entry"]
+script = ExtResource("2_q3sp3")
+unit_scene = ExtResource("early_charger")
+weight = 1.0
+minimum_difficulty = 1
+first_wave = 3
 
 [resource]
 script = ExtResource("1_qmgf4")
 from = 2
 to = 3
 wave_time = 20.0
-units = Array[ExtResource("2_q3sp3")]([SubResource("Resource_eomi3"), SubResource("Resource_7gla6"), SubResource("Resource_32rfi"), SubResource("Resource_qmgf4")])
+units = Array[ExtResource("2_q3sp3")]([SubResource("Resource_eomi3"), SubResource("Resource_7gla6"), SubResource("Resource_32rfi"), SubResource("Resource_qmgf4"), SubResource("early_charger_entry")])
 spawn_type = 0
 fixed_spawn_time = 0.8
 min_spawn_time = 1.0

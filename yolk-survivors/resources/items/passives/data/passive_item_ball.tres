@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("1_omkrg")
-add_value = 5.0
-add_stats_id = "damage"
+add_value = 10.0
+add_stats_id = "damage_percent"
 remove_value = 0.0
 remove_stats_id = ""
 item_name = "Power Ball"

@@ -72,7 +72,7 @@ func create_floating_text(unit: Node2D) -> FloatingText:
 
 func start_new_wave() -> void:
 	Global.game_paused = false
-	Global.player.upgrade_player_for_new_wave()
+	Global.player.prepare_for_new_wave()
 	spawner.wave_index += 1
 	spawner.start_wave()
 	wave_active = not spawner.wave_timer.is_stopped()
@@ -113,7 +113,7 @@ func on_create_block_text(unit: Node2D) -> void:
 func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 	var text := create_floating_text(unit)
 	var color := critical_color if hitbox.critical else normal_color
-	text.setup_text(str(hitbox.damage), color)
+	text.setup_text(ItemWeapon.format_number(hitbox.damage), color)
 
 func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	var text := create_floating_text(unit)
@@ -181,7 +181,9 @@ func _on_selection_panel_on_selection_completed() -> void:
 func _on_level_selected(level: int) -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	var player := Global.get_selected_player()
-	spawner.reset_enemies_stats()
+	level = spawner.DIFFICULTY_RULES.normalize_level(level)
+	Global.level_selected = level
+	spawner.reset_run(level)
 	add_child(player)
 	player.add_weapon(Global.main_weapon_selected)
 	shop_panel.create_item_weapon(Global.main_weapon_selected)
@@ -193,8 +195,6 @@ func _on_level_selected(level: int) -> void:
 	wave_active = not spawner.wave_timer.is_stopped()
 	show_controls()
 	Global.game_paused = false
-	Global.level_selected = level
-	spawner.difficult_index = level
 	Global.coins = 10
 	in_arena = true
 	level_panel.hide()
@@ -209,6 +209,7 @@ func show_controls() -> void:
 
 func _on_player_died() -> void:
 	wave_active = false
+	spawner.wave_timer.stop()
 	spawner.clear_fueguito()
 	spawner.spawn_timer.stop()
 	Global.game_paused = true
@@ -275,6 +276,8 @@ func _on_selection_panel_on_level_select_exited() -> void:
 
 func _on_pause_panel_on_exit_pressed() -> void:
 	wave_active = false
+	spawner.wave_timer.stop()
+	spawner.spawn_timer.stop()
 	spawner.clear_fueguito()
 	_apply_wave_environment(1)
 	in_arena = false

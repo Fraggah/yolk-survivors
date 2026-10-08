@@ -17,7 +17,7 @@ func verify() -> void:
 	await process_frame
 	for card in selection.players_container.get_children():
 		assert(selection.get_global_rect().encloses(card.get_global_rect()), "Character card outside screen")
-	var fields = ["health", "damage", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting"]
+	var fields = ["health", "damage", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting"]
 	for index in selection.player_list.size():
 		var base = selection.player_list[index]
 		var original: Dictionary = {}
@@ -26,6 +26,8 @@ func verify() -> void:
 		selection.players_container.get_child(index).pressed.emit()
 		assert(global.main_player_selected == base)
 		assert(selection.player_name.text == base.name)
+		await process_frame
+		assert(selection.player_description.get_content_height() <= selection.player_description.size.y, "Stats clipped: " + base.name)
 		assert(selection.player_description.text.contains("Harvesting:"))
 		assert(selection.player_description.text.contains("Life steal:"))
 		global.main_weapon_selected = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
@@ -74,7 +76,7 @@ func verify() -> void:
 		weapon.data.stats = weapon.data.stats.duplicate()
 		weapon.data.stats.crit_chance = 0.0
 		var behavior = weapon.get_node("WeaponBehaviour")
-		assert(behavior.get_damage() == weapon.data.stats.damage + base.damage)
+		assert(behavior.get_damage() == weapon.data.get_effective_damage(base))
 		if base.name == "Vampire":
 			seed(123)
 			player.health_component.current_health -= 10
@@ -93,8 +95,13 @@ func verify() -> void:
 		var coins_before = global.coins
 		global.get_harvesting_coins()
 		assert(global.coins == coins_before + int(base.harvesting))
-		player.upgrade_player_for_new_wave()
-		assert(player.stats.health == base.health + base.health_increase_per_wave)
+		# Even a stray growth value must not affect the player's maximum HP.
+		player.stats.health_increase_per_wave = 999.0
+		player.prepare_for_new_wave()
+		assert(player.stats.health == base.health)
+		assert(player.health_component.max_health == base.health)
+		assert(player.health_component.current_health == base.health)
+		assert(not selection.player_description.text.contains("HP / wave:"))
 		# Simulate upgrades, then exit and reselect: every base stat must be restored.
 		for field in fields:
 			player.stats.set(field, player.stats.get(field) + 7)
@@ -121,6 +128,7 @@ func verify() -> void:
 	dying.stats.life_steal = 99
 	dying.health_component.take_damage(10000)
 	await process_frame
+	assert(arena.spawner.wave_timer.is_stopped() and arena.spawner.spawn_timer.is_stopped())
 	assert(vampire.life_steal == 12)
 	assert(vampire.health == 18)
 	global.player = null
@@ -128,7 +136,7 @@ func verify() -> void:
 	await create_timer(6.5).timeout
 	arena.queue_free()
 	await process_frame
-	print("PASS: Escape pauses/resumes waves, ignores upgrades/shop and wave-end transition; 10 selectable characters, portraits, base stats, regen pause, harvesting, growth, exit/retry and death isolation")
+	print("PASS: Escape pauses/resumes waves, ignores upgrades/shop and wave-end transition; 10 selectable characters, portraits, base stats, regen pause, harvesting, fixed max HP between waves, exit/retry and death isolation")
 	call_deferred("quit")
 
 func press_escape() -> void:

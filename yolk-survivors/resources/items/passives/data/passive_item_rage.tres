@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_8rt6m")
-add_value = 10.0
-add_stats_id = "damage"
+add_value = 25.0
+add_stats_id = "damage_percent"
 remove_value = 15.0
 remove_stats_id = "speed"
 item_name = "Rage"

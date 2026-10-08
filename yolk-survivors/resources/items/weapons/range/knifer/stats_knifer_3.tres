@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("1_copkv")
-damage = 20
+damage = 17.0
 accuracy = 0.8
-cooldown = 1.0
+cooldown = 0.5
 crit_chance = 0.11
 crit_damage = 2.0
 max_range = 350.0
@@ -20,3 +20,4 @@ back_duration = 0.15
 projectile_scene = ExtResource("1_i0vrm")
 projectile_speed = 1500.0
 metadata/_custom_type_script = "uid://dt1gvvs3u6pgk"
+damage_scaling = 0.6

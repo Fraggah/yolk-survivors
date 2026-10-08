@@ -38,13 +38,20 @@ func setup_weapon(weapon_data: ItemWeapon) -> void:
 	apply_tier_outline()
 
 func can_use_weapon() -> bool:
-	return cooldown_timer.is_stopped() and closest_target
+	return cooldown_timer.is_stopped() and not is_attacking and is_instance_valid(closest_target)
 
 func use_weapon() -> void:
 	calculate_spread()
 	weapon_behaviour.execute_attack()
-	cooldown_timer.wait_time = data.stats.cooldown
+	cooldown_timer.wait_time = get_effective_cooldown()
 	cooldown_timer.start()
+
+func get_effective_cooldown() -> float:
+	return data.get_effective_cooldown(Global.player.stats)
+
+func get_animation_time_scale(animation_duration: float) -> float:
+	# Leave a small margin so animation completion never delays the next attack.
+	return minf(1.0, get_effective_cooldown() * 0.9 / maxf(animation_duration, 0.001))
 
 func rotate_to_target() -> void:
 	if is_attacking:

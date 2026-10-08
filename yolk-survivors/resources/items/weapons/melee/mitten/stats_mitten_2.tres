@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_ccedh")
-damage = 8
+damage = 10.0
 accuracy = 1.0
-cooldown = 1.1
+cooldown = 0.5
 crit_chance = 0.01
 crit_damage = 1.5
 max_range = 180.0
@@ -18,3 +18,4 @@ attack_duration = 0.2
 back_duration = 0.15
 projectile_speed = 1500.0
 metadata/_custom_type_script = "uid://dt1gvvs3u6pgk"
+damage_scaling = 0.6
