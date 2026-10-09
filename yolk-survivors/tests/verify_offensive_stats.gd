@@ -89,7 +89,9 @@ func verify() -> void:
 	root.add_child(enemy)
 	enemy.set_process(false)
 	enemy.set_physics_process(false)
-	enemy.position = Vector2(1000, 1000)
+	enemy.position = player.global_position + Vector2(60, 0)
+	enemy.health_component.current_health = 1000000.0
+	enemy.health_component.max_health = 1000000.0
 	for item_path in ["res://resources/items/weapons/melee/blender/item_blender_1.tres", "res://resources/items/weapons/range/hydrant/item_hydrant_1.tres"]:
 		var item = load(item_path)
 		var weapon = item.scene.instantiate()
@@ -101,9 +103,10 @@ func verify() -> void:
 		weapon.cooldown_timer.timeout.connect(func(): attacks.count += 1)
 		global.game_paused = false
 		await create_timer(1.2).timeout
-		global.game_paused = true
+		weapon.set_process(false)
 		assert(attacks.count >= 12, "Animation limits sustained fast attacks: " + item_path)
 		await create_timer(0.1).timeout
+		global.game_paused = true
 		assert(not weapon.is_attacking)
 		assert(weapon.sprite_2d.position.is_equal_approx(weapon.atk_start_pos))
 		weapon.queue_free()

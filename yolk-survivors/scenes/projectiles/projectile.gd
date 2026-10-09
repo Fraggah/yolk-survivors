@@ -8,6 +8,7 @@ var max_distance := INF
 var distance_travelled := 0.0
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_to_group("projectiles")
 	scale *= Global.GAME_ENTITY_SCALE
 	hitbox.enable()

@@ -51,6 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_un15a")
 script = ExtResource("1_3miu1")
+base_player_stats = ExtResource("player_0")
 player_list = Array[ExtResource("2_dh0xd")]([ExtResource("player_0"), ExtResource("player_1"), ExtResource("player_2"), ExtResource("player_3"), ExtResource("player_4"), ExtResource("player_5"), ExtResource("player_6"), ExtResource("player_7"), ExtResource("player_8"), ExtResource("player_9")])
 weapons_list = Array[ExtResource("8_4mw87")]([ExtResource("9_hu73q"), ExtResource("10_3scu4"), ExtResource("11_10geq"), ExtResource("12_0pu13"), ExtResource("13_ie7rk"), ExtResource("14_y6xu8"), ExtResource("15_q3p5q"), ExtResource("16_4wjk5"), ExtResource("17_tx3iw"), ExtResource("18_lur41")])
 
@@ -73,7 +74,7 @@ theme_override_constants/separation = 24
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
-text = "Select Player And Weapon"
+text = "Select Player"
 label_settings = SubResource("LabelSettings_3scu4")
 horizontal_alignment = 1
 vertical_alignment = 1

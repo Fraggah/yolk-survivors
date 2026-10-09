@@ -138,7 +138,7 @@ func try_purchase_item(item: ItemBase) -> bool:
 	if not item or not is_instance_valid(Global.player): return false
 	var price := item.get_shop_price(shop_wave)
 	if Global.coins < price: return false
-	if item.item_type == ItemBase.ItemType.WEAPON and Global.equipped_weapons.size() >= 6:
+	if item.item_type == ItemBase.ItemType.WEAPON and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
 		if not _get_auto_upgrade_card(item as ItemWeapon): return false
 	Global.coins -= price
 	_on_item_purchased(item)
@@ -146,7 +146,7 @@ func try_purchase_item(item: ItemBase) -> bool:
 
 func _on_item_purchased(item: ItemBase) -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
-	if item is ItemWeapon and Global.equipped_weapons.size() >= 6:
+	if item is ItemWeapon and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
 		_auto_upgrade_purchased_weapon(item as ItemWeapon)
 		return
 	var item_card := create_item_card()

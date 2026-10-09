@@ -1,6 +1,8 @@
 extends Node2D
 class_name Weapon
 
+const VISUAL_SCALE := 0.75
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = %CollisionShape2D
 @onready var range_area: Area2D = $RangeArea
@@ -9,6 +11,7 @@ class_name Weapon
 
 var data: ItemWeapon
 var is_attacking := false
+var sprite_base_scale: Vector2
 var atk_start_pos : Vector2
 var weapon_spread: float
 
@@ -16,6 +19,9 @@ var targets: Array[Enemy]
 var closest_target: Enemy
 
 func _ready() -> void:
+	sprite_2d.scale *= VISUAL_SCALE
+	sprite_2d.position *= VISUAL_SCALE
+	sprite_base_scale = sprite_2d.scale
 	atk_start_pos = sprite_2d.position
 	center_range_on_player()
 
@@ -119,9 +125,9 @@ func calculate_spread() -> void:
 
 func update_visuals() -> void:
 	if abs(rotation) > PI/2:
-		sprite_2d.scale.y = -.5
+		sprite_2d.scale.y = -absf(sprite_base_scale.y)
 	else:
-		sprite_2d.scale.y = .5
+		sprite_2d.scale.y = absf(sprite_base_scale.y)
 
 func apply_tier_outline() -> void:
 	if data.item_tier == Global.UpgradeTier.COMMON:

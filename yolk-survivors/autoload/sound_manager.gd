@@ -22,6 +22,10 @@ var sound_dictionary: Dictionary[Sound, Resource] = {
 	Sound.PUNCH: preload("res://assets/audio/Punch.mp3")
 }
 
+func _ready() -> void:
+	# Menu clicks must remain audible while the gameplay tree is paused.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 func set_sfx_volume(value: float) -> void:
 	sfx_volume = value
 	AudioServer.set_bus_volume_db(sfx_bus, linear_to_db(value))

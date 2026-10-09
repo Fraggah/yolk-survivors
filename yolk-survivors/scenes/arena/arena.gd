@@ -18,6 +18,7 @@ class_name Arena
 @onready var instructions: Label = %Instructions
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
+@onready var weapon_selection_panel: SelectionPanel = $GameUI/WeaponSelectionPanel
 @onready var final_label: Label = %FinalLabel
 @onready var level_panel: LevelPanel = $GameUI/LevelPanel
 @onready var start_panel: StartPanel = $GameUI/StartPanel
@@ -33,6 +34,7 @@ var in_arena := false
 var wave_active := false
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
 	Global.on_create_heal_text.connect(_on_create_heal_text)
@@ -64,6 +66,7 @@ func _process(_delta: float) -> void:
 
 func create_floating_text(unit: Node2D) -> FloatingText:
 	var instance := Global.FLOATING_TEXT_SCENE.instantiate() as FloatingText
+	instance.add_to_group("combat_texts")
 	get_tree().root.add_child(instance)
 	var random_pos := randf_range(0, TAU) * 35
 	var spawn_pos := unit.global_position + Vector2.RIGHT.rotated(random_pos)
@@ -97,6 +100,9 @@ func spawn_coins(enemy: Enemy) -> void:
 	call_deferred("add_child", instance)
 
 func clear_arena(bank_yolks: bool = false) -> void:
+	for text in get_tree().get_nodes_in_group("combat_texts"):
+		text.hide()
+		text.queue_free()
 	# Player projectiles live under the root, enemy projectiles under Arena.
 	# A shared group clears both when the wave/run ends, including while paused.
 	for projectile in get_tree().get_nodes_in_group("projectiles"):
@@ -130,7 +136,7 @@ func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 
 func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	var text := create_floating_text(unit)
-	text.setup_text("+ %d" % value, hp_reg_color)
+	text.setup_text("+ %s" % ItemWeapon.format_number(value), hp_reg_color)
 
 func toggle_pause() -> void:
 	if not in_arena or not wave_active: return
@@ -188,11 +194,22 @@ func _on_enemy_died(enemy: Enemy) -> void:
 	spawn_coins(enemy)
 
 func _on_selection_panel_on_selection_completed() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
-	level_panel.show()
 	selection_panel.hide()
+	weapon_selection_panel.show()
+
+func _on_weapon_selection_completed() -> void:
+	weapon_selection_panel.hide()
+	level_panel.show()
+
+func _on_weapon_selection_exited() -> void:
+	weapon_selection_panel.hide()
+	selection_panel.show()
 
 func _on_level_selected(level: int) -> void:
+	# Ignore repeated confirmation and refuse an incomplete/invalid loadout.
+	if in_arena: return
+	var starting_weapons := Global.get_starting_weapons()
+	if starting_weapons.is_empty(): return
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	Global.yolk_reserve = 0
 	var player := Global.get_selected_player()
@@ -200,9 +217,12 @@ func _on_level_selected(level: int) -> void:
 	Global.level_selected = level
 	spawner.reset_run(level)
 	add_child(player)
-	player.add_weapon(Global.main_weapon_selected)
-	shop_panel.create_item_weapon(Global.main_weapon_selected)
-	Global.equipped_weapons.append(Global.main_weapon_selected)
+	Global.equipped_weapons.clear()
+	shop_panel.clear_items()
+	for weapon in starting_weapons:
+		player.add_weapon(weapon)
+		shop_panel.create_item_weapon(weapon)
+		Global.equipped_weapons.append(weapon)
 	coocking_player.stream_paused = false
 	spawner.wave_timer.paused = false
 	spawner.spawn_timer.paused = false
@@ -223,6 +243,7 @@ func show_controls() -> void:
 	instructions.hide()
 
 func _on_player_died() -> void:
+	Global.player = null
 	wave_active = false
 	spawner.wave_timer.stop()
 	spawner.clear_fueguito()
@@ -280,7 +301,7 @@ func _on_credits_panel_on_credits_exited() -> void:
 func _on_level_panel_on_level_selection_exited() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	level_panel.hide()
-	selection_panel.show()
+	weapon_selection_panel.show()
 
 
 func _on_selection_panel_on_level_select_exited() -> void:

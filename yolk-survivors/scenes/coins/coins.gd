@@ -77,6 +77,7 @@ func _on_area_entered(_area: Area2D) -> void:
 		collected = true
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("yolks")
 	scale *= Global.GAME_ENTITY_SCALE
 	sprite_base_scale = sprite.scale

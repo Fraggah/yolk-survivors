@@ -15,6 +15,10 @@ var move_dir: Vector2
 @onready var shadow: Sprite2D = $Visuals/Shadow
 
 
+const HIT_INVULNERABILITY := 0.5
+const LIFE_STEAL_INTERVAL := 0.1
+var hit_invulnerability_left := 0.0
+var life_steal_cooldown := 0.0
 var is_dashing: bool
 var current_weapons: Array[Weapon] = []
 var arena_environment: ArenaEnvironment
@@ -28,6 +32,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Global.game_paused: return
 	
+	hit_invulnerability_left = maxf(0.0, hit_invulnerability_left - delta)
+	life_steal_cooldown = maxf(0.0, life_steal_cooldown - delta)
 	move_dir = Input.get_vector("move_left","move_right","move_up","move_down")
 	
 	var current_velocity := move_dir * stats.speed
@@ -89,6 +95,18 @@ func update_rotation() -> void:
 		visuals.scale = Vector2(.5, .5)
 
 func prepare_for_new_wave() -> void:
+	hit_invulnerability_left = 0.0
+	life_steal_cooldown = 0.0
+	is_dashing = false
+	dash_timer.stop()
+	dash_cooldown_timer.stop()
+	trail.trail_timer.stop()
+	trail.is_active = false
+	trail.clear_points()
+	trail.points_array.clear()
+	visuals.modulate.a = 1.0
+	collision.set_deferred("disabled", false)
+	shadow.material.set_shader_parameter("outline_color", trail.default_color)
 	health_component.setup(stats)
 
 func is_facing_right() -> bool:
@@ -108,7 +126,8 @@ func _on_hp_timer_timeout() -> void:
 	if health_component.current_health <= 0 or health_component.current_health >= stats.health: return
 	
 	if health_component.current_health < stats.health:
-		var heal := stats.hp_regen
+		var heal := minf(stats.hp_regen, health_component.max_health - health_component.current_health)
+		if heal <= 0.0: return
 		health_component.heal(heal)
 		Global.on_create_heal_text.emit(self, heal)
 
@@ -120,3 +139,17 @@ func _on_health_component_on_unit_died() -> void:
 
 func _on_dash_cooldown_timer_timeout() -> void:
 	shadow.material.set_shader_parameter("outline_color", trail.default_color)
+
+func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
+	if Global.game_paused or is_dashing or hit_invulnerability_left > 0.0: return
+	if receive_hit(hitbox): hit_invulnerability_left = HIT_INVULNERABILITY
+
+func try_life_steal(chance: float) -> bool:
+	if Global.game_paused or is_queued_for_deletion() or life_steal_cooldown > 0.0: return false
+	if health_component.current_health <= 0.0 or health_component.current_health >= health_component.max_health: return false
+	if not Global.get_chance_succes(clampf(chance, 0.0, 1.0)): return false
+	var before := health_component.current_health
+	health_component.heal(1.0)
+	life_steal_cooldown = LIFE_STEAL_INTERVAL
+	Global.on_create_heal_text.emit(self, health_component.current_health - before)
+	return true

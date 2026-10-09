@@ -16,7 +16,7 @@ func _ready() -> void:
 	
 
 func _process(delta: float) -> void:
-	if Global.game_paused: return
+	if Global.game_paused or enemy.is_retiring: return
 	
 	if current_cooldown > 0:
 		current_cooldown -= delta
@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		current_cooldown = cooldown
 
 func shoot() -> void:
-	if not is_instance_valid(Global.player): return
+	if not is_instance_valid(Global.player) or enemy.is_retiring: return
 	
 	enemy.can_move = false
 	
@@ -42,5 +42,5 @@ func shoot() -> void:
 		var velocity = rotation_direction * projectile_speed
 		projectile.setup_projectile(velocity, enemy.stats.damage, false, 0, enemy)
 	
-	await get_tree().create_timer(1).timeout
-	enemy.can_move = true
+	await get_tree().create_timer(1.0, false).timeout
+	if is_instance_valid(enemy) and not enemy.is_retiring: enemy.can_move = true

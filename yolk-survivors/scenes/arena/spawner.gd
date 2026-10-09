@@ -28,6 +28,9 @@ var pending_spawns := 0
 var fueguito: Enemy
 var arena_environment: ArenaEnvironment
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+
 func find_wave_data() -> WaveData:
 	for wave: WaveData in waves_data:
 		if wave and wave.is_valid_index(wave_index):
@@ -157,8 +160,7 @@ func spawn_enemy() -> void:
 	var spawn_effect := Global.SPAWN_EFFECT_SCENE.instantiate()
 	get_parent().add_child(spawn_effect)
 	spawn_effect.global_position = spawn_pos
-	await spawn_effect.anim_player.animation_finished
-	spawn_effect.queue_free()
+	await spawn_effect.completed
 	if generation != spawn_generation: return
 	pending_spawns -= 1
 	# Ended/exited waves cannot finish an old asynchronous spawn.
@@ -177,6 +179,8 @@ func spawn_enemy() -> void:
 func clear_enemies() -> void:
 	spawn_generation += 1
 	pending_spawns = 0
+	for effect in get_tree().get_nodes_in_group("spawn_effects"):
+		effect.complete()
 	if spawned_enemies.size() > 0:
 		for enemy: Enemy in spawned_enemies:
 			if is_instance_valid(enemy):

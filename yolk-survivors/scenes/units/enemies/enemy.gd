@@ -7,37 +7,42 @@ class_name Enemy
 @onready var knockback_timer: Timer = $KnockbackTimer
 
 var can_move := true
+var is_retiring := false
 var knockback_dir: Vector2
 var knockback_power: float
+
+func _ready() -> void:
+	super._ready()
+	var contact := get_node_or_null("HitboxComponent") as HitboxComponent
+	if contact:
+		contact.setup(stats.damage, false, 0.0, self)
+		contact.continuous_contact = true
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
 	
 	if not can_move: return
-	if not can_move_towards_player(): return
+	if not can_move_towards_player() and knockback_power <= 0.0: return
 	
 	position += (get_move_direction() + knockback_dir * knockback_power) * stats.speed * delta
 	update_rotation()
 
 func get_move_direction() -> Vector2:
-	if not Global.player:
+	if not is_instance_valid(Global.player):
 		return Vector2.ZERO
 	
 	var direction := global_position.direction_to(Global.player.global_position)
 	for area: Area2D in vision_area.get_overlapping_areas():
 		if area != self and area.is_inside_tree(): #Check
 			var vector := global_position - area.global_position #Direccion opuesta a los otros enemigos
-			direction += flock_push * vector.normalized() / vector.length() #Blend de direccion a player y empuje entre enemigos
+			if vector.length_squared() > 0.001:
+				direction += flock_push * vector.normalized() / vector.length() #Blend de direccion a player y empuje entre enemigos
 	
 	return direction
 
 func apply_knockback(knock_dir: Vector2, knock_pow: float) -> void:
-	knockback_dir = knock_dir
-	knockback_power = knock_pow
-	if knockback_timer.time_left > 0:
-		knockback_timer.stop()
-		reset_knockback()
-		
+	knockback_dir = knock_dir.normalized()
+	knockback_power = maxf(0.0, knock_pow)
 	knockback_timer.start()
 
 func reset_knockback() -> void:
@@ -56,7 +61,20 @@ func can_move_towards_player() -> bool:
 	global_position.distance_to(Global.player.global_position) > 60
 
 func destroy_enemy() -> void:
+	if is_retiring or is_queued_for_deletion(): return
+	is_retiring = true
 	can_move = false
+	health_component.current_health = 0.0
+	for path in ["ChargeAttackBehaviour", "ShootingBehaviour"]:
+		var behavior := get_node_or_null(path)
+		if behavior: behavior.process_mode = Node.PROCESS_MODE_DISABLED
+	# Cleanup may animate during a paused intermission, without combat collisions.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+	for component in [get_node("HurtboxComponent"), get_node("HitboxComponent")]:
+		component.set_deferred("monitoring", false)
+		component.set_deferred("monitorable", false)
 	anim_player.play("die")
 	await anim_player.animation_finished
 	queue_free()
@@ -66,8 +84,8 @@ func _on_knockback_timer_timeout() -> void:
 	reset_knockback()
 
 func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
-	super._on_hurtbox_component_on_damage(hitbox)
-	if hitbox.knockback_power > 0:
+	if not receive_hit(hitbox): return
+	if hitbox.knockback_power > 0 and is_instance_valid(hitbox.source):
 		var dir:= hitbox.source.global_position.direction_to(global_position) #tomo la direccion del player hacia el enemigo
 		apply_knockback(dir, hitbox.knockback_power)
 

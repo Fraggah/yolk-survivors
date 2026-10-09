@@ -13,6 +13,7 @@ func _ready() -> void:
 	current_cooldown = cooldown
 
 func _process(delta: float) -> void:
+	if Global.game_paused or enemy.is_retiring: return
 	if is_charging:
 		enemy.global_position = enemy.global_position.move_toward(charge_atk_position, (enemy.stats.speed * 5) * delta)
 		if enemy.global_position.distance_squared_to(charge_atk_position) < pow(50, 2):

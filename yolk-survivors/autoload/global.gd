@@ -18,6 +18,7 @@ signal on_player_died
 
 const GAME_ENTITY_SCALE := 1.5
 const STARTING_COINS := 0
+const MAX_EQUIPPED_WEAPONS := 6
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
@@ -74,7 +75,11 @@ var coins: int = STARTING_COINS
 # Unspent pickups from the previous wave, redeemed only by real pickups.
 var yolk_reserve: int = 0
 var player: Player
-var game_paused: bool
+var game_paused: bool:
+	set(value):
+		game_paused = value
+		# Freeze gameplay timers, animations, tweens and physics together.
+		if is_inside_tree(): get_tree().paused = value
 
 var main_player_selected: UnitStats
 var main_weapon_selected: ItemWeapon
@@ -84,6 +89,18 @@ var equipped_weapons: Array[ItemWeapon]
 
 var level_reached := 0
 var level_selected := 0
+
+func get_starting_weapons() -> Array[ItemWeapon]:
+	var result: Array[ItemWeapon] = []
+	if not main_player_selected or not is_valid_starting_weapon(main_weapon_selected): return result
+	var own_weapon := main_player_selected.starting_weapon
+	if is_valid_starting_weapon(own_weapon): result.append(own_weapon)
+	# Choosing the same weapon intentionally grants two separate copies.
+	if result.size() < MAX_EQUIPPED_WEAPONS: result.append(main_weapon_selected)
+	return result
+
+func is_valid_starting_weapon(weapon: ItemWeapon) -> bool:
+	return weapon != null and weapon.scene != null and weapon.stats != null
 
 func collect_yolk(base_value: int) -> int:
 	var base := maxi(0, base_value)

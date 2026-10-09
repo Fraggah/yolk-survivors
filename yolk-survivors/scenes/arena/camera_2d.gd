@@ -2,6 +2,9 @@ extends Camera2D
 
 var world_bounds := Rect2()
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+
 func _process(_delta: float) -> void:
 	if is_instance_valid(Global.player):
 		global_position = Global.player.global_position

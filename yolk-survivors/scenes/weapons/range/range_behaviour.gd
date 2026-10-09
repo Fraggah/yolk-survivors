@@ -15,7 +15,6 @@ func execute_attack() -> void:
 	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.recoil_duration * time_scale)
 	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.recoil_duration * time_scale)
 	
-	apply_life_steal()
 	
 	await tween.finished
 	weapon.is_attacking = false
@@ -30,3 +29,4 @@ func create_projectile() -> void:
 	# Match the detection circle's world-space radius, including the entity scale.
 	var travel_range := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x)
 	instance.setup_projectile(velocity, get_damage(), critical, weapon.data.stats.knockback, weapon.get_parent(), travel_range)
+	instance.hitbox.life_steal_chance = get_life_steal_chance()

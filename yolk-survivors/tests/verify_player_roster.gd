@@ -28,8 +28,7 @@ func verify() -> void:
 		assert(selection.player_name.text == base.name)
 		await process_frame
 		assert(selection.player_description.get_content_height() <= selection.player_description.size.y, "Stats clipped: " + base.name)
-		assert(selection.player_description.text.contains("Harvesting:"))
-		assert(selection.player_description.text.contains("Life steal:"))
+		assert(selection.player_description.text == selection.get_character_description(base))
 		global.main_weapon_selected = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
 		selection.hide()
 		arena._on_level_selected(0)
@@ -82,7 +81,8 @@ func verify() -> void:
 			player.health_component.current_health -= 10
 			var before_steal = player.health_component.current_health
 			for attack in 100:
-				behavior.apply_life_steal()
+				player.life_steal_cooldown = 0.0
+				player.try_life_steal(behavior.get_life_steal_chance())
 			assert(player.health_component.current_health > before_steal, "Existing life steal must heal Vampire")
 		player.health_component.current_health -= 5
 		var before_regen = player.health_component.current_health

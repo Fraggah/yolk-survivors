@@ -15,6 +15,7 @@ func execute_attack() -> void:
 	tween.tween_callback(func():
 		hitbox.enable()
 		hitbox.setup(get_damage(), critical, weapon.data.stats.knockback, weapon.get_parent())
+		hitbox.life_steal_chance = get_life_steal_chance()
 	)
 	
 	var attack_pos := Vector2(weapon.atk_start_pos.x + weapon.data.stats.max_range, weapon.atk_start_pos.y)
@@ -24,7 +25,6 @@ func execute_attack() -> void:
 		hitbox.disable()
 	)
 	
-	apply_life_steal()
 	
 	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.back_duration * time_scale)
 	

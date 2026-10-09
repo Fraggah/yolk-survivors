@@ -9,6 +9,8 @@ enum UnitType {
 @export var name: String
 @export var type: UnitType
 @export var icon: Texture2D
+# Optional character equipment, independent from the player-selected weapon.
+@export var starting_weapon: ItemWeapon
 @export var health := 1.0
 @export var initial_health := 1.0
 # Per-wave growth is consumed only by the enemy spawner.
