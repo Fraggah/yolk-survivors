@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("3_wdydi")
+unlock_id = "smasher"
 type = 1
 scene = ExtResource("2_vab7v")
 stats = ExtResource("4_mgbah")

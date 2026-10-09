@@ -283,25 +283,25 @@ theme_override_font_sizes/bold_font_size = 20
 bbcode_enabled = true
 text = "description"
 
-[node name="Items" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Items" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 320)
 layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Items"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="PlayersContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
+[node name="PlayersContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 24
-alignment = 1
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 5
 
 [node name="SelectionCard" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/PlayersContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2
@@ -318,11 +318,13 @@ layout_mode = 2
 [node name="SelectionCard5" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/PlayersContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2
 
-[node name="WeaponsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
+[node name="WeaponsContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 24
-alignment = 1
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 5
 
 [node name="SelectionCard" parent="MarginContainer/VBoxContainer/Items/VBoxContainer/WeaponsContainer" instance=ExtResource("5_mgmnq")]
 layout_mode = 2

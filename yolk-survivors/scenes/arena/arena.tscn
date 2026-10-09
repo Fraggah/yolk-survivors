@@ -162,9 +162,9 @@ offset_top = -181.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Controls:
-WASD - Movement
-Space - dash
-Pause - Esc"
+Move: WASD / stick / D-pad
+Dash: Space / A / Cross
+Pause: Esc / Start / Options"
 label_settings = SubResource("LabelSettings_c13hg")
 
 [node name="FinalScreen" type="Control" parent="GameUI"]

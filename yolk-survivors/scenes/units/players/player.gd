@@ -24,7 +24,10 @@ var current_weapons: Array[Weapon] = []
 var arena_environment: ArenaEnvironment
 
 func _ready() -> void:
+	stats = stats.get_passive_preview()
 	super._ready()
+	health_component.on_unit_hit.connect(Progression.record_damage)
+	stats.stats_changed.connect(Progression.check_stats.bind(stats))
 	dash_timer.wait_time = dash_duration
 	dash_cooldown_timer.wait_time = dash_cooldown
 	shadow.material.set_shader_parameter("outline_color", trail.default_color)
@@ -56,6 +59,8 @@ func _process(delta: float) -> void:
 
 
 func add_weapon(data: ItemWeapon) -> void:
+	if not Global.is_valid_starting_weapon(data) or not Progression.is_weapon_unlocked(data) or not stats.can_use_weapon(data): return
+	if current_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS: return
 	var weapon := data.scene.instantiate() as Weapon
 	add_child(weapon)
 	

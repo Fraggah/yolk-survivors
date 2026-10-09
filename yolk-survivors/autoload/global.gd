@@ -92,9 +92,10 @@ var level_selected := 0
 
 func get_starting_weapons() -> Array[ItemWeapon]:
 	var result: Array[ItemWeapon] = []
-	if not main_player_selected or not is_valid_starting_weapon(main_weapon_selected): return result
+	if not main_player_selected or not is_valid_starting_weapon(main_weapon_selected) or not main_player_selected.can_use_weapon(main_weapon_selected): return result
+	if not Progression.is_character_unlocked(main_player_selected) or not Progression.is_weapon_unlocked(main_weapon_selected): return result
 	var own_weapon := main_player_selected.starting_weapon
-	if is_valid_starting_weapon(own_weapon): result.append(own_weapon)
+	if is_valid_starting_weapon(own_weapon) and Progression.is_weapon_unlocked(own_weapon) and main_player_selected.can_use_weapon(own_weapon): result.append(own_weapon)
 	# Choosing the same weapon intentionally grants two separate copies.
 	if result.size() < MAX_EQUIPPED_WEAPONS: result.append(main_weapon_selected)
 	return result
@@ -107,6 +108,7 @@ func collect_yolk(base_value: int) -> int:
 	var bonus := mini(base, yolk_reserve)
 	yolk_reserve -= bonus
 	coins += base + bonus
+	Progression.record("yolks", base)
 	return bonus
 
 func get_harvesting_coins() -> void:
@@ -115,10 +117,12 @@ func get_harvesting_coins() -> void:
 	
 
 func get_selected_player() -> Player:
+	if not Progression.is_character_unlocked(main_player_selected): return null
 	var player_path: PackedScene = available_players[main_player_selected.name]
 	var player_instance := player_path.instantiate() as Player
 	# Keep roster resources immutable; upgrades affect only this run's copy.
 	player_instance.stats = main_player_selected.duplicate() as UnitStats
+	player_instance.stats.initialize_character_passives()
 	player = player_instance
 	return player
 

@@ -21,9 +21,9 @@ func get_description() -> String:
 
 func apply_passive_values() -> void:
 	if add_value != 0:
-		Global.player.stats[add_stats_id] += add_value
+		Global.player.stats.apply_stat_change(add_stats_id, add_value)
 	if remove_value != 0:
-		Global.player.stats[remove_stats_id] -= remove_value
+		Global.player.stats.apply_stat_change(remove_stats_id, -remove_value)
 
 func _format_value(value: float, stat_id: String) -> String:
 	return ItemWeapon.format_number(value) + ("%" if stat_id in ["damage_percent", "attack_speed", "life_steal", "block_chance"] else "")

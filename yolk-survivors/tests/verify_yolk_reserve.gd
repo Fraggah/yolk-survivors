@@ -13,6 +13,7 @@ func create_yolk(arena, amount: int, location: Vector2):
 	return coin
 
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	global.game_paused = true
 	global.coins = 10

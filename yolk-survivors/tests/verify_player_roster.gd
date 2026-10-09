@@ -4,6 +4,7 @@ func _initialize() -> void:
 	call_deferred("verify")
 
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()
 	root.add_child(arena)
@@ -20,6 +21,7 @@ func verify() -> void:
 	var fields = ["health", "damage", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting"]
 	for index in selection.player_list.size():
 		var base = selection.player_list[index]
+		var expected = base.get_passive_preview()
 		var original: Dictionary = {}
 		for field in fields:
 			original[field] = base.get(field)
@@ -29,7 +31,10 @@ func verify() -> void:
 		await process_frame
 		assert(selection.player_description.get_content_height() <= selection.player_description.size.y, "Stats clipped: " + base.name)
 		assert(selection.player_description.text == selection.get_character_description(base))
-		global.main_weapon_selected = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
+		assert(selection.player_description.text.contains("PASSIVES"))
+		for passive in base.character_passives:
+			assert(selection.player_description.text.contains(passive.get_description()), "Missing passive in character selection: " + base.name)
+		global.main_weapon_selected = selection.weapons_list.filter(func(w): return base.can_use_weapon(w))[0]
 		selection.hide()
 		arena._on_level_selected(0)
 		var player = global.player
@@ -64,9 +69,9 @@ func verify() -> void:
 			assert(arena.coocking_player.stream_paused)
 			arena._on_shop_panel_on_shop_next_wave()
 			assert(arena.wave_active and not global.game_paused and not arena.coocking_player.stream_paused)
-		assert(player.health_component.current_health == base.health)
+		assert(player.health_component.current_health == expected.health)
 		for field in fields:
-			assert(player.stats.get(field) == original[field], "Wrong starting stat: " + field)
+			assert(player.stats.get(field) == expected.get(field), "Wrong starting stat: " + field)
 		if base.name == "Tiny Egg":
 			assert(player.get_node("HurtboxComponent/CollisionShape2D").shape.radius == 25.0)
 		# Real attack behavior uses the character's additive damage.
@@ -75,7 +80,7 @@ func verify() -> void:
 		weapon.data.stats = weapon.data.stats.duplicate()
 		weapon.data.stats.crit_chance = 0.0
 		var behavior = weapon.get_node("WeaponBehaviour")
-		assert(behavior.get_damage() == weapon.data.get_effective_damage(base))
+		assert(behavior.get_damage() == weapon.data.get_effective_damage(expected))
 		if base.name == "Vampire":
 			seed(123)
 			player.health_component.current_health -= 10
@@ -87,20 +92,20 @@ func verify() -> void:
 		player.health_component.current_health -= 5
 		var before_regen = player.health_component.current_health
 		player._on_hp_timer_timeout()
-		assert(player.health_component.current_health == before_regen + base.hp_regen)
+		assert(player.health_component.current_health == before_regen + expected.hp_regen)
 		global.game_paused = true
 		var paused_health = player.health_component.current_health
 		player._on_hp_timer_timeout()
 		assert(player.health_component.current_health == paused_health)
 		var coins_before = global.coins
 		global.get_harvesting_coins()
-		assert(global.coins == coins_before + int(base.harvesting))
+		assert(global.coins == coins_before + int(expected.harvesting))
 		# Even a stray growth value must not affect the player's maximum HP.
 		player.stats.health_increase_per_wave = 999.0
 		player.prepare_for_new_wave()
-		assert(player.stats.health == base.health)
-		assert(player.health_component.max_health == base.health)
-		assert(player.health_component.current_health == base.health)
+		assert(player.stats.health == expected.health)
+		assert(player.health_component.max_health == expected.health)
+		assert(player.health_component.current_health == expected.health)
 		assert(not selection.player_description.text.contains("HP / wave:"))
 		# Simulate upgrades, then exit and reselect: every base stat must be restored.
 		for field in fields:
@@ -112,7 +117,7 @@ func verify() -> void:
 		global.main_player_selected = base
 		var fresh = global.get_selected_player()
 		for field in fields:
-			assert(fresh.stats.get(field) == original[field], "Retry retained upgrades: " + field)
+			assert(fresh.stats.get(field) == expected.get(field), "Retry retained upgrades: " + field)
 		fresh.free()
 		global.player = null
 		selection.show()

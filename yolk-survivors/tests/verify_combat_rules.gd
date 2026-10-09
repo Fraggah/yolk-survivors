@@ -7,6 +7,7 @@ func wait_frames(count: int = 3) -> void:
 	for frame in count: await physics_frame
 
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()
 	root.add_child(arena)

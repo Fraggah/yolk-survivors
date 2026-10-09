@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnlockAchievement" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/unlocks/unlock_achievement.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "vampire"
+metric = "stat:life_steal"
+goal = 20
+requirement = "Reach 20% Life Steal in a run."
+reward_label = "Vampire + Bloody"
+reward_characters = PackedStringArray("vampire")
+reward_weapons = PackedStringArray("bloody")

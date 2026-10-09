@@ -6,9 +6,7 @@ class_name ItemUpgrade
 @export var stat_id: String
 
 func apply_upgrade() -> void:
-	var current_value = Global.player.stats.get(stat_id)
-	var new_value := float(current_value) + value
-	Global.player.stats.set(stat_id, new_value)
+	Global.player.stats.apply_stat_change(stat_id, value)
 
 func get_offer_key() -> String:
 	return "upgrade:%s" % stat_id

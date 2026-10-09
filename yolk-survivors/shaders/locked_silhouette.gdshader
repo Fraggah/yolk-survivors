@@ -1,0 +1,6 @@
+shader_type canvas_item;
+uniform vec4 silhouette_color : source_color = vec4(0.12, 0.10, 0.09, 1.0);
+void fragment() {
+	COLOR.rgb = silhouette_color.rgb;
+	COLOR.a *= silhouette_color.a;
+}

@@ -35,6 +35,7 @@ var wave_active := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	MenuInput.register_menus([pause_panel, options_panel, credits_panel, final_screen, level_panel, weapon_selection_panel, selection_panel, shop_panel, upgrade_panel, start_panel])
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
 	Global.on_create_heal_text.connect(_on_create_heal_text)
@@ -42,11 +43,15 @@ func _ready() -> void:
 	Global.on_level_selected.connect(_on_level_selected)
 	Global.on_enemy_died.connect(_on_enemy_died)
 	Global.on_player_died.connect(_on_player_died)
+	var unlock_notice := PanelContainer.new()
+	unlock_notice.set_script(load("res://scenes/ui/unlock_notice.gd"))
+	$GameUI.add_child(unlock_notice)
 	coocking_player.stream_paused = true
 	spawner.on_wave_started.connect(_apply_wave_environment)
 	_apply_wave_environment(1)
 
 func _apply_wave_environment(wave: int) -> void:
+	Progression.begin_wave()
 	var environment := environment_controller.apply_wave(wave)
 	if not environment: return
 	spawner.arena_environment = environment
@@ -155,6 +160,7 @@ func set_wave_paused(paused: bool) -> void:
 func _on_spawner_on_wave_completed() -> void:
 	wave_active = false
 	if not Global.player: return
+	Progression.finish_wave()
 	Global.game_paused = true
 	coocking_player.stream_paused = true
 	clear_arena(spawner.wave_index < 10)
@@ -162,6 +168,7 @@ func _on_spawner_on_wave_completed() -> void:
 	await get_tree().create_timer(1).timeout
 	Global.get_harvesting_coins()
 	if spawner.wave_index == 10: # Hardcoding vibes XD
+		Progression.end_run(true)
 		spawner.clear_fueguito()
 		final_label.text = "YOU WIN!"
 		if Global.level_selected == Global.level_reached:
@@ -188,6 +195,7 @@ func _on_shop_panel_on_shop_next_wave() -> void:
 
 func _on_enemy_died(enemy: Enemy) -> void:
 	if not wave_active: return
+	Progression.record("kills", 1.0)
 	var instance := Global.FRIED_SCENE.instantiate()
 	add_child(instance)
 	instance.global_position = enemy.global_position
@@ -217,6 +225,7 @@ func _on_level_selected(level: int) -> void:
 	Global.level_selected = level
 	spawner.reset_run(level)
 	add_child(player)
+	Progression.begin_run(player.stats.unlock_id, player.stats)
 	Global.equipped_weapons.clear()
 	shop_panel.clear_items()
 	for weapon in starting_weapons:
@@ -243,6 +252,7 @@ func show_controls() -> void:
 	instructions.hide()
 
 func _on_player_died() -> void:
+	Progression.end_run()
 	Global.player = null
 	wave_active = false
 	spawner.wave_timer.stop()
@@ -311,6 +321,7 @@ func _on_selection_panel_on_level_select_exited() -> void:
 
 
 func _on_pause_panel_on_exit_pressed() -> void:
+	Progression.end_run()
 	wave_active = false
 	spawner.wave_timer.stop()
 	spawner.spawn_timer.stop()

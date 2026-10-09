@@ -7,6 +7,7 @@
 
 [resource]
 script = ExtResource("2_503wk")
+unlock_id = "mitten"
 type = 0
 scene = ExtResource("2_tm866")
 stats = ExtResource("3_f1uf4")

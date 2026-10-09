@@ -17,6 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Progression="*res://autoload/progression.gd"
+
+MenuInput="*res://autoload/menu_input.gd"
+
 Global="*res://autoload/global.gd"
 SoundManager="*res://autoload/sound_manager.tscn"
 DataManager="*res://autoload/data_manager.gd"

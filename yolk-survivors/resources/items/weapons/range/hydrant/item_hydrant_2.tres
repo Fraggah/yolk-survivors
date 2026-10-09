@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("3_uchkb")
+unlock_id = "hydrant"
 type = 1
 scene = ExtResource("2_ou2te")
 stats = ExtResource("4_ou2te")

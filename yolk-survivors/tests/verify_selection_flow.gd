@@ -4,6 +4,7 @@ func _initialize() -> void:
 	call_deferred("verify")
 
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()
 	root.add_child(arena)
@@ -48,7 +49,7 @@ func verify() -> void:
 	assert(weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Character and initial weapon description clipped")
 	var back_button = weapons.get_node("MarginContainer/VBoxContainer/Label/CustomButtonExit")
 	assert(is_equal_approx(back_button.global_position.y, weapons.confirm_button.global_position.y), "Back and Continue must stay aligned")
-	weapons.weapons_container.get_child(0).pressed.emit()
+	weapons.weapons_container.get_child(6).pressed.emit()
 	var selected = global.main_weapon_selected
 	weapons._on_custom_button_exit_pressed()
 	assert(characters.visible and not weapons.visible)
@@ -77,7 +78,7 @@ func verify() -> void:
 	assert(arena.shop_panel.weapon_container.get_child_count() == 0)
 	for character in characters.player_list:
 		global.main_player_selected = character
-		global.main_weapon_selected = selected
+		global.main_weapon_selected = weapons.weapons_list.filter(func(w): return character.can_use_weapon(w))[0]
 		arena._on_level_selected(0)
 		var count = 2 if character == vampire else 1
 		assert(global.player.current_weapons.size() == count, character.name)
@@ -111,7 +112,7 @@ func verify() -> void:
 	assert(global.get_starting_weapons().size() == 1, "Ignore invalid optional equipment")
 	global.main_weapon_selected = null
 	assert(global.get_starting_weapons().is_empty())
-	assert(characters.get_character_description(characters.base_player_stats) == "Balanced base stats.")
+	assert(characters.get_character_description(characters.base_player_stats).begins_with("Balanced base stats."))
 	assert(characters.base_player_stats.health == 20 and characters.base_player_stats.luck == 5 and characters.base_player_stats.block_chance == 5)
 	assert(vampire.health == 18 and vampire.life_steal == 12)
 	arena._on_final_button_pressed()

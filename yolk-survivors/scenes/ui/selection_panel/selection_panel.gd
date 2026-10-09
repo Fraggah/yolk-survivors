@@ -15,8 +15,8 @@ enum SelectionMode { CHARACTER, WEAPON }
 @export var player_list: Array[UnitStats]
 @export var weapons_list: Array[ItemWeapon]
 
-@onready var players_container: HBoxContainer = %PlayersContainer
-@onready var weapons_container: HBoxContainer = %WeaponsContainer
+@onready var players_container: GridContainer = %PlayersContainer
+@onready var weapons_container: GridContainer = %WeaponsContainer
 
 @onready var player_icon: TextureRect = %PlayerIcon
 @onready var player_name: Label = %PlayerName
@@ -42,6 +42,10 @@ const DISPLAY_STATS := [
 	["harvesting", "Harvesting", false]
 ]
 
+var preview_player: UnitStats
+var preview_weapon: ItemWeapon
+const SILHOUETTE = preload("res://shaders/locked_silhouette.gdshader")
+
 var player_group := ButtonGroup.new()
 var weapon_group := ButtonGroup.new()
 
@@ -61,11 +65,15 @@ func _ready() -> void:
 	heading.text = "Select Player" if selection_mode == SelectionMode.CHARACTER else "Select Weapon"
 	show_player_info(false)
 	show_weapon_info(false)
+	Progression.progress_changed.connect(_on_progress_changed)
+	_update_card_locks()
 	visibility_changed.connect(_refresh_selection_info)
 	_refresh_selection_info()
 
 func _refresh_selection_info() -> void:
 	if not is_visible_in_tree(): return
+	_update_card_locks()
+	_update_weapon_availability()
 	_update_confirm_button()
 	_update_selected_slots()
 	show_player_info(Global.main_player_selected != null)
@@ -86,6 +94,8 @@ func load_players() -> void:
 		var card := SELECTION_CARD.instantiate() as SelectionCard
 		card.pressed.connect(_on_player_selected.bind(player))
 		card.mouse_entered.connect(_show_player_preview.bind(player))
+		card.focus_entered.connect(_show_player_preview.bind(player))
+		card.focus_exited.connect(_restore_selected_player_preview)
 		card.mouse_exited.connect(_restore_selected_player_preview)
 		card.button_group = player_group
 		card.set_meta("selection_data", player)
@@ -98,6 +108,10 @@ func load_weapons() -> void:
 	for weapon: ItemWeapon in weapons_list:
 		var card := SELECTION_CARD.instantiate() as SelectionCard
 		card.pressed.connect(_on_weapon_selected.bind(weapon))
+		card.mouse_entered.connect(_show_weapon_preview.bind(weapon))
+		card.mouse_exited.connect(_restore_selected_weapon_preview)
+		card.focus_entered.connect(_show_weapon_preview.bind(weapon))
+		card.focus_exited.connect(_restore_selected_weapon_preview)
 		card.button_group = weapon_group
 		card.set_meta("selection_data", weapon)
 		weapons_container.add_child(card)
@@ -110,7 +124,11 @@ func show_player_info(value: bool) -> void:
 	player_description.visible = value
 
 func _on_player_selected(player: UnitStats) -> void:
+	if not Progression.is_character_unlocked(player):
+		_update_selected_slots()
+		return
 	Global.main_player_selected = player
+	_update_weapon_availability()
 	_update_selected_slots()
 	_show_player_preview(player)
 	_update_confirm_button()
@@ -118,28 +136,89 @@ func _on_player_selected(player: UnitStats) -> void:
 		_on_weapon_selected(Global.main_weapon_selected)
 
 func _show_player_preview(player: UnitStats) -> void:
+	preview_player = player
 	show_player_info(true)
 	player_icon.texture = player.icon
 	player_name.text = player.name
-	player_description.text = get_character_description(player)
+	var unlocked := Progression.is_character_unlocked(player)
+	player_title.text = "Player" if unlocked else "Locked"
+	_set_portrait_lock(player_icon, not unlocked)
+	player_description.text = get_character_description(player) if unlocked else Progression.requirement_for(player.unlock_id, true)
 
 func _restore_selected_player_preview() -> void:
 	if Global.main_player_selected:
 		_show_player_preview(Global.main_player_selected)
 	else:
 		show_player_info(false)
+		preview_player = null
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
-	if not Global.is_valid_starting_weapon(weapon): return
+	if not Global.is_valid_starting_weapon(weapon) or not Progression.is_weapon_unlocked(weapon) or not Global.main_player_selected or not Global.main_player_selected.can_use_weapon(weapon):
+		_update_selected_slots()
+		return
 	Global.main_weapon_selected = weapon
 	_update_confirm_button()
 	_update_selected_slots()
+	_show_weapon_preview(weapon)
+
+func _show_weapon_preview(weapon: ItemWeapon) -> void:
+	preview_weapon = weapon
 	show_weapon_info(true)
 	weapon_icon.texture = weapon.item_icon
 	weapon_name.text = weapon.item_name
 	weapon_title.text = "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
-	weapon_description.text = weapon.get_description(Global.main_player_selected)
+	var unlocked := Progression.is_weapon_unlocked(weapon)
+	_set_portrait_lock(weapon_icon, not unlocked)
+	if not unlocked:
+		weapon_title.text = "Locked"
+		weapon_description.text = Progression.requirement_for(weapon.unlock_id, false)
+	else:
+		weapon_description.text = weapon.get_description(Global.main_player_selected.get_passive_preview() if Global.main_player_selected else null)
+		if Global.main_player_selected and not Global.main_player_selected.can_use_weapon(weapon):
+			weapon_title.text = "Cannot equip"
 
+
+
+func _restore_selected_weapon_preview() -> void:
+	if Global.main_weapon_selected:
+		_show_weapon_preview(Global.main_weapon_selected)
+	else:
+		show_weapon_info(false)
+		preview_weapon = null
+
+func _update_weapon_availability() -> void:
+	if Global.main_player_selected and Global.main_weapon_selected and (not Progression.is_weapon_unlocked(Global.main_weapon_selected) or not Global.main_player_selected.can_use_weapon(Global.main_weapon_selected)):
+		Global.main_weapon_selected = null
+	for card in weapons_container.get_children():
+		if not card.has_meta("selection_data"): continue
+		var allowed := Global.main_player_selected != null and Global.main_player_selected.can_use_weapon(card.get_meta("selection_data"))
+		card.disabled = false # Locked cards remain inspectable with a controller.
+		card.toggle_mode = allowed and not card.locked
+		card.modulate.a = 0.4 if not allowed else 1.0
+
+func _set_portrait_lock(portrait: TextureRect, locked: bool) -> void:
+	if locked:
+		var silhouette := ShaderMaterial.new()
+		silhouette.shader = SILHOUETTE
+		portrait.material = silhouette
+	else:
+		portrait.material = null
+
+func _update_card_locks() -> void:
+	for card in players_container.get_children():
+		if card.has_meta("selection_data"):
+			card.set_locked(not Progression.is_character_unlocked(card.get_meta("selection_data")))
+	for card in weapons_container.get_children():
+		if card.has_meta("selection_data"):
+			card.set_locked(not Progression.is_weapon_unlocked(card.get_meta("selection_data")))
+
+func _on_progress_changed() -> void:
+	if not is_visible_in_tree(): return
+	_update_card_locks()
+	_update_weapon_availability()
+	_update_confirm_button()
+	if preview_player: _show_player_preview(preview_player)
+	if preview_weapon: _show_weapon_preview(preview_weapon)
 
 func _update_selected_slots() -> void:
 	for card in players_container.get_children():
@@ -162,13 +241,20 @@ func get_character_description(player: UnitStats) -> String:
 	if lines.is_empty(): lines.append("Balanced base stats.")
 	if Global.is_valid_starting_weapon(player.starting_weapon):
 		lines.append("\nStarting weapon: %s" % player.starting_weapon.item_name)
-		lines.append("Plus the weapon you choose.")
+	lines.append("\n[b][color=#ffe395]PASSIVES[/color][/b]")
+	var passive_lines: PackedStringArray = []
+	for passive in player.character_passives:
+		if passive and passive.is_valid(): passive_lines.append("[color=#ffe395]- %s[/color]" % passive.get_description())
+	if passive_lines.is_empty(): passive_lines.append("No character passives.")
+	lines.append_array(passive_lines)
 	return "\n".join(lines)
 
 func _update_confirm_button() -> void:
-	confirm_button.disabled = not Global.main_player_selected
+	confirm_button.disabled = not Progression.is_character_unlocked(Global.main_player_selected)
 	if selection_mode == SelectionMode.WEAPON:
 		confirm_button.disabled = confirm_button.disabled or not Global.is_valid_starting_weapon(Global.main_weapon_selected)
+		if not confirm_button.disabled:
+			confirm_button.disabled = not Progression.is_weapon_unlocked(Global.main_weapon_selected) or not Global.main_player_selected.can_use_weapon(Global.main_weapon_selected)
 
 func _on_custom_button_pressed() -> void:
 	_update_confirm_button()

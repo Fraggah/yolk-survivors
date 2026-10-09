@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("2_4lkgn")
+unlock_id = "blender"
 type = 0
 scene = ExtResource("2_3an6p")
 stats = ExtResource("4_gsqbe")

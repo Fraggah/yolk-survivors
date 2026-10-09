@@ -6,6 +6,7 @@ enum Type {
 	RANGE
 }
 
+@export var unlock_id: String
 @export var type: Type
 @export var scene: PackedScene
 @export var stats: WeaponStats

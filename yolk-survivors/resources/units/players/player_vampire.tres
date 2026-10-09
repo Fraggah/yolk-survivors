@@ -1,15 +1,20 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=4 format=3 uid="uid://c0dorswx1cp7q"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=7 format=3 uid="uid://c0dorswx1cp7q"]
 
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="1_stats"]
 [ext_resource type="Texture2D" uid="uid://w0qt3ab0nrai" path="res://assets/sprites/Players/Redesign/vampire.png" id="2_icon"]
 [ext_resource type="Resource" uid="uid://b3kx53x3jy4l3" path="res://resources/items/weapons/range/the_bloody/item_bloody_1.tres" id="3_starting_weapon"]
+[ext_resource type="Resource" path="res://resources/character_passives/steal_to_damage.tres" id="passive_0"]
+[ext_resource type="Resource" path="res://resources/character_passives/no_melee.tres" id="passive_1"]
+[ext_resource type="Script" uid="uid://by64j6ya8x86m" path="res://resources/character_passives/character_passive.gd" id="passive_script"]
 
 [resource]
 script = ExtResource("1_stats")
+unlock_id = "vampire"
 name = "Vampire"
 type = 0
 icon = ExtResource("2_icon")
 starting_weapon = ExtResource("3_starting_weapon")
+character_passives = Array[ExtResource("passive_script")]([ExtResource("passive_0"), ExtResource("passive_1")])
 health = 18.0
 initial_health = 18.0
 health_increase_per_wave = 0.0

@@ -4,6 +4,7 @@ func _initialize() -> void:
 	call_deferred("verify")
 
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	var stats = load("res://resources/unit_stats.gd").new()
 	var ranged = load("res://resources/items/weapons/range/hydrant/item_hydrant_1.tres").duplicate()
@@ -36,7 +37,7 @@ func verify() -> void:
 		if offer.stat_id in ["damage_percent", "melee_damage", "ranged_damage", "attack_speed"]:
 			var before: float = player.stats.get(offer.stat_id)
 			offer.apply_upgrade()
-			assert(player.stats.get(offer.stat_id) == before + offer.value)
+			assert(player.stats.get(offer.stat_id) == before + offer.value * player.stats.get_stat_gain_multiplier(offer.stat_id))
 			assert(offer.description == "+%s%s" % [str(int(offer.value)), "%" if offer.stat_id in ["damage_percent", "attack_speed"] else ""])
 			new_offers += 1
 	assert(new_offers == 18, "All offensive upgrade tiers in the real offer pool")
@@ -44,7 +45,7 @@ func verify() -> void:
 		var passive = load("res://resources/items/passives/data/passive_item_%s.tres" % passive_name)
 		var before_damage: float = player.stats.damage_percent
 		passive.apply_passive_values()
-		assert(player.stats.damage_percent == before_damage + passive.add_value)
+		assert(player.stats.damage_percent == before_damage + passive.add_value * player.stats.get_stat_gain_multiplier(passive.add_stats_id))
 		assert(passive.get_description().contains("% Damage"))
 	player.stats.damage_percent = 25.0
 	player.stats.melee_damage = 8.0

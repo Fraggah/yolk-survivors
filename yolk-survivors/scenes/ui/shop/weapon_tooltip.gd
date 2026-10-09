@@ -62,7 +62,7 @@ func _process(_delta: float) -> void:
 	if not is_instance_valid(hovered_card) or hovered_card.is_queued_for_deletion():
 		dismiss()
 		return
-	if not hovered_card.is_visible_in_tree() or not hovered_card.get_global_rect().has_point(get_global_mouse_position()):
+	if not hovered_card.is_visible_in_tree() or (not hovered_card.has_focus() and not hovered_card.get_global_rect().has_point(get_global_mouse_position())):
 		dismiss()
 		return
 	if not hovered_card.item is ItemWeapon:

@@ -2,6 +2,7 @@ extends SceneTree
 func _initialize() -> void:
 	call_deferred("verify")
 func verify() -> void:
+	load("res://tests/progression_fixture.gd").prepare(root)
 	var global = root.get_node("Global")
 	global.game_paused = true
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()

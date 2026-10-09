@@ -1,13 +1,17 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://b1kxw36pjggnt"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=5 format=3 uid="uid://b1kxw36pjggnt"]
 
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="1_stats"]
 [ext_resource type="Texture2D" uid="uid://bdudnxchwqr51" path="res://assets/sprites/Players/Redesign/glass_egg.png" id="2_icon"]
+[ext_resource type="Resource" path="res://resources/character_passives/ranged_gains.tres" id="passive_0"]
+[ext_resource type="Script" uid="uid://by64j6ya8x86m" path="res://resources/character_passives/character_passive.gd" id="passive_script"]
 
 [resource]
 script = ExtResource("1_stats")
+unlock_id = "glass_egg"
 name = "Glass Egg"
 type = 0
 icon = ExtResource("2_icon")
+character_passives = Array[ExtResource("passive_script")]([ExtResource("passive_0")])
 health = 10.0
 initial_health = 10.0
 health_increase_per_wave = 0.0

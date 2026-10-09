@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("3_6s16p")
+unlock_id = "bloody"
 type = 1
 scene = ExtResource("2_cw1th")
 stats = ExtResource("4_cw1th")

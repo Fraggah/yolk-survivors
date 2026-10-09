@@ -7,6 +7,7 @@
 
 [resource]
 script = ExtResource("3_0w2lj")
+unlock_id = "spatula"
 type = 0
 scene = ExtResource("2_fhglw")
 stats = ExtResource("4_nvsq7")

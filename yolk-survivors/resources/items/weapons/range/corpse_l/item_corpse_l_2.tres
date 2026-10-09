@@ -8,6 +8,7 @@
 
 [resource]
 script = ExtResource("3_pg2m5")
+unlock_id = "corpse_l"
 type = 1
 scene = ExtResource("2_c2x3g")
 stats = ExtResource("4_c2x3g")

@@ -52,11 +52,20 @@ func _populate_offers(offers: Array) -> void:
 		card.purchase_handler = try_purchase_item
 		card.on_item_purchased.connect(_refill_offer.bind(card))
 
+func _eligible_shop_items() -> Array[ItemBase]:
+	var result: Array[ItemBase] = []
+	for item in shop_items:
+		if item == null: continue
+		if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or (is_instance_valid(Global.player) and not Global.player.stats.can_use_weapon(item))): continue
+		result.append(item)
+	return result
+
 func select_shop_offers(completed_wave: int) -> Array:
+	var catalog := _eligible_shop_items()
 	var offers: Array = []
 	var keys: Array = []
 	if completed_wave <= 2:
-		var weapons := shop_items.filter(func(item: ItemBase): return item is ItemWeapon)
+		var weapons := catalog.filter(func(item: ItemBase): return item is ItemWeapon)
 		if completed_wave == 1:
 			var affordable := weapons.filter(func(item: ItemBase):
 				return item.item_tier == Global.UpgradeTier.COMMON and item.get_shop_price(completed_wave) <= ItemBase.ECONOMY_RULES.FIRST_SHOP_AFFORDABLE_PRICE)
@@ -67,7 +76,7 @@ func select_shop_offers(completed_wave: int) -> Array:
 		offers.append_array(Global.select_items_for_offer(weapons, completed_wave, Global.SHOP_PROBABILITY_CONFIG, 2 - offers.size(), keys))
 		for item: ItemBase in offers:
 			if not keys.has(item.get_offer_key()): keys.append(item.get_offer_key())
-	offers.append_array(Global.select_items_for_offer(shop_items, completed_wave, Global.SHOP_PROBABILITY_CONFIG, 4 - offers.size(), keys))
+	offers.append_array(Global.select_items_for_offer(catalog, completed_wave, Global.SHOP_PROBABILITY_CONFIG, 4 - offers.size(), keys))
 	return offers
 
 func _refill_offer(purchased: ItemBase, card: ShopCard) -> void:
@@ -75,9 +84,9 @@ func _refill_offer(purchased: ItemBase, card: ShopCard) -> void:
 	for other: ShopCard in items_container.get_children():
 		if other != card: keys.append(other.shop_item.get_offer_key())
 	# Prefer a different family from the purchase; allow it if the catalog is small.
-	var offers := Global.select_items_for_offer(shop_items, shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys + [purchased.get_offer_key()])
+	var offers := Global.select_items_for_offer(_eligible_shop_items(), shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys + [purchased.get_offer_key()])
 	if offers.is_empty():
-		offers = Global.select_items_for_offer(shop_items, shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys)
+		offers = Global.select_items_for_offer(_eligible_shop_items(), shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys)
 	if not offers.is_empty(): card.shop_item = offers[0]
 	else:
 		items_container.remove_child(card)
@@ -114,6 +123,8 @@ func create_item_card() -> ItemCard:
 	var item_card := Global.ITEM_CARD_SCENE.instantiate()
 	item_card.on_item_card_selected.connect(_on_item_card_selected)
 	item_card.mouse_entered.connect(_on_item_card_hovered.bind(item_card))
+	item_card.focus_entered.connect(_on_item_card_hovered.bind(item_card))
+	item_card.focus_exited.connect(weapon_tooltip.hide_for_card.bind(item_card))
 	item_card.mouse_exited.connect(weapon_tooltip.hide_for_card.bind(item_card))
 	return item_card
 
@@ -136,6 +147,7 @@ func _get_auto_upgrade_card(weapon: ItemWeapon) -> ItemCard:
 
 func try_purchase_item(item: ItemBase) -> bool:
 	if not item or not is_instance_valid(Global.player): return false
+	if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or not Global.player.stats.can_use_weapon(item)): return false
 	var price := item.get_shop_price(shop_wave)
 	if Global.coins < price: return false
 	if item.item_type == ItemBase.ItemType.WEAPON and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
@@ -145,6 +157,7 @@ func try_purchase_item(item: ItemBase) -> bool:
 	return true
 
 func _on_item_purchased(item: ItemBase) -> void:
+	if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or not Global.player.stats.can_use_weapon(item)): return
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	if item is ItemWeapon and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
 		_auto_upgrade_purchased_weapon(item as ItemWeapon)
@@ -171,6 +184,7 @@ func _auto_upgrade_purchased_weapon(purchased: ItemWeapon) -> void:
 	Global.player.current_weapons.erase(existing)
 	existing.queue_free()
 	Global.equipped_weapons[equipment_index] = purchased.upgrade_to
+	Progression.record("combines", 1.0)
 	Global.player.add_weapon(purchased.upgrade_to)
 	card.item = purchased.upgrade_to
 	Global.selected_weapon = purchased.upgrade_to
@@ -234,6 +248,7 @@ func _on_combine_button_pressed() -> void:
 	
 	_on_item_card_selected(new_card)
 	Global.selected_weapon = upgraded_weapon
+	Progression.record("combines", 1.0)
 
 
 func _on_sell_weapon_button_pressed() -> void:
