@@ -136,7 +136,7 @@ func verify() -> void:
 	weapons.show()
 	await process_frame
 	assert(not weapons.weapons_container.get_child(0).toggle_mode)
-	assert(weapons.confirm_button.disabled)
+	assert(global.main_weapon_selected == null)
 	await create_timer(6.5).timeout
 	arena.queue_free()
 	await process_frame

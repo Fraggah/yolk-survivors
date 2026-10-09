@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=29 format=3 uid="uid://85rf32ecc04m"]
 
 [ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_dh0xd"]
@@ -16,7 +16,6 @@
 [ext_resource type="Resource" uid="uid://btond2h0jjbga" path="res://resources/items/weapons/range/corpse_l/item_corpse_l_1.tres" id="16_4wjk5"]
 [ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="17_tx3iw"]
 [ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="18_lur41"]
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="19_hu73q"]
 [ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="player_0"]
 [ext_resource type="Resource" uid="uid://b6ou105sk78bh" path="res://resources/units/players/player_tiny_egg.tres" id="player_1"]
 [ext_resource type="Resource" uid="uid://5wlhiqpb88pl" path="res://resources/units/players/player_hardboiled.tres" id="player_2"]
@@ -28,13 +27,27 @@
 [ext_resource type="Resource" uid="uid://buhp7v7l4xuuy" path="res://resources/units/players/player_hoarder.tres" id="player_8"]
 [ext_resource type="Resource" uid="uid://25lh6j4ym3rr" path="res://resources/units/players/player_berserker.tres" id="player_9"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wylj"]
+bg_color = Color(0.531067, 0.337933, 0.288052, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4xk0"]
+bg_color = Color(0.751779, 0.560029, 0.472645, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="SelectionPanel" type="Panel"]
-theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_3miu1")
 base_player_stats = ExtResource("player_0")
 player_list = Array[ExtResource("2_dh0xd")]([ExtResource("player_0"), ExtResource("player_1"), ExtResource("player_2"), ExtResource("player_3"), ExtResource("player_4"), ExtResource("player_5"), ExtResource("player_6"), ExtResource("player_7"), ExtResource("player_8"), ExtResource("player_9")])
@@ -59,25 +72,10 @@ theme_override_constants/separation = 24
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
-text = "Select Player"
 theme_override_font_sizes/font_size = 46
+text = "Select Player"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="CustomButton" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -35.0
-offset_right = 0.0
-offset_bottom = 35.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "continue"
 
 [node name="CustomButtonExit" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
 layout_mode = 1
@@ -92,6 +90,8 @@ offset_right = 260.0
 offset_bottom = 35.0
 grow_horizontal = 1
 grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_4wylj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_l4xk0")
 text = "Back"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
@@ -145,19 +145,19 @@ offset_left = 128.0
 offset_top = 5.0
 offset_right = 292.0
 offset_bottom = 34.0
-text = "player name"
 theme_override_font_sizes/font_size = 20
+text = "player name"
 
 [node name="PlayerTitle" type="Label" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
 unique_name_in_owner = true
-metadata/ui_color = "accent"
 layout_mode = 0
 offset_left = 128.0
 offset_top = 55.0
 offset_right = 292.0
 offset_bottom = 84.0
-text = "player"
 theme_override_font_sizes/font_size = 20
+text = "player"
+metadata/ui_color = "accent"
 
 [node name="PlayerDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
 unique_name_in_owner = true
@@ -228,20 +228,20 @@ offset_left = 128.0
 offset_top = 5.0
 offset_right = 332.0
 offset_bottom = 78.0
-text = "weapon name"
 theme_override_font_sizes/font_size = 20
+text = "weapon name"
 autowrap_mode = 2
 
 [node name="WeaponTitle" type="Label" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
 unique_name_in_owner = true
-metadata/ui_color = "accent"
 layout_mode = 0
 offset_left = 128.0
 offset_top = 55.0
 offset_right = 332.0
 offset_bottom = 84.0
-text = "weapon"
 theme_override_font_sizes/font_size = 20
+text = "weapon"
+metadata/ui_color = "accent"
 
 [node name="WeaponDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
 unique_name_in_owner = true
@@ -353,8 +353,8 @@ offset_right = 188.0
 offset_bottom = -89.4167
 grow_horizontal = 2
 grow_vertical = 0
-text = "Select Weapon"
 theme_override_font_sizes/font_size = 46
+text = "Select Weapon"
 
 [node name="PlayerLabel" type="Label" parent="."]
 visible = false
@@ -370,8 +370,7 @@ offset_right = 188.0
 offset_bottom = -247.417
 grow_horizontal = 2
 grow_vertical = 0
-text = "Select Player"
 theme_override_font_sizes/font_size = 46
+text = "Select Player"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButton" to="." method="_on_custom_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

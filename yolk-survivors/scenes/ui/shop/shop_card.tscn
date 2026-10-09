@@ -52,8 +52,8 @@ offset_left = -16.0
 offset_right = 118.0
 offset_bottom = 29.0
 grow_horizontal = 2
-text = "item name"
 theme_override_font_sizes/font_size = 20
+text = "item name"
 
 [node name="ItemType" type="Label" parent="MarginContainer/Control"]
 unique_name_in_owner = true
@@ -66,8 +66,8 @@ offset_top = 45.0
 offset_right = 118.0
 offset_bottom = 74.0
 grow_horizontal = 2
-text = "item type"
 theme_override_font_sizes/font_size = 20
+text = "item type"
 
 [node name="ItemDescription" type="RichTextLabel" parent="MarginContainer/Control"]
 unique_name_in_owner = true
@@ -118,7 +118,7 @@ stretch_mode = 5
 [node name="ItemCost" type="Label" parent="MarginContainer/Control/CustomButton/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "30"
 theme_override_font_sizes/font_size = 40
+text = "30"
 
 [connection signal="pressed" from="MarginContainer/Control/CustomButton" to="." method="_on_custom_button_pressed"]

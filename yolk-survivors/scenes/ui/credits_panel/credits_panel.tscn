@@ -1,17 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxgobdv45wbll"]
+[gd_scene load_steps=4 format=3 uid="uid://dxgobdv45wbll"]
 
 [ext_resource type="Script" uid="uid://dtb2ydasayh8s" path="res://scenes/ui/credits_panel/credits_panel.gd" id="1_42624"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="2_pjbwu"]
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="3_fo6ey"]
 [ext_resource type="Texture2D" uid="uid://d0r1sryiih8ny" path="res://assets/sprites/Players/Redesign/tiny_egg.png" id="3_pjbwu"]
 
 [node name="CreditsPanel" type="Panel"]
-theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_42624")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -36,8 +35,8 @@ alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Credits"
 theme_override_font_sizes/font_size = 54
+text = "Credits"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -52,8 +51,8 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Game Design"
 theme_override_font_sizes/font_size = 36
+text = "Game Design"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -61,8 +60,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Silvio Stefanucci"
 theme_override_font_sizes/font_size = 36
+text = "Silvio Stefanucci"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -72,8 +71,8 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Game Programmer"
 theme_override_font_sizes/font_size = 36
+text = "Game Programmer"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -81,8 +80,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Silvio Stefanucci"
 theme_override_font_sizes/font_size = 36
+text = "Silvio Stefanucci"
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -92,8 +91,8 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Music and SFX"
 theme_override_font_sizes/font_size = 36
+text = "Music and SFX"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer6"]
 layout_mode = 2
@@ -101,8 +100,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer6"]
 layout_mode = 2
-text = "Silvio Stefanucci"
 theme_override_font_sizes/font_size = 36
+text = "Silvio Stefanucci"
 
 [node name="HBoxContainer7" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -112,8 +111,8 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer7"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "UI - UX"
 theme_override_font_sizes/font_size = 36
+text = "UI - UX"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer7"]
 layout_mode = 2
@@ -121,8 +120,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer7"]
 layout_mode = 2
-text = "Silvio Stefanucci"
 theme_override_font_sizes/font_size = 36
+text = "Silvio Stefanucci"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -132,8 +131,8 @@ alignment = 1
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Sprites by"
 theme_override_font_sizes/font_size = 36
+text = "Sprites by"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -141,8 +140,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Silvio Stefanucci"
 theme_override_font_sizes/font_size = 36
+text = "Silvio Stefanucci"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -160,8 +159,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
-text = "Gyanis Dev"
 theme_override_font_sizes/font_size = 36
+text = "Gyanis Dev"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -179,8 +178,8 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer5"]
 layout_mode = 2
-text = "Generated by chatgpt"
 theme_override_font_sizes/font_size = 36
+text = "Generated by chatgpt"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

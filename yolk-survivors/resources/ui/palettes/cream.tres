@@ -1,7 +1,31 @@
-[gd_resource type="Resource" script_class="UIPalette" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="UIPalette" load_steps=2 format=3 uid="uid://csh811sp0cjcn"]
 
-[ext_resource type="Script" path="res://resources/ui/ui_palette.gd" id="1"]
+[ext_resource type="Script" uid="uid://0mrp1po61o8t" path="res://resources/ui/ui_palette.gd" id="1"]
 
 [resource]
 script = ExtResource("1")
 display_name = "Crema y yema"
+background = Color(0.94902, 0.894118, 0.796078, 1)
+surface = Color(1, 0.968627, 0.901961, 1)
+inset = Color(0.905882, 0.835294, 0.705882, 1)
+outline = Color(0.411765, 0.313726, 0.223529, 1)
+text = Color(0.266667, 0.207843, 0.156863, 1)
+muted = Color(0.462745, 0.392157, 0.313726, 1)
+positive = Color(0.203922, 0.439216, 0.298039, 1)
+negative = Color(0.639216, 0.219608, 0.211765, 1)
+accent = Color(0.627451, 0.415686, 0.0941176, 1)
+hud_text = Color(1, 0.968627, 0.901961, 1)
+button = Color(0.858824, 0.780392, 0.639216, 1)
+primary = Color(0.960784, 0.741176, 0.309804, 1)
+danger = Color(0.87451, 0.545098, 0.470588, 1)
+focus = Color(0.0901961, 0.435294, 0.501961, 1)
+disabled = Color(0.87451, 0.847059, 0.788235, 1)
+disabled_text = Color(0.501961, 0.47451, 0.431373, 1)
+common = Color(0.596078, 0.505882, 0.392157, 1)
+rare = Color(0.219608, 0.521569, 0.4, 1)
+epic = Color(0.458824, 0.384314, 0.615686, 1)
+legendary = Color(0.772549, 0.505882, 0.129412, 1)
+radius = 16
+border_width = 2
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.2)

@@ -17,7 +17,7 @@ func verify() -> void:
 	root.add_child(arena)
 	arena._on_start_panel_on_play_pressed()
 	for frame in 4: await process_frame
-	var button = arena.selection_panel.confirm_button
+	var button = arena.selection_panel.get_node("MarginContainer/VBoxContainer/Label/CustomButtonExit")
 	var initial_rect: Rect2 = button.get_rect()
 	for id in themes.PALETTES:
 		themes.set_palette(id)
@@ -41,6 +41,12 @@ func verify() -> void:
 		var card = arena.selection_panel.players_container.get_child(4)
 		card.grab_focus()
 		assert(card.get_theme_stylebox("focus").border_color == themes.palette.focus)
+		assert(card.get_theme_stylebox("normal").bg_color == card.get_theme_stylebox("hover").bg_color, "Controller focus must change the actual base fill")
+		card.button_pressed = true
+		assert(card.get_theme_stylebox("pressed").bg_color == card.get_theme_stylebox("hover_pressed").bg_color, "Focused selected slot must preserve pressed hover")
+		card.button_pressed = false
+		button.grab_focus()
+		assert(not card.has_theme_stylebox_override("focus"), "Leaving focus must restore the shared focus style")
 		assert(card.get_theme_stylebox("pressed").border_width_left >= 3)
 		assert(card.locked == false)
 		assert(arena.selection_panel.player_icon.material == null)

@@ -45,6 +45,7 @@ value = 0.5
 show_percentage = false
 
 [node name="HealthValue" type="Label" parent="ProgressBar"]
+theme_type_variation = &"HudLabel"
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8

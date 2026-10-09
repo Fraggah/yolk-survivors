@@ -29,7 +29,6 @@ enum SelectionMode { CHARACTER, WEAPON }
 @onready var weapon_label: Label = $WeaponLabel
 @onready var player_label: Label = $PlayerLabel
 @onready var heading: Label = $MarginContainer/VBoxContainer/Label
-@onready var confirm_button: Button = $MarginContainer/VBoxContainer/Label/CustomButton
 @onready var player_panel: Panel = $MarginContainer/VBoxContainer/Control/Panel
 @onready var weapon_panel: Panel = $MarginContainer/VBoxContainer/Control/WeaponPanel
 
@@ -75,12 +74,11 @@ func _refresh_selection_info() -> void:
 	if not is_visible_in_tree(): return
 	_update_card_locks()
 	_update_weapon_availability()
-	_update_confirm_button()
 	_update_selected_slots()
 	show_player_info(Global.main_player_selected != null)
 	show_weapon_info(Global.main_weapon_selected != null)
-	if Global.main_player_selected: _on_player_selected(Global.main_player_selected)
-	if Global.main_weapon_selected: _on_weapon_selected(Global.main_weapon_selected)
+	if Global.main_player_selected: _show_player_preview(Global.main_player_selected)
+	if Global.main_weapon_selected: _show_weapon_preview(Global.main_weapon_selected)
 
 func show_weapon_info(value: bool) -> void:
 	weapon_icon.visible = value
@@ -132,9 +130,8 @@ func _on_player_selected(player: UnitStats) -> void:
 	_update_weapon_availability()
 	_update_selected_slots()
 	_show_player_preview(player)
-	_update_confirm_button()
-	if Global.main_weapon_selected:
-		_on_weapon_selected(Global.main_weapon_selected)
+	if selection_mode == SelectionMode.CHARACTER and is_visible_in_tree():
+		_complete_selection()
 
 func _show_player_preview(player: UnitStats) -> void:
 	preview_player = player
@@ -158,9 +155,10 @@ func _on_weapon_selected(weapon: ItemWeapon) -> void:
 		_update_selected_slots()
 		return
 	Global.main_weapon_selected = weapon
-	_update_confirm_button()
 	_update_selected_slots()
 	_show_weapon_preview(weapon)
+	if selection_mode == SelectionMode.WEAPON and is_visible_in_tree():
+		_complete_selection()
 
 func _show_weapon_preview(weapon: ItemWeapon) -> void:
 	preview_weapon = weapon
@@ -218,7 +216,6 @@ func _on_progress_changed() -> void:
 	if not is_visible_in_tree(): return
 	_update_card_locks()
 	_update_weapon_availability()
-	_update_confirm_button()
 	if preview_player: _show_player_preview(preview_player)
 	if preview_weapon: _show_weapon_preview(preview_weapon)
 
@@ -251,16 +248,7 @@ func get_character_description(player: UnitStats) -> String:
 	lines.append_array(passive_lines)
 	return UITheme.rich_text("\n".join(lines))
 
-func _update_confirm_button() -> void:
-	confirm_button.disabled = not Progression.is_character_unlocked(Global.main_player_selected)
-	if selection_mode == SelectionMode.WEAPON:
-		confirm_button.disabled = confirm_button.disabled or not Global.is_valid_starting_weapon(Global.main_weapon_selected)
-		if not confirm_button.disabled:
-			confirm_button.disabled = not Progression.is_weapon_unlocked(Global.main_weapon_selected) or not Global.main_player_selected.can_use_weapon(Global.main_weapon_selected)
-
-func _on_custom_button_pressed() -> void:
-	_update_confirm_button()
-	if confirm_button.disabled: return
+func _complete_selection() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	hide()
 	on_selection_completed.emit()

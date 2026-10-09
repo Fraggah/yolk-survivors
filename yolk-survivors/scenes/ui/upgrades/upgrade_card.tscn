@@ -48,12 +48,11 @@ offset_top = 10.0
 offset_right = 147.0
 offset_bottom = 49.0
 grow_horizontal = 2
-text = "damage"
 theme_override_font_sizes/font_size = 30
+text = "damage"
 
 [node name="ItemDescription" type="Label" parent="MarginContainer/Control"]
 unique_name_in_owner = true
-metadata/ui_color = "positive"
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -63,9 +62,10 @@ offset_top = 49.0
 offset_right = 91.0
 offset_bottom = 100.0
 grow_horizontal = 2
-text = "+1"
 theme_override_font_sizes/font_size = 30
+text = "+1"
 vertical_alignment = 1
+metadata/ui_color = "positive"
 
 [node name="CustomButton" parent="MarginContainer/Control" instance=ExtResource("4_4ru3d")]
 layout_mode = 1

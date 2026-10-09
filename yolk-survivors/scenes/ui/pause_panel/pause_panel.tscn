@@ -1,15 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmcklq2cvmlyg"]
+[gd_scene load_steps=2 format=3 uid="uid://bmcklq2cvmlyg"]
 
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_mrpda"]
 [ext_resource type="Script" uid="uid://816bmo144xkw" path="res://scenes/ui/pause_panel/pause_panel.gd" id="1_t84es"]
 
 [node name="PausePanel" type="Panel"]
-theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_t84es")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -31,8 +30,8 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Game Paused"
 theme_override_font_sizes/font_size = 56
+text = "Game Paused"
 horizontal_alignment = 1
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
@@ -57,17 +56,17 @@ offset_right = 20.0
 offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
-text = "Return"
 theme_override_font_sizes/font_size = 46
+text = "Return"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ExitButton" type="Button" parent="VBoxContainer"]
-theme_type_variation = &"DangerButton"
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_type_variation = &"DangerButton"
 
 [node name="Label" type="Label" parent="VBoxContainer/ExitButton"]
 layout_mode = 1
@@ -82,8 +81,8 @@ offset_right = 20.0
 offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
-text = "Exit"
 theme_override_font_sizes/font_size = 46
+text = "Exit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -99,11 +98,11 @@ offset_left = -380.0
 offset_top = -181.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_font_sizes/font_size = 32
 text = "Controls:
 WASD - Movement
 Space - dash
 Pause - Esc"
-theme_override_font_sizes/font_size = 32
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

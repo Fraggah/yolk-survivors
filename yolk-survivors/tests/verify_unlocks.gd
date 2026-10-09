@@ -34,7 +34,7 @@ func verify() -> void:
 	assert(selection.player_icon.material != null)
 	assert(not selection.player_description.text.contains("PASSIVES"))
 	locked_card.pressed.emit()
-	assert(global.main_player_selected == null and selection.confirm_button.disabled)
+	assert(global.main_player_selected == null and selection.visible)
 	global.main_player_selected = vampire
 	global.main_weapon_selected = weapons.weapons_list[5]
 	assert(global.get_starting_weapons().is_empty())
@@ -42,7 +42,6 @@ func verify() -> void:
 	global.main_player_selected = null
 	global.main_weapon_selected = null
 	selection.players_container.get_child(0).pressed.emit()
-	selection.confirm_button.pressed.emit()
 	await frames()
 	assert(weapons.visible)
 	var locked_weapon = weapons.weapons_container.get_child(1) # Blender
@@ -52,7 +51,6 @@ func verify() -> void:
 	locked_weapon.pressed.emit()
 	assert(global.main_weapon_selected == null)
 	weapons.weapons_container.get_child(0).pressed.emit()
-	weapons.confirm_button.pressed.emit()
 	arena._on_level_selected(0)
 	await frames()
 	var player = global.player

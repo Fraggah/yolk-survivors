@@ -42,7 +42,54 @@ func box(fill: Color, edge: Color, radius: int = -1, border: int = -1) -> StyleB
 	return style
 
 func focus_style() -> StyleBoxFlat:
-	return box(Color.TRANSPARENT, palette.focus, -1, 3)
+	return box(Color.TRANSPARENT, palette.focus, -1, palette.focus_width)
+
+func _bind_button_focus(button: Button) -> void:
+	if not button.has_meta("ui_focus_bound"):
+		button.set_meta("ui_focus_bound", true)
+		button.focus_entered.connect(_update_button_focus.bind(button))
+		button.focus_exited.connect(_clear_button_focus.bind(button))
+		button.button_down.connect(_button_focus_down.bind(button))
+		button.button_up.connect(_button_focus_up.bind(button))
+		button.toggled.connect(_button_focus_toggled.bind(button))
+	_update_button_focus(button)
+
+func _update_button_focus(button: Button) -> void:
+	if not button.has_focus() or button.disabled:
+		_clear_button_focus(button)
+		return
+	if button.has_theme_stylebox_override("focus") and button.get_theme_stylebox("normal") == button.get_theme_stylebox("hover") and button.get_theme_stylebox("pressed") == button.get_theme_stylebox("hover_pressed"):
+		return
+	# Godot draws the base button over the focus background. Apply hover to
+	# the base states themselves, then keep focus as a transparent outline.
+	for state in ["normal", "pressed"]:
+		var key: String = "ui_focus_saved_" + state
+		if not button.has_meta(key):
+			button.set_meta(key, [button.has_theme_stylebox_override(state), button.get_theme_stylebox(state)])
+		button.add_theme_stylebox_override(state, button.get_theme_stylebox("hover" if state == "normal" else "hover_pressed"))
+	button.add_theme_stylebox_override("focus", focus_style())
+
+func _clear_button_focus(button: Button) -> void:
+	for state in ["normal", "pressed"]:
+		var key: String = "ui_focus_saved_" + state
+		if button.has_meta(key):
+			var saved: Array = button.get_meta(key)
+			if saved[0]: button.add_theme_stylebox_override(state, saved[1])
+			else: button.remove_theme_stylebox_override(state)
+			button.remove_meta(key)
+	button.remove_theme_stylebox_override("focus")
+	button.set_meta("ui_focus_down", false)
+
+func _button_focus_down(button: Button) -> void:
+	button.set_meta("ui_focus_down", true)
+	_update_button_focus(button)
+
+func _button_focus_up(button: Button) -> void:
+	button.set_meta("ui_focus_down", false)
+	_update_button_focus(button)
+
+func _button_focus_toggled(_pressed: bool, button: Button) -> void:
+	_update_button_focus(button)
 
 func tier_style(tier: int) -> StyleBoxFlat:
 	return tier_styles[clampi(tier, 0, 3)]
@@ -53,24 +100,30 @@ func selected_tier_style(_tier: int) -> StyleBoxFlat:
 func _button_styles(base: Color, edge: Color) -> Dictionary:
 	return {
 		"normal": box(base, edge),
-		"hover": box(base.lerp(palette.surface, 0.25), palette.focus),
+		"hover": box(palette.hover_surface, palette.focus, -1, palette.focus_width),
 		"pressed": box(base.lerp(palette.outline, 0.12), palette.focus, -1, 3),
-		"hover_pressed": box(base.lerp(palette.outline, 0.06), palette.focus, -1, 3),
+		"hover_pressed": box(palette.hover_selected, palette.focus, -1, palette.focus_width),
 		"disabled": box(palette.disabled, palette.disabled_text.lerp(palette.disabled, 0.6)),
 		"focus": focus_style()
 	}
 
 func style_slot(button: Button, tier: int = 0) -> void:
+	_clear_button_focus(button)
 	button.set_meta("ui_tier", tier)
 	button.theme = ui_theme
 	var states := _button_styles(palette.surface, palette.rarity(tier))
 	for state in states:
 		button.add_theme_stylebox_override(state, states[state])
+	_bind_button_focus(button)
 
 func _rebuild() -> void:
 	ui_theme = Theme.new()
 	ui_theme.default_font = FONT
 	ui_theme.default_font_size = 24
+	ui_theme.set_type_variation("HudLabel", "Label")
+	ui_theme.set_color("font_color", "HudLabel", palette.hud_text)
+	ui_theme.set_color("font_outline_color", "HudLabel", palette.outline)
+	ui_theme.set_constant("outline_size", "HudLabel", 4)
 	for type_name in ["Label", "RichTextLabel", "Button", "CheckButton"]:
 		ui_theme.set_color("font_color", type_name, palette.text)
 		ui_theme.set_color("default_color", type_name, palette.text)
@@ -91,9 +144,11 @@ func _rebuild() -> void:
 	ui_theme.set_stylebox("panel", "InsetPanel", box(palette.inset, Color.TRANSPARENT, 8, 0))
 	ui_theme.set_type_variation("OverlayPanel", "Panel")
 	ui_theme.set_stylebox("panel", "OverlayPanel", box(Color(0.05, 0.04, 0.03, 0.65), Color.TRANSPARENT, 0, 0))
-	ui_theme.set_stylebox("slider", "HSlider", box(palette.inset, palette.outline, 6, 1))
-	ui_theme.set_stylebox("grabber_area", "HSlider", box(palette.primary, palette.outline, 6, 1))
-	ui_theme.set_stylebox("grabber_area_highlight", "HSlider", box(palette.primary, palette.focus, 6, 2))
+	for state in ["slider", "grabber_area", "grabber_area_highlight"]:
+		var track := box(palette.inset if state == "slider" else palette.primary, palette.focus if state == "grabber_area_highlight" else palette.outline, 6, 2)
+		track.content_margin_top = 6
+		track.content_margin_bottom = 6
+		ui_theme.set_stylebox(state, "HSlider", track)
 	ui_theme.set_stylebox("focus", "HSlider", focus_style())
 	for icon_name in ["grabber", "grabber_highlight", "grabber_disabled"]:
 		var image := Image.new()
@@ -124,8 +179,10 @@ func apply_control(node) -> void:
 		if ancestor.name == "GameUI" or ancestor.scene_file_path.begins_with("res://scenes/ui/"): ui = true
 		ancestor = ancestor.get_parent()
 	if not ui: return
+	if node is Button: _clear_button_focus(node)
 	node.theme = ui_theme
 	if node is Button and node.has_meta("ui_tier"): style_slot(node, node.get_meta("ui_tier"))
+	if node is Button: _bind_button_focus(node)
 	if node is Button and node.get("portrait") is TextureRect:
 		var portrait: TextureRect = node.get("portrait")
 		if portrait.material is ShaderMaterial: portrait.material.set_shader_parameter("silhouette_color", palette.muted)

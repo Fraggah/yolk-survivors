@@ -20,6 +20,8 @@ class_name UIPalette
 @export var primary := Color("f5bd4f")
 @export var danger := Color("df8b78")
 @export var focus := Color("176f80")
+@export var hover_surface := Color("b9dfe2")
+@export var hover_selected := Color("8ac5cd")
 @export var disabled := Color("dfd8c9")
 @export var disabled_text := Color("80796e")
 @export_group("Rarity borders")
@@ -30,6 +32,7 @@ class_name UIPalette
 @export_group("Geometry")
 @export_range(0, 28) var radius := 16
 @export_range(1, 5) var border_width := 2
+@export_range(3, 8) var focus_width := 5
 @export_range(0, 12) var shadow_size := 3
 @export var shadow_color := Color(0, 0, 0, 0.2)
 

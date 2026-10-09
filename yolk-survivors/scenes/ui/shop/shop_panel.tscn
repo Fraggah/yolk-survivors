@@ -53,12 +53,12 @@
 [ext_resource type="Texture2D" uid="uid://dmpftpbmwokai" path="res://assets/sprites/Yolk/yolk.png" id="47_yolk"]
 
 [node name="ShopPanel" type="Panel"]
-theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_ir0lx")
 shop_items = Array[ExtResource("2_2rpxx")]([ExtResource("3_xnehm"), ExtResource("4_e8kvv"), ExtResource("5_xg118"), ExtResource("6_ikmqp"), ExtResource("7_eb4ko"), ExtResource("8_auh5d"), ExtResource("9_fltqq"), ExtResource("10_ykntx"), ExtResource("11_rq155"), ExtResource("12_kfl71"), ExtResource("13_v7d0x"), ExtResource("14_2qkey"), ExtResource("15_hdqjg"), ExtResource("16_kt0ms"), ExtResource("17_a1d76"), ExtResource("18_gywsb"), ExtResource("19_hnykb"), ExtResource("20_atkh0"), ExtResource("21_058qg"), ExtResource("22_g8pmg"), ExtResource("23_eaodt"), ExtResource("24_f6r64"), ExtResource("25_miqpl"), ExtResource("26_0f55u"), ExtResource("27_sue62"), ExtResource("28_hg33w"), ExtResource("29_0mm06"), ExtResource("30_0hkb6"), ExtResource("31_51kni"), ExtResource("32_kpjlc"), ExtResource("33_mk8bd"), ExtResource("34_isyeg"), ExtResource("35_diukg"), ExtResource("36_o5bfx"), ExtResource("37_gdp41"), ExtResource("38_qrt2o"), ExtResource("39_5pudo"), ExtResource("40_qbn8f"), ExtResource("41_qhkj7"), ExtResource("42_f13ul"), ExtResource("43_auh5d"), ExtResource("44_fltqq"), ExtResource("45_ykntx"), ExtResource("46_rq155")])
 
@@ -86,9 +86,9 @@ offset_left = -22.5
 offset_right = 22.5
 offset_bottom = 41.3333
 grow_horizontal = 2
+theme_override_font_sizes/font_size = 64
 text = "shop
 "
-theme_override_font_sizes/font_size = 64
 
 [node name="ItemsContainer" type="HBoxContainer" parent="MarginContainer/Control"]
 unique_name_in_owner = true
@@ -146,8 +146,8 @@ grow_vertical = 0
 
 [node name="Label" type="Label" parent="MarginContainer/Control/PassivePanel"]
 layout_mode = 2
-text = "items"
 theme_override_font_sizes/font_size = 32
+text = "items"
 horizontal_alignment = 1
 
 [node name="PassiveContainer" type="GridContainer" parent="MarginContainer/Control/PassivePanel"]
@@ -235,8 +235,8 @@ grow_vertical = 0
 
 [node name="Label" type="Label" parent="MarginContainer/Control/WeaponPanel"]
 layout_mode = 2
-text = "weapons"
 theme_override_font_sizes/font_size = 32
+text = "weapons"
 horizontal_alignment = 1
 
 [node name="WeaponContainer" type="GridContainer" parent="MarginContainer/Control/WeaponPanel"]
@@ -288,8 +288,8 @@ theme_override_constants/separation = 24
 alignment = 1
 
 [node name="NewWaveButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
-theme_type_variation = &"PrimaryButton"
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 theme_override_font_sizes/font_size = 48
 text = "new wave"
 
@@ -300,8 +300,8 @@ theme_override_font_sizes/font_size = 48
 text = "combine"
 
 [node name="SellWeaponButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
-theme_type_variation = &"DangerButton"
 layout_mode = 2
+theme_type_variation = &"DangerButton"
 theme_override_font_sizes/font_size = 48
 text = "sell"
 

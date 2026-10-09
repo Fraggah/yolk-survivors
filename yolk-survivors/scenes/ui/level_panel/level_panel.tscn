@@ -1,16 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://d20lcl5nw3b7d"]
+[gd_scene load_steps=3 format=3 uid="uid://d20lcl5nw3b7d"]
 
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_d6l55"]
 [ext_resource type="Script" uid="uid://clghdlon2p61t" path="res://scenes/ui/level_panel/level_panel.gd" id="1_j37y7"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_801sb"]
 
 [node name="LevelPanel" type="Panel" node_paths=PackedStringArray("buttons")]
-theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_j37y7")
 buttons = [NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level0Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level1Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level2Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level3Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level4Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level5Button")]
 
@@ -32,8 +31,8 @@ alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Select Difficulty"
 theme_override_font_sizes/font_size = 46
+text = "Select Difficulty"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -52,8 +51,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "0"
 theme_override_font_sizes/font_size = 64
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -69,8 +68,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "1"
 theme_override_font_sizes/font_size = 64
+text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -86,8 +85,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "2"
 theme_override_font_sizes/font_size = 64
+text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -103,8 +102,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "3"
 theme_override_font_sizes/font_size = 64
+text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -120,8 +119,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "4"
 theme_override_font_sizes/font_size = 64
+text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -137,8 +136,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "5"
 theme_override_font_sizes/font_size = 64
+text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 

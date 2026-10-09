@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=27 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://b7hhtxfn6wpfg" path="res://scenes/ui/upgrades/upgrade_panel.tscn" id="15_w4nra"]
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
 [ext_resource type="PackedScene" uid="uid://85rf32ecc04m" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="24_bxbl0"]
 [ext_resource type="PackedScene" uid="uid://bmcklq2cvmlyg" path="res://scenes/ui/pause_panel/pause_panel.tscn" id="24_io46r"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
 [ext_resource type="AudioStream" uid="uid://b2qhtos1ey4l3" path="res://assets/audio/armados.mp3" id="26_c13hg"]
@@ -27,23 +26,6 @@
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="env_type"]
 [ext_resource type="Resource" uid="uid://c0w7nuiawsoc4" path="res://resources/environments/warm_skillet.tres" id="env_warm"]
 [ext_resource type="PackedScene" path="res://scenes/ui/selection_panel/weapon_selection_panel.tscn" id="weapon_selection"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_fv88w"]
-font_size = 64
-
-[sub_resource type="LabelSettings" id="LabelSettings_c13hg"]
-font = ExtResource("24_bxbl0")
-font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_o7rjm"]
-font = ExtResource("24_bxbl0")
-font_size = 102
-
-[sub_resource type="LabelSettings" id="LabelSettings_xr6px"]
-font = ExtResource("24_bxbl0")
-font_size = 46
-outline_size = 6
-outline_color = Color(0.694118, 0.494118, 0.345098, 1)
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_asdgj")
@@ -91,8 +73,9 @@ offset_top = 20.0
 offset_right = 78.0
 offset_bottom = 97.3333
 grow_horizontal = 2
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 64
 text = "TEXT"
-label_settings = SubResource("LabelSettings_fv88w")
 horizontal_alignment = 1
 
 [node name="WaveTimerLabel" type="Label" parent="GameUI"]
@@ -105,8 +88,9 @@ offset_top = 90.0
 offset_right = 78.0
 offset_bottom = 167.333
 grow_horizontal = 2
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 64
 text = "10"
-label_settings = SubResource("LabelSettings_fv88w")
 horizontal_alignment = 1
 
 [node name="UpgradePanel" parent="GameUI" instance=ExtResource("15_w4nra")]
@@ -137,11 +121,12 @@ offset_left = -380.0
 offset_top = -181.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 32
 text = "Controls:
 Move: WASD / stick / D-pad
 Dash: Space / A / Cross
 Pause: Esc / Start / Options"
-label_settings = SubResource("LabelSettings_c13hg")
 
 [node name="FinalScreen" type="Control" parent="GameUI"]
 visible = false
@@ -174,13 +159,12 @@ offset_right = 232.0
 offset_bottom = -16.75
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 102
 text = "Ganaste"
-label_settings = SubResource("LabelSettings_o7rjm")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FinalButton" type="Button" parent="GameUI/FinalScreen/Panel"]
-theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(600, 120)
 layout_mode = 1
 anchors_preset = 8
@@ -194,6 +178,7 @@ offset_right = 300.0
 offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_type_variation = &"PrimaryButton"
 
 [node name="Label" type="Label" parent="GameUI/FinalScreen/Panel/FinalButton"]
 layout_mode = 1
@@ -202,8 +187,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 46
 text = "Play again?"
-label_settings = SubResource("LabelSettings_xr6px")
 horizontal_alignment = 1
 vertical_alignment = 1
 

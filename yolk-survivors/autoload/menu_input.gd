@@ -6,6 +6,17 @@ var menus: Array[Control] = []
 var active_menu: Control
 var held_direction := Vector2.ZERO
 var repeat_left := 0.0
+var styled_focus: Button
+
+func _sync_focus_visual() -> void:
+	var owner := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(styled_focus) and styled_focus != owner:
+		UITheme._clear_button_focus(styled_focus)
+	styled_focus = owner as Button
+	if is_instance_valid(styled_focus):
+		# Synchronize the real viewport focus, including stick/D-pad repeats and
+		# focus assigned before deferred theme setup or after a menu rebuild.
+		UITheme._bind_button_focus(styled_focus)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -67,6 +78,7 @@ func _process(delta: float) -> void:
 		_initial_focus(controls)
 	elif menu and not controls.has(focused):
 		_initial_focus(controls)
+	_sync_focus_visual()
 	if not menu: return
 	var direction := Vector2(Input.get_axis("ui_left", "ui_right"), Input.get_axis("ui_up", "ui_down"))
 	if direction.length() < 0.2:
@@ -105,7 +117,9 @@ func move_focus(direction: Vector2) -> void:
 		if score < best_score:
 			best = candidate
 			best_score = score
-	if best: best.grab_focus()
+	if best:
+		best.grab_focus()
+		_sync_focus_visual()
 
 func _input(event: InputEvent) -> void:
 	var menu := _visible_menu()
