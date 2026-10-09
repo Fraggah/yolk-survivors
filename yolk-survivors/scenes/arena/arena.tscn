@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=32 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
@@ -38,30 +38,6 @@ font_size = 32
 [sub_resource type="LabelSettings" id="LabelSettings_o7rjm"]
 font = ExtResource("24_bxbl0")
 font_size = 102
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c13hg"]
-bg_color = Color(0.531067, 0.337933, 0.288052, 1)
-border_width_left = 15
-border_width_top = 15
-border_width_right = 15
-border_width_bottom = 15
-border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
-corner_radius_top_left = 45
-corner_radius_top_right = 45
-corner_radius_bottom_right = 45
-corner_radius_bottom_left = 45
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7rjm"]
-bg_color = Color(0.751779, 0.560029, 0.472645, 1)
-border_width_left = 15
-border_width_top = 15
-border_width_right = 15
-border_width_bottom = 15
-border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
-corner_radius_top_left = 45
-corner_radius_top_right = 45
-corner_radius_bottom_right = 45
-corner_radius_bottom_left = 45
 
 [sub_resource type="LabelSettings" id="LabelSettings_xr6px"]
 font = ExtResource("24_bxbl0")
@@ -204,6 +180,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FinalButton" type="Button" parent="GameUI/FinalScreen/Panel"]
+theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(600, 120)
 layout_mode = 1
 anchors_preset = 8
@@ -217,8 +194,6 @@ offset_right = 300.0
 offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_c13hg")
-theme_override_styles/normal = SubResource("StyleBoxFlat_o7rjm")
 
 [node name="Label" type="Label" parent="GameUI/FinalScreen/Panel/FinalButton"]
 layout_mode = 1

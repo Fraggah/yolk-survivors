@@ -14,18 +14,25 @@ var purchase_in_progress := false
 @onready var item_description: RichTextLabel = %ItemDescription
 @onready var item_cost: Label = %ItemCost
 
+func _ready() -> void:
+	UITheme.palette_changed.connect(_refresh_palette)
+
+func _refresh_palette() -> void:
+	if shop_item: _set_shop_item(shop_item)
+
 func _set_shop_item(value: ItemBase) -> void:
 	shop_item = value
 	item_icon.texture = shop_item.item_icon
 	item_name.text = shop_item.item_name
 	item_type.text = ItemBase.ItemType.keys()[shop_item.item_type]
 	if shop_item is ItemWeapon:
-		item_description.text = (shop_item as ItemWeapon).get_description(Global.player.stats if is_instance_valid(Global.player) else null)
+		item_description.text = UITheme.rich_text((shop_item as ItemWeapon).get_description(Global.player.stats if is_instance_valid(Global.player) else null))
 	else:
-		item_description.text = shop_item.get_description()
+		item_description.text = UITheme.rich_text(shop_item.get_description())
 	item_cost.text = str(shop_item.get_shop_price(shop_wave))
 	
 	var style := Global.get_tier_style(shop_item.item_tier)
+	set_meta("ui_tier", int(shop_item.item_tier))
 	add_theme_stylebox_override("panel", style)
 
 

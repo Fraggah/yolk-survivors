@@ -116,7 +116,7 @@ func _process(_delta: float) -> void:
 func _update_reroll_button() -> void:
 	reroll_cost_label.text = "refresh %s" % get_reroll_cost()
 	reroll_button.disabled = Global.coins < get_reroll_cost()
-	reroll_cost_label.get_parent().modulate.a = 0.5 if reroll_button.disabled else 1.0
+	reroll_cost_label.add_theme_color_override("font_color", UITheme.palette.disabled_text if reroll_button.disabled else UITheme.palette.text)
 
 
 func create_item_card() -> ItemCard:

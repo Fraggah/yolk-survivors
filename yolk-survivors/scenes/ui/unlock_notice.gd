@@ -11,11 +11,7 @@ func _ready() -> void:
 	offset_right = 350.0
 	offset_top = 90.0
 	z_index = 20
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("875649")
-	style.border_color = Color("ffe395")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(12)
+	var style := UITheme.box(UITheme.palette.surface, UITheme.palette.focus)
 	style.content_margin_top = 10.0
 	style.content_margin_bottom = 10.0
 	add_theme_stylebox_override("panel", style)
@@ -25,7 +21,14 @@ func _ready() -> void:
 	caption.add_theme_font_size_override("font_size", 26)
 	add_child(caption)
 	Progression.unlock_earned.connect(_on_unlock_earned)
+	UITheme.palette_changed.connect(_refresh_style)
 	hide()
+
+func _refresh_style() -> void:
+	var style := UITheme.box(UITheme.palette.surface, UITheme.palette.focus)
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	add_theme_stylebox_override("panel", style)
 
 func _on_unlock_earned(reward: String) -> void:
 	pending.append(reward)

@@ -23,10 +23,6 @@ const MAX_EQUIPPED_WEAPONS := 6
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
 const FLOATING_TEXT_SCENE = preload("res://scenes/ui/floating_text/floating_text.tscn")
 
-const COMMON_STYLE = preload("res://styles/common_style.tres")
-const EPIC_STYLE = preload("res://styles/epic_style.tres")
-const LEGENDARY_STYLE = preload("res://styles/legendary_style.tres")
-const RARE_STYLE = preload("res://styles/rare_style.tres")
 
 const COINS_SCENE = preload("res://scenes/coins/coins.tscn")
 const ITEM_CARD_SCENE = preload("res://scenes/ui/shop/item_card.tscn")
@@ -134,15 +130,7 @@ func get_chance_succes(chance: float) -> bool:
 	return false
 
 func get_tier_style(tier: UpgradeTier) -> StyleBoxFlat:
-	match tier:
-		UpgradeTier.COMMON:
-			return COMMON_STYLE
-		UpgradeTier.RARE:
-			return RARE_STYLE
-		UpgradeTier.EPIC:
-			return EPIC_STYLE
-		_:
-			return LEGENDARY_STYLE
+	return UITheme.tier_style(tier)
 
 func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[float]:
 	var common_chance := .0

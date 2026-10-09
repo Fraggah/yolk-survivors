@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://b7hhtxfn6wpfg"]
+[gd_scene load_steps=63 format=3 uid="uid://b7hhtxfn6wpfg"]
 
 [ext_resource type="PackedScene" uid="uid://cw0dx3phrq4iu" path="res://scenes/ui/upgrades/upgrade_card.tscn" id="1_3qk7x"]
 [ext_resource type="Script" uid="uid://84nl0bn5o0in" path="res://scenes/ui/upgrades/upgrade_panel.gd" id="1_8r26f"]
@@ -63,23 +63,13 @@
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_3.tres" id="rework_ranged_damage_2"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_4.tres" id="rework_ranged_damage_3"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1k2b"]
-bg_color = Color(0.164706, 0.196078, 0.180392, 0.392157)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="LabelSettings" id="LabelSettings_ty206"]
-font_size = 120
-
 [node name="UpgradePanel" type="Panel"]
+theme_type_variation = &"OverlayPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_l1k2b")
 script = ExtResource("1_8r26f")
 upgrades = Array[ExtResource("2_2l80c")]([ExtResource("3_2l80c"), ExtResource("4_l1k2b"), ExtResource("5_j7r25"), ExtResource("6_xbfco"), ExtResource("7_475yr"), ExtResource("8_8jciy"), ExtResource("4_pcnae"), ExtResource("10_rt1bq"), ExtResource("11_y008n"), ExtResource("12_3lpwb"), ExtResource("13_avp7o"), ExtResource("14_n0p2k"), ExtResource("5_sfqbr"), ExtResource("16_ngcoc"), ExtResource("17_nccbv"), ExtResource("18_v3vjs"), ExtResource("19_heib2"), ExtResource("20_of3qo"), ExtResource("6_b766c"), ExtResource("22_fb0mp"), ExtResource("23_lb3ee"), ExtResource("24_qadxi"), ExtResource("25_vwa8h"), ExtResource("26_deqwv"), ExtResource("7_qb2uv"), ExtResource("28_7tspb"), ExtResource("29_fd55f"), ExtResource("30_q0xs3"), ExtResource("8_bcus1"), ExtResource("32_77xmr"), ExtResource("33_onmrc"), ExtResource("34_los5s"), ExtResource("35_sqp0j"), ExtResource("36_inejw"), ExtResource("9_k4r67"), ExtResource("38_hhjlu"), ExtResource("39_3gtyp"), ExtResource("40_qnfl0"), ExtResource("41_h8qty"), ExtResource("42_3pu14"), ExtResource("10_3l5jg"), ExtResource("44_s7no7"), ExtResource("45_xga4h"), ExtResource("46_kc7m0"), ExtResource("47_5mlx1"), ExtResource("48_waa54"), ExtResource("rework_melee_damage_0"), ExtResource("rework_melee_damage_1"), ExtResource("rework_melee_damage_2"), ExtResource("rework_melee_damage_3"), ExtResource("rework_ranged_damage_0"), ExtResource("rework_ranged_damage_1"), ExtResource("rework_ranged_damage_2"), ExtResource("rework_ranged_damage_3"), ExtResource("rework_attack_speed_0"), ExtResource("rework_attack_speed_1"), ExtResource("rework_attack_speed_2"), ExtResource("rework_attack_speed_3")])
 
@@ -99,9 +89,10 @@ theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+metadata/ui_color = "hud"
 layout_mode = 2
 text = "wave completed"
-label_settings = SubResource("LabelSettings_ty206")
+theme_override_font_sizes/font_size = 120
 horizontal_alignment = 1
 
 [node name="ItemContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]

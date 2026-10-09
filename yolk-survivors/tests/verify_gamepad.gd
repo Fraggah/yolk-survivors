@@ -48,7 +48,7 @@ func check_reachability() -> void:
 	var controls = navigation._controls(navigation._visible_menu())
 	for control in controls:
 		await route_to(control)
-		assert(control.has_theme_stylebox_override("focus"))
+		assert(control.has_theme_stylebox("focus"), "Interactive control needs a visible theme focus style")
 	start.grab_focus()
 
 func verify() -> void:

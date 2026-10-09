@@ -26,7 +26,7 @@ func _ready() -> void:
 		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value.add_theme_font_size_override("font_size", 22)
-		value.add_theme_color_override("font_color", Color("eaf0b8"))
+		value.set_meta("ui_color", "positive")
 		stats_grid.add_child(value)
 		value_labels.append(value)
 	hide()
@@ -77,11 +77,10 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	weapon_name.text = weapon.item_name
 	weapon_type.text = "Ranged weapon" if weapon.type == ItemWeapon.Type.RANGE else "Melee weapon"
 	var style := Global.get_tier_style(weapon.item_tier).duplicate() as StyleBoxFlat
-	style.bg_color = style.bg_color.darkened(0.45)
-	style.border_color = Global.get_tier_style(weapon.item_tier).bg_color.lightened(0.2)
+	style.bg_color = UITheme.palette.surface
 	style.set_border_width_all(2)
-	style.shadow_color = Color(0, 0, 0, 0.25)
-	style.shadow_size = 6
+	style.shadow_color = UITheme.palette.shadow_color
+	style.shadow_size = UITheme.palette.shadow_size
 	add_theme_stylebox_override("panel", style)
 	var stats := weapon.stats
 	var values: Array[String] = [

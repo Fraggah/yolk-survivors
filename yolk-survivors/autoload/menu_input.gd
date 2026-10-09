@@ -34,14 +34,6 @@ func _collect_controls(node: Node, result: Array[Control]) -> void:
 		if child is Control and not child.is_visible_in_tree(): continue
 		if child is BaseButton or child is Slider:
 			child.focus_mode = Control.FOCUS_ALL
-			if not child.has_meta("gamepad_focus_style"):
-				var outline := StyleBoxFlat.new()
-				outline.bg_color = Color.TRANSPARENT
-				outline.border_color = Color("ffe395")
-				outline.set_border_width_all(3)
-				outline.set_corner_radius_all(12)
-				child.add_theme_stylebox_override("focus", outline)
-				child.set_meta("gamepad_focus_style", true)
 			if not child is BaseButton or not child.disabled: result.append(child)
 		_collect_controls(child, result)
 

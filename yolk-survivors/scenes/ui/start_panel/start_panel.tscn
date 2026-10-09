@@ -1,50 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxk24jn6jkt71"]
+[gd_scene load_steps=6 format=3 uid="uid://dxk24jn6jkt71"]
 
 [ext_resource type="Script" uid="uid://c6e4r5ja4dokm" path="res://scenes/ui/start_panel/start_panel.gd" id="1_qaue6"]
 [ext_resource type="Texture2D" uid="uid://cyqwdjbm5s4ei" path="res://assets/startscreen_roster.png" id="1_t6u4c"]
 [ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="2_qaue6"]
 [ext_resource type="Texture2D" uid="uid://djthvdwamlhu8" path="res://assets/sprites/Players/Redesign/berserker.png" id="3_ulc2j"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u55lt"]
-bg_color = Color(0.91003, 0.661642, 0.559987, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_ut7xg"]
-font = ExtResource("2_qaue6")
-font_size = 150
-
-[sub_resource type="LabelSettings" id="LabelSettings_34l6n"]
-font = ExtResource("2_qaue6")
-font_size = 50
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5q5w"]
-bg_color = Color(0.531067, 0.337933, 0.288052, 1)
-border_width_left = 15
-border_width_top = 15
-border_width_right = 15
-border_width_bottom = 15
-border_color = Color(0.0862745, 0.0745098, 0.0509804, 1)
-corner_radius_top_left = 45
-corner_radius_top_right = 45
-corner_radius_bottom_right = 45
-corner_radius_bottom_left = 45
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wf4mc"]
-bg_color = Color(0.751779, 0.560029, 0.472645, 1)
-border_width_left = 15
-border_width_top = 15
-border_width_right = 15
-border_width_bottom = 15
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 45
-corner_radius_top_right = 45
-corner_radius_bottom_right = 45
-corner_radius_bottom_left = 45
-
-[sub_resource type="LabelSettings" id="LabelSettings_7u0dm"]
-font = ExtResource("2_qaue6")
-font_size = 46
-outline_size = 6
-outline_color = Color(0.694118, 0.494118, 0.345098, 1)
 
 [sub_resource type="FontFile" id="FontFile_qaue6"]
 subpixel_positioning = 0
@@ -61,17 +20,13 @@ cache/0/24/0/underline_position = 0.0
 cache/0/24/0/underline_thickness = 0.0
 cache/0/24/0/scale = 1.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_ulc2j"]
-font = SubResource("FontFile_qaue6")
-font_size = 24
-
 [node name="StartPanel" type="Panel"]
+theme_type_variation = &"ScreenPanel"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_u55lt")
 script = ExtResource("1_qaue6")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -104,13 +59,13 @@ theme_override_constants/separation = 15
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "ARMADOS"
-label_settings = SubResource("LabelSettings_ut7xg")
+theme_override_font_sizes/font_size = 150
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "(Hasta los huevos)"
-label_settings = SubResource("LabelSettings_34l6n")
+theme_override_font_sizes/font_size = 50
 horizontal_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="MarginContainer/VBoxContainer/Label2"]
@@ -123,12 +78,11 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
-theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayButton"]
 layout_mode = 1
@@ -144,7 +98,7 @@ offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
 text = "Play Game"
-label_settings = SubResource("LabelSettings_7u0dm")
+theme_override_font_sizes/font_size = 46
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -153,8 +107,6 @@ custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
-theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/OptionsButton"]
 layout_mode = 1
@@ -170,7 +122,7 @@ offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
 text = "options"
-label_settings = SubResource("LabelSettings_7u0dm")
+theme_override_font_sizes/font_size = 46
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -179,8 +131,6 @@ custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
-theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CreditsButton"]
 layout_mode = 1
@@ -196,17 +146,16 @@ offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
 text = "credits"
-label_settings = SubResource("LabelSettings_7u0dm")
+theme_override_font_sizes/font_size = 46
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer"]
+theme_type_variation = &"DangerButton"
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_o5q5w")
-theme_override_styles/normal = SubResource("StyleBoxFlat_wf4mc")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ExitButton"]
 layout_mode = 1
@@ -222,7 +171,7 @@ offset_bottom = 9.66667
 grow_horizontal = 2
 grow_vertical = 2
 text = "exit"
-label_settings = SubResource("LabelSettings_7u0dm")
+theme_override_font_sizes/font_size = 46
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -240,7 +189,7 @@ offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Silvio Stefanucci©"
-label_settings = SubResource("LabelSettings_ulc2j")
+theme_override_font_sizes/font_size = 24
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

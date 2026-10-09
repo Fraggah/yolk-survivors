@@ -15,9 +15,8 @@ func _set_item(value: ItemBase) -> void:
 	if not is_node_ready(): await ready
 	item_icon.texture = item.item_icon
 	
-	var style := Global.get_tier_style(item.item_tier)
 	toggle_mode = item.item_type == ItemBase.ItemType.WEAPON
-	SlotSelectionStyle.apply(self, style)
+	UITheme.style_slot(self, int(item.item_tier))
 
 
 func _on_pressed() -> void:

@@ -66,6 +66,7 @@ func _ready() -> void:
 	show_player_info(false)
 	show_weapon_info(false)
 	Progression.progress_changed.connect(_on_progress_changed)
+	UITheme.palette_changed.connect(_on_progress_changed)
 	_update_card_locks()
 	visibility_changed.connect(_refresh_selection_info)
 	_refresh_selection_info()
@@ -173,7 +174,7 @@ func _show_weapon_preview(weapon: ItemWeapon) -> void:
 		weapon_title.text = "Locked"
 		weapon_description.text = Progression.requirement_for(weapon.unlock_id, false)
 	else:
-		weapon_description.text = weapon.get_description(Global.main_player_selected.get_passive_preview() if Global.main_player_selected else null)
+		weapon_description.text = UITheme.rich_text(weapon.get_description(Global.main_player_selected.get_passive_preview() if Global.main_player_selected else null))
 		if Global.main_player_selected and not Global.main_player_selected.can_use_weapon(weapon):
 			weapon_title.text = "Cannot equip"
 
@@ -200,6 +201,7 @@ func _set_portrait_lock(portrait: TextureRect, locked: bool) -> void:
 	if locked:
 		var silhouette := ShaderMaterial.new()
 		silhouette.shader = SILHOUETTE
+		silhouette.set_shader_parameter("silhouette_color", UITheme.palette.muted)
 		portrait.material = silhouette
 	else:
 		portrait.material = null
@@ -235,19 +237,19 @@ func get_character_description(player: UnitStats) -> String:
 			var difference := float(player.get(stat[0])) - float(base_player_stats.get(stat[0]))
 			if is_zero_approx(difference): continue
 			var sign_text := "+" if difference > 0.0 else ""
-			var color := "green" if difference > 0.0 else "#ff6969"
+			var color := UITheme.color_hex("positive" if difference > 0.0 else "negative")
 			var suffix := "%" if stat[2] else ""
 			lines.append("%s: [color=%s]%s%s%s[/color]" % [stat[1], color, sign_text, ItemWeapon.format_number(difference), suffix])
 	if lines.is_empty(): lines.append("Balanced base stats.")
 	if Global.is_valid_starting_weapon(player.starting_weapon):
 		lines.append("\nStarting weapon: %s" % player.starting_weapon.item_name)
-	lines.append("\n[b][color=#ffe395]PASSIVES[/color][/b]")
+	lines.append("\n[color=%s]PASSIVES[/color]" % UITheme.color_hex("accent"))
 	var passive_lines: PackedStringArray = []
 	for passive in player.character_passives:
-		if passive and passive.is_valid(): passive_lines.append("[color=#ffe395]- %s[/color]" % passive.get_description())
+		if passive and passive.is_valid(): passive_lines.append("[color=%s]- %s[/color]" % [UITheme.color_hex("accent"), passive.get_description()])
 	if passive_lines.is_empty(): passive_lines.append("No character passives.")
 	lines.append_array(passive_lines)
-	return "\n".join(lines)
+	return UITheme.rich_text("\n".join(lines))
 
 func _update_confirm_button() -> void:
 	confirm_button.disabled = not Progression.is_character_unlocked(Global.main_player_selected)

@@ -3,7 +3,7 @@ class_name SelectionCard
 
 func _ready() -> void:
 	toggle_mode = true
-	SlotSelectionStyle.apply(self, Global.COMMON_STYLE)
+	UITheme.style_slot(self)
 
 const SILHOUETTE = preload("res://shaders/locked_silhouette.gdshader")
 var portrait: TextureRect
@@ -34,6 +34,7 @@ func set_locked(value: bool) -> void:
 	if value:
 		var silhouette := ShaderMaterial.new()
 		silhouette.shader = SILHOUETTE
+		silhouette.set_shader_parameter("silhouette_color", UITheme.palette.muted)
 		portrait.material = silhouette
 	else:
 		portrait.material = null
