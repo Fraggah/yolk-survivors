@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3 uid="uid://cgdy8lml60gos"]
 
-[ext_resource type="Texture2D" uid="uid://513vy8yuf2c3" path="res://assets/sprites/Upgrades/6.png" id="1_3246m"]
+[ext_resource type="Texture2D" uid="uid://caygmm4hrfpy2" path="res://assets/sprites/Upgrades/Redesign/health.png" id="1_3246m"]
 [ext_resource type="Script" uid="uid://c3edxjqx8opr3" path="res://resources/items/upgrades/item_upgrades.gd" id="2_uf4ic"]
 
 [resource]

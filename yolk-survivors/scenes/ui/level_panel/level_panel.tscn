@@ -59,7 +59,6 @@ vertical_alignment = 1
 [node name="Level1Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Button"]
 layout_mode = 1
@@ -76,7 +75,6 @@ vertical_alignment = 1
 [node name="Level2Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Button"]
 layout_mode = 1
@@ -93,7 +91,6 @@ vertical_alignment = 1
 [node name="Level3Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Button"]
 layout_mode = 1
@@ -110,7 +107,6 @@ vertical_alignment = 1
 [node name="Level4Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Button"]
 layout_mode = 1
@@ -127,7 +123,6 @@ vertical_alignment = 1
 [node name="Level5Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level5Button"]
 layout_mode = 1

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemPassive" load_steps=3 format=3 uid="uid://baulcq7h7qjgk"]
 
-[ext_resource type="Texture2D" uid="uid://dyvhlxy2ogrl5" path="res://assets/sprites/Upgrades/9.png" id="1_wcq10"]
+[ext_resource type="Texture2D" uid="uid://fu80carpf4ie" path="res://assets/sprites/Items/Passives/rage.png" id="1_wcq10"]
 [ext_resource type="Script" uid="uid://dat33idgol7a7" path="res://resources/items/passives/item_passive.gd" id="2_8rt6m"]
 
 [resource]

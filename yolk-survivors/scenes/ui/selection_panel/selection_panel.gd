@@ -249,7 +249,6 @@ func get_character_description(player: UnitStats) -> String:
 	return UITheme.rich_text("\n".join(lines))
 
 func _complete_selection() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	hide()
 	on_selection_completed.emit()
 

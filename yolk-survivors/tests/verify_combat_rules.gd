@@ -165,6 +165,7 @@ func verify() -> void:
 	arena.spawner.spawned_enemies.append(charger)
 	arena.spawner.spawned_enemies.append(other)
 	arena.spawner.wave_timer.stop()
+	arena.run_experience.add_experience(16)
 	arena._on_spawner_on_wave_completed()
 	await create_timer(1.15).timeout
 	assert(arena.upgrade_panel.visible and global.game_paused)

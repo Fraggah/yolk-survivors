@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cw0dx3phrq4iu"]
 
 [ext_resource type="Script" uid="uid://b7x4w0f8pdegh" path="res://scenes/ui/upgrades/upgrade_card.gd" id="1_fd2m1"]
-[ext_resource type="Texture2D" uid="uid://dn68qq5evmvwa" path="res://assets/sprites/Upgrades/12.png" id="2_tf707"]
+[ext_resource type="Texture2D" uid="uid://c1dfhxu3fti0d" path="res://assets/sprites/Upgrades/Redesign/damage.png" id="2_tf707"]
 [ext_resource type="Resource" uid="uid://d02b0hc72ib3d" path="res://resources/items/upgrades/data/damage/upgrade_damage_1.tres" id="3_4ru3d"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_4ru3d"]
 
@@ -29,6 +29,7 @@ layout_mode = 2
 
 [node name="ItemIcon" type="TextureRect" parent="MarginContainer/Control"]
 unique_name_in_owner = true
+texture_filter = 4
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 0
 offset_right = 40.0

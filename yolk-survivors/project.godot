@@ -18,11 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 UITheme="*res://autoload/ui_theme.gd"
-
 Progression="*res://autoload/progression.gd"
-
 MenuInput="*res://autoload/menu_input.gd"
-
 Global="*res://autoload/global.gd"
 SoundManager="*res://autoload/sound_manager.tscn"
 DataManager="*res://autoload/data_manager.gd"
@@ -37,10 +34,6 @@ window/stretch/mode="canvas_items"
 
 theme/custom="res://resources/ui/default_theme.tres"
 theme/custom_font="uid://kfh6ooeul77g"
-
-[yolk]
-
-ui/palette="cream"
 
 [input]
 
@@ -92,3 +85,7 @@ pause={
 [rendering]
 
 renderer/rendering_method="mobile"
+
+[yolk]
+
+ui/palette="cream"

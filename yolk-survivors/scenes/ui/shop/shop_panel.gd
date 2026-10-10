@@ -37,20 +37,40 @@ func _on_item_card_hovered(card: ItemCard) -> void:
 func load_shop(current_wave: int) -> void:
 	shop_wave = maxi(1, current_wave)
 	reroll_count = 0
-	_populate_offers(select_shop_offers(shop_wave))
+	_populate_offers(select_shop_offers(shop_wave, _locked_offer_keys()))
 	_update_reroll_button()
 
+func _locked_offer_keys() -> Array:
+	var keys: Array = []
+	for card in items_container.get_children():
+		if card is ShopCard and card.locked: keys.append(card.shop_item.get_offer_key())
+	return keys
+
 func _populate_offers(offers: Array) -> void:
-	for child in items_container.get_children():
-		items_container.remove_child(child)
-		child.queue_free()
-	for item: ItemBase in offers:
+	var next_offer := 0
+	for card in items_container.get_children():
+		if card is ShopCard and card.locked: continue
+		card.purchase_handler = _purchase_offer.bind(card)
+		var refill := _refill_offer.bind(card)
+		if not card.on_item_purchased.is_connected(refill): card.on_item_purchased.connect(refill)
+		if next_offer < offers.size():
+			card.shop_wave = shop_wave
+			card.shop_item = offers[next_offer]
+			next_offer += 1
+		else:
+			items_container.remove_child(card)
+			card.queue_free()
+	while next_offer < offers.size():
 		var card := SHOP_CARD_SCENE.instantiate() as ShopCard
 		items_container.add_child(card)
 		card.shop_wave = shop_wave
-		card.shop_item = item
-		card.purchase_handler = try_purchase_item
+		card.shop_item = offers[next_offer]
+		card.purchase_handler = _purchase_offer.bind(card)
 		card.on_item_purchased.connect(_refill_offer.bind(card))
+		next_offer += 1
+
+func _purchase_offer(item: ItemBase, card: ShopCard) -> bool:
+	return try_purchase_item(item, card.shop_wave)
 
 func _eligible_shop_items() -> Array[ItemBase]:
 	var result: Array[ItemBase] = []
@@ -60,10 +80,12 @@ func _eligible_shop_items() -> Array[ItemBase]:
 		result.append(item)
 	return result
 
-func select_shop_offers(completed_wave: int) -> Array:
-	var catalog := _eligible_shop_items()
+func select_shop_offers(completed_wave: int, excluded_keys: Array = []) -> Array:
+	var catalog := _eligible_shop_items().filter(func(item): return not excluded_keys.has(item.get_offer_key()))
 	var offers: Array = []
-	var keys: Array = []
+	var keys: Array = excluded_keys.duplicate()
+	var slots := 4 - excluded_keys.size()
+	if slots <= 0: return offers
 	if completed_wave <= 2:
 		var weapons := catalog.filter(func(item: ItemBase): return item is ItemWeapon)
 		if completed_wave == 1:
@@ -73,10 +95,10 @@ func select_shop_offers(completed_wave: int) -> Array:
 				var first: ItemBase = affordable.pick_random()
 				offers.append(first)
 				keys.append(first.get_offer_key())
-		offers.append_array(Global.select_items_for_offer(weapons, completed_wave, Global.SHOP_PROBABILITY_CONFIG, 2 - offers.size(), keys))
+		offers.append_array(Global.select_items_for_offer(weapons, completed_wave, Global.SHOP_PROBABILITY_CONFIG, mini(2, slots) - offers.size(), keys))
 		for item: ItemBase in offers:
 			if not keys.has(item.get_offer_key()): keys.append(item.get_offer_key())
-	offers.append_array(Global.select_items_for_offer(catalog, completed_wave, Global.SHOP_PROBABILITY_CONFIG, 4 - offers.size(), keys))
+	offers.append_array(Global.select_items_for_offer(catalog, completed_wave, Global.SHOP_PROBABILITY_CONFIG, slots - offers.size(), keys))
 	return offers
 
 func _refill_offer(purchased: ItemBase, card: ShopCard) -> void:
@@ -87,7 +109,10 @@ func _refill_offer(purchased: ItemBase, card: ShopCard) -> void:
 	var offers := Global.select_items_for_offer(_eligible_shop_items(), shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys + [purchased.get_offer_key()])
 	if offers.is_empty():
 		offers = Global.select_items_for_offer(_eligible_shop_items(), shop_wave, Global.SHOP_PROBABILITY_CONFIG, 1, keys)
-	if not offers.is_empty(): card.shop_item = offers[0]
+	if not offers.is_empty():
+		card.set_locked(false)
+		card.shop_wave = shop_wave
+		card.shop_item = offers[0]
 	else:
 		items_container.remove_child(card)
 		card.queue_free()
@@ -99,7 +124,7 @@ func get_reroll_cost() -> int:
 func try_reroll() -> bool:
 	var price := get_reroll_cost()
 	if Global.coins < price: return false
-	var offers := select_shop_offers(shop_wave)
+	var offers := select_shop_offers(shop_wave, _locked_offer_keys())
 	if offers.is_empty(): return false
 	Global.coins -= price
 	reroll_count += 1
@@ -115,7 +140,7 @@ func _process(_delta: float) -> void:
 
 func _update_reroll_button() -> void:
 	reroll_cost_label.text = "refresh %s" % get_reroll_cost()
-	reroll_button.disabled = Global.coins < get_reroll_cost()
+	reroll_button.disabled = Global.coins < get_reroll_cost() or _locked_offer_keys().size() >= 4
 	reroll_cost_label.add_theme_color_override("font_color", UITheme.palette.disabled_text if reroll_button.disabled else UITheme.palette.text)
 
 
@@ -145,10 +170,10 @@ func _get_auto_upgrade_card(weapon: ItemWeapon) -> ItemCard:
 			return card
 	return null
 
-func try_purchase_item(item: ItemBase) -> bool:
+func try_purchase_item(item: ItemBase, price_wave: int = -1) -> bool:
 	if not item or not is_instance_valid(Global.player): return false
 	if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or not Global.player.stats.can_use_weapon(item)): return false
-	var price := item.get_shop_price(shop_wave)
+	var price := item.get_shop_price(shop_wave if price_wave < 0 else price_wave)
 	if Global.coins < price: return false
 	if item.item_type == ItemBase.ItemType.WEAPON and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
 		if not _get_auto_upgrade_card(item as ItemWeapon): return false
@@ -206,6 +231,12 @@ func _on_item_card_selected(card: ItemCard) -> void:
 			can_merge = true
 	
 	combine_button.disabled = not can_merge
+
+func reset_offers() -> void:
+	for card in items_container.get_children():
+		items_container.remove_child(card)
+		card.queue_free()
+	reroll_count = 0
 
 func clear_items() -> void:
 	weapon_tooltip.dismiss()

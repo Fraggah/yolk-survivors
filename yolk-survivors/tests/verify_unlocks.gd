@@ -10,6 +10,7 @@ func verify() -> void:
 	var progress = load("res://tests/progression_fixture.gd").prepare(root, false)
 	var global = root.get_node("Global")
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()
+	root.get_node("MenuInput")._on_joy_connection_changed(77, true)
 	root.add_child(arena)
 	await frames()
 	var selection = arena.selection_panel

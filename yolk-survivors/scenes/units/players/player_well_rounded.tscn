@@ -22,7 +22,7 @@ point_count = 2
 radius = 5.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yaur4"]
-radius = 32.0
+radius = 24.0
 
 [node name="PlayerWellRounded" instance=ExtResource("1_gmevj")]
 collision_mask = 0
@@ -163,6 +163,7 @@ position = Vector2(0, -31)
 shape = SubResource("CircleShape2D_yaur4")
 
 [node name="HealthBar" parent="." index="10"]
+visible = false
 offset_top = -96.0
 offset_bottom = -76.0
 back_color = Color(0.137255, 0.0196078, 0.027451, 1)

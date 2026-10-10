@@ -50,18 +50,18 @@
 [ext_resource type="Resource" uid="uid://c1t0jhsjhjgio" path="res://resources/items/upgrades/data/speed/upgrade_speed_12.tres" id="46_kc7m0"]
 [ext_resource type="Resource" uid="uid://bk16w8e7dx5um" path="res://resources/items/upgrades/data/speed/upgrade_speed_15.tres" id="47_5mlx1"]
 [ext_resource type="Resource" uid="uid://6wjvxltxc0mh" path="res://resources/items/upgrades/data/speed/upgrade_speed_20.tres" id="48_waa54"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_1.tres" id="rework_attack_speed_0"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_2.tres" id="rework_attack_speed_1"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_3.tres" id="rework_attack_speed_2"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_4.tres" id="rework_attack_speed_3"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_1.tres" id="rework_melee_damage_0"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_2.tres" id="rework_melee_damage_1"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_3.tres" id="rework_melee_damage_2"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_4.tres" id="rework_melee_damage_3"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_1.tres" id="rework_ranged_damage_0"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_2.tres" id="rework_ranged_damage_1"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_3.tres" id="rework_ranged_damage_2"]
-[ext_resource type="Resource" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_4.tres" id="rework_ranged_damage_3"]
+[ext_resource type="Resource" uid="uid://dyau42d8i8k07" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_1.tres" id="rework_attack_speed_0"]
+[ext_resource type="Resource" uid="uid://dcfmyw4cxaiy5" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_2.tres" id="rework_attack_speed_1"]
+[ext_resource type="Resource" uid="uid://c4swgurdlpq5i" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_3.tres" id="rework_attack_speed_2"]
+[ext_resource type="Resource" uid="uid://dqovpahr1s7gq" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_4.tres" id="rework_attack_speed_3"]
+[ext_resource type="Resource" uid="uid://bsjr3b0fbx6ot" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_1.tres" id="rework_melee_damage_0"]
+[ext_resource type="Resource" uid="uid://bfqfqvb5kk0de" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_2.tres" id="rework_melee_damage_1"]
+[ext_resource type="Resource" uid="uid://dom847v6ksajh" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_3.tres" id="rework_melee_damage_2"]
+[ext_resource type="Resource" uid="uid://5lexyfn8uvsd" path="res://resources/items/upgrades/data/melee_damage/upgrade_melee_damage_4.tres" id="rework_melee_damage_3"]
+[ext_resource type="Resource" uid="uid://wxputc284nij" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_1.tres" id="rework_ranged_damage_0"]
+[ext_resource type="Resource" uid="uid://d12uvypuusnrt" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_2.tres" id="rework_ranged_damage_1"]
+[ext_resource type="Resource" uid="uid://cxemucxfvd2ga" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_3.tres" id="rework_ranged_damage_2"]
+[ext_resource type="Resource" uid="uid://c3wpvk3ty3ml" path="res://resources/items/upgrades/data/ranged_damage/upgrade_ranged_damage_4.tres" id="rework_ranged_damage_3"]
 
 [node name="UpgradePanel" type="Panel"]
 anchors_preset = 15
@@ -90,7 +90,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 120
+theme_override_font_sizes/font_size = 64
 text = "wave completed"
 horizontal_alignment = 1
 metadata/ui_color = "hud"

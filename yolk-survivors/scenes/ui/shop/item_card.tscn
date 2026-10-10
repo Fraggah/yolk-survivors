@@ -8,6 +8,7 @@ custom_minimum_size = Vector2(80, 80)
 script = ExtResource("2_3b58y")
 
 [node name="ItemIcon" type="TextureRect" parent="."]
+texture_filter = 4
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 1
 anchors_preset = 15

@@ -14,6 +14,7 @@ func verify() -> void:
 	load("res://tests/progression_fixture.gd").prepare(root)
 	var themes = root.get_node("UITheme")
 	var arena = load("res://scenes/arena/arena.tscn").instantiate()
+	root.get_node("MenuInput")._on_joy_connection_changed(77, true)
 	root.add_child(arena)
 	arena._on_start_panel_on_play_pressed()
 	for frame in 4: await process_frame

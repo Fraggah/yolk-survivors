@@ -4,6 +4,8 @@ class_name ShopCard
 signal on_item_purchased(item: ItemBase)
 var purchase_handler: Callable
 var shop_wave := 1
+var locked := false
+var lock_button: Button
 var purchase_in_progress := false
 
 @export var shop_item: ItemBase: set = _set_shop_item
@@ -16,6 +18,37 @@ var purchase_in_progress := false
 
 func _ready() -> void:
 	UITheme.palette_changed.connect(_refresh_palette)
+	lock_button = Button.new()
+	lock_button.name = "LockButton"
+	lock_button.toggle_mode = true
+	lock_button.text = "LOCK"
+	lock_button.add_theme_font_size_override("font_size", 24)
+	var actions := HBoxContainer.new()
+	actions.name = "Actions"
+	$MarginContainer/Control.add_child(actions)
+	actions.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	actions.offset_top = -70.0
+	actions.add_theme_constant_override("separation", 12)
+	var buy_button: Button = $MarginContainer/Control/CustomButton
+	buy_button.reparent(actions)
+	buy_button.custom_minimum_size = Vector2(0, 70)
+	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	actions.add_child(lock_button)
+	lock_button.custom_minimum_size = Vector2(76, 70)
+
+	lock_button.tooltip_text = "Keep this offer and its price through refreshes and waves."
+	lock_button.toggled.connect(_on_lock_toggled)
+
+
+func _on_lock_toggled(value: bool) -> void:
+	locked = value
+	lock_button.text = "HELD" if locked else "LOCK"
+	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+
+func set_locked(value: bool) -> void:
+	locked = value
+	lock_button.set_pressed_no_signal(value)
+	lock_button.text = "HELD" if value else "LOCK"
 
 func _refresh_palette() -> void:
 	if shop_item: _set_shop_item(shop_item)

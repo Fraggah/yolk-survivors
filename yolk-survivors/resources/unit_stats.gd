@@ -32,6 +32,7 @@ signal stats_changed
 @export var initial_luck := 1.0
 @export var block_chance := 0.0
 @export var initial_block_chance := 0.0
+@export var experience_reward := 1
 @export var coin_drop := 1
 @export var hp_regen := .0
 @export var life_steal := .0

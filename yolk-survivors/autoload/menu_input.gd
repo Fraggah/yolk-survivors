@@ -7,12 +7,49 @@ var active_menu: Control
 var held_direction := Vector2.ZERO
 var repeat_left := 0.0
 var styled_focus: Button
+var connected_gamepads: Array[int] = []
+var gamepad_active := false
+var remembered_focus: Dictionary = {}
+
+func _set_gamepad_active(value: bool) -> void:
+	if value and connected_gamepads.is_empty(): return
+	if gamepad_active == value: return
+	var menu := _visible_menu()
+	var focused := get_viewport().gui_get_focus_owner()
+	if menu and focused and menu.is_ancestor_of(focused):
+		remembered_focus[menu.get_instance_id()] = weakref(focused)
+	gamepad_active = value
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN if value else Input.MOUSE_MODE_VISIBLE
+	if focused: focused.release_focus()
+	var controls := _controls(menu)
+	if value: _initial_focus(controls)
+	held_direction = Vector2.ZERO
+	repeat_left = 0.0
+	_sync_focus_visual()
+
+
+func _on_joy_connection_changed(device: int, connected: bool) -> void:
+	if connected and not connected_gamepads.has(device):
+		connected_gamepads.append(device)
+	elif not connected:
+		connected_gamepads.erase(device)
+	if connected:
+		_set_gamepad_active(true)
+	elif connected_gamepads.is_empty():
+		_set_gamepad_active(false)
+	held_direction = Vector2.ZERO
+	repeat_left = 0.0
+	if connected_gamepads.is_empty():
+		var focused_control := get_viewport().gui_get_focus_owner()
+		if focused_control: focused_control.release_focus()
+	_sync_focus_visual()
+
 
 func _sync_focus_visual() -> void:
-	var owner := get_viewport().gui_get_focus_owner()
-	if is_instance_valid(styled_focus) and styled_focus != owner:
+	var focused_control := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(styled_focus) and styled_focus != focused_control:
 		UITheme._clear_button_focus(styled_focus)
-	styled_focus = owner as Button
+	styled_focus = focused_control as Button
 	if is_instance_valid(styled_focus):
 		# Synchronize the real viewport focus, including stick/D-pad repeats and
 		# focus assigned before deferred theme setup or after a menu rebuild.
@@ -20,6 +57,10 @@ func _sync_focus_visual() -> void:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	connected_gamepads = Input.get_connected_joypads()
+	gamepad_active = not connected_gamepads.is_empty()
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN if gamepad_active else Input.MOUSE_MODE_VISIBLE
+	Input.joy_connection_changed.connect(_on_joy_connection_changed)
 	for binding in [["move_left", JOY_BUTTON_DPAD_LEFT], ["move_right", JOY_BUTTON_DPAD_RIGHT], ["move_up", JOY_BUTTON_DPAD_UP], ["move_down", JOY_BUTTON_DPAD_DOWN], ["dash", JOY_BUTTON_A], ["pause", JOY_BUTTON_START], ["ui_accept", JOY_BUTTON_A], ["ui_cancel", JOY_BUTTON_B], ["ui_left", JOY_BUTTON_DPAD_LEFT], ["ui_right", JOY_BUTTON_DPAD_RIGHT], ["ui_up", JOY_BUTTON_DPAD_UP], ["ui_down", JOY_BUTTON_DPAD_DOWN]]:
 		var event := InputEventJoypadButton.new()
 		event.button_index = binding[1]
@@ -44,7 +85,10 @@ func _collect_controls(node: Node, result: Array[Control]) -> void:
 	for child in node.get_children():
 		if child is Control and not child.is_visible_in_tree(): continue
 		if child is BaseButton or child is Slider:
-			child.focus_mode = Control.FOCUS_ALL
+			child.focus_mode = Control.FOCUS_ALL if gamepad_active else Control.FOCUS_NONE
+			if not child.has_meta("menu_mouse_filter"):
+				child.set_meta("menu_mouse_filter", child.mouse_filter)
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE if gamepad_active else child.get_meta("menu_mouse_filter")
 			if not child is BaseButton or not child.disabled: result.append(child)
 		_collect_controls(child, result)
 
@@ -54,7 +98,13 @@ func _controls(menu: Control) -> Array[Control]:
 	return result
 
 func _initial_focus(controls: Array[Control]) -> void:
-	if controls.is_empty(): return
+	if controls.is_empty() or not gamepad_active: return
+	var menu := _visible_menu()
+	if menu and remembered_focus.has(menu.get_instance_id()):
+		var previous = remembered_focus[menu.get_instance_id()].get_ref()
+		if is_instance_valid(previous) and controls.has(previous):
+			previous.grab_focus()
+			return
 	# Begin at content rather than Back/Continue on the selection screens.
 	for control in controls:
 		if control is BaseButton and control.toggle_mode and control.button_pressed:
@@ -79,7 +129,7 @@ func _process(delta: float) -> void:
 	elif menu and not controls.has(focused):
 		_initial_focus(controls)
 	_sync_focus_visual()
-	if not menu: return
+	if not menu or not gamepad_active: return
 	var direction := Vector2(Input.get_axis("ui_left", "ui_right"), Input.get_axis("ui_up", "ui_down"))
 	if direction.length() < 0.2:
 		held_direction = Vector2.ZERO
@@ -96,6 +146,7 @@ func _process(delta: float) -> void:
 		move_focus(direction)
 
 func move_focus(direction: Vector2) -> void:
+	if not gamepad_active: return
 	var controls := _controls(_visible_menu())
 	var focused := get_viewport().gui_get_focus_owner()
 	if not controls.has(focused):
@@ -122,6 +173,14 @@ func move_focus(direction: Vector2) -> void:
 		_sync_focus_visual()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton and event.pressed:
+		_set_gamepad_active(true)
+	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.45:
+		_set_gamepad_active(true)
+	elif event is InputEventMouseButton and event.pressed:
+		_set_gamepad_active(false)
+	elif event is InputEventMouseMotion and event.relative.length_squared() >= 4.0:
+		_set_gamepad_active(false)
 	var menu := _visible_menu()
 	if not menu: return
 	# Escape/Start belong to Arena's pause toggle; do not also resume through Back.

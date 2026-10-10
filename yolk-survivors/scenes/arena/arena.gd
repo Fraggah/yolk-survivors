@@ -9,13 +9,13 @@ class_name Arena
 
 @onready var wave_index_label: Label = %WaveIndexLabel
 @onready var wave_timer_label: Label = %WaveTimerLabel
+@onready var player_health_bar: HealthBar = $GameUI/PlayerHealthBar
 @onready var spawner: Spawner = $Spawner
 @onready var upgrade_panel: UpgradePanel = $GameUI/UpgradePanel
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var coins_bag: CoinsBag = %CoinsBag
 @onready var coocking_player: AudioStreamPlayer = $CoockingPlayer
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
-@onready var instructions: Label = %Instructions
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
 @onready var weapon_selection_panel: SelectionPanel = $GameUI/WeaponSelectionPanel
@@ -32,9 +32,11 @@ var gold_list: Array[Coins]
 
 var in_arena := false
 var wave_active := false
+var run_experience = preload("res://resources/run_experience.gd").new()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	run_experience.level_gained.connect(_on_experience_level_gained)
 	MenuInput.register_menus([pause_panel, options_panel, credits_panel, final_screen, level_panel, weapon_selection_panel, selection_panel, shop_panel, upgrade_panel, start_panel])
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
@@ -64,6 +66,7 @@ func _apply_wave_environment(wave: int) -> void:
 		spawner.fueguito.global_position = environment.clamp_position(spawner.fueguito.global_position)
 
 func _process(_delta: float) -> void:
+	player_health_bar.visible = in_arena and is_instance_valid(Global.player) and not final_screen.visible
 	toggle_pause()
 	if Global.game_paused: return
 	wave_index_label.text = spawner.get_wave_text()
@@ -88,9 +91,23 @@ func start_new_wave() -> void:
 	
 
 func show_upgrades() -> void:
-	Global.calculate_tier_probability(spawner.wave_index, Global.UPGRADE_PROBABILITY_CONFIG)
-	upgrade_panel.load_upgrades(spawner.wave_index)
+	if run_experience.pending_levels.is_empty():
+		shop_panel.load_shop(spawner.wave_index)
+		shop_panel.show()
+		return
+	var earned_level: int = run_experience.pending_levels[0]
+	upgrade_panel.load_upgrades(earned_level)
+	upgrade_panel.get_node("HBoxContainer/VBoxContainer/Label").text = "Level %d\nChoose upgrade (%d remaining)" % [earned_level, run_experience.pending_levels.size()]
 	upgrade_panel.show()
+
+func _on_experience_level_gained(_level: int) -> void:
+	if not is_instance_valid(Global.player): return
+	var player = Global.player
+	var previous_max: float = player.stats.health
+	player.stats.apply_stat_change("health", 1.0)
+	player.health_component.max_health = player.stats.health
+	player.health_component.heal(maxf(0.0, player.stats.health - previous_max))
+
 
 func spawn_coins(enemy: Enemy) -> void:
 	var random_angle := randf_range(0, TAU)
@@ -179,14 +196,16 @@ func _on_spawner_on_wave_completed() -> void:
 		Global.player.queue_free()
 		Global.player = null
 		return
+	upgrade_panel.begin_wave_rewards(spawner.wave_index)
 	show_upgrades()
 	spawner.clear_enemies()
 
 func _on_upgrade_selected() -> void:
+	if not upgrade_panel.visible or run_experience.pending_levels.is_empty(): return
 	upgrade_panel.hide()
-	shop_panel.load_shop(spawner.wave_index)
-	shop_panel.show()
-	
+	run_experience.pending_levels.pop_front()
+	show_upgrades()
+
 
 func _on_shop_panel_on_shop_next_wave() -> void:
 	shop_panel.hide()
@@ -194,7 +213,10 @@ func _on_shop_panel_on_shop_next_wave() -> void:
 	start_new_wave()
 
 func _on_enemy_died(enemy: Enemy) -> void:
-	if not wave_active: return
+	if not wave_active or not is_instance_valid(Global.player): return
+	if enemy.has_meta("kill_reward_processed"): return
+	enemy.set_meta("kill_reward_processed", true)
+	run_experience.add_experience(enemy.stats.experience_reward)
 	Progression.record("kills", 1.0)
 	var instance := Global.FRIED_SCENE.instantiate()
 	add_child(instance)
@@ -220,13 +242,18 @@ func _on_level_selected(level: int) -> void:
 	if starting_weapons.is_empty(): return
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	Global.yolk_reserve = 0
+	run_experience.reset()
 	var player := Global.get_selected_player()
 	level = spawner.DIFFICULTY_RULES.normalize_level(level)
 	Global.level_selected = level
 	spawner.reset_run(level)
 	add_child(player)
+	player.get_node("HealthBar").hide()
+	player.health_component.on_health_changed.connect(player_health_bar._on_health_component_on_health_changed)
+	player_health_bar._on_health_component_on_health_changed(player.health_component.current_health, player.health_component.max_health)
 	Progression.begin_run(player.stats.unlock_id, player.stats)
 	Global.equipped_weapons.clear()
+	shop_panel.reset_offers()
 	shop_panel.clear_items()
 	for weapon in starting_weapons:
 		player.add_weapon(weapon)
@@ -237,19 +264,10 @@ func _on_level_selected(level: int) -> void:
 	spawner.spawn_timer.paused = false
 	spawner.start_wave()
 	wave_active = not spawner.wave_timer.is_stopped()
-	show_controls()
 	Global.game_paused = false
 	Global.coins = Global.STARTING_COINS
 	in_arena = true
 	level_panel.hide()
-
-func show_controls() -> void:
-	instructions.show()
-	await get_tree().create_timer(3).timeout
-	var tween := create_tween()
-	tween.tween_property(instructions,"modulate:a", 0, 3)
-	await tween.finished
-	instructions.hide()
 
 func _on_player_died() -> void:
 	Progression.end_run()
@@ -275,6 +293,7 @@ func _on_final_button_pressed() -> void:
 	Global.main_weapon_selected = null
 	Global.selected_weapon = null
 	Global.equipped_weapons.clear()
+	shop_panel.reset_offers()
 	shop_panel.clear_items()
 	final_screen.hide()
 	clear_arena()
@@ -334,6 +353,7 @@ func _on_pause_panel_on_exit_pressed() -> void:
 	Global.main_weapon_selected = null
 	Global.selected_weapon = null
 	Global.equipped_weapons.clear()
+	shop_panel.reset_offers()
 	shop_panel.clear_items()
 	final_screen.hide()
 	clear_arena()

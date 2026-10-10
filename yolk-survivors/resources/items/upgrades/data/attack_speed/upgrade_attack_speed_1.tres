@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3 uid="uid://dyau42d8i8k07"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/Upgrades/11.png" id="1_icon"]
-[ext_resource type="Script" path="res://resources/items/upgrades/item_upgrades.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://b6k1cslpkqun5" path="res://assets/sprites/Upgrades/Redesign/attack_speed.png" id="1_icon"]
+[ext_resource type="Script" uid="uid://c3edxjqx8opr3" path="res://resources/items/upgrades/item_upgrades.gd" id="2_script"]
 
 [resource]
 script = ExtResource("2_script")

@@ -16,7 +16,7 @@ radius = 150.0
 radius = 37.0135
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v0hn2"]
-radius = 38.0
+radius = 34.2
 
 [node name="EnemyChaser" instance=ExtResource("1_1rdpi")]
 collision_layer = 2

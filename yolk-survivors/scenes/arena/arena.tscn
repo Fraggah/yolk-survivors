@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=28 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
@@ -25,6 +25,7 @@
 [ext_resource type="Resource" uid="uid://iqj50rbehi6l" path="res://resources/environments/sage_casserole.tres" id="env_sage"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="env_type"]
 [ext_resource type="Resource" uid="uid://c0w7nuiawsoc4" path="res://resources/environments/warm_skillet.tres" id="env_warm"]
+[ext_resource type="PackedScene" uid="uid://b7s61o2yewfch" path="res://scenes/health_bar/health_bar.tscn" id="hud_health"]
 [ext_resource type="PackedScene" path="res://scenes/ui/selection_panel/weapon_selection_panel.tscn" id="weapon_selection"]
 
 [node name="Arena" type="Node2D"]
@@ -62,6 +63,21 @@ one_shot = true
 
 [node name="CoinsBag" parent="GameUI" instance=ExtResource("15_rhjlh")]
 unique_name_in_owner = true
+
+[node name="PlayerHealthBar" parent="GameUI" instance=ExtResource("hud_health")]
+visible = false
+z_index = 0
+custom_minimum_size = Vector2(360, 64)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_top = 20.0
+offset_right = -40.0
+offset_bottom = 84.0
+grow_horizontal = 0
+mouse_filter = 2
+use_ui_palette = true
 
 [node name="WaveIndexLabel" type="Label" parent="GameUI"]
 unique_name_in_owner = true
@@ -108,25 +124,6 @@ visible = false
 
 [node name="PausePanel" parent="GameUI" instance=ExtResource("24_io46r")]
 visible = false
-
-[node name="Instructions" type="Label" parent="GameUI"]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -380.0
-offset_top = -181.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_type_variation = &"HudLabel"
-theme_override_font_sizes/font_size = 32
-text = "Controls:
-Move: WASD / stick / D-pad
-Dash: Space / A / Cross
-Pause: Esc / Start / Options"
 
 [node name="FinalScreen" type="Control" parent="GameUI"]
 visible = false
