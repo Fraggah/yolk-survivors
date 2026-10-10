@@ -9,9 +9,12 @@ var knockback_power := 0.0
 var source: Node2D
 var life_steal_chance := 0.0
 var continuous_contact := false
+var hit_once_per_activation := false
+var _hit_hurtboxes: Dictionary = {}
 @export var bb: CollisionShape2D
 
 func enable() -> void:
+	_hit_hurtboxes.clear()
 	set_deferred("monitoring", true)
 	bb.set_deferred("disabled", false)
 
@@ -29,6 +32,13 @@ func setup(p_damage: float, p_critical: bool, p_knockback: float, p_source: Node
 func _on_area_entered(area: Area2D) -> void:
 	if area is HurtboxComponent:
 		on_hit_hurtbox.emit(area)
+
+func claim_hit(hurtbox: HurtboxComponent) -> bool:
+	if not hit_once_per_activation: return true
+	var target_id := hurtbox.get_instance_id()
+	if _hit_hurtboxes.has(target_id): return false
+	_hit_hurtboxes[target_id] = true
+	return true
 
 func report_damage(target: Unit, amount: float) -> void:
 	if amount <= 0.0 or Global.game_paused: return

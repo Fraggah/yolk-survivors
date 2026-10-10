@@ -1,14 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1glvf3i1ofwc"]
+[gd_scene load_steps=6 format=3 uid="uid://c1glvf3i1ofwc"]
 
-[ext_resource type="Shader" uid="uid://b84v2alqb7uio" path="res://shaders/outline.gdshader" id="1_hrky6"]
-[ext_resource type="Texture2D" uid="uid://cg8i01i4vek32" path="res://assets/sprites/Spawn_mark.png" id="2_kmy13"]
+[ext_resource type="Texture2D" uid="uid://devt2xbk78rej" path="res://assets/sprites/shadow.png" id="2_kmy13"]
 [ext_resource type="Script" uid="uid://kb08fhafbh2s" path="res://scenes/effects/spawn_effect.gd" id="3_kmy13"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1i3i"]
-shader = ExtResource("1_hrky6")
-shader_parameter/outline_color = Color(0.279983, 0.0409221, 0.324055, 1)
-shader_parameter/outline_width = 4.105
-shader_parameter/glow_intensity = 1.5
 
 [sub_resource type="Animation" id="Animation_5024m"]
 resource_name = "spawn"
@@ -73,7 +66,7 @@ _data = {
 }
 
 [node name="SpawnEffect" type="Sprite2D"]
-material = SubResource("ShaderMaterial_e1i3i")
+self_modulate = Color(0.101961, 0.101961, 0.101961, 0.627451)
 texture = ExtResource("2_kmy13")
 script = ExtResource("3_kmy13")
 

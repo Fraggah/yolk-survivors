@@ -9,16 +9,17 @@ func execute_attack() -> void:
 	create_projectile()
 	SoundManager.play_sound(SoundManager.Sound.FIRE)
 	
-	var tween := create_tween()
+	var tween := create_attack_tween()
 	var time_scale := weapon.get_animation_time_scale(weapon.data.stats.recoil_duration * 2.0)
 	var attack_pos := Vector2(weapon.atk_start_pos.x - weapon.data.stats.recoil, weapon.atk_start_pos.y)
 	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.recoil_duration * time_scale)
 	tween.tween_property(weapon.sprite_2d, "position", weapon.atk_start_pos, weapon.data.stats.recoil_duration * time_scale)
 	
 	
-	await tween.finished
-	weapon.is_attacking = false
-	critical = false
+	tween.finished.connect(func():
+		weapon.is_attacking = false
+		critical = false
+	)
 
 func create_projectile() -> void:
 	var instance := weapon.data.stats.projectile_scene.instantiate() as Projectile

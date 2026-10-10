@@ -1,0 +1,21 @@
+extends SceneTree
+func _initialize(): call_deferred("verify")
+func verify():
+	var feedback = root.get_node("EnemyHitFeedback")
+	feedback.clear()
+	feedback.emit_hit(1, Vector2.ZERO, Vector2.RIGHT, false)
+	var normal: int = feedback.active_count
+	assert(normal >= 3 and normal <= 4)
+	feedback.emit_hit(1, Vector2.ZERO, Vector2.RIGHT, false)
+	assert(feedback.active_count == normal)
+	feedback.clear()
+	feedback.emit_hit(2, Vector2.ZERO, Vector2.RIGHT, true)
+	assert(feedback.active_count == 6)
+	for i in 1000: feedback.emit_hit(100 + i, Vector2.ZERO, Vector2.RIGHT, true)
+	assert(feedback.active_count == feedback.MAX_PARTICLES)
+	feedback._process(0.41)
+	assert(feedback.active_count == 0 and not feedback.is_processing())
+	feedback.clear()
+	assert(feedback._enemy_cooldowns.is_empty())
+	print("PASS: mixed drops/shells, critical burst, enemy throttle, 128 particle cap, reuse and cleanup")
+	quit()

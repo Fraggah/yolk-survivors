@@ -100,6 +100,8 @@ func update_rotation() -> void:
 		visuals.scale = Vector2(.5, .5)
 
 func prepare_for_new_wave() -> void:
+	for weapon in current_weapons:
+		weapon.weapon_behaviour.reset_attack()
 	hit_invulnerability_left = 0.0
 	life_steal_cooldown = 0.0
 	is_dashing = false

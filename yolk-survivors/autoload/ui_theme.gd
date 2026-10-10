@@ -112,6 +112,7 @@ func style_slot(button: Button, tier: int = 0) -> void:
 	button.set_meta("ui_tier", tier)
 	button.theme = ui_theme
 	var states := _button_styles(palette.surface, palette.rarity(tier))
+	states.normal.set_border_width_all(3)
 	for state in states:
 		button.add_theme_stylebox_override(state, states[state])
 	_bind_button_focus(button)
@@ -160,7 +161,7 @@ func _rebuild() -> void:
 		for state in ["grabber", "grabber_highlight", "grabber_pressed"]:
 			ui_theme.set_stylebox(state, scrollbar, box(palette.button, palette.outline, 6, 1))
 	tier_styles.clear()
-	for tier in 4: tier_styles.append(box(palette.surface, palette.rarity(tier)))
+	for tier in 4: tier_styles.append(box(palette.surface, palette.rarity(tier), -1, 3))
 
 func _on_node_added(node: Node) -> void:
 	if node is Control: apply_control.call_deferred(node)

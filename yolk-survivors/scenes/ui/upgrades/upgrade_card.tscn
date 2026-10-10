@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_4ru3d"]
 
 [node name="UpgradeCard" type="Panel"]
-custom_minimum_size = Vector2(300, 220)
+custom_minimum_size = Vector2(300, 260)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_fd2m1")
@@ -20,7 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 

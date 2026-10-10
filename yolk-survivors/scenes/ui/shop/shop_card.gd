@@ -67,6 +67,7 @@ func _set_shop_item(value: ItemBase) -> void:
 	var style := Global.get_tier_style(shop_item.item_tier)
 	set_meta("ui_tier", int(shop_item.item_tier))
 	add_theme_stylebox_override("panel", style)
+	load("res://scenes/ui/rarity_marker.gd").apply(self, int(shop_item.item_tier))
 
 
 func _on_custom_button_pressed() -> void:

@@ -35,5 +35,6 @@ shape = SubResource("RectangleShape2D_mjkx8")
 
 [node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("hitbox", "weapon")]
 script = ExtResource("5_ouplr")
+attack_motion = 1
 hitbox = NodePath("../Sprite2D/HitboxComponent")
 weapon = NodePath("..")

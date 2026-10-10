@@ -9,6 +9,9 @@ signal on_item_card_selected(card: ItemCard)
 
 func _ready() -> void:
 	item_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UITheme.palette_changed.connect(func():
+		if item: load("res://scenes/ui/rarity_marker.gd").apply(self, int(item.item_tier), true)
+	)
 
 func _set_item(value: ItemBase) -> void:
 	item = value
@@ -17,6 +20,7 @@ func _set_item(value: ItemBase) -> void:
 	
 	toggle_mode = item.item_type == ItemBase.ItemType.WEAPON
 	UITheme.style_slot(self, int(item.item_tier))
+	load("res://scenes/ui/rarity_marker.gd").apply(self, int(item.item_tier), true)
 
 
 func _on_pressed() -> void:

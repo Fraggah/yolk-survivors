@@ -71,6 +71,7 @@ func _process(_delta: float) -> void:
 	if Global.game_paused: return
 	wave_index_label.text = spawner.get_wave_text()
 	wave_timer_label.text = spawner.get_wave_timer_text()
+	wave_timer_label.add_theme_color_override("font_color", UITheme.palette.health_fill if int(wave_timer_label.text) <= 5 else UITheme.palette.hud_text)
 
 func create_floating_text(unit: Node2D) -> FloatingText:
 	var instance := Global.FLOATING_TEXT_SCENE.instantiate() as FloatingText
@@ -122,6 +123,7 @@ func spawn_coins(enemy: Enemy) -> void:
 	call_deferred("add_child", instance)
 
 func clear_arena(bank_yolks: bool = false) -> void:
+	EnemyHitFeedback.clear()
 	for text in get_tree().get_nodes_in_group("combat_texts"):
 		text.hide()
 		text.queue_free()

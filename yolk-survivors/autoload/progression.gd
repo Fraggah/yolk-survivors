@@ -79,10 +79,14 @@ func _rebuild_unlocks() -> void:
 			if not unlocked_weapons.has(id): unlocked_weapons.append(id)
 
 func is_character_unlocked(stats: Resource) -> bool:
-	return stats != null and (stats.unlock_id.is_empty() or unlocked_characters.has(stats.unlock_id))
+	return stats != null and (_testing_unlocks_enabled() or stats.unlock_id.is_empty() or unlocked_characters.has(stats.unlock_id))
 
 func is_weapon_unlocked(weapon: Resource) -> bool:
-	return weapon != null and (weapon.unlock_id.is_empty() or unlocked_weapons.has(weapon.unlock_id))
+	return weapon != null and (_testing_unlocks_enabled() or weapon.unlock_id.is_empty() or unlocked_weapons.has(weapon.unlock_id))
+
+func _testing_unlocks_enabled() -> bool:
+	# Temporary access for playtesting; does not mark achievements as completed.
+	return bool(ProjectSettings.get_setting("yolk/testing/unlock_characters_and_weapons", false))
 
 func requirement_for(id: String, character: bool) -> String:
 	for achievement in achievements:

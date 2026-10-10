@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgjlg5b2lig3n"]
+[gd_scene load_steps=8 format=3 uid="uid://cgjlg5b2lig3n"]
 
 [ext_resource type="Script" uid="uid://c3gqpuomspikj" path="res://fried.gd" id="1_cm4p0"]
-[ext_resource type="Texture2D" uid="uid://baeyi0jt21av2" path="res://assets/sprites/Fried.png" id="1_lyqle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Death/egg_white_1.png" id="1_lyqle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Death/egg_white_2.png" id="2_white"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Death/egg_white_3.png" id="3_white"]
 
 [sub_resource type="Animation" id="Animation_esxwq"]
 length = 0.001
@@ -42,10 +44,12 @@ _data = {
 }
 
 [node name="Fried" type="Sprite2D"]
+texture_filter = 4
 modulate = Color(0.860369, 0.860369, 0.860369, 1)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_lyqle")
 script = ExtResource("1_cm4p0")
+variants = Array[Texture2D]([ExtResource("1_lyqle"), ExtResource("2_white"), ExtResource("3_white")])
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

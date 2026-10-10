@@ -41,7 +41,6 @@ material = SubResource("ShaderMaterial_n48mq")
 [node name="Trail" type="Line2D" parent="Visuals" index="1" node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 top_level = true
-z_index = 1
 position = Vector2(0, -30)
 width = 50.0
 width_curve = SubResource("Curve_d3mmk")

@@ -4,6 +4,21 @@ class_name WeaponBehaviour
 @export var weapon: Weapon
 
 var critical: bool
+var lock_aim_during_attack := false
+var attack_tween: Tween
+
+func create_attack_tween() -> Tween:
+	if attack_tween and attack_tween.is_valid(): attack_tween.kill()
+	attack_tween = create_tween()
+	return attack_tween
+
+func reset_attack() -> void:
+	if attack_tween and attack_tween.is_valid(): attack_tween.kill()
+	weapon.sprite_2d.position = weapon.atk_start_pos
+	weapon.sprite_2d.rotation = 0.0
+	weapon.is_attacking = false
+	critical = false
+	weapon.cooldown_timer.stop()
 
 
 func execute_attack() -> void:

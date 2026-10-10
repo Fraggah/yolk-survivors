@@ -23,6 +23,7 @@ MenuInput="*res://autoload/menu_input.gd"
 Global="*res://autoload/global.gd"
 SoundManager="*res://autoload/sound_manager.tscn"
 DataManager="*res://autoload/data_manager.gd"
+EnemyHitFeedback="*res://effects/enemy_hit_feedback.gd"
 
 [display]
 
@@ -89,3 +90,4 @@ renderer/rendering_method="mobile"
 [yolk]
 
 ui/palette="cream"
+testing/unlock_characters_and_weapons=true

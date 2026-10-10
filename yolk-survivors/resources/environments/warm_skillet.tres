@@ -16,4 +16,4 @@ vessel_offset = Vector2(-300, 0)
 movement_bounds = Rect2(-1000, -450, 2000, 900)
 oval = false
 corner_radius = 150.0
-camera_zoom = 1.05
+camera_zoom = 0.882

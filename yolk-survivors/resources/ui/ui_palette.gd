@@ -27,10 +27,10 @@ class_name UIPalette
 @export var disabled := Color("dfd8c9")
 @export var disabled_text := Color("80796e")
 @export_group("Rarity borders")
-@export var common := Color("988164")
-@export var rare := Color("388566")
-@export var epic := Color("75629d")
-@export var legendary := Color("c58121")
+@export var common := Color("237653")
+@export var rare := Color("596577")
+@export var epic := Color("7043a3")
+@export var legendary := Color("a15b0f")
 @export_group("Geometry")
 @export_range(0, 28) var radius := 16
 @export_range(1, 5) var border_width := 2

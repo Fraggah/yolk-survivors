@@ -12,6 +12,7 @@ var reroll_button: Button
 var reroll_label: Label
 
 func _ready() -> void:
+	$HBoxContainer/VBoxContainer/Label.add_theme_color_override("font_color", UITheme.palette.hud_text)
 	reroll_button = Button.new()
 	reroll_button.name = "UpgradeRerollButton"
 	reroll_button.custom_minimum_size = Vector2(350, 60)

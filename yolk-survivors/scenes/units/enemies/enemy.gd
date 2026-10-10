@@ -85,6 +85,11 @@ func _on_knockback_timer_timeout() -> void:
 
 func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 	if not receive_hit(hitbox): return
+	var impact_direction := Vector2.RIGHT
+	if is_instance_valid(hitbox.source):
+		impact_direction = hitbox.source.global_position.direction_to(global_position)
+		if impact_direction.is_zero_approx(): impact_direction = Vector2.RIGHT
+	EnemyHitFeedback.emit_hit(get_instance_id(), sprite.global_position, impact_direction, hitbox.critical)
 	if hitbox.knockback_power > 0 and is_instance_valid(hitbox.source):
 		var dir:= hitbox.source.global_position.direction_to(global_position) #tomo la direccion del player hacia el enemigo
 		apply_knockback(dir, hitbox.knockback_power)

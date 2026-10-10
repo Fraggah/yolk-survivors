@@ -22,6 +22,7 @@ func _set_data(value: ItemUpgrade) -> void:
 	var style := Global.get_tier_style(item.item_tier)
 	set_meta("ui_tier", int(item.item_tier))
 	add_theme_stylebox_override("panel", style)
+	load("res://scenes/ui/rarity_marker.gd").apply(self, int(item.item_tier))
 
 
 func _on_custom_button_pressed() -> void:

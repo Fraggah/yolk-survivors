@@ -67,6 +67,8 @@ func get_animation_time_scale(animation_duration: float) -> float:
 	return minf(1.0, get_effective_cooldown() * 0.9 / maxf(animation_duration, 0.001))
 
 func rotate_to_target() -> void:
+	if is_attacking and weapon_behaviour.lock_aim_during_attack:
+		return
 	if is_attacking:
 		rotation = get_custom_rotation_to_target()
 	else:

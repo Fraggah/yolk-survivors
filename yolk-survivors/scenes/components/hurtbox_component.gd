@@ -28,4 +28,4 @@ func _contact_hit(hitbox: HitboxComponent) -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if Global.game_paused or not area is HitboxComponent: return
 	if area.continuous_contact: _contact_hit(area)
-	else: on_damage.emit(area)
+	elif area.claim_hit(self): on_damage.emit(area)
