@@ -101,21 +101,25 @@ anchor_bottom = 0.5
 offset_left = -920.0
 offset_top = -342.0
 offset_right = 408.0
-offset_bottom = 102.0
+offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 16
 
 [node name="ShopCard" parent="MarginContainer/Control/ItemsContainer" instance=ExtResource("1_g5vmb")]
+custom_minimum_size = Vector2(320, 444)
 layout_mode = 2
 
 [node name="ShopCard2" parent="MarginContainer/Control/ItemsContainer" instance=ExtResource("1_g5vmb")]
+custom_minimum_size = Vector2(320, 444)
 layout_mode = 2
 
 [node name="ShopCard3" parent="MarginContainer/Control/ItemsContainer" instance=ExtResource("1_g5vmb")]
+custom_minimum_size = Vector2(320, 444)
 layout_mode = 2
 
 [node name="ShopCard4" parent="MarginContainer/Control/ItemsContainer" instance=ExtResource("1_g5vmb")]
+custom_minimum_size = Vector2(320, 444)
 layout_mode = 2
 
 [node name="StatsContainer" parent="MarginContainer/Control" instance=ExtResource("2_pt5se")]

@@ -32,8 +32,22 @@ func get_effective_cooldown(player_stats: UnitStats = null) -> float:
 static func format_number(value: float) -> String:
 	return ("%.2f" % value).trim_suffix("0").trim_suffix("0").trim_suffix(".")
 
+func get_damage_description(player_stats: UnitStats = null) -> String:
+	var icon := "damage_melee" if type == Type.MELEE else "damage_ranged"
+	return "%s (%s%% [img width=22 height=22 color=green]res://assets/sprites/UI/%s.svg[/img])" % [format_number(get_effective_damage(player_stats)), format_number(stats.damage_scaling * 100.0), icon]
+
 func get_description(player_stats: UnitStats = null) -> String:
-	return "Damage: [color=green]%s[/color]\nScaling: [color=green]%s%% %s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]\nAccuracy: [color=green]%s%%[/color]\nKnockback: [color=green]%s[/color]" % [format_number(get_effective_damage(player_stats)), format_number(stats.damage_scaling * 100.0), "melee" if type == Type.MELEE else "ranged", format_number(get_effective_cooldown(player_stats)), format_number(stats.max_range), format_number(stats.crit_chance * 100.0), format_number(stats.accuracy * 100.0), format_number(stats.knockback)]
+	var description := "Damage: [color=green]%s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]" % [get_damage_description(player_stats), format_number(get_effective_cooldown(player_stats)), format_number(stats.max_range), format_number(stats.crit_chance * 100.0)]
+	if type == Type.RANGE:
+		if get_effective_piercing(player_stats) > 0: description += "\nPiercing: [color=green]%d[/color]" % get_effective_piercing(player_stats)
+		if get_effective_bounces(player_stats) > 0: description += "\nBounces: [color=green]%d[/color]" % get_effective_bounces(player_stats)
+	return description
+
+func get_effective_piercing(player_stats: UnitStats = null) -> int:
+	return maxi(0, stats.piercing + (player_stats.piercing if player_stats else 0))
+
+func get_effective_bounces(player_stats: UnitStats = null) -> int:
+	return maxi(0, stats.bounces + (player_stats.bounces if player_stats else 0))
 
 func get_offer_key() -> String:
 	return "weapon:%s:%s" % [type, scene.resource_path if scene else item_name]

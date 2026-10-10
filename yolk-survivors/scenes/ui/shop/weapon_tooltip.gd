@@ -11,26 +11,39 @@ const SLOT_GAP := 10.0
 
 var hovered_card: ItemCard
 var displayed_weapon: ItemWeapon
-var value_labels: Array[Label] = []
+var value_labels: Array[RichTextLabel] = []
 
 func _ready() -> void:
 	_ignore_mouse(self)
-	for stat_name: String in ["Damage", "Scaling", "Cooldown", "Range", "Critical chance", "Knockback", "Life steal"]:
+	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Life steal", "Piercing", "Bounces", "Sell price"]:
 		var caption := Label.new()
 		caption.text = stat_name
 		caption.add_theme_font_size_override("font_size", 22)
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		stats_grid.add_child(caption)
-		var value := Label.new()
+		_add_stat_cell(caption, stat_name == "Sell price")
+		var value := RichTextLabel.new()
+		value.bbcode_enabled = true
+		value.fit_content = true
+		value.scroll_active = false
+		value.custom_minimum_size = Vector2(220, 30)
 		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		value.add_theme_font_size_override("font_size", 22)
+		value.add_theme_font_size_override("normal_font_size", 22)
 		value.set_meta("ui_color", "positive")
-		stats_grid.add_child(value)
+		_add_stat_cell(value, stat_name == "Sell price")
 		value_labels.append(value)
 	hide()
 	set_process(false)
+
+func _add_stat_cell(control: Control, sale_price: bool) -> void:
+	if not sale_price:
+		stats_grid.add_child(control)
+		return
+	var spacing := MarginContainer.new()
+	spacing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	spacing.add_theme_constant_override("margin_top", 18)
+	stats_grid.add_child(spacing)
+	spacing.add_child(control)
 
 func _ignore_mouse(control: Control) -> void:
 	control.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -84,16 +97,21 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	add_theme_stylebox_override("panel", style)
 	var stats := weapon.stats
 	var values: Array[String] = [
-		_format_number(weapon.get_effective_damage(Global.player.stats if is_instance_valid(Global.player) else null)),
-		"%s%% %s" % [_format_number(stats.damage_scaling * 100.0), "melee" if weapon.type == ItemWeapon.Type.MELEE else "ranged"],
+		weapon.get_damage_description(Global.player.stats if is_instance_valid(Global.player) else null),
 		"%s s" % _format_number(weapon.get_effective_cooldown(Global.player.stats if is_instance_valid(Global.player) else null)),
 		_format_number(stats.max_range),
 		"%s%%" % _format_number(stats.crit_chance * 100.0),
-		_format_number(stats.knockback),
-		"%s%%" % _format_number(stats.life_steal * 100.0)
+		"%s%%" % _format_number(stats.life_steal * 100.0),
+		str(weapon.get_effective_piercing(Global.player.stats if is_instance_valid(Global.player) else null)),
+		str(weapon.get_effective_bounces(Global.player.stats if is_instance_valid(Global.player) else null)),
+		str(weapon.get_sell_price((get_parent() as ShopPanel).shop_wave))
 	]
 	for index in values.size():
-		value_labels[index].text = values[index]
+		var show_stat := index < 5 or index == 7 or (weapon.type == ItemWeapon.Type.RANGE and int(values[index]) > 0)
+		stats_grid.get_child(index * 2).visible = show_stat
+		value_labels[index].visible = show_stat
+		value_labels[index].add_theme_color_override("default_color", UITheme.palette.positive)
+		value_labels[index].text = "[right]%s[/right]" % UITheme.rich_text(values[index])
 	reset_size()
 
 func _format_number(value: float) -> String:

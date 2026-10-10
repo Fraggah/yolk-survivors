@@ -25,6 +25,8 @@ signal stats_changed
 @export var melee_damage := 0.0
 @export var ranged_damage := 0.0
 @export var attack_speed := 0.0
+@export_range(0, 100, 1) var piercing := 0
+@export_range(0, 100, 1) var bounces := 0
 @export var initial_damage := 1.0
 @export var damage_increase_per_wave := 1.0
 @export var speed := 300.0
@@ -46,6 +48,8 @@ func reset_player_stats() -> void:
 	hp_regen = 0
 	life_steal = 0
 	harvesting = 0
+	piercing = 0
+	bounces = 0
 
 # Per-run bookkeeping. Character resources themselves are never initialized/mutated.
 var _passives_initialized := false

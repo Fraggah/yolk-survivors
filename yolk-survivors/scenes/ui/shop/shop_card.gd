@@ -23,18 +23,19 @@ func _ready() -> void:
 	lock_button.toggle_mode = true
 	lock_button.text = "LOCK"
 	lock_button.add_theme_font_size_override("font_size", 24)
-	var actions := HBoxContainer.new()
+	var actions := VBoxContainer.new()
 	actions.name = "Actions"
 	$MarginContainer/Control.add_child(actions)
 	actions.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	actions.offset_top = -70.0
-	actions.add_theme_constant_override("separation", 12)
+	actions.offset_top = -122.0
+	actions.add_theme_constant_override("separation", 8)
 	var buy_button: Button = $MarginContainer/Control/CustomButton
 	buy_button.reparent(actions)
 	buy_button.custom_minimum_size = Vector2(0, 70)
 	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(lock_button)
-	lock_button.custom_minimum_size = Vector2(76, 70)
+	lock_button.custom_minimum_size = Vector2(0, 44)
+	lock_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	lock_button.tooltip_text = "Keep this offer and its price through refreshes and waves."
 	lock_button.toggled.connect(_on_lock_toggled)
@@ -42,13 +43,15 @@ func _ready() -> void:
 
 func _on_lock_toggled(value: bool) -> void:
 	locked = value
-	lock_button.text = "HELD" if locked else "LOCK"
+	lock_button.text = "LOCKED" if locked else "LOCK"
+	UITheme.style_offer_lock(lock_button, locked)
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 
 func set_locked(value: bool) -> void:
 	locked = value
 	lock_button.set_pressed_no_signal(value)
-	lock_button.text = "HELD" if value else "LOCK"
+	lock_button.text = "LOCKED" if value else "LOCK"
+	UITheme.style_offer_lock(lock_button, value)
 
 func _refresh_palette() -> void:
 	if shop_item: _set_shop_item(shop_item)

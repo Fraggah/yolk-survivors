@@ -13,6 +13,7 @@ var knockback_power: float
 
 func _ready() -> void:
 	super._ready()
+	add_to_group("combat_enemies")
 	var contact := get_node_or_null("HitboxComponent") as HitboxComponent
 	if contact:
 		contact.setup(stats.damage, false, 0.0, self)

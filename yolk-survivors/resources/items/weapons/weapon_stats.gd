@@ -9,6 +9,8 @@ class_name WeaponStats
 @export var crit_damage := 1.5
 @export var max_range := 150.0
 @export var knockback := .0
+@export_range(0, 100, 1) var piercing := 0
+@export_range(0, 100, 1) var bounces := 0
 @export_range(.0, 1.0) var life_steal := .0
 @export var recoil := 25.0
 @export_range(.01, 3.0, .01) var recoil_duration := .1

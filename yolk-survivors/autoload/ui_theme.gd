@@ -29,7 +29,7 @@ func color_hex(role: String) -> String:
 	return "#" + (palette.get(role) as Color).to_html(false)
 
 func rich_text(text: String) -> String:
-	return text.replace("[color=green]", "[color=%s]" % color_hex("positive")).replace("[color=#ff6969]", "[color=%s]" % color_hex("negative")).replace("[color=#ffe395]", "[color=%s]" % color_hex("accent"))
+	return text.replace("color=green]", "color=%s]" % color_hex("positive")).replace("[color=#ff6969]", "[color=%s]" % color_hex("negative")).replace("[color=#ffe395]", "[color=%s]" % color_hex("accent"))
 
 func box(fill: Color, edge: Color, radius: int = -1, border: int = -1) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -137,6 +137,12 @@ func _rebuild() -> void:
 		for state in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color"]:
 			ui_theme.set_color(state, type_name, palette.text)
 		ui_theme.set_color("font_disabled_color", type_name, palette.disabled_text)
+	ui_theme.set_type_variation("HeldButton", "Button")
+	for state in ["normal", "pressed", "hover", "hover_pressed"]:
+		var fill: Color = palette.text.lerp(palette.button, 0.12) if state.begins_with("hover") else palette.text
+		ui_theme.set_stylebox(state, "HeldButton", box(fill, palette.button, -1, 3))
+	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color"]:
+		ui_theme.set_color(state, "HeldButton", palette.button)
 	for type_name in ["Panel", "PanelContainer"]:
 		ui_theme.set_stylebox("panel", type_name, box(palette.surface, palette.outline))
 	ui_theme.set_type_variation("ScreenPanel", "Panel")
@@ -201,3 +207,8 @@ func apply_control(node) -> void:
 		node.add_theme_color_override("font_color", palette.hud_text if node.get_meta("ui_color") == "hud" else palette.get(node.get_meta("ui_color")))
 	if node is Label and node.name in ["CoinsLabel", "ReserveLabel"] and node.get_parent().get_parent().get_parent().name == "GameUI":
 		node.add_theme_color_override("font_color", palette.hud_text)
+
+func style_offer_lock(button: Button, held: bool) -> void:
+	_clear_button_focus(button)
+	button.theme_type_variation = &"HeldButton" if held else &""
+	_update_button_focus(button)

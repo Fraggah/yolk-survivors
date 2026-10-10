@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dmpftpbmwokai" path="res://assets/sprites/Yolk/yolk.png" id="5_xbnkv"]
 
 [node name="ShopCard" type="Panel"]
-custom_minimum_size = Vector2(320, 444)
+custom_minimum_size = Vector2(320, 470)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ki3oh")
@@ -72,17 +72,15 @@ text = "item type"
 
 [node name="ItemDescription" type="RichTextLabel" parent="MarginContainer/Control"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(288, 186)
+custom_minimum_size = Vector2(288, 156)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -144.0
-offset_top = -77.0
+offset_top = 108.0
 offset_right = 144.0
-offset_bottom = 109.0
+offset_bottom = 264.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/bold_italics_font_size = 20

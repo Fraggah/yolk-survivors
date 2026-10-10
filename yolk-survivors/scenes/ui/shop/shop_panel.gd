@@ -187,6 +187,12 @@ func _on_item_purchased(item: ItemBase) -> void:
 	if item is ItemWeapon and Global.equipped_weapons.size() >= Global.MAX_EQUIPPED_WEAPONS:
 		_auto_upgrade_purchased_weapon(item as ItemWeapon)
 		return
+	if item is ItemPassive:
+		(item as ItemPassive).apply_passive_values()
+		for owned in passive_container.get_children():
+			if owned is ItemCard and not owned.is_queued_for_deletion() and owned.item.get_offer_key() == item.get_offer_key():
+				owned.quantity += 1
+				return
 	var item_card := create_item_card()
 	
 	if item.item_type == ItemBase.ItemType.WEAPON:
@@ -196,8 +202,7 @@ func _on_item_purchased(item: ItemBase) -> void:
 		Global.equipped_weapons.append(weapon)
 	elif item.item_type == ItemBase.ItemType.PASSIVE:
 		passive_container. add_child(item_card)
-		var passive := item as ItemPassive
-		passive.apply_passive_values()
+
 		
 	item_card.item = item
 

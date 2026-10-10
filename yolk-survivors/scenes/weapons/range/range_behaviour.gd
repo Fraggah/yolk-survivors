@@ -31,3 +31,6 @@ func create_projectile() -> void:
 	var travel_range := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x)
 	instance.setup_projectile(velocity, get_damage(), critical, weapon.data.stats.knockback, weapon.get_parent(), travel_range)
 	instance.hitbox.life_steal_chance = get_life_steal_chance()
+	var player_stats: UnitStats = weapon.get_parent().stats
+	instance.remaining_piercing = weapon.data.get_effective_piercing(player_stats)
+	instance.remaining_bounces = weapon.data.get_effective_bounces(player_stats)

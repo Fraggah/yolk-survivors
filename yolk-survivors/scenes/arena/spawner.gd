@@ -12,6 +12,7 @@ const FUEGUITO_SCENE = preload("res://scenes/units/enemies/enemy_fueguito.tscn")
 @export_range(1, 500) var max_alive_enemies := 80
 
 @export var spawn_area_size := Vector2(1000, 500)
+@export_range(0.0, 500.0, 10.0) var min_spawn_distance := 120.0
 @export var waves_data: Array[WaveData]
 @export_range(100.0, 1500.0, 10.0) var fueguito_min_spawn_distance := 450.0
 
@@ -113,6 +114,16 @@ func get_random_spawn_position() -> Vector2:
 	var random_y := randf_range(-spawn_area_size.y, spawn_area_size.y)
 	return Vector2(random_x, random_y)
 
+func is_spawn_position_safe(spawn_pos: Vector2) -> bool:
+	return is_instance_valid(Global.player) and spawn_pos.distance_squared_to(Global.player.global_position) >= min_spawn_distance * min_spawn_distance
+
+func get_safe_spawn_position() -> Vector2:
+	var candidate := get_random_spawn_position()
+	for attempt in 32:
+		if is_spawn_position_safe(candidate): return candidate
+		candidate = get_random_spawn_position()
+	return candidate
+
 func alive_enemy_count() -> int:
 	var alive := 0
 	# Inspect validity before using a typed callback: freed references cannot be
@@ -156,13 +167,28 @@ func spawn_enemy() -> void:
 	pending_spawns += 1
 	# Schedule independently from the visual warning; pending reservations enforce the cap.
 	start_spawn_timer()
-	var spawn_pos := get_random_spawn_position()
-	var spawn_effect := Global.SPAWN_EFFECT_SCENE.instantiate()
-	get_parent().add_child(spawn_effect)
-	spawn_effect.global_position = spawn_pos
-	await spawn_effect.completed
-	if generation != spawn_generation: return
+	var spawn_pos := get_safe_spawn_position()
+	var ready_to_spawn := false
+	# Every relocation receives a fresh warning; never pop an enemy elsewhere silently.
+	for attempt in 4:
+		if not is_spawn_position_safe(spawn_pos): break
+		var spawn_effect := Global.SPAWN_EFFECT_SCENE.instantiate()
+		get_parent().add_child(spawn_effect)
+		spawn_effect.global_position = spawn_pos
+		await spawn_effect.completed
+		if generation != spawn_generation: return
+		if wave_timer.is_stopped() or not is_instance_valid(Global.player): break
+		while Global.game_paused:
+			await get_tree().process_frame
+			if generation != spawn_generation: return
+			if wave_timer.is_stopped(): break
+		if wave_timer.is_stopped(): break
+		if is_spawn_position_safe(spawn_pos):
+			ready_to_spawn = true
+			break
+		spawn_pos = get_safe_spawn_position()
 	pending_spawns -= 1
+	if not ready_to_spawn: return
 	# Ended/exited waves cannot finish an old asynchronous spawn.
 	if wave_timer.is_stopped() or not is_instance_valid(Global.player): return
 	while Global.game_paused:
