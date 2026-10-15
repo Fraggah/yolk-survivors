@@ -17,6 +17,8 @@ enum SelectionMode { CHARACTER, WEAPON }
 
 @onready var players_container: GridContainer = %PlayersContainer
 @onready var weapons_container: GridContainer = %WeaponsContainer
+var roster_layout = preload("res://scenes/ui/selection_panel/selection_layout.gd").new()
+var transitioning := false
 
 @onready var player_icon: TextureRect = %PlayerIcon
 @onready var player_name: Label = %PlayerName
@@ -38,7 +40,8 @@ const DISPLAY_STATS := [
 	["attack_speed", "Attack speed", true], ["speed", "Speed", false],
 	["luck", "Luck", false], ["block_chance", "Block chance", true],
 	["hp_regen", "HP regen / 3 s", false], ["life_steal", "Life steal", true],
-	["harvesting", "Harvesting", false]
+	["harvesting", "Harvesting", false], ["armor", "Armor", false],
+	["critical_chance", "Critical chance", true], ["pickup_range", "Pickup range", true]
 ]
 
 var preview_player: UnitStats
@@ -49,19 +52,28 @@ var player_group := ButtonGroup.new()
 var weapon_group := ButtonGroup.new()
 
 func _ready() -> void:
-	for child in players_container.get_children(): child.queue_free()
-	for child in weapons_container.get_children(): child.queue_free()
+	for item in RangedCatalogue.items():
+		if not weapons_list.has(item): weapons_list.append(item)
+	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items():
+		if not weapons_list.has(item): weapons_list.append(item)
+	for item in load("res://resources/items/weapons/pet_catalogue.gd").items():
+		if not weapons_list.has(item): weapons_list.append(item)
+	for child in players_container.get_children():
+		players_container.remove_child(child)
+		child.queue_free()
+	for child in weapons_container.get_children():
+		weapons_container.remove_child(child)
+		child.queue_free()
 	
 	if selection_mode == SelectionMode.CHARACTER:
 		load_players()
-		player_panel.offset_left = -190.0
-		player_panel.offset_right = 190.0
 	else:
 		load_weapons()
 	players_container.visible = selection_mode == SelectionMode.CHARACTER
 	weapons_container.visible = selection_mode == SelectionMode.WEAPON
 	weapon_panel.visible = selection_mode == SelectionMode.WEAPON
 	heading.text = "Select Player" if selection_mode == SelectionMode.CHARACTER else "Select Weapon"
+	roster_layout.setup(self)
 	show_player_info(false)
 	show_weapon_info(false)
 	Progression.progress_changed.connect(_on_progress_changed)
@@ -72,6 +84,10 @@ func _ready() -> void:
 
 func _refresh_selection_info() -> void:
 	if not is_visible_in_tree(): return
+	transitioning = false
+	players_container.modulate.a = 1.0
+	roster_layout.right_players.modulate.a = 1.0
+	roster_layout.refresh()
 	_update_card_locks()
 	_update_weapon_availability()
 	_update_selected_slots()
@@ -123,9 +139,12 @@ func show_player_info(value: bool) -> void:
 	player_description.visible = value
 
 func _on_player_selected(player: UnitStats) -> void:
+	if transitioning: return
 	if not Progression.is_character_unlocked(player):
+		SoundManager.play_sound(SoundManager.Sound.SELECTION_INVALID)
 		_update_selected_slots()
 		return
+	SoundManager.play_sound(SoundManager.Sound.SELECTION_ACCEPT)
 	Global.main_player_selected = player
 	_update_weapon_availability()
 	_update_selected_slots()
@@ -134,6 +153,7 @@ func _on_player_selected(player: UnitStats) -> void:
 		_complete_selection()
 
 func _show_player_preview(player: UnitStats) -> void:
+	if transitioning: return
 	preview_player = player
 	show_player_info(true)
 	player_icon.texture = player.icon
@@ -142,6 +162,7 @@ func _show_player_preview(player: UnitStats) -> void:
 	player_title.text = "Player" if unlocked else "Locked"
 	_set_portrait_lock(player_icon, not unlocked)
 	player_description.text = get_character_description(player) if unlocked else Progression.requirement_for(player.unlock_id, true)
+	roster_layout.fit_descriptions.call_deferred()
 
 func _restore_selected_player_preview() -> void:
 	if Global.main_player_selected:
@@ -151,9 +172,12 @@ func _restore_selected_player_preview() -> void:
 		preview_player = null
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
-	if not Global.is_valid_starting_weapon(weapon) or not Progression.is_weapon_unlocked(weapon) or not Global.main_player_selected or not Global.main_player_selected.can_use_weapon(weapon):
+	if transitioning: return
+	if not Global.is_valid_selection(weapon) or not Progression.is_weapon_unlocked(weapon) or not Global.main_player_selected or not Global.main_player_selected.can_use_weapon(weapon):
+		SoundManager.play_sound(SoundManager.Sound.SELECTION_INVALID)
 		_update_selected_slots()
 		return
+	SoundManager.play_sound(SoundManager.Sound.SELECTION_ACCEPT)
 	Global.main_weapon_selected = weapon
 	_update_selected_slots()
 	_show_weapon_preview(weapon)
@@ -165,7 +189,7 @@ func _show_weapon_preview(weapon: ItemWeapon) -> void:
 	show_weapon_info(true)
 	weapon_icon.texture = weapon.item_icon
 	weapon_name.text = weapon.item_name
-	weapon_title.text = "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
+	weapon_title.text = ("Pet — preview" if weapon.resource_path.contains("/pets/") else "Spicy — preview") if weapon.selection_only else "Spicy" if weapon.type == ItemWeapon.Type.SPICY else "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
 	var unlocked := Progression.is_weapon_unlocked(weapon)
 	_set_portrait_lock(weapon_icon, not unlocked)
 	if not unlocked:
@@ -175,6 +199,7 @@ func _show_weapon_preview(weapon: ItemWeapon) -> void:
 		weapon_description.text = UITheme.rich_text(weapon.get_description(Global.main_player_selected.get_passive_preview() if Global.main_player_selected else null))
 		if Global.main_player_selected and not Global.main_player_selected.can_use_weapon(weapon):
 			weapon_title.text = "Cannot equip"
+	roster_layout.fit_descriptions.call_deferred()
 
 
 
@@ -205,7 +230,7 @@ func _set_portrait_lock(portrait: TextureRect, locked: bool) -> void:
 		portrait.material = null
 
 func _update_card_locks() -> void:
-	for card in players_container.get_children():
+	for card in get_player_cards():
 		if card.has_meta("selection_data"):
 			card.set_locked(not Progression.is_character_unlocked(card.get_meta("selection_data")))
 	for card in weapons_container.get_children():
@@ -220,7 +245,7 @@ func _on_progress_changed() -> void:
 	if preview_weapon: _show_weapon_preview(preview_weapon)
 
 func _update_selected_slots() -> void:
-	for card in players_container.get_children():
+	for card in get_player_cards():
 		if not card.has_meta("selection_data"): continue
 		card.set_pressed_no_signal(card.get_meta("selection_data", null) == Global.main_player_selected and Global.main_player_selected != null)
 	for card in weapons_container.get_children():
@@ -248,11 +273,36 @@ func get_character_description(player: UnitStats) -> String:
 	lines.append_array(passive_lines)
 	return UITheme.rich_text("\n".join(lines))
 
+func get_player_cards() -> Array[Node]:
+	var cards: Array[Node] = []
+	for grid in [players_container, roster_layout.right_players]:
+		for card in grid.get_children():
+			if card.has_meta("selection_data"): cards.append(card)
+	return cards
+
+func animate_character_to_weapons() -> void:
+	transitioning = true
+	var tween := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_parallel(true)
+	tween.tween_property(players_container, "modulate:a", 0.0, 0.18)
+	tween.tween_property(roster_layout.right_players, "modulate:a", 0.0, 0.18)
+	var target: Rect2 = roster_layout.player_slot_rects(1, true)[0]
+	tween.tween_property(player_panel, "position", target.position, 0.38).set_delay(0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(player_panel, "size", target.size, 0.38).set_delay(0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	await tween.finished
+
+func reveal_weapon_roster() -> void:
+	weapons_container.modulate.a = 0.0
+	weapon_panel.modulate.a = 0.0
+	var tween := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_parallel(true)
+	tween.tween_property(weapons_container, "modulate:a", 1.0, 0.2)
+	tween.tween_property(weapon_panel, "modulate:a", 1.0, 0.2)
+
 func _complete_selection() -> void:
-	hide()
+	if selection_mode == SelectionMode.WEAPON: hide()
 	on_selection_completed.emit()
 
 
 func _on_custom_button_exit_pressed() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	if transitioning: return
 	on_level_select_exited.emit()

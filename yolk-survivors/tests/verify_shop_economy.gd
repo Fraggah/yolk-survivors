@@ -21,7 +21,7 @@ func verify() -> void:
 		for tier in 4:
 			assert(rules.shop_price([10, 20, 40, 70][tier], example[0]) == example[tier + 1])
 	assert(rules.shop_price(9, 1) == 10 and rules.shop_price(0, 1) == 1)
-	var bases = {"blender":10, "butcher_knife":9, "mace":12, "mitten":8, "spatula":10, "corpse_l":12, "hydrant":10, "knifer":10, "smasher":14, "the_bloody":14}
+	var bases = {"blender":10, "butcher_knife":9, "mace":12, "mitten":8, "spatula":10, "corpse_l":12, "hydrant":10, "knifer":10, "smasher":14, "the_bloody":14, "tenderizer":14, "grater":12, "carving_fork":12, "ladle":12, "frying_pan":14, "pizza_cutter":12, "electric_knife":16, "immersion_blender":16}
 	var weapons = 0
 	for resource in shop.shop_items:
 		if resource.item_type != 0: continue
@@ -29,11 +29,11 @@ func verify() -> void:
 		var folder = resource.resource_path.get_base_dir().get_file()
 		assert(resource.item_cost == bases[folder] * [1,2,4,7][resource.item_tier])
 		var previous = 0
-		for wave in range(1, 10):
+		for wave in range(1, 21):
 			var price = resource.get_shop_price(wave)
 			assert(price > previous and resource.get_sell_price(wave) == floori(price * 0.25))
 			previous = price
-	assert(weapons == 40)
+	assert(weapons == bases.size() * 4)
 	for reward in [["chaser_slow",2], ["chaser_mid",2], ["chaser_fast",2], ["shooter",3], ["charger",4], ["fueguito",0]]:
 		assert(load("res://resources/units/enemies/stats_enemy_%s.tres" % reward[0]).coin_drop == reward[1])
 	for passive in [["ball",12], ["cape",20], ["sword",30], ["rage",50]]:
@@ -102,5 +102,5 @@ func verify() -> void:
 	player.queue_free()
 	arena.queue_free()
 	await process_frame
-	print("PASS: 40 tier prices, inflation and 25% sale, rewards/passives, 300 early shops, displayed/charged price equality, insufficient funds, manual/automatic combinations and full-slot rejection")
+	print("PASS: 72 tier prices, inflation and 25% sale, rewards/passives, 300 early shops, displayed/charged price equality, insufficient funds, manual/automatic combinations and full-slot rejection")
 	quit()

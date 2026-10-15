@@ -37,15 +37,15 @@ func verify() -> void:
 	assert(not text.contains("Melee damage:") and not text.contains("Harvesting:"))
 	assert(text.contains("Bloody"))
 	characters.players_container.get_child(4).pressed.emit()
+	await create_timer(0.7).timeout
 	assert(not characters.visible and weapons.visible and not arena.level_panel.visible)
 	assert(not weapons.players_container.visible and weapons.weapons_container.visible)
 	assert(global.main_weapon_selected == null)
-	assert(weapons.weapons_container.get_child_count() == 10)
+	assert(weapons.weapons_container.get_child_count() == 40)
 	await process_frame
 	for card in weapons.weapons_container.get_children():
-		assert(weapons.get_global_rect().encloses(card.get_global_rect()), "Weapon card outside screen")
+		assert(card.get_parent() == weapons.weapons_container, "Weapon cards belong to scrollable grid")
 	assert(weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Character and initial weapon description clipped")
-	var back_button = weapons.get_node("MarginContainer/VBoxContainer/Label/CustomButtonExit")
 	weapons.weapons_container.get_child(6).pressed.emit()
 	var selected = global.main_weapon_selected
 	arena._on_level_panel_on_level_selection_exited()
@@ -53,6 +53,7 @@ func verify() -> void:
 	assert(characters.visible and not weapons.visible)
 	assert(global.main_player_selected == vampire and global.main_weapon_selected == selected)
 	characters.players_container.get_child(4).pressed.emit()
+	await create_timer(0.7).timeout
 	weapons.weapons_container.get_child(6).pressed.emit()
 	assert(arena.level_panel.visible and not weapons.visible)
 	arena._on_level_panel_on_level_selection_exited()

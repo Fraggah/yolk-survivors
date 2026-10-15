@@ -11,6 +11,7 @@ unlock_id = "wood_mace"
 type = 0
 scene = ExtResource("2_owkuy")
 stats = ExtResource("3_e8wef")
+attack_description = "Arc strike."
 item_name = "Wood Mace IV"
 item_icon = ExtResource("1_oy2qe")
 item_tier = 3

@@ -15,6 +15,8 @@ func verify() -> void:
 	var weapon = global.player.current_weapons[0]
 	weapon.set_process(false)
 	var motion = weapon.weapon_behaviour
+	await physics_frame
+	await physics_frame
 	assert(motion.attack_motion == 1)
 	var radius: float = weapon.data.stats.max_range * 0.75
 	for angle in [-PI / 2.0, 0.0, PI / 2.0]:
@@ -24,7 +26,9 @@ func verify() -> void:
 	var aim: float = weapon.rotation
 	weapon.rotate_to_target()
 	assert(weapon.rotation == aim)
-	await create_timer(0.13).timeout
+	for frame in 30:
+		if motion.hitbox.monitoring: break
+		await physics_frame
 	assert(motion.hitbox.monitoring)
 	var hurtbox = load("res://scenes/components/hurtbox_component.gd").new()
 	assert(motion.hitbox.claim_hit(hurtbox))
@@ -48,7 +52,7 @@ func verify() -> void:
 	var thrust = load("res://scenes/weapons/melee/weapon_spatula.tscn").instantiate()
 	root.add_child(thrust)
 	assert(thrust.weapon_behaviour.attack_motion == 0)
-	assert(not thrust.weapon_behaviour.lock_aim_during_attack)
+	assert(thrust.weapon_behaviour.lock_aim_during_attack)
 	thrust.queue_free()
 	print("PASS: player-centered semicircle, locked aim, one hit per activation, reset and unchanged thrust")
 	quit()

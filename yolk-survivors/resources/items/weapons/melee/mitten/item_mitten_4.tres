@@ -11,6 +11,7 @@ unlock_id = "mitten"
 type = 0
 scene = ExtResource("2_tm866")
 stats = ExtResource("3_f1uf4")
+attack_description = "Weak punch; full collision damage."
 item_name = "Mitten IV"
 item_icon = ExtResource("1_guh31")
 item_tier = 3

@@ -1,15 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=47 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
 [ext_resource type="Script" uid="uid://cik2jcd8fmr6v" path="res://scenes/arena/spawner.gd" id="8_ii07k"]
-[ext_resource type="Resource" uid="uid://b4cp53n85irlc" path="res://resources/wave/data/wave_config_2.tres" id="9_fir7s"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="9_t3vx8"]
-[ext_resource type="Resource" uid="uid://c7q3ejofiacok" path="res://resources/wave/data/wave_config_0.tres" id="10_gy0qm"]
-[ext_resource type="Resource" uid="uid://d3260jp73amhp" path="res://resources/wave/data/wave_config_1.tres" id="10_rhjlh"]
-[ext_resource type="Resource" uid="uid://dmr4tor8re5ru" path="res://resources/wave/data/wave_config_3.tres" id="11_5ilg6"]
-[ext_resource type="Resource" uid="uid://ctgyhk1dhao86" path="res://resources/wave/data/wave_config_4.tres" id="12_bxbl0"]
-[ext_resource type="Resource" uid="uid://dolrnwknjjwvn" path="res://resources/wave/data/wave_config_5.tres" id="13_c13hg"]
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="15_rhjlh"]
 [ext_resource type="PackedScene" uid="uid://b7hhtxfn6wpfg" path="res://scenes/ui/upgrades/upgrade_panel.tscn" id="15_w4nra"]
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
@@ -22,10 +16,35 @@
 [ext_resource type="PackedScene" uid="uid://f2xh1o8ymjuc" path="res://scenes/ui/options_panel/options_panel.tscn" id="27_io46r"]
 [ext_resource type="PackedScene" uid="uid://dxk24jn6jkt71" path="res://scenes/ui/start_panel/start_panel.tscn" id="28_f7e6h"]
 [ext_resource type="Script" uid="uid://rnc2khrv478v" path="res://scenes/arena/environment_controller.gd" id="env_controller"]
-[ext_resource type="Resource" uid="uid://iqj50rbehi6l" path="res://resources/environments/sage_casserole.tres" id="env_sage"]
-[ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="env_type"]
-[ext_resource type="Resource" uid="uid://c0w7nuiawsoc4" path="res://resources/environments/warm_skillet.tres" id="env_warm"]
 [ext_resource type="PackedScene" uid="uid://b7s61o2yewfch" path="res://scenes/health_bar/health_bar.tscn" id="hud_health"]
+[ext_resource type="Resource" uid="uid://c6bovx8p26bso" path="res://resources/environments/stages/cooking_pot.tres" id="stage_cooking_pot"]
+[ext_resource type="Resource" uid="uid://b0jm4awyhrxeh" path="res://resources/environments/stages/deep_wok.tres" id="stage_deep_wok"]
+[ext_resource type="Resource" uid="uid://chbng8ed5nku1" path="res://resources/environments/stages/iron_griddle.tres" id="stage_iron_griddle"]
+[ext_resource type="Script" uid="uid://dqq78xdthpvuj" path="res://scenes/arena/mechanics/stage_mechanics_controller.gd" id="stage_mechanics"]
+[ext_resource type="Resource" uid="uid://3htd3sb2ke37" path="res://resources/environments/stages/neutral_plate.tres" id="stage_neutral_plate"]
+[ext_resource type="Resource" uid="uid://crj3rb3r41iyb" path="res://resources/environments/stages/nonstick_pan.tres" id="stage_nonstick_pan"]
+[ext_resource type="Resource" uid="uid://diytj0pixcxjt" path="res://resources/environments/stages/oven_tray.tres" id="stage_oven_tray"]
+[ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="stage_type"]
+[ext_resource type="Resource" uid="uid://q8v7y2ftym2y" path="res://resources/wave/data/wave_01.tres" id="wave_1"]
+[ext_resource type="Resource" uid="uid://kh61qnquwlqu" path="res://resources/wave/data/wave_02.tres" id="wave_2"]
+[ext_resource type="Resource" uid="uid://c6deqy8v8ukqo" path="res://resources/wave/data/wave_03.tres" id="wave_3"]
+[ext_resource type="Resource" uid="uid://dg61154712v3a" path="res://resources/wave/data/wave_04.tres" id="wave_4"]
+[ext_resource type="Resource" uid="uid://bgw62ofsabl23" path="res://resources/wave/data/wave_05.tres" id="wave_5"]
+[ext_resource type="Resource" uid="uid://byjv8inngmhmn" path="res://resources/wave/data/wave_06.tres" id="wave_6"]
+[ext_resource type="Resource" uid="uid://b6obg587at0mp" path="res://resources/wave/data/wave_07.tres" id="wave_7"]
+[ext_resource type="Resource" uid="uid://b8a0x0mvu1wqx" path="res://resources/wave/data/wave_08.tres" id="wave_8"]
+[ext_resource type="Resource" uid="uid://dsuwkg73gttnw" path="res://resources/wave/data/wave_09.tres" id="wave_9"]
+[ext_resource type="Resource" uid="uid://dswg5o43hkps3" path="res://resources/wave/data/wave_10.tres" id="wave_10"]
+[ext_resource type="Resource" uid="uid://b08tjupm6bued" path="res://resources/wave/data/wave_11.tres" id="wave_11"]
+[ext_resource type="Resource" uid="uid://fx21vrq6bwjs" path="res://resources/wave/data/wave_12.tres" id="wave_12"]
+[ext_resource type="Resource" uid="uid://bwngow8a6c3f6" path="res://resources/wave/data/wave_13.tres" id="wave_13"]
+[ext_resource type="Resource" uid="uid://cr5j78fhd3ft6" path="res://resources/wave/data/wave_14.tres" id="wave_14"]
+[ext_resource type="Resource" uid="uid://d0e0qbx2l8e4d" path="res://resources/wave/data/wave_15.tres" id="wave_15"]
+[ext_resource type="Resource" uid="uid://bkaffiarte1ba" path="res://resources/wave/data/wave_16.tres" id="wave_16"]
+[ext_resource type="Resource" uid="uid://dmmkijvhbjfyc" path="res://resources/wave/data/wave_17.tres" id="wave_17"]
+[ext_resource type="Resource" uid="uid://dp50vro8iw2t8" path="res://resources/wave/data/wave_18.tres" id="wave_18"]
+[ext_resource type="Resource" uid="uid://bxt0kklj3addc" path="res://resources/wave/data/wave_19.tres" id="wave_19"]
+[ext_resource type="Resource" uid="uid://d2tq5ik8hr0iq" path="res://resources/wave/data/wave_20.tres" id="wave_20"]
 [ext_resource type="PackedScene" path="res://scenes/ui/selection_panel/weapon_selection_panel.tscn" id="weapon_selection"]
 
 [node name="Arena" type="Node2D"]
@@ -35,9 +54,12 @@ block_color = Color(1, 0.290196, 0.454902, 1)
 critical_color = Color(0.996078, 0.780392, 0.380392, 1)
 hp_reg_color = Color(0, 0.627451, 0.482353, 1)
 
+[node name="StageMechanics" type="Node" parent="."]
+script = ExtResource("stage_mechanics")
+
 [node name="Environment" type="Node2D" parent="."]
 script = ExtResource("env_controller")
-environments = Array[ExtResource("env_type")]([ExtResource("env_warm"), ExtResource("env_sage")])
+stages = Array[ExtResource("stage_type")]([ExtResource("stage_neutral_plate"), ExtResource("stage_nonstick_pan"), ExtResource("stage_cooking_pot"), ExtResource("stage_iron_griddle"), ExtResource("stage_deep_wok"), ExtResource("stage_oven_tray")])
 
 [node name="BG" type="Sprite2D" parent="Environment"]
 z_index = -20
@@ -51,7 +73,7 @@ script = ExtResource("4_aj7ud")
 
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("8_ii07k")
-waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("10_rhjlh"), ExtResource("9_fir7s"), ExtResource("10_gy0qm"), ExtResource("11_5ilg6"), ExtResource("12_bxbl0"), ExtResource("13_c13hg")])
+waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("wave_1"), ExtResource("wave_2"), ExtResource("wave_3"), ExtResource("wave_4"), ExtResource("wave_5"), ExtResource("wave_6"), ExtResource("wave_7"), ExtResource("wave_8"), ExtResource("wave_9"), ExtResource("wave_10"), ExtResource("wave_11"), ExtResource("wave_12"), ExtResource("wave_13"), ExtResource("wave_14"), ExtResource("wave_15"), ExtResource("wave_16"), ExtResource("wave_17"), ExtResource("wave_18"), ExtResource("wave_19"), ExtResource("wave_20")])
 
 [node name="WaveTimer" type="Timer" parent="Spawner"]
 one_shot = true
@@ -67,17 +89,33 @@ unique_name_in_owner = true
 [node name="PlayerHealthBar" parent="GameUI" instance=ExtResource("hud_health")]
 visible = false
 z_index = 0
-custom_minimum_size = Vector2(360, 64)
+custom_minimum_size = Vector2(320, 48)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -400.0
+offset_left = -360.0
 offset_top = 20.0
 offset_right = -40.0
-offset_bottom = 84.0
+offset_bottom = 68.0
 grow_horizontal = 0
 mouse_filter = 2
 use_ui_palette = true
+
+[node name="ExperienceBar" parent="GameUI" instance=ExtResource("hud_health")]
+visible = false
+z_index = 0
+custom_minimum_size = Vector2(320, 30)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -360.0
+offset_top = 78.0
+offset_right = -40.0
+offset_bottom = 108.0
+grow_horizontal = 0
+mouse_filter = 2
+use_ui_palette = true
+experience_bar = true
 
 [node name="WaveIndexLabel" type="Label" parent="GameUI"]
 unique_name_in_owner = true

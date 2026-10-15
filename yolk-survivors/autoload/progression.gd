@@ -20,6 +20,7 @@ var wave_damaged := false
 var wave_open := false
 var dirty := false
 var save_delay := 0.0
+var testing_unlock_override := -1
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -39,7 +40,10 @@ func load_progress() -> void:
 	completed.clear()
 	counters.clear()
 	var config := ConfigFile.new()
+	testing_unlock_override = -1
 	if config.load(save_path) == OK:
+		testing_unlock_override = int(config.get_value("testing", "unlock_override", -1))
+		Global.level_reached = clampi(int(config.get_value("progress", "difficulty", 0)), 0, 5)
 		var saved = config.get_value("progress", "completed", [])
 		if saved is Array or saved is PackedStringArray:
 			for id in saved:
@@ -59,6 +63,8 @@ func save_progress() -> bool:
 	config.set_value("progress", "version", 1)
 	config.set_value("progress", "completed", completed)
 	config.set_value("progress", "counters", counters)
+	config.set_value("progress", "difficulty", Global.level_reached)
+	config.set_value("testing", "unlock_override", testing_unlock_override)
 	var error := config.save(save_path + ".tmp")
 	if error == OK: error = DirAccess.rename_absolute(save_path + ".tmp", save_path)
 	if error != OK:
@@ -86,7 +92,34 @@ func is_weapon_unlocked(weapon: Resource) -> bool:
 
 func _testing_unlocks_enabled() -> bool:
 	# Temporary access for playtesting; does not mark achievements as completed.
+	if testing_unlock_override >= 0: return testing_unlock_override == 1
 	return bool(ProjectSettings.get_setting("yolk/testing/unlock_characters_and_weapons", false))
+
+func debug_reset_progress() -> bool:
+	if not OS.is_debug_build() or run_active: return false
+	completed.clear()
+	counters.clear()
+	testing_unlock_override = 0
+	Global.level_reached = 0
+	Global.level_selected = 0
+	return _finish_debug_progress_change()
+
+func debug_unlock_all() -> bool:
+	if not OS.is_debug_build() or run_active: return false
+	completed.assign(ACHIEVEMENT_IDS)
+	testing_unlock_override = 0
+	Global.level_reached = 5
+	return _finish_debug_progress_change()
+
+func _finish_debug_progress_change() -> bool:
+	wave_open = false
+	wave_damaged = false
+	current_character = ""
+	_rebuild_unlocks()
+	dirty = true
+	var saved := save_progress()
+	progress_changed.emit()
+	return saved
 
 func requirement_for(id: String, character: bool) -> String:
 	for achievement in achievements:

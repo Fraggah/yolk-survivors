@@ -41,8 +41,8 @@ func set_locked(value: bool) -> void:
 
 
 func _on_mouse_entered() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	SoundManager.play_sound(SoundManager.Sound.SELECTION_HOVER)
 
 
 func _on_pressed() -> void:
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	pass

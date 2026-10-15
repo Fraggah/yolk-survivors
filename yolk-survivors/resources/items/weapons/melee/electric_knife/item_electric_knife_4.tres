@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/Icons/electric_knife.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/melee/weapon_electric_knife.tscn" id="3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/melee/electric_knife/stats_electric_knife_4.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+type = 0
+scene = ExtResource("3")
+stats = ExtResource("4")
+attack_description = "Six quick frontal cuts."
+item_name = "Electric Knife IV"
+item_icon = ExtResource("2")
+item_tier = 3
+item_type = 0
+item_cost = 112
+
+
+

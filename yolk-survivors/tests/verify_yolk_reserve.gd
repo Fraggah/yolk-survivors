@@ -50,7 +50,7 @@ func verify() -> void:
 		assert(coin.is_queued_for_deletion())
 	assert(global.coins == 10 and global.yolk_reserve == 10, "Jar flights never grant spendable currency")
 	await create_timer(1.1).timeout
-	assert(arena.upgrade_panel.visible and global.coins == 10)
+	assert(arena.shop_panel.visible and not arena.upgrade_panel.visible and global.coins == 10)
 	root.canvas_transform = Transform2D.IDENTITY
 	global.game_paused = false
 	for pickup in 6:
@@ -79,6 +79,7 @@ func verify() -> void:
 	assert(global.coins == 37 and global.yolk_reserve == 5)
 	arena._on_player_died()
 	assert(global.yolk_reserve == 0 and global.coins == 37, "Death discards reserve and floor drops without a payout")
+	await create_timer(2.1).timeout
 	await process_frame
 	assert(get_nodes_in_group("yolks").is_empty())
 	global.yolk_reserve = 10

@@ -30,16 +30,18 @@ func verify() -> void:
 	weapon._on_range_area_area_entered(second)
 	weapon._on_range_area_area_entered(first)
 	assert(weapon.targets.size() == 2, "No duplicate candidates")
-	assert(weapon.get_closest_target() == first, "Distance is measured from player, not local weapon slot")
+	assert(weapon.get_closest_target() == second, "Distance is measured from weapon slot")
 	for slot in [Vector2(-100, 0), Vector2(100, 0), Vector2(0, -120)]:
 		weapon.position = slot
 		weapon.rotation = 1.2
 		weapon._physics_process(0.0)
-		assert(weapon.range_area.global_position.is_equal_approx(player.global_position), "Range stays centered on player in every slot")
-		assert(weapon.get_closest_target() == first)
+		assert(weapon.range_area.global_position.is_equal_approx(weapon.global_position), "Range stays centered on weapon in every slot")
+		var expected = first if weapon.global_position.distance_squared_to(first.global_position) < weapon.global_position.distance_squared_to(second.global_position) else second
+		assert(weapon.get_closest_target() == expected)
+	weapon.position = Vector2.ZERO
 	var world_range: float = item.stats.max_range * absf(weapon.collision.global_scale.x)
 	first.global_position = player.global_position + Vector2(world_range + 1.0, 0)
-	assert(weapon.get_closest_target() == second, "Targets beyond player-centered range are excluded")
+	assert(weapon.get_closest_target() == second, "Targets beyond weapon-centered range are excluded")
 	first.global_position = player.global_position + Vector2(40, 0)
 	global.game_paused = false
 	weapon.is_attacking = true
@@ -63,5 +65,5 @@ func verify() -> void:
 	global.player = null
 	player.queue_free()
 	await process_frame
-	print("PASS: world-space player distance, A/B/A retargeting during attack, duplicate/dead/freed/out-of-range candidates and idle aim")
+	print("PASS: world-space weapon distance, A/B/A retargeting during attack, duplicate/dead/freed/out-of-range candidates and idle aim")
 	quit()

@@ -151,12 +151,12 @@ func verify() -> void:
 	var kills = progress.counters["kills"]
 	progress.record("kills", 100)
 	assert(progress.counters["kills"] == kills, "Events outside a run cannot grant progress")
-	# Real wave-10 victory path awards each configured weapon family and all its tiers.
+	# Real final-wave victory path awards each configured weapon family and all its tiers.
 	for pair in [["Hardboiled", "wood_mace"], ["Scrapper", "blender"], ["Berserker", "mitten"], ["Mutant", "corpse_l"], ["Gambler", "smasher"]]:
 		global.main_player_selected = selection.player_list.filter(func(s): return s.name == pair[0])[0]
 		global.main_weapon_selected = spatula
 		arena._on_level_selected(0)
-		arena.spawner.wave_index = 10
+		arena.spawner.wave_index = arena.spawner.last_wave_number()
 		arena.spawner.wave_timer.stop()
 		arena.spawner.spawn_timer.stop()
 		arena._on_spawner_on_wave_completed()

@@ -2,6 +2,7 @@ extends Node2D
 class_name Weapon
 
 const VISUAL_SCALE := 0.75
+@export var attack_sound: AudioStream
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = %CollisionShape2D
@@ -10,6 +11,14 @@ const VISUAL_SCALE := 0.75
 @onready var weapon_behaviour: WeaponBehaviour = $WeaponBehaviour
 
 var data: ItemWeapon
+static var damage_records: Array[Dictionary] = []
+var damage_record: Dictionary = {}
+
+static func begin_damage_wave() -> void:
+	for record in damage_records: record.wave_damage = 0.0
+
+static func finish_damage_wave() -> void:
+	for record in damage_records: record.last_wave_damage = record.wave_damage
 var is_attacking := false
 var sprite_base_scale: Vector2
 var atk_start_pos : Vector2
@@ -23,17 +32,16 @@ func _ready() -> void:
 	sprite_2d.position *= VISUAL_SCALE
 	sprite_base_scale = sprite_2d.scale
 	atk_start_pos = sprite_2d.position
-	center_range_on_player()
+	center_range_on_weapon()
 
 func _physics_process(_delta: float) -> void:
-	center_range_on_player()
+	center_range_on_weapon()
 
-func center_range_on_player() -> void:
-	if is_instance_valid(Global.player):
-		range_area.global_position = Global.player.global_position
+func center_range_on_weapon() -> void:
+	range_area.position = Vector2.ZERO
 
 func _process(_delta: float) -> void:
-	center_range_on_player()
+	center_range_on_weapon()
 	if Global.game_paused: return
 	
 	update_closest_target()
@@ -46,14 +54,18 @@ func _process(_delta: float) -> void:
 
 func setup_weapon(weapon_data: ItemWeapon) -> void:
 	self.data = weapon_data
+	if damage_record.is_empty():
+		damage_record = {"weapon": weapon_data, "instance_id": get_instance_id(), "wave_damage": 0.0, "last_wave_damage": 0.0, "total_damage": 0.0}
+		damage_records.append(damage_record)
 	collision.shape.radius = weapon_data.stats.max_range
-	center_range_on_player()
+	center_range_on_weapon()
 	apply_tier_outline()
 
 func can_use_weapon() -> bool:
 	return cooldown_timer.is_stopped() and not is_attacking and is_instance_valid(closest_target)
 
 func use_weapon() -> void:
+	SoundManager.play_weapon_attack(self)
 	calculate_spread()
 	weapon_behaviour.execute_attack()
 	cooldown_timer.wait_time = get_effective_cooldown()
@@ -64,7 +76,7 @@ func get_effective_cooldown() -> float:
 
 func get_animation_time_scale(animation_duration: float) -> float:
 	# Leave a small margin so animation completion never delays the next attack.
-	return minf(1.0, get_effective_cooldown() * 0.9 / maxf(animation_duration, 0.001))
+	return minf(1.0, get_effective_cooldown() * data.stats.animation_cooldown_fraction / maxf(animation_duration, 0.001))
 
 func rotate_to_target() -> void:
 	if is_attacking and weapon_behaviour.lock_aim_during_attack:
@@ -96,12 +108,11 @@ func get_idle_rotation() -> float:
 		return PI
 
 func update_closest_target() -> void:
+	if is_attacking and weapon_behaviour.lock_aim_during_attack: return
 	closest_target = get_closest_target()
 
 func get_closest_target() -> Enemy:
-	# Targets come from this weapon's range area; prioritize distance to the
-	# player in world coordinates, regardless of the weapon's local slot.
-	var origin := Global.player.global_position if is_instance_valid(Global.player) else global_position
+	var origin := global_position
 	var nearest: Enemy = null
 	var nearest_distance_squared := INF
 	var world_range := data.stats.max_range * absf(collision.global_scale.x)

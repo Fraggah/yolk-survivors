@@ -9,10 +9,12 @@
 [resource]
 script = ExtResource("1_5pmfu")
 unlock_id = "blender"
+selection_only = false
 type = 0
 scene = ExtResource("2_8f8c5")
 stats = ExtResource("3_8f8c5")
 upgrade_to = ExtResource("4_cb55p")
+attack_description = ""
 item_name = "Blender I"
 item_icon = ExtResource("1_ghoel")
 item_tier = 0

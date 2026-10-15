@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/Icons/pepper_bazooka.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/range/weapon_pepper_bazooka.tscn" id="3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/pepper_bazooka/stats_pepper_bazooka_2.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/pepper_bazooka/item_pepper_bazooka_3.tres" id="5"]
+[resource]
+script = ExtResource("1")
+type = 1
+scene = ExtResource("3")
+stats = ExtResource("4")
+item_icon = ExtResource("2")
+item_name = "Pepper Bazooka II"
+item_tier = 1
+item_type = 0
+item_cost = 44
+attack_description = "Pepper ammunition explodes on impact or at the end of its fuse."
+upgrade_to = ExtResource("5")

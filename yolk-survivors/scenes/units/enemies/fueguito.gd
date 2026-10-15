@@ -1,5 +1,5 @@
 extends Enemy
-## Persistent contact hazard. Uses Enemy's pursuit without joining its target layer.
+## Indestructible contact hazard; its pan mechanic owns the timed lifecycle.
 
 @onready var contact_hitbox: HitboxComponent = $HitboxComponent
 
@@ -22,5 +22,5 @@ func _on_health_component_on_unit_died() -> void:
 	pass
 
 func destroy_enemy() -> void:
-	# Wave cleanup must not remove this manually placed level hazard.
+	# The pan owner handles retirement and its flare, outside generic enemy cleanup.
 	pass

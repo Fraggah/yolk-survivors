@@ -1,13 +1,16 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://c1h3b5i0wcw72"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=4 format=3 uid="uid://c1h3b5i0wcw72"]
 
 [ext_resource type="Texture2D" uid="uid://c51r35ykd18s0" path="res://assets/sprites/Enemies/Redesign/chaser_mid.png" id="1_gkg84"]
+[ext_resource type="Script" uid="uid://by64j6ya8x86m" path="res://resources/character_passives/character_passive.gd" id="1_o5vp8"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_o5vp8"]
 
 [resource]
 script = ExtResource("2_o5vp8")
+unlock_id = ""
 name = "Chaser Mid"
 type = 1
 icon = ExtResource("1_gkg84")
+character_passives = Array[ExtResource("1_o5vp8")]([])
 health = 10.0
 initial_health = 10.0
 health_increase_per_wave = 4.0
@@ -16,13 +19,16 @@ damage_percent = 0.0
 melee_damage = 0.0
 ranged_damage = 0.0
 attack_speed = 0.0
+piercing = 0
+bounces = 0
 initial_damage = 3.0
 damage_increase_per_wave = 0.45
-speed = 250.0
+speed = 225.0
 luck = 0.0
 initial_luck = 1.0
 block_chance = 0.0
 initial_block_chance = 0.0
+experience_reward = 1
 coin_drop = 2
 hp_regen = 0.0
 life_steal = 0.0

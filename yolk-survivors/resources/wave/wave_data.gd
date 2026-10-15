@@ -1,46 +1,21 @@
 extends Resource
 class_name WaveData
 
-enum SpawnType {
-	FIXED,
-	RANDOM
-}
-
-@export var from: int
-@export var to: int
+enum WaveType { NORMAL, HORDE, SPECIAL, BOSS }
+@export_range(1, 100) var number := 1
 @export var wave_time := 20.0
-@export var units: Array[WaveUnitData]
-
-@export var spawn_type := SpawnType.RANDOM
-@export var fixed_spawn_time := 1.0
-@export var min_spawn_time := 1.0
-@export var max_spawn_time := 2.5
-
-
-func get_random_unit_scene(difficulty: int = 0, wave: int = 1) -> PackedScene:
-	if units.is_empty():
-		printerr("No units.")
-		return null
-	
-	var total_weight := .0
-	for unit_data: WaveUnitData in units:
-		if unit_data and unit_data.is_eligible(difficulty, wave):
-			total_weight += unit_data.weight
-	
-	if total_weight <= .0:
-		printerr("Total weight <= 0")
-		return null
-		
-	var random_weight := randf_range(0, total_weight)
-	
-	var current_weight_sum := .0
-	for unit_data: WaveUnitData in units:
-		if unit_data and unit_data.is_eligible(difficulty, wave):
-			current_weight_sum += unit_data.weight
-			if random_weight <= current_weight_sum:
-				return unit_data.unit_scene
-	
-	return null
+@export var wave_type := WaveType.NORMAL
+## Zero uses the temporary crowd test; a positive value overrides it.
+@export_range(0, 10) var density_multiplier := 0
+@export var groups: Array[SpawnGroup] = []
+@export var events: Array[SpawnGroup] = []
+@export_range(1, 500) var common_limit := 35
+@export_range(0, 10) var hazard_limit := 0
+@export_range(0, 10) var boss_limit := 0
+@export var health_multiplier := 1.0
+@export var damage_multiplier := 1.0
+@export var speed_multiplier := 1.0
+@export var resistance_multiplier := 1.0
 
 func is_valid_index(index: int) -> bool:
-	return index >= from and index <= to
+	return number == index

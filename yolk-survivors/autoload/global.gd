@@ -99,6 +99,15 @@ func get_starting_weapons() -> Array[ItemWeapon]:
 func is_valid_starting_weapon(weapon: ItemWeapon) -> bool:
 	return weapon != null and weapon.scene != null and weapon.stats != null
 
+func is_valid_selection(weapon: ItemWeapon) -> bool:
+	return weapon != null and (weapon.selection_only or is_valid_starting_weapon(weapon))
+
+func is_empty_preview_loadout() -> bool:
+	return main_weapon_selected != null and main_weapon_selected.selection_only \
+		and main_player_selected != null and Progression.is_character_unlocked(main_player_selected) \
+		and Progression.is_weapon_unlocked(main_weapon_selected) \
+		and main_player_selected.can_use_weapon(main_weapon_selected)
+
 func collect_yolk(base_value: int) -> int:
 	var base := maxi(0, base_value)
 	var bonus := mini(base, yolk_reserve)

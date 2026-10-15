@@ -11,7 +11,8 @@ outline_color = Color(0.00234459, 0.00234459, 0.00234459, 1)
 script = ExtResource("1_32222")
 
 [node name="Label" type="Label" parent="."]
-z_index = 10
+z_index = 100
+z_as_relative = false
 custom_minimum_size = Vector2(50, 50)
 anchors_preset = 8
 anchor_left = 0.5

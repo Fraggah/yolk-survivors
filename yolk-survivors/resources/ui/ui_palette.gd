@@ -16,6 +16,7 @@ class_name UIPalette
 @export var accent := Color("a06a18")
 @export var hud_text := Color("fff7e6")
 @export var health_fill := Color("e45d68")
+@export var experience_fill := Color("619bb5")
 @export_group("Actions")
 @export var button := Color("dbc7a3")
 @export var primary := Color("f5bd4f")

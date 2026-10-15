@@ -4,6 +4,7 @@ extends RefCounted
 static func prepare(root: Node, unlock_all: bool = true) -> Node:
 	ProjectSettings.set_setting("yolk/testing/unlock_characters_and_weapons", false)
 	var progress := root.get_node("Progression")
+	progress.set_meta("suppress_unlock_presentation",true)
 	progress.save_path = "user://test_progress_%s.cfg" % OS.get_process_id()
 	progress.completed.clear()
 	progress.counters.clear()

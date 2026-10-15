@@ -38,6 +38,11 @@ signal stats_changed
 @export var coin_drop := 1
 @export var hp_regen := .0
 @export var life_steal := .0
+@export var armor := 0.0
+## Percentage points, added to the weapon's critical probability.
+@export var critical_chance := 0.0
+## Percentage modifier of a collectible's base attraction distance.
+@export var pickup_range := 0.0
 @export var harvesting := .0
 
 func reset_player_stats() -> void:
@@ -47,6 +52,9 @@ func reset_player_stats() -> void:
 	block_chance = initial_block_chance
 	hp_regen = 0
 	life_steal = 0
+	armor = 0
+	critical_chance = 0
+	pickup_range = 0
 	harvesting = 0
 	piercing = 0
 	bounces = 0
@@ -104,8 +112,16 @@ func _recalculate_character_stats() -> void:
 
 func can_use_weapon(weapon: ItemWeapon) -> bool:
 	if weapon == null: return false
+	if weapon.selection_only: return true
 	for passive in character_passives:
 		if passive == null: continue
 		if passive.effect == CharacterPassive.Effect.FORBID_MELEE and weapon.type == ItemWeapon.Type.MELEE: return false
 		if passive.effect == CharacterPassive.Effect.FORBID_RANGED and weapon.type == ItemWeapon.Type.RANGE: return false
 	return true
+
+func get_incoming_damage_multiplier() -> float:
+	# Diminishing returns for protection; negative armor increases damage.
+	return 1.0 / (1.0 + armor * 0.06) if armor >= 0.0 else 1.0 + absf(armor) * 0.06
+
+func get_pickup_distance(base_distance: float) -> float:
+	return maxf(1.0, base_distance * (1.0 + pickup_range / 100.0))

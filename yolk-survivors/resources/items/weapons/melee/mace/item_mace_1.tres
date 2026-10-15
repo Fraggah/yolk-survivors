@@ -13,6 +13,7 @@ type = 0
 scene = ExtResource("2_g1wcp")
 stats = ExtResource("3_g1wcp")
 upgrade_to = ExtResource("4_uvwow")
+attack_description = "Arc strike."
 item_name = "Wood Mace I"
 item_icon = ExtResource("1_g1wcp")
 item_tier = 0

@@ -169,6 +169,10 @@ func verify() -> void:
 	arena._on_spawner_on_wave_completed()
 	await create_timer(1.15).timeout
 	assert(arena.upgrade_panel.visible and global.game_paused)
+	# Allow the retirement animation to finish under variable headless frame rate.
+	for frame in 120:
+		if not is_instance_valid(charger) and not is_instance_valid(other): break
+		await process_frame
 	assert(not is_instance_valid(charger) and not is_instance_valid(other))
 	assert(get_nodes_in_group("projectiles").is_empty())
 	arena._on_upgrade_selected()
@@ -187,6 +191,7 @@ func verify() -> void:
 	assert(not paused and global.player.hit_invulnerability_left == 0.0 and global.player.life_steal_cooldown == 0.0)
 	# Actual fatal contact leaves no stale player reference and permits retry.
 	var fresh_player = global.player
+	fresh_player.stats.block_chance = 0.0
 	fresh_player.health_component.current_health = 1.0
 	var fatal = load("res://scenes/units/enemies/enemy_chaser.tscn").instantiate()
 	arena.add_child(fatal)
@@ -201,7 +206,7 @@ func verify() -> void:
 	global.main_player_selected = load("res://resources/units/players/player_well_rounded.tres")
 	global.main_weapon_selected = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
 	arena._on_level_selected(0)
-	arena.spawner.wave_index = 10
+	arena.spawner.wave_index = arena.spawner.last_wave_number()
 	arena.spawner.start_wave()
 	arena.spawner.spawn_timer.stop()
 	arena.spawner.wave_timer.stop()

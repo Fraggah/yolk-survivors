@@ -45,7 +45,7 @@ func _on_lock_toggled(value: bool) -> void:
 	locked = value
 	lock_button.text = "LOCKED" if locked else "LOCK"
 	UITheme.style_offer_lock(lock_button, locked)
-	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	SoundManager.play_sound(SoundManager.Sound.SHOP_LOCK if value else SoundManager.Sound.SHOP_UNLOCK)
 
 func set_locked(value: bool) -> void:
 	locked = value
@@ -60,6 +60,7 @@ func _set_shop_item(value: ItemBase) -> void:
 	shop_item = value
 	item_icon.texture = shop_item.item_icon
 	item_name.text = shop_item.item_name
+	item_name.add_theme_font_size_override("font_size", 16 if shop_item.item_name.length() >= 20 else 20)
 	item_type.text = ItemBase.ItemType.keys()[shop_item.item_type]
 	if shop_item is ItemWeapon:
 		item_description.text = UITheme.rich_text((shop_item as ItemWeapon).get_description(Global.player.stats if is_instance_valid(Global.player) else null))

@@ -8,12 +8,13 @@ const STAT_LABELS := {
 	"ranged_damage": "Ranged damage", "attack_speed": "Attack speed %", "speed": "Speed",
 	"luck": "Luck", "block_chance": "Block chance %", "hp_regen": "HP regen",
 	"life_steal": "Life steal %", "harvesting": "Harvesting",
+	"armor": "Armor", "critical_chance": "Critical chance %", "pickup_range": "Pickup range %",
 	"piercing": "Piercing", "bounces": "Bounces"
 }
 
 @export var effect: Effect = Effect.STAT_CONVERSION
-@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "piercing", "bounces") var target_stat: String = "melee_damage"
-@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "piercing", "bounces") var source_stat: String = "speed"
+@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces") var target_stat: String = "melee_damage"
+@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces") var source_stat: String = "speed"
 @export var source_amount := 1.0
 @export var bonus_amount := 1.0
 @export var gain_bonus_percent := 25.0

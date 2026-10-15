@@ -1,9 +1,15 @@
-[gd_resource type="Resource" script_class="WeaponStats" load_steps=2 format=3 uid="uid://cs6k3vfo5034n"]
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3 uid="uid://cs6k3vfo5034n"]
 
 [ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="1_ckmnv"]
 
+[ext_resource type="Script" path="res://resources/items/weapons/melee_settings.gd" id="melee_settings_script"]
+
+[sub_resource type="Resource" id="MeleeSettings_tier"]
+script = ExtResource("melee_settings_script")
+
 [resource]
 script = ExtResource("1_ckmnv")
+melee_settings = SubResource("MeleeSettings_tier")
 damage = 30.0
 accuracy = 1.0
 cooldown = 0.75

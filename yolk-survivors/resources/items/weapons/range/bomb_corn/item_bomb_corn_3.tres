@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/Icons/bomb_corn.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/range/weapon_bomb_corn.tscn" id="3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/bomb_corn/stats_bomb_corn_3.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/bomb_corn/item_bomb_corn_4.tres" id="5"]
+[resource]
+script = ExtResource("1")
+type = 1
+scene = ExtResource("3")
+stats = ExtResource("4")
+item_icon = ExtResource("2")
+item_name = "Bomb-corn III"
+item_tier = 2
+item_type = 0
+item_cost = 54
+attack_description = "Corn kernels pop after a short delay."
+upgrade_to = ExtResource("5")

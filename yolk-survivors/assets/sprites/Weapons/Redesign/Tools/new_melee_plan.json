@@ -1,0 +1,82 @@
+[
+  {
+    "name": "tenderizer",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      20,
+      168,
+      60
+    ]
+  },
+  {
+    "name": "grater",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      26,
+      168,
+      48
+    ]
+  },
+  {
+    "name": "carving_fork",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      35,
+      168,
+      30
+    ]
+  },
+  {
+    "name": "ladle",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      26,
+      168,
+      48
+    ]
+  },
+  {
+    "name": "frying_pan",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      16,
+      168,
+      68
+    ]
+  },
+  {
+    "name": "pizza_cutter",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      16,
+      168,
+      68
+    ]
+  },
+  {
+    "name": "electric_knife",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      34,
+      168,
+      32
+    ]
+  },
+  {
+    "name": "immersion_blender",
+    "outline_padding": 2,
+    "original_bounds": [
+      16,
+      27,
+      168,
+      46
+    ]
+  }
+]

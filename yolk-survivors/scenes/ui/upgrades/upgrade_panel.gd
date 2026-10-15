@@ -51,7 +51,7 @@ func try_reroll() -> bool:
 	return true
 
 func _on_reroll_pressed() -> void:
-	if try_reroll(): SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
+	if try_reroll(): SoundManager.play_sound(SoundManager.Sound.SHOP_REROLL)
 
 func _process(_delta: float) -> void:
 	if not is_visible_in_tree(): return

@@ -9,6 +9,7 @@ class_name WeaponStats
 @export var crit_damage := 1.5
 @export var max_range := 150.0
 @export var knockback := .0
+@export_range(0.0, 10.0, 0.05) var slow_duration := 0.5
 @export_range(0, 100, 1) var piercing := 0
 @export_range(0, 100, 1) var bounces := 0
 @export_range(.0, 1.0) var life_steal := .0
@@ -18,3 +19,10 @@ class_name WeaponStats
 @export_range(.1, 3.0) var back_duration := .15
 @export var projectile_scene: PackedScene
 @export var projectile_speed := 1500.0
+@export_group("Ranged effects")
+@export var ranged_settings: RangedSettings
+@export_group("Spicy aura")
+@export var aura_settings: SpicyAuraSettings
+@export_group("Melee effects and animation")
+@export var melee_settings: MeleeSettings = MeleeSettings.new()
+@export_range(0.1, 1.0, 0.01) var animation_cooldown_fraction := 0.9

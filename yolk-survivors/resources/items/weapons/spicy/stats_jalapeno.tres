@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/aura_settings.gd" id="aura"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("aura")
+area_y_ratio = 0.6
+color = Color(1, 0.31, 0.08, 1)
+opacity = 0.22
+breathing_speed = 2.0
+breathing_strength = 0.2
+[resource]
+script = ExtResource("stats")
+damage = 3.0
+damage_scaling = 0.0
+cooldown = 0.5
+max_range = 160.0
+knockback = 0.0
+crit_chance = 0.0
+crit_damage = 1.5
+aura_settings = SubResource("settings")

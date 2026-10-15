@@ -94,6 +94,9 @@ func _collect_controls(node: Node, result: Array[Control]) -> void:
 
 func _controls(menu: Control) -> Array[Control]:
 	var result: Array[Control] = []
+	if menu is ShopPanel and menu.weapon_actions and menu.weapon_actions.is_visible_in_tree():
+		_collect_controls(menu.weapon_actions, result)
+		return result
 	if is_instance_valid(menu): _collect_controls(menu, result)
 	return result
 
@@ -192,6 +195,7 @@ func _input(event: InputEvent) -> void:
 			return
 	if event.is_action_pressed("ui_cancel"):
 		match menu.name:
+			"ShopPanel": menu.close_weapon_actions()
 			"SelectionPanel", "WeaponSelectionPanel": menu._on_custom_button_exit_pressed()
 			"LevelPanel": menu._on_custom_button_pressed()
 			"OptionsPanel", "CreditsPanel": menu._on_custom_button_pressed()

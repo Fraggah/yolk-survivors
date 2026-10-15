@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=9 format=3 uid="uid://bkaffiarte1ba"]
+
+[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
+[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_slow.tres" id="chaser_slow"]
+[ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
+[ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
+[ext_resource type="Resource" path="res://resources/wave/enemies/shooter.tres" id="shooter"]
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
+
+[sub_resource type="Resource" id="g0"]
+script = ExtResource("group")
+label = "Pressure"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast")])
+weights = Array[float]([3.0])
+start_second = 0.0
+interval = 1.5
+minimum_count = 1
+maximum_count = 2
+repetitions = -1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.003
+minimum_interval = 0.35
+priority = 0
+guaranteed = false
+school = false
+school_probability = 0.0
+affected_by_density = true
+school_radius = 140.0
+
+[sub_resource type="Resource" id="g1"]
+script = ExtResource("group")
+label = "Reinforcements"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_slow"), ExtResource("shooter")])
+weights = Array[float]([1.0, 0.5])
+start_second = 8.0
+interval = 3.0
+minimum_count = 1
+maximum_count = 2
+repetitions = -1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.0
+minimum_interval = 0.35
+priority = 10
+guaranteed = false
+school = false
+school_probability = 0.0
+affected_by_density = true
+school_radius = 140.0
+
+[resource]
+script = ExtResource("wave")
+number = 16
+wave_time = 60.0
+wave_type = 0
+density_multiplier = 0
+groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1")])
+events = Array[ExtResource("group")]([])
+common_limit = 90
+hazard_limit = 0
+boss_limit = 0
+health_multiplier = 1.0
+damage_multiplier = 1.0
+speed_multiplier = 1.0
+resistance_multiplier = 1.0

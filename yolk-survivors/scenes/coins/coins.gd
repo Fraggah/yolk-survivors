@@ -3,6 +3,7 @@ class_name Coins
 
 @export var move_speed := 1000.0
 @export var collect_distance := 15.0
+@export var attraction_distance := 195.0
 @export_range(0.0, 0.15, 0.01) var squash_amount := 0.05
 @export_range(0.5, 3.0, 0.1) var squash_period := 1.4
 @export_range(0.2, 0.9, 0.05) var jar_flight_duration := 0.65
@@ -29,7 +30,9 @@ func _process(delta: float) -> void:
 	squash_phase = fmod(squash_phase + delta * TAU / squash_period, TAU)
 	var stretch := 1.0 + sin(squash_phase) * squash_amount
 	sprite.scale = sprite_base_scale * Vector2(stretch, 1.0 / stretch)
-	if not collected or not is_instance_valid(Global.player): return
+	if not is_instance_valid(Global.player): return
+	if not collected and global_position.distance_squared_to(Global.player.global_position) <= pow(Global.player.stats.get_pickup_distance(attraction_distance), 2): collected = true
+	if not collected: return
 	target_pos = Global.player.global_position
 	global_position = global_position.move_toward(target_pos, move_speed * delta)
 	if global_position.distance_squared_to(target_pos) < collect_distance * collect_distance:
@@ -64,6 +67,7 @@ func animate_jar_flight(delta: float) -> void:
 func add_coins() -> void:
 	if awarded or flying_to_jar or Global.game_paused or is_queued_for_deletion(): return
 	awarded = true
+	SoundManager.play_sound(SoundManager.Sound.YOLK_PICKUP)
 	var bonus := Global.collect_yolk(value)
 	if bonus > 0:
 		var text := Global.FLOATING_TEXT_SCENE.instantiate() as FloatingText
@@ -72,13 +76,17 @@ func add_coins() -> void:
 		text.setup_text("×2" if bonus == value else "+%d" % bonus, Color("ffd34e"))
 	queue_free()
 
-func _on_area_entered(_area: Area2D) -> void:
-	if not flying_to_jar and not Global.game_paused:
+func _on_area_entered(area: Area2D) -> void:
+	if area == Global.player and not flying_to_jar and not Global.game_paused and global_position.distance_to(area.global_position) <= Global.player.stats.get_pickup_distance(attraction_distance):
 		collected = true
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("yolks")
+	sprite.z_as_relative = false
+	sprite.z_index = 2
+	$Shadow.z_as_relative = false
+	$Shadow.z_index = -1
 	scale *= Global.GAME_ENTITY_SCALE
 	sprite_base_scale = sprite.scale
 	squash_phase = randf() * TAU

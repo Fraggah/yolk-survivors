@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_toothpick_shotgun.tscn" id="2"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/toothpick_shotgun/effects_toothpick_shotgun_1.tres" id="3"]
+[resource]
+script = ExtResource("1")
+damage = 3
+cooldown = 1.1
+accuracy = 0.95
+max_range = 220.0
+knockback = 0.5
+piercing = 1
+bounces = 0
+projectile_scene = ExtResource("2")
+projectile_speed = 1200.0
+ranged_settings = ExtResource("3")

@@ -1,0 +1,86 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=9 format=3 uid="uid://dg61154712v3a"]
+
+[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
+[ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
+[ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
+[ext_resource type="Resource" path="res://resources/wave/enemies/shooter.tres" id="shooter"]
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
+
+[sub_resource type="Resource" id="g2"]
+script = ExtResource("group")
+label = "Introduction shooter"
+enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
+weights = Array[float]([1.0])
+start_second = 2.0
+interval = 1.0
+minimum_count = 1
+maximum_count = 1
+repetitions = 1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.0
+minimum_interval = 0.35
+priority = 100
+guaranteed = true
+school = false
+school_probability = 0.0
+affected_by_density = true
+school_radius = 140.0
+
+[sub_resource type="Resource" id="g0"]
+script = ExtResource("group")
+label = "Pressure"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid")])
+weights = Array[float]([4.0])
+start_second = 0.0
+interval = 1.25
+minimum_count = 1
+maximum_count = 1
+repetitions = -1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.0
+minimum_interval = 0.35
+priority = 0
+guaranteed = false
+school = false
+school_probability = 0.0
+affected_by_density = true
+school_radius = 140.0
+
+[sub_resource type="Resource" id="g1"]
+script = ExtResource("group")
+label = "Reinforcements"
+enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
+weights = Array[float]([1.0])
+start_second = 8.0
+interval = 7.4
+minimum_count = 1
+maximum_count = 1
+repetitions = -1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.0
+minimum_interval = 0.7
+priority = 10
+guaranteed = false
+school = false
+school_probability = 0.0
+affected_by_density = true
+school_radius = 140.0
+
+[resource]
+script = ExtResource("wave")
+number = 4
+wave_time = 35.0
+wave_type = 0
+density_multiplier = 0
+groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1")])
+events = Array[ExtResource("group")]([SubResource("g2")])
+common_limit = 35
+hazard_limit = 0
+boss_limit = 0
+health_multiplier = 1.0
+damage_multiplier = 1.0
+speed_multiplier = 1.0
+resistance_multiplier = 1.0

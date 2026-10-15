@@ -2,6 +2,7 @@ extends Button
 class_name ItemCard
 
 signal on_item_card_selected(card: ItemCard)
+var weapon_instance: Weapon
 
 @export var item: ItemBase: set  = _set_item
 

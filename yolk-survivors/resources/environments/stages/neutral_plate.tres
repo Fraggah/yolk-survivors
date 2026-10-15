@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="ArenaStage" load_steps=7 format=3 uid="uid://3htd3sb2ke37"]
+
+[ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cqwrqeaku7kip" path="res://assets/environments/stages/neutral_plate.png" id="2"]
+[ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
+[ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
+
+[sub_resource type="ShaderMaterial" id="FluidBackground"]
+shader = ExtResource("background_shader")
+shader_parameter/color_a = Color(0.705882, 0.666667, 0.627451, 1)
+shader_parameter/color_b = Color(0.745098, 0.705882, 0.666667, 1)
+shader_parameter/speed = 0.16
+shader_parameter/pattern_scale = 2.0
+shader_parameter/flow_strength = 2.0
+shader_parameter/pattern_world_size = 1600.0
+shader_parameter/edge_softness = 0.015
+shader_parameter/seed = 3.0
+shader_parameter/phase = 0.0
+
+[sub_resource type="Resource" id="PlayArea"]
+script = ExtResource("3")
+first_wave = 1
+background_size = Vector2(2800, 1866.67)
+background_offset = Vector2(0, 0)
+vessel_size = Vector2(2900, 1900)
+vessel_offset = Vector2(0, 0)
+movement_bounds = Rect2(-1181.25, -641.667, 2362.5, 1297.92)
+oval = false
+corner_radius = 142.188
+camera_zoom = 0.924
+
+[resource]
+script = ExtResource("1")
+id = &"neutral_plate"
+display_name = "Kitchen plate"
+description = "No environmental hazards."
+vessel = ExtResource("2")
+background_color = Color(0.705882, 0.666667, 0.627451, 1)
+vessel_size = Vector2(2800, 1866.67)
+vessel_offset = Vector2(0, 0)
+play_area = SubResource("PlayArea")
+background_material = SubResource("FluidBackground")

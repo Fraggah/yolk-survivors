@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3 uid="uid://2yyybkwtrfdg"]
+
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cgwgj3e7pyg30" path="res://assets/sprites/Weapons/Redesign/Icons/ladle.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/melee/weapon_ladle.tscn" id="3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/melee/ladle/stats_ladle_4.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = ""
+type = 0
+scene = ExtResource("3")
+stats = ExtResource("4")
+attack_description = "Sweeps toward a second enemy."
+item_name = "Ladle IV"
+item_icon = ExtResource("2")
+item_tier = 3
+item_type = 0
+item_cost = 84

@@ -8,6 +8,7 @@ signal on_level_selection_exited
 @export var buttons: Array[Button] = []
 
 func _ready() -> void:
+	Progression.progress_changed.connect(_refresh_locks)
 	for index in buttons.size():
 		buttons[index].tooltip_text = DIFFICULTY_RULES.description(index)
 		buttons[index].mouse_entered.connect(_show_difficulty.bind(index))

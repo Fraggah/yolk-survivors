@@ -6,6 +6,8 @@ signal completed
 var completion_sent := false
 
 func _ready() -> void:
+	z_as_relative = false
+	z_index = -1
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_to_group("spawn_effects")
 	anim_player.animation_finished.connect(_on_animation_finished)

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/pepper_seed.svg" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/components/hitbox_component.tscn" id="hitbox"]
+[sub_resource type="CircleShape2D" id="shape"]
+radius = 6.0
+[node name="PepperSeed" type="Node2D" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("script")
+hitbox = NodePath("HitboxComponent")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+texture = ExtResource("texture")
+scale = Vector2(0.45, 0.45)
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("bb") instance=ExtResource("hitbox")]
+collision_layer = 16
+collision_mask = 8
+bb = NodePath("CollisionShape2D")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("shape")
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[connection signal="on_hit_hurtbox" from="HitboxComponent" to="." method="_on_hitbox_component_on_hit_hurtbox"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

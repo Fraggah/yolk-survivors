@@ -1,28 +1,34 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://cwsf77lhyruan"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=4 format=3 uid="uid://cwsf77lhyruan"]
 
 [ext_resource type="Texture2D" uid="uid://b04vk2ii0rqb3" path="res://assets/sprites/Enemies/Redesign/chaser_slow.png" id="1_cneyk"]
+[ext_resource type="Script" uid="uid://by64j6ya8x86m" path="res://resources/character_passives/character_passive.gd" id="1_gqs2b"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="1_m42qi"]
 
 [resource]
 script = ExtResource("1_m42qi")
+unlock_id = ""
 name = "Chaser 1"
 type = 1
 icon = ExtResource("1_cneyk")
-health = 20.0
-initial_health = 20.0
+character_passives = Array[ExtResource("1_gqs2b")]([])
+health = 40.0
+initial_health = 40.0
 health_increase_per_wave = 9.0
-damage = 4.0
+damage = 4.5
 damage_percent = 0.0
 melee_damage = 0.0
 ranged_damage = 0.0
 attack_speed = 0.0
-initial_damage = 4.0
+piercing = 0
+bounces = 0
+initial_damage = 4.5
 damage_increase_per_wave = 0.6
-speed = 150.0
+speed = 137.5
 luck = 0.0
 initial_luck = 1.0
 block_chance = 0.0
 initial_block_chance = 0.0
+experience_reward = 1
 coin_drop = 2
 hp_regen = 0.0
 life_steal = 0.0

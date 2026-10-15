@@ -55,6 +55,8 @@ func verify() -> void:
 			assert(not arena.coocking_player.stream_paused)
 			arena.spawner.wave_timer.stop()
 			arena.spawner.spawn_timer.stop()
+			arena.run_experience.add_experience(16)
+			expected.apply_stat_change("health", 1.0)
 			arena._on_spawner_on_wave_completed()
 			await press_escape()
 			assert(global.game_paused and arena.coocking_player.stream_paused)
@@ -115,6 +117,7 @@ func verify() -> void:
 		for field in fields:
 			assert(base.get(field) == original[field], "Run changed roster resource: " + field)
 		global.main_player_selected = base
+		expected = base.get_passive_preview()
 		var fresh = global.get_selected_player()
 		for field in fields:
 			assert(fresh.stats.get(field) == expected.get(field), "Retry retained upgrades: " + field)

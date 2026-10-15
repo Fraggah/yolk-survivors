@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://iqom7pi7h224" path="res://scenes/ui/stats/stats_container.gd" id="1_sbd1q"]
 
 [node name="StatsContainer" type="Panel"]
-custom_minimum_size = Vector2(480, 550)
+custom_minimum_size = Vector2(480, 650)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_sbd1q")
@@ -418,4 +418,112 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 text = "10"
+horizontal_alignment = 2
+
+[node name="StatsArmor" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_type_variation = &"InsetPanel"
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/StatsArmor"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -14.5
+offset_right = 280.0
+offset_bottom = 14.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "armor:"
+
+[node name="ArmorLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsArmor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -14.5
+offset_right = -13.0
+offset_bottom = 14.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 2
+
+[node name="StatsCriticalChance" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_type_variation = &"InsetPanel"
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/StatsCriticalChance"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -14.5
+offset_right = 280.0
+offset_bottom = 14.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "critical chance:"
+
+[node name="CriticalChanceLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsCriticalChance"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -14.5
+offset_right = -13.0
+offset_bottom = 14.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 2
+
+[node name="StatsPickupRange" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_type_variation = &"InsetPanel"
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/StatsPickupRange"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -14.5
+offset_right = 280.0
+offset_bottom = 14.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "pickup range:"
+
+[node name="PickupRangeLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsPickupRange"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -14.5
+offset_right = -13.0
+offset_bottom = 14.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
 horizontal_alignment = 2

@@ -100,6 +100,8 @@ func update_rotation() -> void:
 		visuals.scale = Vector2(.5, .5)
 
 func prepare_for_new_wave() -> void:
+	flash_timer.stop()
+	sprite.material = null
 	for weapon in current_weapons:
 		weapon.weapon_behaviour.reset_attack()
 	hit_invulnerability_left = 0.0
@@ -154,9 +156,12 @@ func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 func try_life_steal(chance: float) -> bool:
 	if Global.game_paused or is_queued_for_deletion() or life_steal_cooldown > 0.0: return false
 	if health_component.current_health <= 0.0 or health_component.current_health >= health_component.max_health: return false
-	if not Global.get_chance_succes(clampf(chance, 0.0, 1.0)): return false
+	chance = maxf(0.0, chance)
+	var activations := floori(chance)
+	if Global.get_chance_succes(chance - activations): activations += 1
+	if activations <= 0: return false
 	var before := health_component.current_health
-	health_component.heal(1.0)
+	health_component.heal(0.1 * activations)
 	life_steal_cooldown = LIFE_STEAL_INTERVAL
 	Global.on_create_heal_text.emit(self, health_component.current_health - before)
 	return true

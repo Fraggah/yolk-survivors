@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://c0m0jmgvdxrn1"]
+
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://camfoai44nymx" path="res://assets/sprites/Weapons/Redesign/Icons/carving_fork.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/melee/weapon_carving_fork.tscn" id="3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/melee/carving_fork/stats_carving_fork_3.tres" id="4"]
+[ext_resource type="Resource" uid="uid://djkn1if03lko7" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_4.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+unlock_id = ""
+type = 0
+scene = ExtResource("3")
+stats = ExtResource("4")
+upgrade_to = ExtResource("5")
+attack_description = "Long outward thrust."
+item_name = "Carving Fork III"
+item_icon = ExtResource("2")
+item_tier = 2
+item_type = 0
+item_cost = 48

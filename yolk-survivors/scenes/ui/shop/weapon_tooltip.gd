@@ -88,7 +88,7 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	displayed_weapon = weapon
 	weapon_icon.texture = weapon.item_icon
 	weapon_name.text = weapon.item_name
-	weapon_type.text = "Ranged weapon" if weapon.type == ItemWeapon.Type.RANGE else "Melee weapon"
+	weapon_type.text = "Spicy" if weapon.type == ItemWeapon.Type.SPICY else "Ranged weapon" if weapon.type == ItemWeapon.Type.RANGE else "Melee weapon"
 	var style := Global.get_tier_style(weapon.item_tier).duplicate() as StyleBoxFlat
 	style.bg_color = UITheme.palette.surface
 	style.set_border_width_all(2)
@@ -100,8 +100,8 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 		weapon.get_damage_description(Global.player.stats if is_instance_valid(Global.player) else null),
 		"%s s" % _format_number(weapon.get_effective_cooldown(Global.player.stats if is_instance_valid(Global.player) else null)),
 		_format_number(stats.max_range),
-		"%s%%" % _format_number(stats.crit_chance * 100.0),
-		"%s%%" % _format_number(stats.life_steal * 100.0),
+		"%s%%" % _format_number(weapon.get_effective_critical_chance(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
+		"%s%%" % _format_number(weapon.get_effective_life_steal(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
 		str(weapon.get_effective_piercing(Global.player.stats if is_instance_valid(Global.player) else null)),
 		str(weapon.get_effective_bounces(Global.player.stats if is_instance_valid(Global.player) else null)),
 		str(weapon.get_sell_price((get_parent() as ShopPanel).shop_wave))

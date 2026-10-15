@@ -5,6 +5,8 @@ signal on_unit_hit
 signal on_unit_died
 signal on_health_changed(current: float, max: float)
 
+var debug_invulnerable := false
+
 var max_health := 1.0
 var current_health := 1.0
 
@@ -14,7 +16,7 @@ func setup(stats: UnitStats) -> void:
 	on_health_changed.emit(current_health, max_health)
 
 func take_damage(value: float) -> void:
-	if current_health <= 0 or Global.game_paused: return
+	if current_health <= 0 or Global.game_paused or debug_invulnerable: return
 	
 	current_health -= value
 	current_health = max(current_health, 0) #Selecciona el valor mas alto, para no tener valores negativos

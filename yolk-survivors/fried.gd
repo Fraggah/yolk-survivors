@@ -10,6 +10,8 @@ func _on_timer_timeout() -> void:
 	queue_free()
 
 func _ready() -> void:
+	z_as_relative = false
+	z_index = -3
 	if not variants.is_empty():
 		texture = variants.pick_random()
 	if texture:

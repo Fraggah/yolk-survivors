@@ -38,6 +38,7 @@ _data = {
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_script")
+targetable = false
 stats = ExtResource("4_stats")
 
 [node name="Sprite" parent="Visuals" index="1"]

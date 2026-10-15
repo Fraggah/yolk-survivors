@@ -2,6 +2,12 @@ extends Unit
 class_name Enemy
 
 @export var flock_push := 20.0
+@export var targetable := true
+@export var visual_scale := 1.0
+@export_range(0.0, 1.0) var knockback_resistance := 0.0
+var arena_environment: ArenaEnvironment
+var movement_override_enabled := false
+var desired_direction := Vector2.ZERO
 
 @onready var vision_area: Area2D = $VisionArea
 @onready var knockback_timer: Timer = $KnockbackTimer
@@ -10,10 +16,82 @@ var can_move := true
 var is_retiring := false
 var knockback_dir: Vector2
 var knockback_power: float
+var pins: Dictionary = {}
+var pinned_position := Vector2.ZERO
+var slow_left := 0.0
+var slow_factor := 1.0
+var launch_left := 0.0
+var launch_velocity := Vector2.ZERO
+var launch_hitbox: HitboxComponent
+
+func pin_for(controller: Node) -> void:
+	if pins.is_empty(): pinned_position = global_position
+	pins[controller.get_instance_id()] = weakref(controller)
+
+func release_pin(controller: Node) -> void:
+	pins.erase(controller.get_instance_id())
+
+func get_movement_multiplier() -> float:
+	for id in pins.keys():
+		if not is_instance_valid(pins[id].get_ref()): pins.erase(id)
+	return 0.0 if not pins.is_empty() else slow_factor if slow_left > 0.0 else 1.0
+
+func apply_slow(factor: float, duration: float, text_duration: float = 1.3, text_color: Color = Color("86a9be"), text_value: String = "Slowed") -> void:
+	if duration <= 0.0 or factor >= 1.0: return
+	var already_slowed := slow_left > 0.0
+	slow_factor = minf(slow_factor if slow_left > 0.0 else 1.0, clampf(factor, 0.0, 1.0))
+	slow_left = maxf(slow_left, duration)
+	if not already_slowed and text_duration > 0.0 and not text_value.is_empty():
+		var text = Global.FLOATING_TEXT_SCENE.instantiate()
+		get_tree().current_scene.add_child(text)
+		text.global_position = sprite.global_position + Vector2.UP * 30.0
+		text.setup_text(text_value, text_color, text_duration)
+
+func launch_from(hitbox: HitboxComponent) -> void:
+	if not is_instance_valid(hitbox.source): return
+	launch_velocity = hitbox.source.global_position.direction_to(global_position) * hitbox.launch_speed * (1.0 - knockback_resistance)
+	launch_left = hitbox.launch_duration if launch_velocity.length_squared() > 1.0 else 0.0
+	if is_instance_valid(launch_hitbox): launch_hitbox.queue_free()
+	launch_hitbox = HitboxComponent.new()
+	launch_hitbox.collision_layer = 0
+	launch_hitbox.collision_mask = 0
+	launch_hitbox.monitoring = false
+	launch_hitbox.hit_once_per_activation = true
+	launch_hitbox.setup(hitbox.launch_damage if hitbox.launch_damage > 0.0 else hitbox.base_damage, false, 0.0, hitbox.source)
+	launch_hitbox.weapon_damage_record = hitbox.weapon_damage_record
+	launch_hitbox.life_steal_chance = hitbox.life_steal_chance
+	add_child(launch_hitbox)
+
+func _move_launched(delta: float) -> void:
+	var previous := global_position
+	global_position += launch_velocity * delta * get_movement_multiplier()
+	if arena_environment: global_position = arena_environment.clamp_position(global_position)
+	var travel := global_position - previous
+	var radius := 29.0 * visual_scale * absf(global_scale.x)
+	var shape := CapsuleShape2D.new()
+	shape.radius = radius
+	shape.height = travel.length() + radius * 2.0
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = Transform2D(travel.angle() - PI / 2.0, previous + travel * 0.5)
+	query.collision_mask = 2
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.exclude = [get_rid()]
+	for result in get_world_2d().direct_space_state.intersect_shape(query, 32):
+		var other = result.collider
+		if other is Enemy and other != self and not other.is_retiring and other.health_component.current_health > 0.0:
+			other.get_node("HurtboxComponent")._on_area_entered(launch_hitbox)
+	launch_left = maxf(0.0, launch_left - delta)
+	if launch_left <= 0.0:
+		launch_hitbox.queue_free()
+		launch_velocity = Vector2.ZERO
 
 func _ready() -> void:
 	super._ready()
-	add_to_group("combat_enemies")
+	if targetable: add_to_group("combat_enemies")
+	_apply_size()
+	update_rotation()
 	var contact := get_node_or_null("HitboxComponent") as HitboxComponent
 	if contact:
 		contact.setup(stats.damage, false, 0.0, self)
@@ -21,18 +99,43 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
+	if is_retiring or health_component.current_health <= 0.0: return
+	slow_left = maxf(0.0, slow_left - delta)
+	if get_movement_multiplier() <= 0.0:
+		if not pins.is_empty(): global_position = pinned_position
+		return
+	if launch_left > 0.0:
+		_move_launched(delta)
+		return
 	
 	if not can_move: return
-	if not can_move_towards_player() and knockback_power <= 0.0: return
+	if not movement_override_enabled and not can_move_towards_player() and knockback_power <= 0.0: return
 	
-	position += (get_move_direction() + knockback_dir * knockback_power) * stats.speed * delta
+	position += (get_move_direction() + knockback_dir * knockback_power) * stats.speed * delta * get_movement_multiplier()
+	if arena_environment:
+		global_position = arena_environment.clamp_position(global_position)
 	update_rotation()
+
+func _apply_size() -> void:
+	# Scale the visual container, outside animation tracks; root movement stays unchanged.
+	visuals.scale = Vector2.ONE * 0.5 * visual_scale
+	for path in ["CollisionShape2D", "VisionArea/CollisionShape2D", "HurtboxComponent/CollisionShape2D", "HitboxComponent/CollisionShape2D2"]:
+		var collision := get_node_or_null(path) as CollisionShape2D
+		if not collision or not collision.shape: continue
+		collision.shape = collision.shape.duplicate()
+		collision.position *= visual_scale
+		if collision.shape is CircleShape2D:
+			(collision.shape as CircleShape2D).radius *= visual_scale
+	# The root represents the separation body, rather than the former tiny point.
+	var body := get_node("CollisionShape2D") as CollisionShape2D
+	(body.shape as CircleShape2D).radius = 29.0 * visual_scale
+	flock_push *= visual_scale
 
 func get_move_direction() -> Vector2:
 	if not is_instance_valid(Global.player):
 		return Vector2.ZERO
 	
-	var direction := global_position.direction_to(Global.player.global_position)
+	var direction := desired_direction if movement_override_enabled else global_position.direction_to(Global.player.global_position)
 	for area: Area2D in vision_area.get_overlapping_areas():
 		if area != self and area.is_inside_tree(): #Check
 			var vector := global_position - area.global_position #Direccion opuesta a los otros enemigos
@@ -43,7 +146,7 @@ func get_move_direction() -> Vector2:
 
 func apply_knockback(knock_dir: Vector2, knock_pow: float) -> void:
 	knockback_dir = knock_dir.normalized()
-	knockback_power = maxf(0.0, knock_pow)
+	knockback_power = maxf(0.0, knock_pow) * (1.0 - knockback_resistance)
 	knockback_timer.start()
 
 func reset_knockback() -> void:
@@ -55,11 +158,11 @@ func update_rotation() -> void:
 	
 	var player_pos := Global.player.global_position
 	var moving_right := global_position.x < player_pos.x
-	visuals.scale = Vector2(-.5, .5) if moving_right else Vector2(.5, .5)
+	visuals.scale = Vector2(-.5, .5) * visual_scale if moving_right else Vector2(.5, .5) * visual_scale
 
 func can_move_towards_player() -> bool:
 	return is_instance_valid(Global.player) and\
-	global_position.distance_to(Global.player.global_position) > 60
+	global_position.distance_to(Global.player.global_position) > 60 * visual_scale
 
 func destroy_enemy() -> void:
 	if is_retiring or is_queued_for_deletion(): return
@@ -76,8 +179,13 @@ func destroy_enemy() -> void:
 	for component in [get_node("HurtboxComponent"), get_node("HitboxComponent")]:
 		component.set_deferred("monitoring", false)
 		component.set_deferred("monitorable", false)
-	anim_player.play("die")
-	await anim_player.animation_finished
+	anim_player.stop()
+	get_node("HealthBar").hide()
+	var retirement := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	retirement.set_ignore_time_scale(true)
+	retirement.tween_property(self, "scale", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	await retirement.finished
+	load("res://effects/arena_bursts.gd").emit_at(self, global_position)
 	queue_free()
 
 
@@ -86,6 +194,8 @@ func _on_knockback_timer_timeout() -> void:
 
 func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 	if not receive_hit(hitbox): return
+	if hitbox.cancel_knockback_on_hit: reset_knockback()
+	if hitbox.launch_on_hit and health_component.current_health > 0.0: launch_from(hitbox)
 	var impact_direction := Vector2.RIGHT
 	if is_instance_valid(hitbox.source):
 		impact_direction = hitbox.source.global_position.direction_to(global_position)

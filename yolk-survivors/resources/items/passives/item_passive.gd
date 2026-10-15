@@ -26,7 +26,7 @@ func apply_passive_values() -> void:
 		Global.player.stats.apply_stat_change(remove_stats_id, -remove_value)
 
 func _format_value(value: float, stat_id: String) -> String:
-	return ItemWeapon.format_number(value) + ("%" if stat_id in ["damage_percent", "attack_speed", "life_steal", "block_chance"] else "")
+	return ItemWeapon.format_number(value) + ("%" if stat_id in ["damage_percent", "attack_speed", "life_steal", "block_chance", "critical_chance", "pickup_range"] else "")
 
 func _stat_label(stat_id: String) -> String:
 	return {"damage_percent": "Damage", "melee_damage": "Melee damage", "ranged_damage": "Ranged damage", "attack_speed": "Attack speed"}.get(stat_id, stat_id.replace("_", " "))

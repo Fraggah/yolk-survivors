@@ -13,6 +13,7 @@ type = 0
 scene = ExtResource("2_nyb4v")
 stats = ExtResource("3_tds7r")
 upgrade_to = ExtResource("4_nyb4v")
+attack_description = "Weak punch; full collision damage."
 item_name = "Mitten III"
 item_icon = ExtResource("1_3jnnf")
 item_tier = 2
