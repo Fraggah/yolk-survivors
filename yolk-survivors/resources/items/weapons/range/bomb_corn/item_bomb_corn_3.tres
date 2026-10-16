@@ -14,5 +14,5 @@ item_name = "Bomb-corn III"
 item_tier = 2
 item_type = 0
 item_cost = 54
-attack_description = "Corn kernels pop after a short delay."
+attack_description = "Rapid kernels deal light impact damage, with a chance to explode and launch popcorn."
 upgrade_to = ExtResource("5")

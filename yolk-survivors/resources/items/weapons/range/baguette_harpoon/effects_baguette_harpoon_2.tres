@@ -2,3 +2,7 @@
 [ext_resource type="Script" path="res://resources/items/weapons/ranged_settings.gd" id="1"]
 [resource]
 script = ExtResource("1")
+harpoon_pin_duration = 0.5
+harpoon_embed_duration = 0.1
+harpoon_embed_angle = -0.25
+harpoon_capture_radius = 16.0

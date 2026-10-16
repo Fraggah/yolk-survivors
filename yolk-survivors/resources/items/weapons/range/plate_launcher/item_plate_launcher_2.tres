@@ -14,5 +14,5 @@ item_name = "Plate Launcher II"
 item_tier = 1
 item_type = 0
 item_cost = 40
-attack_description = "Plates bounce between different enemies."
+attack_description = "Horizontal plates deal damage and have an 80% chance to shatter on each impact; surviving plates bounce to another enemy."
 upgrade_to = ExtResource("5")

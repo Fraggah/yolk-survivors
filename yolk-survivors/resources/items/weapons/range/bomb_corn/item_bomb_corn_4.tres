@@ -13,4 +13,4 @@ item_name = "Bomb-corn IV"
 item_tier = 3
 item_type = 0
 item_cost = 72
-attack_description = "Corn kernels pop after a short delay."
+attack_description = "Rapid kernels deal light impact damage, with a chance to explode and launch popcorn."

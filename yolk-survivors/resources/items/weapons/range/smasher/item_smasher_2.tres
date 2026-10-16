@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://beb2fyuaun5ab"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://beb2fyuaun5ab"]
 
 [ext_resource type="Texture2D" uid="uid://dv6e0u1bcv6st" path="res://assets/sprites/Weapons/Redesign/Icons/smasher.png" id="1_r8n1r"]
 [ext_resource type="PackedScene" uid="uid://48stbcirvp8y" path="res://scenes/weapons/range/weapon_smasher.tscn" id="2_vab7v"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_wdydi"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_wdydi"]
 [ext_resource type="Resource" uid="uid://cfk3uxwa6hyu7" path="res://resources/items/weapons/range/smasher/stats_smasher_2.tres" id="4_mgbah"]
 [ext_resource type="Resource" uid="uid://kypubn408cv4" path="res://resources/items/weapons/range/smasher/item_smasher_3.tres" id="5_b336h"]
@@ -9,10 +10,15 @@
 [resource]
 script = ExtResource("3_wdydi")
 unlock_id = "smasher"
+selection_only = false
 type = 1
 scene = ExtResource("2_vab7v")
 stats = ExtResource("4_mgbah")
 upgrade_to = ExtResource("5_b336h")
+attack_description = "Fires a rolling pin straight through enemies. Unlimited range and piercing; no bounces. Disappears beyond the full background; keeps hitting enemies offscreen."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_wdydi")]([])
 item_name = "Smasher II"
 item_icon = ExtResource("1_r8n1r")
 item_tier = 1

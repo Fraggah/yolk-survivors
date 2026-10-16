@@ -40,10 +40,17 @@ var last_warning_second := -1
 var damage_feedback: CanvasLayer
 var paused_intermission_panel: Control
 var paused_intermission_focus: Control
+var stress_test: Node
+var projectile_pool: Node
 var run_experience = preload("res://resources/run_experience.gd").new()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	projectile_pool = load("res://scenes/projectiles/projectile_pool.gd").new()
+	add_child(projectile_pool)
+	stress_test = load("res://scenes/arena/stress_test.gd").new()
+	add_child(stress_test)
+	level_panel.on_stress_test_selected.connect(_on_stress_test_selected)
 	damage_feedback = load("res://scenes/ui/player_damage_feedback.gd").new()
 	add_child(damage_feedback)
 	damage_feedback.defeat_finished.connect(_finish_defeat)
@@ -83,6 +90,10 @@ func _apply_wave_environment(wave: int) -> void:
 		spawner.fueguito.global_position = environment.clamp_position(spawner.fueguito.global_position)
 
 func _process(_delta: float) -> void:
+	if stress_test and stress_test.active:
+		wave_index_label.text = "STRESS TEST"
+		wave_timer_label.text = ""
+		return
 	player_health_bar.visible = in_arena and is_instance_valid(Global.player) and not final_screen.visible and not defeat_in_progress
 	experience_bar.visible = player_health_bar.visible
 	toggle_pause()
@@ -93,15 +104,15 @@ func _process(_delta: float) -> void:
 	if wave_active and seconds_left >= 1 and seconds_left <= 5 and seconds_left != last_warning_second:
 		last_warning_second = seconds_left
 		SoundManager.play_sound(SoundManager.Sound.WAVE_FINAL_SECONDS)
-	wave_timer_label.add_theme_color_override("font_color", UITheme.palette.health_fill if int(wave_timer_label.text) <= 5 else UITheme.palette.hud_text)
+	var timer_color: Color = UITheme.palette.health_fill if seconds_left <= 5 else UITheme.palette.hud_text
+	if wave_timer_label.get_theme_color("font_color") != timer_color:
+		wave_timer_label.add_theme_color_override("font_color",timer_color)
 
 func _on_wave_started_sfx(_wave: int) -> void:
 	SoundManager.play_sound(SoundManager.Sound.WAVE_START)
 
 func create_floating_text(unit: Node2D) -> FloatingText:
-	var instance := Global.FLOATING_TEXT_SCENE.instantiate() as FloatingText
-	instance.add_to_group("combat_texts")
-	get_tree().root.add_child(instance)
+	var instance = CombatTexts.acquire() as FloatingText
 	var random_pos := randf_range(0, TAU) * 35
 	var spawn_pos := unit.global_position + Vector2.RIGHT.rotated(random_pos)
 	instance.global_position = spawn_pos
@@ -115,7 +126,7 @@ func start_new_wave() -> void:
 	spawner.start_wave()
 	wave_active = not spawner.wave_timer.is_stopped()
 	coocking_player.stream_paused = false
-	
+
 
 func show_upgrades() -> void:
 	shop_panel.set_next_stage(environment_controller.prepare_wave(spawner.wave_index + 1), spawner.wave_index + 1)
@@ -146,15 +157,24 @@ func spawn_coins(enemy: Enemy) -> void:
 	var random_angle := randf_range(0, TAU)
 	var offset := Vector2.RIGHT.rotated(random_angle) * 35
 	var spawn_pos := enemy.global_position + offset
-	
+	spawn_yolk_at(spawn_pos, enemy.stats.coin_drop)
+
+func spawn_yolk_at(spawn_pos: Vector2, value: int = 1) -> void:
 	var instance := Global.COINS_SCENE.instantiate()
 	gold_list.append(instance)
-	
+
 	instance.global_position = spawn_pos
-	instance.value = enemy.stats.coin_drop
+	instance.value = value
 	call_deferred("add_child", instance)
 
 func clear_arena(bank_yolks: bool = false) -> void:
+	CombatTexts.clear()
+	ElectricRays.clear()
+	projectile_pool.clear()
+	if stress_test and stress_test.active: stress_test.stop()
+	for attack in get_tree().get_nodes_in_group("continuous_attacks"): attack.reset_attack()
+	for pool in get_tree().get_nodes_in_group("mayonnaise_particles"): pool.clear()
+	for controller in get_tree().get_nodes_in_group("status_controllers"): controller.clear()
 	EnemyHitFeedback.clear()
 	for text in get_tree().get_nodes_in_group("combat_texts"):
 		text.hide()
@@ -177,7 +197,7 @@ func clear_arena(bank_yolks: bool = false) -> void:
 		# Includes flights already removed from gold_list by a previous wave end.
 		for coin in get_tree().get_nodes_in_group("yolks"):
 			coin.queue_free()
-	
+
 	gold_list.clear()
 	spawner.clear_enemies()
 
@@ -186,10 +206,9 @@ func on_create_block_text(unit: Node2D) -> void:
 	text.setup_text("Blocked", block_color)
 
 func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
-	var text := create_floating_text(unit)
 	var color := critical_color if hitbox.critical else normal_color
 	var displayed_damage: float = hitbox.damage * (unit.stats.get_incoming_damage_multiplier() if unit is Player else 1.0)
-	text.setup_text(ItemWeapon.format_number(displayed_damage), color)
+	CombatTexts.queue_damage(unit, displayed_damage, color, hitbox.critical)
 
 func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	var text := create_floating_text(unit)
@@ -231,6 +250,7 @@ func set_wave_paused(paused: bool) -> void:
 	music_player.stream_paused = paused
 
 func _on_spawner_on_wave_completed() -> void:
+	if stress_test and stress_test.active: return
 	SoundManager.play_sound(SoundManager.Sound.WAVE_COMPLETE)
 	Weapon.finish_damage_wave()
 	wave_active = false
@@ -282,7 +302,7 @@ func _on_enemy_died(enemy: Enemy) -> void:
 	add_child(instance)
 	instance.global_position = enemy.global_position
 	if not enemy.last_hit_grants_rewards: return
-	run_experience.add_experience(enemy.stats.experience_reward)
+	if not stress_test.active: run_experience.add_experience(enemy.stats.experience_reward)
 	Progression.record("kills", 1.0)
 	spawn_coins(enemy)
 
@@ -300,11 +320,22 @@ func _on_weapon_selection_exited() -> void:
 	weapon_selection_panel.hide()
 	selection_panel.show()
 
-func _on_level_selected(level: int) -> void:
+func _on_stress_test_selected(population: int = 1000) -> void:
+	if in_arena: return
+	stress_test.target_population = population
+	_on_level_selected(0,true)
+
+func _on_level_selected(level: int, stress_mode: bool = false) -> void:
 	# Ignore repeated confirmation and refuse an incomplete/invalid loadout.
 	if in_arena: return
 	var starting_weapons := Global.get_starting_weapons()
 	if starting_weapons.is_empty() and not Global.is_empty_preview_loadout(): return
+	if stress_mode:
+		if starting_weapons.is_empty(): return
+		var selected: ItemWeapon = Global.main_weapon_selected if Global.is_valid_starting_weapon(Global.main_weapon_selected) else starting_weapons[0]
+		starting_weapons.clear()
+		for i in Global.MAX_EQUIPPED_WEAPONS: starting_weapons.append(selected)
+		Progression.end_run()
 	Global.yolk_reserve = 0
 	run_experience.reset()
 	Weapon.damage_records.clear()
@@ -321,7 +352,7 @@ func _on_level_selected(level: int) -> void:
 	player.health_component.on_unit_hit.connect(player_health_bar.flash_damage)
 	damage_feedback.update_health(player.health_component.current_health, player.health_component.max_health)
 	player_health_bar._on_health_component_on_health_changed(player.health_component.current_health, player.health_component.max_health)
-	Progression.begin_run(player.stats.unlock_id, player.stats)
+	if not stress_mode: Progression.begin_run(player.stats.unlock_id, player.stats)
 	Global.equipped_weapons.clear()
 	shop_panel.reset_offers()
 	shop_panel.clear_items()
@@ -338,6 +369,9 @@ func _on_level_selected(level: int) -> void:
 	Global.coins = Global.STARTING_COINS
 	in_arena = true
 	level_panel.hide()
+	if stress_mode:
+		stress_test.start(self)
+		wave_active = true
 
 func _on_player_died() -> void:
 	if defeat_in_progress or not is_instance_valid(Global.player): return
@@ -486,7 +520,7 @@ func _on_pause_panel_on_return_pressed() -> void:
 func _on_start_panel_on_exit_pressed() -> void:
 	#podria guardar los datos aca tambien.. pero perderia un poco de sentido el boton de guardado
 	get_tree().quit()
-	
+
 
 
 func _on_options_panel_on_load_game() -> void:

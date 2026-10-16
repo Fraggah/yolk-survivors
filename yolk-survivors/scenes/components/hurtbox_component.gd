@@ -6,6 +6,9 @@ signal on_damage(hitbox: HitboxComponent)
 const CONTACT_INTERVAL := 0.5
 var contact_cooldowns: Dictionary = {}
 
+func _ready() -> void:
+	set_physics_process(false)
+
 func _physics_process(delta: float) -> void:
 	if Global.game_paused or not monitoring: return
 	var present: Array = []
@@ -19,6 +22,7 @@ func _physics_process(delta: float) -> void:
 		if contact_cooldowns[key] <= 0.0: _contact_hit(area)
 	for key in contact_cooldowns.keys():
 		if not present.has(key): contact_cooldowns.erase(key)
+	if present.is_empty(): set_physics_process(false)
 
 func _contact_hit(hitbox: HitboxComponent) -> void:
 	if owner is Player and (owner.is_dashing or owner.hit_invulnerability_left > 0.0): return
@@ -27,5 +31,7 @@ func _contact_hit(hitbox: HitboxComponent) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if Global.game_paused or not area is HitboxComponent: return
-	if area.continuous_contact: _contact_hit(area)
+	if area.continuous_contact:
+		set_physics_process(true)
+		_contact_hit(area)
 	elif area.claim_hit(self): on_damage.emit(area)

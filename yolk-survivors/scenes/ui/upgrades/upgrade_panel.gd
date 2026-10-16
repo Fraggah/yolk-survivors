@@ -12,6 +12,12 @@ var reroll_button: Button
 var reroll_label: Label
 
 func _ready() -> void:
+	for stat in ["area_of_effect", "critical_multiplier", "block_effectiveness", "effects"]:
+		for tier in range(1,5):
+			var item = load("res://resources/items/upgrades/data/%s/upgrade_%s_%s.tres" % [stat, stat, tier])
+			if not upgrades.has(item): upgrades.append(item)
+	# This stat is explicitly item-only, even if a resource is accidentally added in the editor.
+	upgrades = upgrades.filter(func(item): return item.stat_id != "fire_tick_speed")
 	$HBoxContainer/VBoxContainer/Label.add_theme_color_override("font_color", UITheme.palette.hud_text)
 	reroll_button = Button.new()
 	reroll_button.name = "UpgradeRerollButton"

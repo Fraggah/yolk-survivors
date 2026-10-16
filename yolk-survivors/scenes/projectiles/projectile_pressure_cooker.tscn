@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scenes/projectiles/catalogue_projectile.gd" id="1_71gtn"]
+[ext_resource type="Script" path="res://scenes/projectiles/pressure_pot.gd" id="1_71gtn"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/pressure_pot.png" id="2_yt6ye"]
 [ext_resource type="PackedScene" path="res://scenes/components/hitbox_component.tscn" id="3_reban"]
 
@@ -12,7 +12,7 @@ script = ExtResource("1_71gtn")
 hitbox = NodePath("HitboxComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_yt6ye")
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("bb") instance=ExtResource("3_reban")]

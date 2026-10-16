@@ -1,0 +1,7 @@
+# Smasher: unlimited straight piercing shot
+
+All four tiers have `unlimited_range = true`, `unlimited_piercing = true` and `bounces = 0` in their WeaponStats resources. Damage, cooldown, speed, recoil and art are preserved. `max_range` controls the normal weapon detection radius and is shown in descriptions/tooltips. `unlimited_range` removes only the projectile travel cap; it does not extend detection. Aim selects the nearest living targetable enemy within the ordinary weapon range. Piercing is displayed as Unlimited.
+
+The rolling pin travels in a straight line, pierces any number of enemies and damages each hurtbox once. Player bounce bonuses cannot redirect these shots. The dedicated `smasher_projectile.gd` removes shots only when the entire sprite leaves the full world background rectangle (background_offset and background_size), beyond the playable cooking surface. Camera visibility does not remove shots; the inherited screen-exit callback is overridden so enemies outside the viewport can still be hit. Pause freezes travel and normal wave cleanup removes pending shots.
+
+Regression: `verify_smasher_piercing.gd` checks all tiers, ordinary detection radius despite unlimited travel, multiple actual enemy overlaps without redirection/destruction, no repeated damage, bounce bonuses, full background exit, offscreen survival/damage and wave cleanup. Conventional range-cap coverage remains in `verify_projectile_range.gd`.

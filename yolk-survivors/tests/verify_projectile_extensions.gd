@@ -61,7 +61,7 @@ func verify():
    assert(item.stats.piercing >= 0)
    assert(item.stats.bounces >= 0)
    assert(item.get_effective_piercing(stats) == item.stats.piercing + 2)
-   assert(item.get_effective_bounces(stats) == item.stats.bounces + 3)
+   assert(item.get_effective_bounces(stats) == (0 if item.stats.unlimited_piercing else item.stats.bounces + 3))
  for enemy in enemies: enemy.queue_free()
  await process_frame
  for mode in ["piercing", "bounce"]:

@@ -1,0 +1,5 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_laser.tscn" id="capsule"]
+[ext_resource type="Script" path="res://scenes/projectiles/ketchup_capsule.gd" id="script"]
+[node name="KetchupCapsule" instance=ExtResource("capsule")]
+script = ExtResource("script")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemUpgrade" load_steps=3 format=3]
+[ext_resource type="Texture2D" path="res://assets/sprites/Upgrades/Redesign/damage.png" id="icon"]
+[ext_resource type="Script" path="res://resources/items/upgrades/item_upgrades.gd" id="script"]
+[resource]
+script = ExtResource("script")
+value = 5.0
+description = "+5%"
+stat_id = "effects"
+item_name = "Effects"
+item_icon = ExtResource("icon")
+item_tier = 0
+item_type = 1

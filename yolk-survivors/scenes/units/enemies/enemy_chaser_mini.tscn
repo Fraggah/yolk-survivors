@@ -1,0 +1,6 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_chaser_mid.tscn" id="base"]
+[ext_resource type="Resource" path="res://resources/units/enemies/stats_enemy_chaser_mini.tres" id="stats"]
+[node name="EnemyChaserMini" instance=ExtResource("base")]
+visual_scale = 0.6
+stats = ExtResource("stats")

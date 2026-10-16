@@ -14,5 +14,5 @@ item_name = "Olive Launcher III"
 item_tier = 2
 item_type = 0
 item_cost = 54
-attack_description = "Fires an olive and leaves a damaging pit near the player."
+attack_description = "Fires an olive forward and ejects a pit backward with random deviation and half range."
 upgrade_to = ExtResource("5")

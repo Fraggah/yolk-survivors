@@ -41,7 +41,9 @@ const DISPLAY_STATS := [
 	["luck", "Luck", false], ["block_chance", "Block chance", true],
 	["hp_regen", "HP regen / 3 s", false], ["life_steal", "Life steal", true],
 	["harvesting", "Harvesting", false], ["armor", "Armor", false],
-	["critical_chance", "Critical chance", true], ["pickup_range", "Pickup range", true]
+	["critical_chance", "Critical chance", true], ["pickup_range", "Pickup range", true],
+	["area_of_effect", "Area of effect", true], ["critical_multiplier", "Crit multiplier bonus", true],
+	["block_effectiveness", "Block Power", true], ["effects", "Effects", true], ["fire_tick_speed", "Fire tick speed", true]
 ]
 
 var preview_player: UnitStats
@@ -130,7 +132,7 @@ func load_weapons() -> void:
 		card.button_group = weapon_group
 		card.set_meta("selection_data", weapon)
 		weapons_container.add_child(card)
-		card.set_icon(weapon.item_icon)
+		card.set_icon(weapon.item_icon, weapon.icon_scale)
 
 func show_player_info(value: bool) -> void:
 	player_icon.visible = value
@@ -188,8 +190,9 @@ func _show_weapon_preview(weapon: ItemWeapon) -> void:
 	preview_weapon = weapon
 	show_weapon_info(true)
 	weapon_icon.texture = weapon.item_icon
+	ItemBase.scale_icon(weapon_icon, weapon.icon_scale)
 	weapon_name.text = weapon.item_name
-	weapon_title.text = ("Pet — preview" if weapon.resource_path.contains("/pets/") else "Spicy — preview") if weapon.selection_only else "Spicy" if weapon.type == ItemWeapon.Type.SPICY else "Melee weapon" if weapon.type == ItemWeapon.Type.MELEE else "Ranged weapon"
+	weapon_title.text = ("Pet — preview" if weapon.resource_path.contains("/pets/") else "Spicy — preview") if weapon.selection_only else weapon.get_category_label()
 	var unlocked := Progression.is_weapon_unlocked(weapon)
 	_set_portrait_lock(weapon_icon, not unlocked)
 	if not unlocked:

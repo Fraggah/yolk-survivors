@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="WaveData" load_steps=7 format=3 uid="uid://q8v7y2ftym2y"]
 
-[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
+[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
 [ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
 
 [sub_resource type="Resource" id="g1"]
 script = ExtResource("group")
-label = "Introduction chaser_mid"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid")])
+label = "Introduction chaser_mini"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mini")])
 weights = Array[float]([4.0])
 start_second = 0.0
 interval = 1.0
@@ -29,7 +29,7 @@ school_radius = 140.0
 [sub_resource type="Resource" id="g0"]
 script = ExtResource("group")
 label = "Pressure"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid")])
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mini")])
 weights = Array[float]([4.0])
 start_second = 0.0
 interval = 1.0

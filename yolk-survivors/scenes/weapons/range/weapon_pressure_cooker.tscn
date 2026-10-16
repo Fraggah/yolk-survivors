@@ -6,4 +6,4 @@
 position = Vector2(24, 0)
 texture = ExtResource("2")
 [node name="Muzzle" parent="Sprite2D" index="0"]
-position = Vector2(90, -18)
+position = Vector2(90, -5)

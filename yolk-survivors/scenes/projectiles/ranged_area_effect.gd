@@ -17,6 +17,7 @@ func setup(template: HitboxComponent, config: RangedSettings, pit: bool) -> void
 	is_pit = pit
 	lifetime = settings.pit_duration if pit else settings.explosion_visual_duration
 	radius = (settings.pit_radius if pit else settings.explosion_radius) * Global.GAME_ENTITY_SCALE
+	if template.source is Unit: radius *= template.source.stats.get_area_radius_multiplier()
 	texture = settings.pit_texture if pit else settings.explosion_texture
 	hit = HitboxComponent.new()
 	hit.collision_layer = 0
@@ -27,6 +28,7 @@ func setup(template: HitboxComponent, config: RangedSettings, pit: bool) -> void
 	hit.critical_chance = template.critical_chance
 	hit.critical_multiplier = template.critical_multiplier
 	hit.life_steal_chance = template.life_steal_chance
+	hit.status_effects.assign(template.status_effects)
 	hit.weapon_damage_record = template.weapon_damage_record
 	add_child(hit)
 	z_index = 2

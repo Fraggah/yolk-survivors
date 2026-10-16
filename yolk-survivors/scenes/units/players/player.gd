@@ -22,6 +22,19 @@ var life_steal_cooldown := 0.0
 var is_dashing: bool
 var current_weapons: Array[Weapon] = []
 var arena_environment: ArenaEnvironment
+var health_drain_per_second := 0.0
+var _drain_elapsed := 0.0
+
+func refresh_equipment_modifiers() -> void:
+	var combined: Dictionary = {}
+	health_drain_per_second = 0.0
+	for equipped in current_weapons:
+		if not is_instance_valid(equipped) or equipped.is_queued_for_deletion(): continue
+		for key in equipped.data.final_stat_modifiers:
+			combined[key] = float(combined.get(key, 0.0)) + float(equipped.data.final_stat_modifiers[key])
+		health_drain_per_second += equipped.data.health_drain_per_second
+	if health_drain_per_second <= 0.0: _drain_elapsed = 0.0
+	stats.set_final_modifiers(combined)
 
 func _ready() -> void:
 	stats = stats.get_passive_preview()
@@ -35,11 +48,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Global.game_paused: return
 	
+	if health_drain_per_second > 0.0 and health_component.current_health > 0.0:
+		_drain_elapsed += delta
+		while _drain_elapsed >= 1.0 and health_component.current_health > 0.0:
+			_drain_elapsed -= 1.0
+			health_component.take_damage(health_drain_per_second)
 	hit_invulnerability_left = maxf(0.0, hit_invulnerability_left - delta)
 	life_steal_cooldown = maxf(0.0, life_steal_cooldown - delta)
 	move_dir = Input.get_vector("move_left","move_right","move_up","move_down")
 	
-	var current_velocity := move_dir * stats.speed
+	var current_velocity := move_dir * stats.speed * get_status_movement_multiplier()
 	if is_dashing:
 		current_velocity *= dash_speed_multi
 
@@ -67,6 +85,7 @@ func add_weapon(data: ItemWeapon) -> void:
 	weapon.global_position = position
 	weapon.setup_weapon(data)
 	current_weapons.append(weapon)
+	refresh_equipment_modifiers()
 	weapons_container.update_weapons_position(current_weapons)
 
 func start_dash() -> void:
@@ -100,6 +119,8 @@ func update_rotation() -> void:
 		visuals.scale = Vector2(.5, .5)
 
 func prepare_for_new_wave() -> void:
+	_drain_elapsed = 0.0
+	status_controller.clear()
 	flash_timer.stop()
 	sprite.material = null
 	for weapon in current_weapons:

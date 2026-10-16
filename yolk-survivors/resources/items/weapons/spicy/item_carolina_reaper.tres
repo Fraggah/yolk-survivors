@@ -1,10 +1,23 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3]
 [ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/carolina_reaper.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_carolina_reaper.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_carolina_reaper.tres" id="stats"]
+[ext_resource type="Script" path="res://resources/status_effect.gd" id="status_script"]
+[ext_resource type="Resource" path="res://resources/statuses/spicy_trail_fire.tres" id="fire"]
 [resource]
 script = ExtResource("script")
-selection_only = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+on_hit_effects = Array[ExtResource("status_script")]([ExtResource("fire")])
 item_name = "Carolina Reaper"
 item_icon = ExtResource("icon")
 item_tier = 0
 item_type = 0
+item_cost = 14
+attack_description = "Moving columns of fire burn enemies across the arena."
+
+final_stat_modifiers = {"damage_percent": 5.0}
+health_drain_per_second = 1.0

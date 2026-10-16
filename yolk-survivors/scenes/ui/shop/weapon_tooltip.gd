@@ -15,7 +15,7 @@ var value_labels: Array[RichTextLabel] = []
 
 func _ready() -> void:
 	_ignore_mouse(self)
-	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Life steal", "Piercing", "Bounces", "Sell price"]:
+	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Life steal", "Piercing", "Bounces", "Sell price", "Critical multiplier"]:
 		var caption := Label.new()
 		caption.text = stat_name
 		caption.add_theme_font_size_override("font_size", 22)
@@ -87,8 +87,9 @@ func _process(_delta: float) -> void:
 func _update_weapon(weapon: ItemWeapon) -> void:
 	displayed_weapon = weapon
 	weapon_icon.texture = weapon.item_icon
+	ItemBase.scale_icon(weapon_icon, weapon.icon_scale)
 	weapon_name.text = weapon.item_name
-	weapon_type.text = "Spicy" if weapon.type == ItemWeapon.Type.SPICY else "Ranged weapon" if weapon.type == ItemWeapon.Type.RANGE else "Melee weapon"
+	weapon_type.text = weapon.get_category_label()
 	var style := Global.get_tier_style(weapon.item_tier).duplicate() as StyleBoxFlat
 	style.bg_color = UITheme.palette.surface
 	style.set_border_width_all(2)
@@ -99,15 +100,16 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	var values: Array[String] = [
 		weapon.get_damage_description(Global.player.stats if is_instance_valid(Global.player) else null),
 		"%s s" % _format_number(weapon.get_effective_cooldown(Global.player.stats if is_instance_valid(Global.player) else null)),
-		_format_number(stats.max_range),
+		weapon.get_range_description(),
 		"%s%%" % _format_number(weapon.get_effective_critical_chance(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
 		"%s%%" % _format_number(weapon.get_effective_life_steal(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
-		str(weapon.get_effective_piercing(Global.player.stats if is_instance_valid(Global.player) else null)),
+		"Unlimited" if stats.unlimited_piercing else str(weapon.get_effective_piercing(Global.player.stats if is_instance_valid(Global.player) else null)),
 		str(weapon.get_effective_bounces(Global.player.stats if is_instance_valid(Global.player) else null)),
-		str(weapon.get_sell_price((get_parent() as ShopPanel).shop_wave))
+		str(weapon.get_sell_price((get_parent() as ShopPanel).shop_wave)),
+		"%s x" % _format_number(weapon.get_effective_critical_multiplier(Global.player.stats if is_instance_valid(Global.player) else null))
 	]
 	for index in values.size():
-		var show_stat := index < 5 or index == 7 or (weapon.type == ItemWeapon.Type.RANGE and int(values[index]) > 0)
+		var show_stat := index < 5 or index >= 7 or (weapon.type != ItemWeapon.Type.MELEE and ((index == 5 and stats.unlimited_piercing) or int(values[index]) > 0))
 		stats_grid.get_child(index * 2).visible = show_stat
 		value_labels[index].visible = show_stat
 		value_labels[index].add_theme_color_override("default_color", UITheme.palette.positive)

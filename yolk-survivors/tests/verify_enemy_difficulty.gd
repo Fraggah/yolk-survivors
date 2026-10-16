@@ -22,7 +22,7 @@ func verify() -> void:
 	spawner.spawn_timer.stop()
 	assert(spawner.last_wave_number() == 20 and spawner.waves_data.size() == 20)
 	var allowed = [
-		["chaser_mid"], ["chaser_mid","chaser_fast"], ["chaser_mid","chaser_fast"], ["chaser_mid","shooter"],
+		["chaser_mini"], ["chaser_mini","chaser_mid","chaser_fast"], ["chaser_mini","chaser_mid","chaser_fast"], ["chaser_mid","shooter"],
 		["chaser_mid","chaser_slow","chaser_fast"], ["chaser_mid","charger","chaser_fast"], ["chaser_fast","shooter","chaser_mid"],
 		["chaser_slow","charger","chaser_mid"], ["chaser_mid","chaser_fast","chaser_slow","charger","shooter"],
 		["chaser_mid","chaser_fast","chaser_slow","charger","shooter"],
@@ -31,6 +31,7 @@ func verify() -> void:
 		["charger","shooter"], ["chaser_mid","chaser_fast","chaser_slow","charger"],
 		["chaser_mid","chaser_fast","chaser_slow","charger","shooter"],
 		["chaser_mid","chaser_fast","chaser_slow","charger","shooter"]]
+	for index in range(3, allowed.size()): allowed[index].append("chaser_mini")
 	for n in range(1,21):
 		spawner.wave_index = n
 		var wave = spawner.find_wave_data()

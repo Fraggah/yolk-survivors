@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://36ul8hrlc0ms"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://36ul8hrlc0ms"]
 
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1_3ah7b"]
 [ext_resource type="Texture2D" uid="uid://bw6dbq8kc4ix3" path="res://assets/sprites/Weapons/Redesign/Icons/hydrant.png" id="1_vgtfy"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_i58c6"]
 [ext_resource type="PackedScene" uid="uid://ck6r27a5irsiy" path="res://scenes/weapons/range/weapon_hydrant.tscn" id="2_uiivj"]
 [ext_resource type="Resource" uid="uid://g8moxunv1w8e" path="res://resources/items/weapons/range/hydrant/stats_hydrant_1.tres" id="4_g08sy"]
 [ext_resource type="Resource" uid="uid://dat2tnp55dshp" path="res://resources/items/weapons/range/hydrant/item_hydrant_2.tres" id="5_1u1q4"]
@@ -9,10 +10,15 @@
 [resource]
 script = ExtResource("1_3ah7b")
 unlock_id = "hydrant"
+selection_only = false
 type = 1
 scene = ExtResource("2_uiivj")
 stats = ExtResource("4_g08sy")
 upgrade_to = ExtResource("5_1u1q4")
+attack_description = "Continuous mayonnaise stream. Damage per tick; cooldown controls tick frequency. Stops at the first target unless piercing is added."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_i58c6")]([])
 item_name = "Hydrant I"
 item_icon = ExtResource("1_vgtfy")
 item_tier = 0

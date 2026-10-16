@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/explosion_settings.gd" id="settings"]
+[sub_resource type="Resource" id="explosion"]
+script = ExtResource("settings")
+explosion_count = 3
+minimum_distance = 60.0
+explosion_radius = 95.0
+area_y_ratio = 0.6
+anticipation = 0.25
+visual_duration = 0.3
+color = Color(1, 0.33, 0.035, 1)
+opacity = 0.75
+burn_duration = 3.0
+burn_interval = 0.5
+burn_damage_multiplier = 0.35
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 8.0
+damage_scaling = 0.0
+cooldown = 2.4
+max_range = 230.0
+knockback = 0.5
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_explosion_settings = SubResource("explosion")

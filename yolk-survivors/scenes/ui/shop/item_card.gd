@@ -23,6 +23,7 @@ func _set_item(value: ItemBase) -> void:
 	item = value
 	if not is_node_ready(): await ready
 	item_icon.texture = item.item_icon
+	ItemBase.scale_icon(item_icon, item.icon_scale)
 	
 	toggle_mode = item.item_type == ItemBase.ItemType.WEAPON
 	UITheme.style_slot(self, int(item.item_tier))

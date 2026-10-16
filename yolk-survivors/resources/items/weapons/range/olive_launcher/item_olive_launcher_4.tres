@@ -13,4 +13,4 @@ item_name = "Olive Launcher IV"
 item_tier = 3
 item_type = 0
 item_cost = 72
-attack_description = "Fires an olive and leaves a damaging pit near the player."
+attack_description = "Fires an olive forward and ejects a pit backward with random deviation and half range."

@@ -13,4 +13,4 @@ item_name = "Baguette Harpoon IV"
 item_tier = 3
 item_type = 0
 item_cost = 80
-attack_description = "A long baguette pierces through several enemies."
+attack_description = "Skewers and drags enemies, then pins them briefly at the end of its path or arena edge."

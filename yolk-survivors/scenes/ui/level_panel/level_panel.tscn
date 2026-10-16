@@ -145,6 +145,24 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="Stress500Button" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(700, 70)
+layout_mode = 2
+tooltip_text = "Objetivo de rendimiento: 500 enemigos. Inmortal y 6 armas. Sin progreso ni mejoras."
+text = "PRUEBA DE ESTRÉS — 500 ENEMIGOS"
+
+[node name="StressTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(700, 70)
+layout_mode = 2
+tooltip_text = "Inmortal. 6 copias del arma elegida. Tandas de 100 enemigos hasta mantener 1000. Sin progreso ni mejoras."
+text = "PRUEBA DE ESTRÉS — 1000 ENEMIGOS"
+
+[node name="StressTestDescription" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Inmortal · 6 armas · tandas de enemigos · contador de FPS"
+horizontal_alignment = 1
+
 [node name="CustomButton" parent="." instance=ExtResource("4_801sb")]
 layout_mode = 1
 anchors_preset = 0
@@ -166,4 +184,6 @@ text = "Back"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level3Button" to="." method="_on_level_3_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level4Button" to="." method="_on_level_4_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level5Button" to="." method="_on_level_5_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Stress500Button" to="." method="_on_stress_500_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StressTestButton" to="." method="_on_stress_test_button_pressed"]
 [connection signal="pressed" from="CustomButton" to="." method="_on_custom_button_pressed"]

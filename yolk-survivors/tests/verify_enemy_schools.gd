@@ -17,6 +17,7 @@ func verify():
 	spawner.spawn_timer.stop()
 	var mid = load("res://resources/wave/enemies/chaser_mid.tres")
 	var fast = load("res://resources/wave/enemies/chaser_fast.tres")
+	var mini = load("res://resources/wave/enemies/chaser_mini.tres")
 	var shooter = load("res://resources/wave/enemies/shooter.tres")
 	var center := Vector2(-600,0)
 	assert(spawner.spawn_school(shooter,15,center) == 0)
@@ -32,7 +33,13 @@ func verify():
 	await create_timer(1.15).timeout
 	assert(spawner.alive_enemy_count() == 0 and spawner.pending_spawns == 0)
 	spawner.max_alive_enemies = 500
-	spawner.spawn_school(fast,10,center)
+	assert(spawner.spawn_school(mini,10,center) == 10)
+	await create_timer(1.15).timeout
+	assert(spawner.alive_enemy_count() == 10)
+	assert(spawner.generated_by_type.get(&"chaser_mini",0) == 10)
+	spawner.clear_enemies()
+	await process_frame
+	spawner.spawn_school(mini,10,center)
 	for warning in get_nodes_in_group("spawn_effects"):
 		assert(warning.global_position.distance_to(center) <= 140)
 	global.game_paused = true
@@ -43,5 +50,5 @@ func verify():
 	assert(spawner.pending_spawns == 0)
 	arena.queue_free()
 	await process_frame
-	print("PASS schools restricted to Mid/Fast, 15 real arrivals, local cluster positions, 10-slot cap, cancellation and pause")
+	print("PASS Mini/Mid/Fast schools, real arrivals, local cluster positions, cap, cancellation and pause")
 	quit()

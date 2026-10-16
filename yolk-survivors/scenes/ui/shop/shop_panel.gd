@@ -340,6 +340,7 @@ func _auto_upgrade_purchased_weapon(purchased: ItemWeapon) -> void:
 	var equipment_index := Global.equipped_weapons.find(existing.data)
 	if equipment_index < 0: return
 	Global.player.current_weapons.erase(existing)
+	Global.player.refresh_equipment_modifiers()
 	existing.queue_free()
 	Global.equipped_weapons[equipment_index] = purchased.upgrade_to
 	SoundManager.play_sound(SoundManager.Sound.SHOP_COMBINE)
@@ -410,6 +411,7 @@ func _on_combine_button_pressed() -> void:
 	
 	for weapon: Weapon in weapons_to_remove:
 		Global.player.current_weapons.erase(weapon)
+		Global.player.refresh_equipment_modifiers()
 		Global.equipped_weapons.erase(weapon.data)
 		weapon.queue_free()
 	
@@ -443,6 +445,7 @@ func _on_sell_weapon_button_pressed() -> void:
 	
 	if weapon_to_remove:
 		Global.player.current_weapons.erase(weapon_to_remove)
+		Global.player.refresh_equipment_modifiers()
 		Global.equipped_weapons.erase(weapon_to_remove.data)
 		weapon_to_remove.queue_free()
 	

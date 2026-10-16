@@ -13,6 +13,7 @@ func _set_data(value: ItemUpgrade) -> void:
 	if item_icon == null:
 		await ready
 	item_icon.texture = item.item_icon
+	ItemBase.scale_icon(item_icon, item.icon_scale)
 	item_name.text = item.item_name
 	var font := item_name.get_theme_font("font")
 	var text_width := font.get_string_size(item.item_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 30).x

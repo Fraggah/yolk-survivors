@@ -123,7 +123,7 @@ func scheduler_tick(elapsed: float) -> void:
 		# Drop missed ticks. Never accumulate a backlog or catch up in a burst.
 		var density := debug_density if OS.is_debug_build() and debug_enabled and not group.guaranteed else 1.0
 		var difficulty_density := DIFFICULTY_RULES.density_multiplier(difficulty_index)
-		state.next = elapsed + maxf(group.minimum_interval, group.interval_at(elapsed) / (density * difficulty_density))
+		state.next = elapsed + maxf(group.minimum_interval, group.interval_at(elapsed) / (density * difficulty_density * (Global.player.stats.final_multiplier("enemy_count") if is_instance_valid(Global.player) and not group.guaranteed else 1.0)))
 		state.executions += 1
 		var count := randi_range(maxi(1, group.minimum_count), maxi(group.minimum_count, group.maximum_count))
 		if group.school:
@@ -134,7 +134,7 @@ func scheduler_tick(elapsed: float) -> void:
 			var profile := group.select_enemy()
 			if profile:
 				var members := test_profile_count(profile) if group.affected_by_density else 1
-				if group.school_probability > 0.0 and randf() < group.school_probability and profile.id in [&"chaser_mid", &"chaser_fast"]:
+				if group.school_probability > 0.0 and randf() < group.school_probability and profile.id in [&"chaser_mini", &"chaser_mid", &"chaser_fast"]:
 					spawn_school(profile, members, Vector2.INF, group.school_radius, state)
 					continue
 				for duplicate in members:
@@ -212,6 +212,7 @@ func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
 	scaled.health = maxf(1.0, (base.initial_health + base.health_increase_per_wave * elapsed * hp_growth) * multiplier * (current_wave_data.health_multiplier if current_wave_data else 1.0))
 	scaled.damage = maxf(0.0, (base.initial_damage + base.damage_increase_per_wave * elapsed * damage_growth) * multiplier * (current_wave_data.damage_multiplier if current_wave_data else 1.0))
 	scaled.speed = maxf(0.0, base.speed + (profile.speed_growth_per_wave * elapsed if profile else 0.0)) * (current_wave_data.speed_multiplier if current_wave_data else 1.0)
+	if is_instance_valid(Global.player): scaled.speed *= Global.player.stats.final_multiplier("enemy_speed")
 	if temporary_crowd_test and profile:
 		if profile.id in [&"chaser_slow", &"charger"]: scaled.health *= test_heavy_health_multiplier
 	if temporary_reward_test and profile and profile.population != 1:
@@ -235,7 +236,7 @@ func spawn_profile(profile: EnemyProfile, state: Dictionary = {}) -> void:
 	_spawn_profile_at(profile, point, state)
 
 func spawn_school(profile: EnemyProfile, count: int = 10, center: Vector2 = Vector2.INF, spread_radius: float = 140.0, state: Dictionary = {}) -> int:
-	if not profile or not profile.is_valid() or profile.population != 0 or profile.id not in [&"chaser_fast", &"chaser_mid"]: return 0
+	if not profile or not profile.is_valid() or profile.population != 0 or profile.id not in [&"chaser_mini", &"chaser_fast", &"chaser_mid"]: return 0
 	if Global.game_paused or not current_wave_data or wave_timer.is_stopped() or count <= 0: return 0
 	if not center.is_finite(): center = get_safe_spawn_position(profile)
 	if not center.is_finite(): return 0

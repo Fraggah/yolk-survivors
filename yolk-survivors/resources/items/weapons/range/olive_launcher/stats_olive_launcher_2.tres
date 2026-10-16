@@ -6,7 +6,7 @@
 script = ExtResource("1")
 damage = 10.8
 cooldown = 0.799
-accuracy = 0.95
+accuracy = 1.0
 max_range = 300.0
 knockback = 0.5
 piercing = 0

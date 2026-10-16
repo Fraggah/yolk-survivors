@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 	if Global.game_paused: return
 	elapsed += delta
 	var settings := weapon.data.stats.aura_settings
-	var radius := weapon.data.stats.max_range * Global.GAME_ENTITY_SCALE
+	var radius: float = weapon.data.stats.max_range * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
 	var extent := Vector2(radius, radius * settings.area_y_ratio)
 	surface.position = -extent
 	surface.size = extent * 2.0
@@ -37,7 +37,7 @@ func execute_attack() -> void:
 	var source := weapon.get_parent() as Player
 	if not is_instance_valid(source): return
 	var settings := weapon.data.stats.aura_settings
-	var radius := weapon.data.stats.max_range * Global.GAME_ENTITY_SCALE
+	var radius: float = weapon.data.stats.max_range * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
 	var hit := HitboxComponent.new()
 	hit.setup(get_base_damage(), false, weapon.data.stats.knockback, source)
 	configure_hit_criticals(hit)

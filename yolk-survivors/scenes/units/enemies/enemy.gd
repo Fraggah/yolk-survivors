@@ -8,6 +8,7 @@ class_name Enemy
 var arena_environment: ArenaEnvironment
 var movement_override_enabled := false
 var desired_direction := Vector2.ZERO
+var crowd_steering := Vector2.ZERO
 
 @onready var vision_area: Area2D = $VisionArea
 @onready var knockback_timer: Timer = $KnockbackTimer
@@ -34,7 +35,7 @@ func release_pin(controller: Node) -> void:
 func get_movement_multiplier() -> float:
 	for id in pins.keys():
 		if not is_instance_valid(pins[id].get_ref()): pins.erase(id)
-	return 0.0 if not pins.is_empty() else slow_factor if slow_left > 0.0 else 1.0
+	return 0.0 if not pins.is_empty() else (slow_factor if slow_left > 0.0 else 1.0) * status_movement_multiplier
 
 func apply_slow(factor: float, duration: float, text_duration: float = 1.3, text_color: Color = Color("86a9be"), text_value: String = "Slowed") -> void:
 	if duration <= 0.0 or factor >= 1.0: return
@@ -91,30 +92,52 @@ func _ready() -> void:
 	super._ready()
 	if targetable: add_to_group("combat_enemies")
 	_apply_size()
+	if targetable:
+		EnemyCrowd.register_enemy(self)
+		vision_area.set_deferred("monitoring",false)
+		vision_area.set_deferred("collision_mask",0)
+		vision_area.get_node("CollisionShape2D").set_deferred("disabled",true)
 	update_rotation()
 	var contact := get_node_or_null("HitboxComponent") as HitboxComponent
 	if contact:
 		contact.setup(stats.damage, false, 0.0, self)
 		contact.continuous_contact = true
+		# Player hurtboxes monitor contact hitboxes; the reverse listener is unused.
+		contact.set_deferred("monitoring",false)
+		contact.set_deferred("collision_mask",0)
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
 	if is_retiring or health_component.current_health <= 0.0: return
 	slow_left = maxf(0.0, slow_left - delta)
-	if get_movement_multiplier() <= 0.0:
+	var movement_multiplier := get_movement_multiplier()
+	if movement_multiplier <= 0.0:
 		if not pins.is_empty(): global_position = pinned_position
 		return
 	if launch_left > 0.0:
 		_move_launched(delta)
 		return
-	
+
 	if not can_move: return
-	if not movement_override_enabled and not can_move_towards_player() and knockback_power <= 0.0: return
-	
-	position += (get_move_direction() + knockback_dir * knockback_power) * stats.speed * delta * get_movement_multiplier()
+	var player := Global.player
+	var player_valid := is_instance_valid(player)
+	var origin := global_position
+	var player_position := player.global_position if player_valid else origin
+	var offset := player_position-origin
+	var stop_distance := 60.0*visual_scale
+	if not movement_override_enabled and (not player_valid or offset.length_squared()<=stop_distance*stop_distance) and knockback_power<=0.0: return
+	var direction := Vector2.ZERO
+	if player_valid:
+		direction = desired_direction if movement_override_enabled else offset.normalized()
+		if targetable: direction += crowd_steering
+	var next_position := origin + (direction + knockback_dir * knockback_power) * stats.speed * delta * movement_multiplier
 	if arena_environment:
-		global_position = arena_environment.clamp_position(global_position)
-	update_rotation()
+		next_position = arena_environment.clamp_position(next_position)
+	# One transform write also avoids moving all attached physics Areas twice.
+	global_position = next_position
+	if player_valid:
+		var facing_scale := Vector2(-0.5,0.5)*visual_scale if next_position.x<player_position.x else Vector2(0.5,0.5)*visual_scale
+		if visuals.scale != facing_scale: visuals.scale = facing_scale
 
 func _apply_size() -> void:
 	# Scale the visual container, outside animation tracks; root movement stays unchanged.
@@ -134,14 +157,10 @@ func _apply_size() -> void:
 func get_move_direction() -> Vector2:
 	if not is_instance_valid(Global.player):
 		return Vector2.ZERO
-	
+
 	var direction := desired_direction if movement_override_enabled else global_position.direction_to(Global.player.global_position)
-	for area: Area2D in vision_area.get_overlapping_areas():
-		if area != self and area.is_inside_tree(): #Check
-			var vector := global_position - area.global_position #Direccion opuesta a los otros enemigos
-			if vector.length_squared() > 0.001:
-				direction += flock_push * vector.normalized() / vector.length() #Blend de direccion a player y empuje entre enemigos
-	
+	if targetable: direction += crowd_steering
+
 	return direction
 
 func apply_knockback(knock_dir: Vector2, knock_pow: float) -> void:
@@ -155,14 +174,15 @@ func reset_knockback() -> void:
 
 func update_rotation() -> void:
 	if not is_instance_valid(Global.player): return
-	
+
 	var player_pos := Global.player.global_position
 	var moving_right := global_position.x < player_pos.x
-	visuals.scale = Vector2(-.5, .5) * visual_scale if moving_right else Vector2(.5, .5) * visual_scale
+	var facing_scale := Vector2(-.5, .5) * visual_scale if moving_right else Vector2(.5, .5) * visual_scale
+	if visuals.scale != facing_scale: visuals.scale = facing_scale
 
 func can_move_towards_player() -> bool:
 	return is_instance_valid(Global.player) and\
-	global_position.distance_to(Global.player.global_position) > 60 * visual_scale
+	global_position.distance_squared_to(Global.player.global_position) > pow(60 * visual_scale,2)
 
 func destroy_enemy() -> void:
 	if is_retiring or is_queued_for_deletion(): return

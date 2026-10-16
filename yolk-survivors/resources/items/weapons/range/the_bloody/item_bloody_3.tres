@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://cvtlw57nrysod"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://cvtlw57nrysod"]
 
 [ext_resource type="Texture2D" uid="uid://b4umpgqech3sy" path="res://assets/sprites/Weapons/Redesign/Icons/bloody.png" id="1_jc5mn"]
 [ext_resource type="PackedScene" uid="uid://e7qe8knjp7ou" path="res://scenes/weapons/range/weapon_the_bloody.tscn" id="2_cw1th"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_idd3a"]
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="3_6s16p"]
 [ext_resource type="Resource" uid="uid://b8maqg5g64ibm" path="res://resources/items/weapons/range/the_bloody/stats_bloody_3.tres" id="4_cw1th"]
 [ext_resource type="Resource" uid="uid://cb50i4mhaiiap" path="res://resources/items/weapons/range/the_bloody/item_bloody_4.tres" id="5_6s16p"]
@@ -9,10 +10,15 @@
 [resource]
 script = ExtResource("3_6s16p")
 unlock_id = "bloody"
+selection_only = false
 type = 1
 scene = ExtResource("2_cw1th")
 stats = ExtResource("4_cw1th")
 upgrade_to = ExtResource("5_6s16p")
+attack_description = "Ketchup capsules burst on hit into 3 droplets behind the target, each dealing 25% of capsule damage."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_idd3a")]([])
 item_name = "Bloody III"
 item_icon = ExtResource("1_jc5mn")
 item_tier = 2

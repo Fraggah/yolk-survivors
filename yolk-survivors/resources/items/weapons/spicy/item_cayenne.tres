@@ -1,10 +1,23 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3]
 [ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/cayenne.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_cayenne.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_cayenne.tres" id="stats"]
+[ext_resource type="Script" path="res://resources/status_effect.gd" id="status_script"]
+[ext_resource type="Resource" path="res://resources/statuses/spicy_trail_fire.tres" id="fire"]
 [resource]
 script = ExtResource("script")
-selection_only = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+on_hit_effects = Array[ExtResource("status_script")]([ExtResource("fire")])
 item_name = "Cayena"
 item_icon = ExtResource("icon")
 item_tier = 0
 item_type = 0
+item_cost = 10
+attack_description = "Leaves fire behind while moving."
+
+final_stat_modifiers = {"fire_tick_speed": 10.0, "speed": -5.0}
+health_drain_per_second = 0.0

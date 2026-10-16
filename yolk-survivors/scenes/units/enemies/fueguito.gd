@@ -6,6 +6,7 @@ extends Enemy
 func _ready() -> void:
 	super._ready()
 	contact_hitbox.setup(stats.damage, false, 0.0, self)
+	contact_hitbox.status_effects.append(load("res://resources/statuses/fueguito_fire.tres"))
 
 func _process(delta: float) -> void:
 	super._process(delta)

@@ -14,5 +14,5 @@ item_name = "Baguette Harpoon III"
 item_tier = 2
 item_type = 0
 item_cost = 60
-attack_description = "A long baguette pierces through several enemies."
+attack_description = "Skewers and drags enemies, then pins them briefly at the end of its path or arena edge."
 upgrade_to = ExtResource("5")

@@ -10,6 +10,7 @@ breathing_speed = 2.0
 breathing_strength = 0.2
 [resource]
 script = ExtResource("stats")
+accuracy = 1.0
 damage = 3.0
 damage_scaling = 0.0
 cooldown = 0.5

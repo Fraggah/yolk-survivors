@@ -1,3 +1,6 @@
 
 # Personal explanatory documentation; keep on this computer only.
 /documentacion-local/
+
+# Generated Godot cache and local export credentials.
+/yolk-survivors/.godot/

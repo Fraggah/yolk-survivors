@@ -26,8 +26,13 @@ var weapon_spread: float
 
 var targets: Array[Enemy]
 var closest_target: Enemy
+var spatial_target: Enemy
+var spatial_target_deadline := 0.0
 
 func _ready() -> void:
+	range_area.set_deferred("monitoring",false)
+	range_area.set_deferred("collision_mask",0)
+	collision.set_deferred("disabled",true)
 	sprite_2d.scale *= VISUAL_SCALE
 	sprite_2d.position *= VISUAL_SCALE
 	sprite_base_scale = sprite_2d.scale
@@ -117,11 +122,18 @@ func get_closest_target() -> Enemy:
 	var nearest_distance_squared := INF
 	var world_range := data.stats.max_range * absf(collision.global_scale.x)
 	var range_squared := world_range * world_range
+	if targets.is_empty():
+		if EnemyCrowd.clock<spatial_target_deadline and is_instance_valid(spatial_target) and not spatial_target.is_queued_for_deletion() and not spatial_target.is_retiring and spatial_target.health_component.current_health>0 and origin.distance_squared_to(spatial_target.global_position)<=range_squared:
+			return spatial_target
+		spatial_target = EnemyCrowd.nearest(origin,world_range) as Enemy
+		spatial_target_deadline = EnemyCrowd.clock+0.06
+		return spatial_target
 	for index in range(targets.size() - 1, -1, -1):
 		var target = targets[index]
 		if not is_instance_valid(target) or target.is_queued_for_deletion():
 			targets.remove_at(index)
 			continue
+		if not target.targetable or target.is_retiring: continue
 		if target.health_component.current_health <= 0.0:
 			continue
 		var distance_squared := origin.distance_squared_to(target.global_position)

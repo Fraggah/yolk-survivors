@@ -15,6 +15,8 @@ func verify():
 	for equipped in global.player.current_weapons: equipped.set_process(false)
 	for index in IDS.size():
 		var id: String = IDS[index]
+		# Minipimer is ranged now; actual projectile/chain coverage lives in verify_electric_weapons.
+		if id == "immersion_blender": continue
 		var item = load("res://resources/items/weapons/melee/%s/item_%s_1.tres" % [id,id])
 		assert(arena.weapon_selection_panel.weapons_list.has(item))
 		assert(root.get_node("Progression").is_weapon_unlocked(item))
@@ -54,7 +56,7 @@ func verify():
 		assert(not weapon.is_attacking and not behavior.contact_active)
 		assert(weapon.sprite_2d.position.is_equal_approx(weapon.atk_start_pos))
 		assert(is_zero_approx(weapon.sprite_2d.rotation))
-		var expected: int = [2,3,1,1,1,2,6,4,3][index]
+		var expected: int = [2,3,1,1,1,2,1,0,3][index]
 		assert(behavior.pulse_count == expected)
 		var dealt: float = 10000 - enemy.health_component.current_health
 		print(id, " damage=", dealt, " pulses=", behavior.pulse_count)

@@ -1,9 +1,14 @@
-[gd_resource type="Resource" script_class="RangedSettings" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="RangedSettings" load_steps=4 format=3]
 [ext_resource type="Script" path="res://resources/items/weapons/ranged_settings.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/olive_pit.png" id="pit_texture"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_olive_pit.tscn" id="pit_scene"]
 [resource]
 script = ExtResource("1")
 leaves_pit = true
 pit_texture = ExtResource("pit_texture")
 pit_duration = 3.0
 pit_radius = 18
+pit_projectile_scene = ExtResource("pit_scene")
+pit_projectile_speed = 700.0
+pit_range_multiplier = 0.5
+pit_deviation_degrees = 45.0

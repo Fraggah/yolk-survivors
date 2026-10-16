@@ -10,7 +10,7 @@ func verify():
 	var player_base = load("res://resources/units/players/player_well_rounded.tres").speed
 	var fast_base = load("res://resources/units/enemies/stats_enemy_chaser_fast.tres").speed
 	assert(player_base == 300 and fast_base == 240)
-	for id in ["chaser_mid","chaser_fast","chaser_slow","charger","shooter","fueguito"]:
+	for id in ["chaser_mini","chaser_mid","chaser_fast","chaser_slow","charger","shooter","fueguito"]:
 		var profile = load("res://resources/wave/enemies/%s.tres" % id)
 		for test_mode in [false,true]:
 			spawner.temporary_crowd_test = test_mode

@@ -2,7 +2,8 @@ extends Weapon
 
 # Spicy attacks are autonomous; nearby enemies never gate or aim them.
 func can_use_weapon() -> bool:
-	return data != null and cooldown_timer.is_stopped() and not is_attacking
+	if data == null or not cooldown_timer.is_stopped() or is_attacking: return false
+	return weapon_behaviour.can_execute_attack() if weapon_behaviour.has_method("can_execute_attack") else true
 
 func update_closest_target() -> void:
 	closest_target = null

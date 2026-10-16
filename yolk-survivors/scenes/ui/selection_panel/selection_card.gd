@@ -9,7 +9,7 @@ const SILHOUETTE = preload("res://shaders/locked_silhouette.gdshader")
 var portrait: TextureRect
 var locked := false
 
-func set_icon(texture: Texture2D) -> void:
+func set_icon(texture: Texture2D, icon_scale: float = 1.0) -> void:
 	# Only the portrait receives the shader, keeping slot and focus colors intact.
 	if portrait == null:
 		portrait = TextureRect.new()
@@ -24,6 +24,7 @@ func set_icon(texture: Texture2D) -> void:
 		add_child(portrait)
 	icon = null
 	portrait.texture = texture
+	ItemBase.scale_icon(portrait, icon_scale)
 
 func set_locked(value: bool) -> void:
 	if locked == value: return

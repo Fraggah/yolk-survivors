@@ -9,7 +9,8 @@ func verify() -> void:
 	var player = global.get_selected_player()
 	root.add_child(player)
 	var count := 0
-	for folder in ["the_bloody", "knifer", "corpse_l", "smasher", "hydrant"]:
+	# Corpse's fuse, Smasher's flight and Hydrant's stream have dedicated tests.
+	for folder in ["the_bloody", "knifer"]:
 		var directory = DirAccess.open("res://resources/items/weapons/range/" + folder)
 		for file in directory.get_files():
 			if not file.begins_with("item_") or not file.ends_with(".tres"): continue
@@ -38,7 +39,7 @@ func verify() -> void:
 			global.game_paused = true
 			weapon.queue_free()
 			count += 1
-	assert(count == 20)
+	assert(count == 8)
 	var enemy_projectile = load("res://scenes/projectiles/projectile_enemy.tscn").instantiate()
 	root.add_child(enemy_projectile)
 	enemy_projectile.set_process(false)
@@ -71,5 +72,5 @@ func verify() -> void:
 	global.player = null
 	player.queue_free()
 	await process_frame
-	print("PASS: 20 ranged tiers, travel cap, pause, enemy compatibility, wave-end cleanup and six hidden enemy health bars")
+	print("PASS: 8 conventional ranged tiers, travel cap, pause, enemy compatibility, wave-end cleanup and six hidden enemy health bars")
 	quit()

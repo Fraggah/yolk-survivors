@@ -54,6 +54,7 @@ func verify():
 	assert(player.receive_hit(hitbox))
 	assert(is_equal_approx(hp.current_health,64.4))
 	player.stats.block_chance = 100
+	player.stats.block_effectiveness = 100 # Explicit full mitigation test.
 	assert(not player.receive_hit(hitbox) and is_equal_approx(hp.current_health,64.4))
 	player.stats.block_chance = 0
 	var enemy = load("res://resources/wave/enemies/chaser_mid.tres").scene.instantiate()

@@ -38,6 +38,8 @@ extends Node
 @export var fueguito: AudioStream
 @export var bubble_explosion: AudioStream
 @export var spatula_impact: AudioStream
+@export_group("Armas - impactos especiales")
+@export var plate_break: AudioStream
 @export_group("Armas por defecto")
 @export var default_ranged_attack: AudioStream = preload("res://assets/audio/ShotgunFire.wav")
 @export var default_melee_attack: AudioStream

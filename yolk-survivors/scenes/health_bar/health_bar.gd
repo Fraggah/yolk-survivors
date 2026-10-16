@@ -8,21 +8,24 @@ class_name HealthBar
 @export_range(0.05, 1.0) var damage_flash_duration := 0.28
 var flash_left := 0.0
 var clipped_fill: ColorRect
+var displayed_health := 0.0
 
 @onready var progress_bar: ProgressBar = $ProgressBar
 @onready var health_value: Label = %HealthValue
 
 func _ready() -> void:
+	set_process(false)
+	visibility_changed.connect(_refresh_health_label)
 	if use_ui_palette:
 		UITheme.palette_changed.connect(_apply_ui_palette)
 		_apply_ui_palette()
 		return
 	var back_style := progress_bar.get_theme_stylebox("background").duplicate()
 	back_style.bg_color = back_color
-	
+
 	var fill_style := progress_bar.get_theme_stylebox("fill").duplicate()
 	fill_style.bg_color = fill_color
-	
+
 	progress_bar.add_theme_stylebox_override("background", back_style)
 	progress_bar.add_theme_stylebox_override("fill", fill_style)
 
@@ -64,14 +67,21 @@ func _sync_clipped_fill() -> void:
 
 func update_bar(value: float, health: float) -> void:
 	progress_bar.value = value
-	health_value.text = ItemWeapon.format_number(health)
+	displayed_health = health
+	_refresh_health_label()
+
+func _refresh_health_label() -> void:
+	if is_visible_in_tree() and is_instance_valid(health_value):
+		health_value.text = ItemWeapon.format_number(displayed_health)
 
 func flash_damage() -> void:
 	if experience_bar: return
 	flash_left = damage_flash_duration
+	set_process(true)
 
 func reset_damage_flash() -> void:
 	flash_left = 0.0
+	set_process(false)
 	if use_ui_palette:
 		_apply_ui_palette()
 	else:
@@ -80,6 +90,7 @@ func reset_damage_flash() -> void:
 func _process(delta: float) -> void:
 	if flash_left <= 0.0: return
 	flash_left = maxf(0.0, flash_left - delta)
+	if flash_left<=0.0: set_process(false)
 	var style := progress_bar.get_theme_stylebox("fill") as StyleBoxFlat
 	var base: Color = UITheme.palette.health_fill if use_ui_palette else fill_color
 	var flash_color := base.lerp(UITheme.palette.hud_text, flash_left / damage_flash_duration)

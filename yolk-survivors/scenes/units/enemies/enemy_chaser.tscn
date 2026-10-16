@@ -16,16 +16,16 @@ radius = 150.0
 radius = 37.0135
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v0hn2"]
-radius = 34.2
+radius = 15.2971
 
 [node name="EnemyChaser" instance=ExtResource("1_1rdpi")]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("2_ekmfq")
-flock_push = 20.0
-targetable = true
-visual_scale = 1.0
-knockback_resistance = 0.0
+flock_push = null
+targetable = null
+visual_scale = null
+knockback_resistance = null
 stats = ExtResource("3_ekmfq")
 
 [node name="Sprite" parent="Visuals" index="1"]
@@ -54,11 +54,12 @@ shape = SubResource("CircleShape2D_go2lf")
 debug_color = Color(0.848969, 0.374296, 0, 0.42)
 
 [node name="HitboxComponent" parent="." index="5" instance=ExtResource("5_go2lf")]
+position = Vector2(0, -6)
 collision_layer = 4
 collision_mask = 32
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" index="0"]
-position = Vector2(0, -29)
+position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_v0hn2")
 debug_color = Color(0.985726, 0.117178, 1.92523e-07, 0.42)
 

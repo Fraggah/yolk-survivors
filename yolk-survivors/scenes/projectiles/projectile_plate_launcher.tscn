@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scenes/projectiles/catalogue_projectile.gd" id="1_71gtn"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/plate.png" id="2_yt6ye"]
+[ext_resource type="Script" path="res://scenes/projectiles/plate_projectile.gd" id="1_71gtn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Projectiles/Unique/plate_profile.svg" id="2_yt6ye"]
 [ext_resource type="PackedScene" path="res://scenes/components/hitbox_component.tscn" id="3_reban"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l3el7"]

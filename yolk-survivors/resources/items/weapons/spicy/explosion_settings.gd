@@ -1,0 +1,14 @@
+extends Resource
+class_name SpicyExplosionSettings
+
+@export_range(1, 20) var explosion_count := 3
+@export var minimum_distance := 60.0
+@export var explosion_radius := 95.0
+@export_range(0.1, 1.0, 0.01) var area_y_ratio := 0.6
+@export_range(0.0, 2.0, 0.01) var anticipation := 0.25
+@export_range(0.05, 2.0, 0.01) var visual_duration := 0.3
+@export var color := Color(1.0, 0.33, 0.035, 1.0)
+@export_range(0.0, 1.0, 0.01) var opacity := 0.75
+@export_range(0.0, 30.0, 0.1) var burn_duration := 3.0
+@export_range(0.05, 5.0, 0.05) var burn_interval := 0.5
+@export_range(0.0, 5.0, 0.05) var burn_damage_multiplier := 0.35

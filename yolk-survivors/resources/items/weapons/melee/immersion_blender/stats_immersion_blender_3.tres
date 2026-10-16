@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="WeaponStats" load_steps=2 format=3 uid="uid://byotrtlt7nrs2"]
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=3 format=3 uid="uid://byotrtlt7nrs2"]
 
 [ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_electric_saw.tscn" id="saw"]
 
 [resource]
 script = ExtResource("1")
@@ -10,7 +11,7 @@ accuracy = 1.0
 cooldown = 0.87
 crit_chance = 0.05
 crit_damage = 1.5
-max_range = 150.0
+max_range = 400.0
 knockback = 0.12
 slow_duration = 0.5
 piercing = 0
@@ -20,5 +21,6 @@ recoil = 25.0
 recoil_duration = 0.1
 attack_duration = 0.2
 back_duration = 0.15
-projectile_speed = 1500.0
+projectile_scene = ExtResource("saw")
+projectile_speed = 1200.0
 animation_cooldown_fraction = 0.9

@@ -11,10 +11,22 @@ var _particles: Array[Dictionary] = []
 var _enemy_cooldowns: Dictionary = {}
 var _time := 0.0
 var active_count := 0
+var cream_instances: MultiMesh
+var shell_instances: MultiMesh
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	z_index = 8
+	var quad := QuadMesh.new()
+	quad.size = Vector2(2,2)
+	cream_instances = _make_batch(quad,true)
+	var polygon := ArrayMesh.new()
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = PackedVector3Array([Vector3(-1,-0.5,0),Vector3(0.3,-0.9,0),Vector3(1,0.3,0),Vector3(-0.3,0.9,0)])
+	arrays[Mesh.ARRAY_INDEX] = PackedInt32Array([0,1,2,0,2,3])
+	polygon.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	shell_instances = _make_batch(polygon,false)
 	for i in MAX_PARTICLES:
 		_particles.append({"life": 0.0, "duration": 0.0, "position": Vector2.ZERO,
 			"velocity": Vector2.ZERO, "size": 0.0, "angle": 0.0, "spin": 0.0, "shell": false})
@@ -41,7 +53,6 @@ func emit_hit(enemy_id: int, at: Vector2, direction: Vector2, critical: bool) ->
 		emitted += 1
 		if emitted >= total: break
 	set_process(active_count > 0)
-	queue_redraw()
 
 func _process(delta: float) -> void:
 	_time += delta
@@ -56,28 +67,55 @@ func _process(delta: float) -> void:
 		particle.position += particle.velocity * delta
 		particle.velocity *= exp(-7.0 * delta)
 		particle.angle += particle.spin * delta
-	queue_redraw()
+	_update_instances()
 	set_process(active_count > 0)
 
-func _draw() -> void:
+func _make_batch(mesh: Mesh, circular: bool) -> MultiMesh:
+	var instances := MultiMesh.new()
+	instances.transform_format = MultiMesh.TRANSFORM_2D
+	instances.use_colors = true
+	instances.mesh = mesh
+	instances.instance_count = MAX_PARTICLES*2
+	instances.visible_instance_count = 0
+	instances.custom_aabb = AABB(Vector3(-16384,-16384,-1),Vector3(32768,32768,2))
+	var batch := MultiMeshInstance2D.new()
+	batch.multimesh = instances
+	if circular:
+		var material := ShaderMaterial.new()
+		material.shader = preload("res://shaders/mayonnaise_droplet.gdshader")
+		batch.material = material
+	add_child(batch)
+	return instances
+
+func _update_instances() -> void:
+	var cream_count := 0
+	var shell_count := 0
 	for particle in _particles:
 		if particle.life <= 0.0: continue
 		var alpha := minf(1.0, particle.life / particle.duration * 2.0)
 		var radius: float = particle.size * (0.65 + 0.35 * particle.life / particle.duration)
 		if particle.shell:
-			var points := PackedVector2Array()
-			for point in [Vector2(-1,-0.5), Vector2(0.3,-0.9), Vector2(1,0.3), Vector2(-0.3,0.9)]:
-				points.append(particle.position + point.rotated(particle.angle) * radius)
-			draw_colored_polygon(points, Color(SHELL, alpha))
-			points.append(points[0])
-			draw_polyline(points, Color(OUTLINE, alpha), 1.2, true)
+			var transform := Transform2D(particle.angle,Vector2.ONE*radius,0.0,particle.position)
+			var index := shell_count*2
+			shell_instances.set_instance_transform_2d(index,transform)
+			shell_instances.set_instance_color(index,Color(OUTLINE,alpha))
+			shell_instances.set_instance_transform_2d(index+1,Transform2D(transform.x*0.84,transform.y*0.84,transform.origin))
+			shell_instances.set_instance_color(index+1,Color(SHELL,alpha))
+			shell_count += 1
 		else:
-			draw_circle(particle.position, radius, Color(OUTLINE, alpha), true, -1.0, true)
-			draw_circle(particle.position, maxf(0.5, radius - 1.0), Color(CREAM, alpha), true, -1.0, true)
+			var index := cream_count*2
+			cream_instances.set_instance_transform_2d(index,Transform2D(0,Vector2.ONE*radius,0.0,particle.position))
+			cream_instances.set_instance_color(index,Color(OUTLINE,alpha))
+			cream_instances.set_instance_transform_2d(index+1,Transform2D(0,Vector2.ONE*maxf(0.5,radius-1.0),0.0,particle.position))
+			cream_instances.set_instance_color(index+1,Color(CREAM,alpha))
+			cream_count += 1
+	cream_instances.visible_instance_count = cream_count*2
+	shell_instances.visible_instance_count = shell_count*2
 
 func clear() -> void:
 	for particle in _particles: particle.life = 0.0
 	_enemy_cooldowns.clear()
 	active_count = 0
+	cream_instances.visible_instance_count = 0
+	shell_instances.visible_instance_count = 0
 	set_process(false)
-	queue_redraw()

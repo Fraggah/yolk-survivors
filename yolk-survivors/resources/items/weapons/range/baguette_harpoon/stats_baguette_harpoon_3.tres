@@ -4,9 +4,9 @@
 [ext_resource type="Resource" path="res://resources/items/weapons/range/baguette_harpoon/effects_baguette_harpoon_3.tres" id="3"]
 [resource]
 script = ExtResource("1")
-damage = 27.0
+damage = 13.5
 cooldown = 1.32
-accuracy = 0.95
+accuracy = 1.0
 max_range = 420.0
 knockback = 0.5
 piercing = 4

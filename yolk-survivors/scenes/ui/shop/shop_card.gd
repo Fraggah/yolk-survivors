@@ -59,6 +59,7 @@ func _refresh_palette() -> void:
 func _set_shop_item(value: ItemBase) -> void:
 	shop_item = value
 	item_icon.texture = shop_item.item_icon
+	ItemBase.scale_icon(item_icon, shop_item.icon_scale)
 	item_name.text = shop_item.item_name
 	item_name.add_theme_font_size_override("font_size", 16 if shop_item.item_name.length() >= 20 else 20)
 	item_type.text = ItemBase.ItemType.keys()[shop_item.item_type]

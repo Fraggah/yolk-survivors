@@ -1,18 +1,72 @@
-[gd_resource type="Resource" script_class="WeaponStats" load_steps=3 format=3 uid="uid://b1avrrtjsrxoh"]
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=5 format=3 uid="uid://b1avrrtjsrxoh"]
 
-[ext_resource type="PackedScene" uid="uid://bis3jxecnde0g" path="res://scenes/projectiles/projectile_revolver.tscn" id="1_bx0og"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_corpse_egg.tscn" id="1_bx0og"]
 [ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="2_ld54v"]
+[ext_resource type="Script" uid="uid://d2qcdgll7iume" path="res://resources/items/weapons/ranged_settings.gd" id="egg_settings_script"]
+
+[sub_resource type="Resource" id="egg_settings"]
+script = ExtResource("egg_settings_script")
+projectile_count = 1
+spread_degrees = 0.0
+burst_count = 1
+burst_interval = 0.1
+explodes = true
+explode_on_impact = false
+fuse = 0.3
+explosion_radius = 80.0
+area_y_ratio = 0.6
+explosion_damage_multiplier = 1.0
+explosion_color = Color(1, 0.72, 0.22, 1)
+explosion_visual_duration = 0.22
+corn_explosion_chance = 0.3
+corn_contact_damage_multiplier = 0.25
+popcorn_speed = 700.0
+popcorn_range = 240.0
+popcorn_damage_multiplier = 1.0
+lob_height = 45.0
+egg_contact_push = 1.25
+egg_fall_duration = 0.1
+pre_explosion_shake_duration = 0.2
+pre_explosion_shake_amount = 2.0
+pre_explosion_shake_frequency = 35.0
+bonus_yolks = 1
+leaves_pit = false
+pit_duration = 3.0
+pit_radius = 16.0
+pit_damage_multiplier = 0.5
+pit_hit_interval = 0.5
+splatter_count = 3
+splatter_damage_multiplier = 0.25
+splatter_spread_degrees = 50.0
+splatter_speed = 700.0
+splatter_range_multiplier = 0.1
+stream_width = 10.0
+stream_color = Color(1, 0.941176, 0.745098, 1)
+stream_core_color = Color(1, 0.992157, 0.941176, 1)
+stream_edge_color = Color(0.772549, 0.709804, 0.529412, 1)
+stream_wobble = 1.6
+stream_flow_speed = 8.0
+stream_particle_interval = 0.06
+stream_muzzle_particles = 3
+stream_impact_particles = 10
+stream_particle_lifetime = 0.4
+stream_particle_speed = 100.0
 
 [resource]
 script = ExtResource("2_ld54v")
 damage = 14.0
 damage_scaling = 1.0
-accuracy = 0.8
+accuracy = 1.0
 cooldown = 0.8
 crit_chance = 0.05
 crit_damage = 1.5
 max_range = 320.0
+unlimited_range = false
+unlimited_piercing = false
 knockback = 0.0
+slow_duration = 0.5
+piercing = 0
+bounces = 0
 life_steal = 0.0
 recoil = 25.0
 recoil_duration = 0.1
@@ -20,4 +74,6 @@ attack_duration = 0.2
 back_duration = 0.15
 projectile_scene = ExtResource("1_bx0og")
 projectile_speed = 1500.0
+ranged_settings = SubResource("egg_settings")
+animation_cooldown_fraction = 0.9
 metadata/_custom_type_script = "uid://dt1gvvs3u6pgk"

@@ -14,5 +14,5 @@ item_name = "Pressure Cooker III"
 item_tier = 2
 item_type = 0
 item_cost = 72
-attack_description = "Throws a pressure cooker with a delayed wide explosion."
+attack_description = "Lob a pressure pot. Landing slows nearby enemies; the pot swells and shakes before exploding."
 upgrade_to = ExtResource("5")

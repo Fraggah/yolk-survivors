@@ -30,7 +30,7 @@ func get_damage() -> float:
 	var crit_chance := weapon.data.get_effective_critical_chance(Global.player.stats)
 	if Global.get_chance_succes(crit_chance):
 		critical = true
-		damage = damage * weapon.data.stats.crit_damage
+		damage = damage * weapon.data.get_effective_critical_multiplier(Global.player.stats)
 	return damage
 
 func get_life_steal_chance() -> float:
@@ -43,4 +43,6 @@ func get_base_damage() -> float:
 func configure_hit_criticals(hitbox: HitboxComponent) -> void:
 	hitbox.roll_critical_per_target = true
 	hitbox.critical_chance = weapon.data.get_effective_critical_chance(Global.player.stats)
-	hitbox.critical_multiplier = weapon.data.stats.crit_damage
+	hitbox.critical_multiplier = weapon.data.get_effective_critical_multiplier(Global.player.stats)
+	for effect in weapon.data.on_hit_effects:
+		if not hitbox.status_effects.has(effect): hitbox.status_effects.append(effect)

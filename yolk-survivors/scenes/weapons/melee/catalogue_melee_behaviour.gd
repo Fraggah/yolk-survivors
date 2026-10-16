@@ -45,7 +45,7 @@ func _draw() -> void:
 	# A rotating blade glint keeps the grip stable while the working end spins.
 	var sprite := weapon.sprite_2d
 	var center := sprite.position + tuning.rotor_center.rotated(sprite.rotation) * absf(sprite.scale.x)
-	var radius := tuning.rotor_radius * absf(sprite.scale.x)
+	var radius: float = tuning.rotor_radius * absf(sprite.scale.x)
 	draw_arc(center, radius, rotor_angle, rotor_angle + tuning.rotor_arc, 8, tuning.rotor_color, tuning.rotor_width, true)
 
 func _physics_process(_delta: float) -> void:
@@ -104,7 +104,7 @@ func _begin_pulse(damage_multiplier: float = 1.0, knockback: float = -1.0) -> vo
 	hitbox.life_steal_chance = get_life_steal_chance()
 	hitbox.weapon_damage_record = weapon.damage_record
 	hitbox.launch_on_hit = style == Style.GLOVE
-	hitbox.launch_speed = tuning.launch_speed
+	hitbox.launch_speed = tuning.launch_speed * weapon.get_parent().stats.final_multiplier("knockback")
 	hitbox.launch_duration = tuning.launch_duration
 	hitbox.launch_damage = get_base_damage() * tuning.collision_damage_multiplier if style == Style.GLOVE else 0.0
 	hitbox.cancel_knockback_on_hit = style == Style.HAMMER and knockback == 0.0
@@ -121,7 +121,7 @@ func _end_pulse() -> void:
 func _swept_contacts() -> void:
 	var current := hitbox.bb.global_position
 	var travel := current - previous_contact
-	var radius := 8.0
+	var radius: float = 8.0
 	if hitbox.bb.shape is RectangleShape2D:
 		var extent := (hitbox.bb.shape as RectangleShape2D).size * hitbox.bb.global_scale.abs()
 		radius = minf(extent.x, extent.y) * 0.5
@@ -165,11 +165,11 @@ func _jabs(tween: Tween) -> void:
 		tween.tween_property(weapon.sprite_2d, "position", _tip(distance * tuning.repeated_retract_multiplier if count > 1 else 0.0), tuning.return_duration * timing)
 
 func _scrape(tween: Tween) -> void:
-	var timing := _timing()
+	var timing: float = _timing() * weapon.get_parent().stats.get_effect_multiplier() * weapon.get_parent().stats.effect_duration_multiplier()
 	_release_captured()
 	var center := weapon.closest_target.global_position if is_instance_valid(weapon.closest_target) else hitbox.global_position
 	for enemy in weapon.get_tree().get_nodes_in_group("combat_enemies"):
-		if enemy is Enemy and not enemy.is_retiring and enemy.health_component.current_health > 0.0 and enemy.global_position.distance_to(center) <= tuning.capture_radius * absf(weapon.global_scale.x):
+		if enemy is Enemy and not enemy.is_retiring and enemy.health_component.current_health > 0.0 and enemy.global_position.distance_to(center) <= tuning.capture_radius * absf(weapon.global_scale.x) * weapon.get_parent().stats.get_area_radius_multiplier():
 			captured_enemies.append(enemy)
 			enemy.pin_for(self)
 	grater_anchor = weapon.closest_target.get_node("HurtboxComponent/CollisionShape2D").global_position if is_instance_valid(weapon.closest_target) else center
@@ -238,7 +238,7 @@ func _start_roll_return() -> void:
 func _second_ladle_target() -> Enemy:
 	if not is_instance_valid(Global.player): return null
 	var origin := Global.player.global_position
-	var radius := weapon.data.stats.max_range * absf(weapon.global_scale.x)
+	var radius: float = weapon.data.stats.max_range * absf(weapon.global_scale.x)
 	var eligible: Array[Enemy] = []
 	for enemy in weapon.get_tree().get_nodes_in_group("combat_enemies"):
 		if enemy is Enemy and enemy.targetable and not enemy.is_queued_for_deletion() and not enemy.is_retiring and enemy.health_component.current_health > 0.0 and enemy.global_position.distance_squared_to(origin) <= radius * radius:
@@ -282,11 +282,11 @@ func _hit_near_start() -> void:
 
 func _pan_impact() -> void:
 	var center := hitbox.bb.global_position
-	var radius := pan_slow_radius * absf(weapon.global_scale.x)
+	var radius: float = pan_slow_radius * absf(weapon.global_scale.x) * weapon.get_parent().stats.get_area_radius_multiplier()
 	var effect = load("res://effects/pan_slow_burst.gd")
 	for enemy in weapon.get_tree().get_nodes_in_group("combat_enemies"):
 		if enemy is Enemy and not enemy.is_retiring and effect.contains_offset(enemy.global_position - center, radius, tuning.effect_y_ratio):
-			enemy.apply_slow(tuning.slow_factor, weapon.data.stats.slow_duration, tuning.status_text_duration, tuning.status_text_color, tuning.status_text)
+			enemy.apply_slow(weapon.get_parent().stats.effective_slow(tuning.slow_factor), weapon.data.stats.slow_duration * weapon.get_parent().stats.get_effect_multiplier() * weapon.get_parent().stats.effect_duration_multiplier(), tuning.status_text_duration, tuning.status_text_color, tuning.status_text)
 	var burst = effect.new()
 	weapon.get_tree().current_scene.add_child(burst)
 	burst.global_position = center

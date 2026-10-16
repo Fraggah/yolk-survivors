@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="PackedScene" path="res://scenes/weapons/weapon_base.tscn" id="base"]
+[ext_resource type="Script" path="res://scenes/weapons/spicy/spicy_weapon.gd" id="weapon"]
+[ext_resource type="Script" path="res://scenes/weapons/spicy/pattern_behaviour.gd" id="behaviour"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/InGame/scotch_bonnet.png" id="texture"]
+[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="outline"]
+[sub_resource type="ShaderMaterial" id="material"]
+resource_local_to_scene = true
+shader = ExtResource("outline")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 7.0
+shader_parameter/glow_intensity = 3.5
+[node name="ScotchBonnet" instance=ExtResource("base")]
+script = ExtResource("weapon")
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("material")
+texture = ExtResource("texture")
+scale = Vector2(0.5, 0.5)
+[node name="Muzzle" type="Marker2D" parent="Sprite2D" index="0"]
+unique_name_in_owner = true
+[node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("weapon")]
+script = ExtResource("behaviour")
+weapon = NodePath("..")

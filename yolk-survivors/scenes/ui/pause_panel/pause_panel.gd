@@ -55,6 +55,7 @@ func _refresh_weapons() -> void:
 		tile.add_child(content)
 		var icon := TextureRect.new()
 		icon.texture = weapon.data.item_icon
+		ItemBase.scale_icon(icon, weapon.data.icon_scale)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -52,6 +52,7 @@ func verify() -> void:
 	charger._on_hurtbox_component_on_damage(shot.hitbox)
 	assert(player.health_component.current_health == 52.0)
 	charger.stats.block_chance = 100.0
+	charger.stats.block_effectiveness = 100.0 # Explicit full-block case; default is now partial mitigation.
 	player.life_steal_cooldown = 0.0
 	var before = charger.health_component.current_health
 	charger._on_hurtbox_component_on_damage(shot.hitbox)

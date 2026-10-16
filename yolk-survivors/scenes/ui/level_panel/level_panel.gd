@@ -4,6 +4,7 @@ class_name LevelPanel
 const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
 
 signal on_level_selection_exited
+signal on_stress_test_selected(population: int)
 
 @export var buttons: Array[Button] = []
 
@@ -14,6 +15,7 @@ func _ready() -> void:
 		buttons[index].mouse_entered.connect(_show_difficulty.bind(index))
 		buttons[index].focus_entered.connect(_show_difficulty.bind(index))
 	UITheme.palette_changed.connect(_refresh_locks)
+	visibility_changed.connect(_refresh_locks)
 	call_deferred("_refresh_locks")
 	enable_buttons(Global.level_reached)
 	_show_difficulty(0)
@@ -43,6 +45,7 @@ func enable_buttons(level: int) -> void:
 		UITheme._bind_button_focus(button)
 
 func _refresh_locks() -> void:
+	if not is_visible_in_tree(): return
 	enable_buttons(Global.level_reached)
 
 func _select_difficulty(level: int) -> void:
@@ -76,3 +79,9 @@ func _on_level_5_button_pressed() -> void:
 
 func _on_custom_button_pressed() -> void:
 	on_level_selection_exited.emit()
+
+func _on_stress_test_button_pressed() -> void:
+	on_stress_test_selected.emit(1000)
+
+func _on_stress_500_button_pressed() -> void:
+	on_stress_test_selected.emit(500)

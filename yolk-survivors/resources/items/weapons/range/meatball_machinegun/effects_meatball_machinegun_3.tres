@@ -4,3 +4,4 @@
 script = ExtResource("1")
 burst_count = 3
 burst_interval = 0.09
+lock_burst_aim = true

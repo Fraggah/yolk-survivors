@@ -13,4 +13,4 @@ item_name = "Pressure Cooker IV"
 item_tier = 3
 item_type = 0
 item_cost = 96
-attack_description = "Throws a pressure cooker with a delayed wide explosion."
+attack_description = "Lob a pressure pot. Landing slows nearby enemies; the pot swells and shakes before exploding."
