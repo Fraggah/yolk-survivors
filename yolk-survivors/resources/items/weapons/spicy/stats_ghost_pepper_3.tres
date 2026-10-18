@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/ghost_pepper_cloud.png" id="cloud"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 3
+cloud_texture = ExtResource("cloud")
+radius = 210.0
+lifetime = 5
+tick_interval = 0.6
+maximum_active = 3
+opacity = 0.62
+color = Color(0.8, 0.18, 0.15, 1)
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 7.2
+damage_scaling = 0.0
+cooldown = 3.5
+max_range = 230.0
+knockback = 0.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")

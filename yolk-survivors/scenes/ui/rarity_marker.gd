@@ -7,13 +7,13 @@ static func apply(control: Control, tier: int, compact: bool = false) -> void:
 		band.name = "RarityMarker"
 		band.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		control.add_child(band)
-		var label := Label.new()
-		label.name = "Text"
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		band.add_child(label)
-		label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		var new_label := Label.new()
+		new_label.name = "Text"
+		new_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		new_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		band.add_child(new_label)
+		new_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var style := StyleBoxFlat.new()
 	style.bg_color = UITheme.palette.rarity(tier)
 	if compact:

@@ -39,7 +39,7 @@ func verify():
 	var current=item
 	for tier in 4:
 		assert(current.type==1 and current.item_type==0)
-		assert(current.get_category_label()=="Explosive weapon")
+		assert(current.has_tag(current.Tag.EXPLOSIVE))
 		assert(current.stats.ranged_settings.fuse==0.3 and current.stats.ranged_settings.explosion_radius==80)
 		assert(current.stats.ranged_settings.bonus_yolks==1)
 		current=current.upgrade_to

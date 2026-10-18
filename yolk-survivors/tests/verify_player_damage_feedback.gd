@@ -41,6 +41,7 @@ func verify():
 	assert(arena.spawner.alive_enemy_count() == 1)
 	hp.take_damage(hp.max_health)
 	assert(arena.defeat_in_progress and feedback.dying)
+	assert(is_equal_approx(feedback.corpse.scale.x*feedback.corpse.texture.get_width(),feedback.start_size), "Corpse has its intended size immediately, before the first presentation frame")
 	assert(global.player == null and global.game_paused)
 	assert(not arena.final_screen.visible)
 	assert(arena.spawner.alive_enemy_count() == 1, "Scene retained through defeat")
@@ -57,6 +58,11 @@ func verify():
 	global.main_weapon_selected = arena.weapon_selection_panel.weapons_list[0]
 	arena._on_level_selected(0)
 	assert(global.player != null and arena.wave_active and not arena.defeat_in_progress)
+	var retry_hp=global.player.health_component
+	retry_hp.take_damage(retry_hp.max_health)
+	assert(is_equal_approx(feedback.corpse.scale.x*feedback.corpse.texture.get_width(),feedback.start_size), "Retry death does not reuse the previous final corpse size")
+	arena.queue_free()
+	await process_frame
 	print("PASS damage flash, four vignette levels, healing/pause, staged defeat, centered corpse and retry")
 	quit()
 

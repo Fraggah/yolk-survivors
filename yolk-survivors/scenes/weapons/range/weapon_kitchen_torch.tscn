@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://scenes/weapons/weapon_base.tscn" id="base"]
+[ext_resource type="Script" path="res://scenes/weapons/range/hydrant_weapon.gd" id="weapon"]
+[ext_resource type="Script" path="res://scenes/weapons/range/kitchen_torch_stream.gd" id="behaviour"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/InGame/kitchen_torch.png" id="texture"]
+[node name="KitchenTorch" instance=ExtResource("base")]
+script = ExtResource("weapon")
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("texture")
+position = Vector2(26, 0)
+scale = Vector2(0.3, 0.3)
+[node name="Muzzle" type="Marker2D" parent="Sprite2D" index="0"]
+unique_name_in_owner = true
+position = Vector2(71, -61)
+[node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("weapon")]
+script = ExtResource("behaviour")
+weapon = NodePath("..")

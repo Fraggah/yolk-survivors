@@ -1,21 +1,31 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://d1oatokrjcwf3"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://d1oatokrjcwf3"]
 
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1_o6o4d"]
 [ext_resource type="Texture2D" uid="uid://dk5ghgs6c06b7" path="res://assets/sprites/Weapons/Redesign/Icons/mitten.png" id="1_pn7sj"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_ee6gr"]
 [ext_resource type="PackedScene" uid="uid://bdmv5l6abbkej" path="res://scenes/weapons/melee/weapon_mitten.tscn" id="2_rm85p"]
 [ext_resource type="Resource" uid="uid://bml4q7hppw8px" path="res://resources/items/weapons/melee/mitten/stats_mitten_1.tres" id="3_rm85p"]
 [ext_resource type="Resource" uid="uid://beu0dt1em7g7w" path="res://resources/items/weapons/melee/mitten/item_mitten_2.tres" id="4_hfoo1"]
 
 [resource]
 script = ExtResource("1_o6o4d")
+tags = Array[int]([0, 6])
+scales_with_effects = false
+damage_scaling_stat = 1
 unlock_id = "mitten"
+selection_only = false
 type = 0
 scene = ExtResource("2_rm85p")
 stats = ExtResource("3_rm85p")
 upgrade_to = ExtResource("4_hfoo1")
-attack_description = "Weak punch; full collision damage."
+attack_description = "A weak punch launches enemies into Airbourne, dealing full damage to other enemies on collision."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_ee6gr")]([])
 item_name = "Mitten I"
 item_icon = ExtResource("1_pn7sj")
+icon_scale = 1.0
 item_tier = 0
 item_type = 0
 item_cost = 8

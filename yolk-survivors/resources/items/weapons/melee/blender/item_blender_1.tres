@@ -9,6 +9,9 @@
 
 [resource]
 script = ExtResource("1_5pmfu")
+tags = Array[int]([0])
+scales_with_effects = false
+damage_scaling_stat = 1
 unlock_id = "blender"
 selection_only = false
 type = 0
@@ -18,9 +21,11 @@ upgrade_to = ExtResource("4_cb55p")
 attack_description = ""
 final_stat_modifiers = {}
 health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
 on_hit_effects = Array[ExtResource("2_2k4eo")]([])
 item_name = "Blender I"
 item_icon = ExtResource("1_ghoel")
+icon_scale = 1.0
 item_tier = 0
 item_type = 0
 item_cost = 10

@@ -28,6 +28,8 @@ func _process(delta: float) -> void:
 			if is_live(unit): apply_force(unit, delta)
 
 func apply_force(unit: Unit, delta: float) -> void:
+	# Respect pin anchors; sliding between frames corrupts separation samples.
+	if unit is Enemy and unit.get_movement_multiplier()<=0.0: return
 	var force := force_at(unit.global_position)
 	move_unit(unit, force * delta)
 

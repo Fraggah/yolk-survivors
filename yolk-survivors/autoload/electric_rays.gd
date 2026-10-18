@@ -6,6 +6,22 @@ var count := 0
 var submitted_frame := -1
 var buffer := PackedFloat32Array()
 var bolt_batches: Dictionary = {}
+var depth_batches: Array[WeakRef] = []
+
+func _depth_batch(context: Node2D, rays: int, burst: bool):
+	# A shared world batch cannot interleave with actors and columns. Keep one
+	# tiny, reusable GPU batch inside each owner instead (one instance, no pool).
+	var key := "DepthBolts_%s_%s" % [rays,int(burst)]
+	var batch = context.get_node_or_null(key)
+	if not batch:
+		batch = preload("res://effects/electric_bolt_batch.gd").new()
+		batch.name = key
+		batch.configure(rays,burst,1)
+		context.add_child(batch)
+		if depth_batches.size()%64==0:
+			depth_batches = depth_batches.filter(func(reference): return is_instance_valid(reference.get_ref()))
+		depth_batches.append(weakref(batch))
+	return batch
 
 func _ready() -> void:
 	process_priority = 1000
@@ -24,9 +40,9 @@ func _ready() -> void:
 	instances.custom_aabb = AABB(Vector3(-16384,-16384,-1),Vector3(32768,32768,2))
 	var batch := MultiMeshInstance2D.new()
 	batch.multimesh = instances
-	var material := ShaderMaterial.new()
-	material.shader = preload("res://shaders/electric_ray.gdshader")
-	batch.material = material
+	var ray_material := ShaderMaterial.new()
+	ray_material.shader = preload("res://shaders/electric_ray.gdshader")
+	batch.material = ray_material
 	add_child(batch)
 	_get_bolt_batch(7,false)
 	_get_bolt_batch(7,true)
@@ -42,15 +58,19 @@ func _get_bolt_batch(rays: int, burst: bool):
 
 func submit_aura(context: Node2D, center: Vector2, extent: Vector2, elapsed: float, left: float, tint: Color, glow: float, rays: int) -> void:
 	if rays<=0: return
-	_get_bolt_batch(rays,false).submit_data(context,center,Color(tint,minf(1.0,left/0.25)),Color(extent.x,extent.y,elapsed,glow))
+	_depth_batch(context,rays,false).submit_data(context,center,Color(tint,minf(1.0,left/0.25)),Color(extent.x,extent.y,elapsed,glow))
 
 func submit_burst(context: Node2D, radius: float, progress: float, elapsed: float, tint: Color, glow: float, rays: int) -> void:
 	if rays<=0: return
-	_get_bolt_batch(rays,true).submit_data(context,Vector2.ZERO,Color(tint,(1.0-progress)*(1.0-progress)),Color(radius,progress,elapsed,glow))
+	_depth_batch(context,rays,true).submit_data(context,Vector2.ZERO,Color(tint,(1.0-progress)*(1.0-progress)),Color(radius,progress,elapsed,glow))
 
 func active_segment_count() -> int:
 	var total := instances.visible_instance_count
 	for batch in bolt_batches.values():
+		total += batch.multimesh.visible_instance_count*batch.ray_count*batch.segment_count
+	depth_batches = depth_batches.filter(func(reference): return is_instance_valid(reference.get_ref()))
+	for reference in depth_batches:
+		var batch = reference.get_ref()
 		total += batch.multimesh.visible_instance_count*batch.ray_count*batch.segment_count
 	return total
 
@@ -59,26 +79,26 @@ func submit(context: Node2D, points: PackedVector2Array, tint: Color, width: flo
 	if frame!=submitted_frame:
 		count = 0
 		submitted_frame = frame
-	var transform := context.global_transform
+	var world_transform := context.global_transform
 	if points.size()<2: return
-	var scaled_width := width*transform.x.length()
-	var start := transform*points[0]
+	var scaled_width := width*world_transform.x.length()
+	var start := world_transform*points[0]
 	for i in range(1,points.size()):
 		if count>=CAPACITY: break
-		var end := transform*points[i]
+		var end := world_transform*points[i]
 		var direction := end-start
 		var length := direction.length()
 		var size := Vector2(length+1.5,scaled_width)
 		var axis := direction/maxf(0.00001,length)
-		var position := (start+end)*0.5
+		var segment_center := (start+end)*0.5
 		var offset := count*16
 		# MultiMesh 2D buffer: two padded matrix rows, color, custom data.
 		buffer[offset] = axis.x*size.x
 		buffer[offset+1] = -axis.y*size.y
-		buffer[offset+3] = position.x
+		buffer[offset+3] = segment_center.x
 		buffer[offset+4] = axis.y*size.x
 		buffer[offset+5] = axis.x*size.y
-		buffer[offset+7] = position.y
+		buffer[offset+7] = segment_center.y
 		buffer[offset+8] = tint.r
 		buffer[offset+9] = tint.g
 		buffer[offset+10] = tint.b
@@ -97,3 +117,7 @@ func clear() -> void:
 	submitted_frame = -1
 	instances.visible_instance_count = 0
 	for batch in bolt_batches.values(): batch.clear()
+	for reference in depth_batches:
+		var batch = reference.get_ref()
+		if is_instance_valid(batch): batch.clear()
+	depth_batches = depth_batches.filter(func(reference): return is_instance_valid(reference.get_ref()))

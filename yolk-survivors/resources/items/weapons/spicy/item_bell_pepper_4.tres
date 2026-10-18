@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/bell_pepper.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_bell_pepper.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_bell_pepper_4.tres" id="stats"]
+[resource]
+script = ExtResource("script")
+tags = Array[int]([1, 5])
+damage_scaling_stat = 3
+scales_with_effects = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+attack_description = "Fires seeds in random directions without a target."
+item_cost = 80
+item_name = "Morrón IV"
+item_icon = ExtResource("icon")
+item_tier = 3
+item_type = 0
+
+final_stat_modifiers = {"luck": 10.0, "damage_percent": -10.0}
+health_drain_per_second = 0.0

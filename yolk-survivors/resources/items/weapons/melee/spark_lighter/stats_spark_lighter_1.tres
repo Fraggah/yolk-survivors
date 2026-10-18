@@ -1,0 +1,85 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="1"]
+[ext_resource type="Script" path="res://resources/items/weapons/melee_settings.gd" id="melee_script"]
+
+[sub_resource type="Resource" id="melee"]
+script = ExtResource("melee_script")
+animation_speed = 1.0
+timing_reference = 0.95
+preparation_duration = 0.08
+forward_duration = 0.12
+return_duration = 0.1
+contact_duration = 0.04
+pause_duration = 0.1
+reach_multiplier = 1.0
+windup_offset = -12.0
+raised_angle = 0.0
+sweep_start_angle = -90.0
+sweep_end_angle = 90.0
+semicircle_radius_multiplier = 0.75
+fallback_angle = 60.0
+cutter_return_angle = 12.0
+repeated_retract_multiplier = 0.7
+lateral_offset = 12.0
+scrape_start = Vector2(20, -18)
+scrape_end = Vector2(-15, 18)
+scrape_rotation = 0.12
+blend_rotation = 0.22
+blend_offset = 6.0
+hit_count = 1
+direct_damage_multiplier = 0.15
+collision_damage_multiplier = 1.0
+launch_speed = 520.0
+launch_duration = 0.45
+early_damage_multiplier = 0.35
+final_damage_multiplier = 1.75
+early_knockback = 2.2
+final_knockback = 0.0
+capture_radius = 70.0
+slow_radius = 120.0
+slow_factor = 0.5
+close_hit_radius = 35.0
+effect_duration = 0.125
+effect_opacity = 0.3
+effect_y_ratio = 0.55
+effect_color = Color(0.52549, 0.662745, 0.745098, 1)
+ring_width = 2.0
+spark_width = 1.5
+spark_length = 10.0
+spark_count = 16
+ring_start_radius = 0.3
+spark_start_radius = 0.45
+status_text = "Slowed"
+status_text_duration = 1.3
+status_text_color = Color(0.52549, 0.662745, 0.745098, 1)
+rotor_speed = 12.0
+rotor_radius = 23.0
+rotor_center = Vector2(52, 0)
+rotor_arc = 1.2
+rotor_width = 1.5
+rotor_color = Color(0.25, 0.25, 0.22, 0.65)
+
+[resource]
+script = ExtResource("1")
+damage = 4.0
+damage_scaling = 0.5
+accuracy = 1.0
+cooldown = 1.05
+crit_chance = 0.05
+crit_damage = 1.5
+max_range = 90.0
+unlimited_range = false
+unlimited_piercing = false
+knockback = 0.1
+slow_duration = 0.5
+piercing = 0
+bounces = 0
+life_steal = 0.0
+recoil = 25.0
+recoil_duration = 0.1
+attack_duration = 0.2
+back_duration = 0.15
+projectile_speed = 1500.0
+melee_settings = SubResource("melee")
+animation_cooldown_fraction = 0.9

@@ -137,7 +137,7 @@ func scheduler_tick(elapsed: float) -> void:
 				if group.school_probability > 0.0 and randf() < group.school_probability and profile.id in [&"chaser_mini", &"chaser_mid", &"chaser_fast"]:
 					spawn_school(profile, members, Vector2.INF, group.school_radius, state)
 					continue
-				for duplicate in members:
+				for _member_index in members:
 					if not has_capacity(profile.population): break
 					spawn_profile(profile, state)
 

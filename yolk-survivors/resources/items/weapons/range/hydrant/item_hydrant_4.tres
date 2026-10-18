@@ -8,6 +8,9 @@
 
 [resource]
 script = ExtResource("3_8x3tx")
+tags = Array[int]([1])
+scales_with_effects = false
+damage_scaling_stat = 2
 unlock_id = "hydrant"
 selection_only = false
 type = 1
@@ -16,9 +19,11 @@ stats = ExtResource("4_l5rpr")
 attack_description = "Continuous mayonnaise stream. Damage per tick; cooldown controls tick frequency. Stops at the first target unless piercing is added."
 final_stat_modifiers = {}
 health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
 on_hit_effects = Array[ExtResource("2_n8n21")]([])
 item_name = "Hydrant IV"
 item_icon = ExtResource("1_71rjn")
+icon_scale = 1.0
 item_tier = 3
 item_type = 0
 item_cost = 70

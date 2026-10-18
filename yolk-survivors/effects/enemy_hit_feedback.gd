@@ -81,9 +81,9 @@ func _make_batch(mesh: Mesh, circular: bool) -> MultiMesh:
 	var batch := MultiMeshInstance2D.new()
 	batch.multimesh = instances
 	if circular:
-		var material := ShaderMaterial.new()
-		material.shader = preload("res://shaders/mayonnaise_droplet.gdshader")
-		batch.material = material
+		var particle_material := ShaderMaterial.new()
+		particle_material.shader = preload("res://shaders/mayonnaise_droplet.gdshader")
+		batch.material = particle_material
 	add_child(batch)
 	return instances
 
@@ -95,11 +95,11 @@ func _update_instances() -> void:
 		var alpha := minf(1.0, particle.life / particle.duration * 2.0)
 		var radius: float = particle.size * (0.65 + 0.35 * particle.life / particle.duration)
 		if particle.shell:
-			var transform := Transform2D(particle.angle,Vector2.ONE*radius,0.0,particle.position)
+			var particle_transform := Transform2D(particle.angle,Vector2.ONE*radius,0.0,particle.position)
 			var index := shell_count*2
-			shell_instances.set_instance_transform_2d(index,transform)
+			shell_instances.set_instance_transform_2d(index,particle_transform)
 			shell_instances.set_instance_color(index,Color(OUTLINE,alpha))
-			shell_instances.set_instance_transform_2d(index+1,Transform2D(transform.x*0.84,transform.y*0.84,transform.origin))
+			shell_instances.set_instance_transform_2d(index+1,Transform2D(particle_transform.x*0.84,particle_transform.y*0.84,particle_transform.origin))
 			shell_instances.set_instance_color(index+1,Color(SHELL,alpha))
 			shell_count += 1
 		else:

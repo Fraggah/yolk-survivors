@@ -54,6 +54,8 @@ var player_group := ButtonGroup.new()
 var weapon_group := ButtonGroup.new()
 
 func _ready() -> void:
+	for item in load("res://resources/items/weapons/melee_catalogue.gd").items():
+		if not weapons_list.has(item): weapons_list.append(item)
 	for item in RangedCatalogue.items():
 		if not weapons_list.has(item): weapons_list.append(item)
 	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items():
@@ -192,16 +194,16 @@ func _show_weapon_preview(weapon: ItemWeapon) -> void:
 	weapon_icon.texture = weapon.item_icon
 	ItemBase.scale_icon(weapon_icon, weapon.icon_scale)
 	weapon_name.text = weapon.item_name
-	weapon_title.text = ("Pet — preview" if weapon.resource_path.contains("/pets/") else "Spicy — preview") if weapon.selection_only else weapon.get_category_label()
+	weapon_title.text = weapon.get_category_label()
 	var unlocked := Progression.is_weapon_unlocked(weapon)
 	_set_portrait_lock(weapon_icon, not unlocked)
 	if not unlocked:
-		weapon_title.text = "Locked"
+		weapon_title.text = weapon.get_category_label()
 		weapon_description.text = Progression.requirement_for(weapon.unlock_id, false)
 	else:
 		weapon_description.text = UITheme.rich_text(weapon.get_description(Global.main_player_selected.get_passive_preview() if Global.main_player_selected else null))
 		if Global.main_player_selected and not Global.main_player_selected.can_use_weapon(weapon):
-			weapon_title.text = "Cannot equip"
+			weapon_title.text = weapon.get_category_label()
 	roster_layout.fit_descriptions.call_deferred()
 
 

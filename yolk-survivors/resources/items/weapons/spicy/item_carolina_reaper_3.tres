@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=8 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/carolina_reaper.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_carolina_reaper.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_carolina_reaper_3.tres" id="stats"]
+[ext_resource type="Script" path="res://resources/status_effect.gd" id="status_script"]
+[ext_resource type="Resource" path="res://resources/statuses/spicy_trail_fire.tres" id="fire"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_carolina_reaper_4.tres" id="upgrade"]
+[resource]
+script = ExtResource("script")
+tags = Array[int]([3, 5])
+damage_scaling_stat = 3
+scales_with_effects = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+on_hit_effects = Array[ExtResource("status_script")]([ExtResource("fire")])
+item_name = "Carolina Reaper III"
+item_icon = ExtResource("icon")
+item_tier = 2
+item_type = 0
+item_cost = 56
+attack_description = "Maintains 3 permanent fire tornadoes roaming the arena. Each equipped copy adds its own tornadoes."
+
+final_stat_modifiers = {"damage_percent": 5.0}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 3.0
+upgrade_to = ExtResource("upgrade")

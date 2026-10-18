@@ -1,0 +1,31 @@
+shader_type canvas_item;
+render_mode unshaded;
+uniform vec4 heat_color : source_color = vec4(1.0,0.15,0.05,1.0);
+uniform vec4 core_color : source_color = vec4(1.0,0.95,0.72,1.0);
+uniform float elapsed = 0.0;
+uniform float duration = 0.18;
+uniform float tail_duration = 0.18;
+uniform float rim_width = 0.035;
+uniform float opacity = 0.9;
+uniform float variation = 0.0;
+void fragment() {
+	vec2 p = (UV*2.0-1.0)*1.15;
+	float r = length(p);
+	float a = atan(p.y,p.x);
+	float t = clamp(elapsed/max(duration,0.01),0.0,1.0);
+	float fade = 1.0-smoothstep(duration,duration+max(tail_duration,0.01),elapsed);
+	float front = max(0.01,t);
+	float ripples = sin(a*13.0+variation+elapsed*19.0)*0.008;
+	float ring = exp(-pow((r-front-ripples)/rim_width,2.0));
+	float hot_edge = exp(-pow((r-front)/max(0.007,rim_width*0.3),2.0));
+	float glow = exp(-pow((r-front)/0.10,2.0))*0.08;
+	float echo = exp(-pow((r-front*0.78)/0.023,2.0))*0.2;
+	echo += exp(-pow((r-front*0.53)/0.035,2.0))*0.08;
+	float rays = pow(max(0.0,sin(a*27.0+variation)),20.0);
+	float streaks = rays*exp(-pow((r-front*0.87)/0.13,2.0))*0.22;
+	float impact = exp(-r*r/0.025)*exp(-elapsed*38.0);
+	float pressure = (1.0-smoothstep(front*0.5,front,r))*0.12*exp(-elapsed*9.0);
+	float alpha = (ring*0.7+glow+echo*0.55+streaks+impact*0.55+pressure)*fade*opacity;
+	vec3 tint = mix(heat_color.rgb,core_color.rgb,clamp(hot_edge*0.3+impact*0.55+streaks*0.25,0.0,1.0));
+	COLOR = vec4(tint,clamp(alpha,0.0,1.0));
+}

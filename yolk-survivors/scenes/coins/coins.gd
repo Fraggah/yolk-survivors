@@ -84,9 +84,10 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("yolks")
 	sprite.z_as_relative = false
-	sprite.z_index = 2
+	# Pickups stay on the floor, below the Y-sorted actors (Z = 0).
+	sprite.z_index = -1
 	$Shadow.z_as_relative = false
-	$Shadow.z_index = -1
+	$Shadow.z_index = -2
 	scale *= Global.GAME_ENTITY_SCALE
 	sprite_base_scale = sprite.scale
 	squash_phase = randf() * TAU

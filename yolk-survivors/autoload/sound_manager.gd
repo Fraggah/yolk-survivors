@@ -136,7 +136,7 @@ func play_stream(audio: AudioStream, event: String = "weapon_attack") -> void:
 
 func play_weapon_attack(weapon: Weapon) -> void:
 	var audio: AudioStream = weapon.attack_sound
-	if not audio: audio = default_melee_attack if weapon.data.type == ItemWeapon.Type.MELEE else default_ranged_attack
+	if not audio: audio = default_melee_attack if weapon.data.has_tag(ItemWeapon.Tag.MELEE) else default_ranged_attack
 	play_stream(audio,"weapon:" + weapon.scene_file_path)
 
 func _node_added(node: Node) -> void:

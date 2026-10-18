@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=7 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/reaper_fire_ring_v2.png" id="ring"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/reaper_fire_column_fill.png" id="fill"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/reaper_fire_ring.png" id="contact"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 2
+column_ring_texture = ExtResource("ring")
+column_fill_texture = ExtResource("fill")
+column_contact_texture = ExtResource("contact")
+count = 4
+radius = 62.4
+lifetime = 0
+tick_interval = 0.45
+fire_ticks = true
+movement_speed = 130
+maximum_active = 4
+column_height = 288
+column_flare_height = 288
+color = Color(1, 0.12, 0.02, 1)
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 21.6
+damage_scaling = 0.0
+cooldown = 3.2
+max_range = 240.0
+knockback = 0.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")

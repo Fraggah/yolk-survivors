@@ -19,7 +19,7 @@ func _ready() -> void:
 	add_to_group("projectiles")
 	scale *= Global.GAME_ENTITY_SCALE
 	hitbox.disable()
-	z_index = 2
+	z_index = 0
 
 func setup_projectile(projectile_velocity: Vector2, damage: float, critical: bool, knockback: float, unit: Node2D, travel_range: float = INF) -> void:
 	super.setup_projectile(projectile_velocity, damage, critical, knockback, unit, travel_range)

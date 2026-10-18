@@ -7,7 +7,6 @@
 radius = 4.0
 
 [node name="KetchupDrop" type="Node2D" node_paths=PackedStringArray("hitbox")]
-z_index = 2
 script = ExtResource("script")
 hitbox = NodePath("HitboxComponent")
 

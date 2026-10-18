@@ -52,7 +52,7 @@ func verify():
 	enemy = make_enemy(motion.hitbox.global_position)
 	motion._pan_impact()
 	assert(is_equal_approx(enemy.slow_left, weapon.data.stats.slow_duration))
-	assert(arena.get_children().any(func(node): return node.has_method("setup_text") and node.get_node("Label").text == "Slowed"))
+	assert(enemy.has_status_named("Slow") and enemy.status_controller.control_label.text == "Slowed")
 	var burst = arena.get_children().filter(func(node): return node.get_script() == load("res://effects/pan_slow_burst.gd")).back()
 	assert(burst.DURATION == 0.125)
 	enemy.set_process(true)

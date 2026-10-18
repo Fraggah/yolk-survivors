@@ -25,9 +25,9 @@ func verify():
 		weapons.visible = menu == weapons
 		await process_frame
 		await process_frame
-		assert(menu.find_children("*", "ScrollContainer", true, false).is_empty())
+		assert(menu.find_children("*", "ScrollContainer", true, false).size()==(0 if menu==characters else 1))
 		var cards = menu.get_player_cards() if menu == characters else menu.weapons_container.get_children()
-		assert(cards.size() == (30 if menu == characters else 40))
+		assert(cards.size() == (30 if menu == characters else weapons.weapons_list.size()))
 		var controls = navigation._controls(menu)
 		cards[0].grab_focus()
 		var visited = {cards[0]:true}
@@ -42,6 +42,10 @@ func verify():
 					visited[target] = true
 					queue.append(target)
 		for control in controls: assert(visited.has(control), "Controller cannot reach " + str(control.get_path()))
-		for card in cards: assert(menu.get_global_rect().encloses(card.get_global_rect()))
-	print("PASS full 30-character / 40-weapon rosters, no scroll, all cards reachable by controller")
+		for card in cards:
+			if menu==weapons:
+				menu.roster_layout.weapon_scroll.ensure_control_visible(card)
+				await process_frame
+			assert(menu.get_global_rect().encloses(card.get_global_rect()))
+	print("PASS full character/expanded weapon rosters, temporary weapon scroll, all cards reachable by controller")
 	quit()

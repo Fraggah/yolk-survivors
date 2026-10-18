@@ -4,11 +4,12 @@
 [sub_resource type="Resource" id="explosion"]
 script = ExtResource("settings")
 explosion_count = 3
+explosion_interval = 0.32
 minimum_distance = 60.0
 explosion_radius = 95.0
 area_y_ratio = 0.6
-anticipation = 0.25
-visual_duration = 0.3
+anticipation = 0.12
+visual_duration = 0.18
 color = Color(1, 0.33, 0.035, 1)
 opacity = 0.75
 burn_duration = 3.0
@@ -19,7 +20,7 @@ script = ExtResource("stats")
 accuracy = 1.0
 damage = 8.0
 damage_scaling = 0.0
-cooldown = 2.4
+cooldown = 1.4
 max_range = 230.0
 knockback = 0.5
 crit_chance = 0.05

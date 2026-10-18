@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_pepper_seed.tscn" id="projectile"]
+[ext_resource type="Script" path="res://resources/items/weapons/ranged_settings.gd" id="settings"]
+[sub_resource type="Resource" id="seed_settings"]
+script = ExtResource("settings")
+projectile_count = 3
+[resource]
+script = ExtResource("script")
+accuracy = 1.0
+damage = 6.75
+damage_scaling = 0.0
+cooldown = 0.8
+crit_chance = 0.05
+crit_damage = 1.5
+max_range = 450.0
+knockback = 0.5
+projectile_scene = ExtResource("projectile")
+projectile_speed = 650.0
+recoil = 5.0
+recoil_duration = 0.06
+ranged_settings = SubResource("seed_settings")

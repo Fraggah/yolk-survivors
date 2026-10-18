@@ -6,10 +6,12 @@ script = ExtResource("pattern")
 mode = 6
 radius = 240
 lifetime = 1
-wave_duration = 0.65
+wave_duration = 0.18
 wave_band = 14
 maximum_active = 2
-color = Color(1, 0.15, 0.05, 1)
+color = Color(0.63, 0.055, 0.035, 1)
+shockwave_core_color = Color(0.82, 0.18, 0.09, 1)
+opacity = 0.6
 area_y_ratio = 0.6
 [resource]
 script = ExtResource("stats")

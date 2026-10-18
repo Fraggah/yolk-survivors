@@ -33,7 +33,8 @@ func verify():
 	seed(12345)
 	weapon.use_weapon()
 	var blasts=get_nodes_in_group("projectiles")
-	assert(blasts.size()==3 and not weapon.can_use_weapon())
+	assert(blasts.size()==1 and not weapon.can_use_weapon())
+	weapon.weapon_behaviour.set_process(false)
 	for blast in blasts:
 		blast.set_process(false)
 		assert(not blast.detonated)

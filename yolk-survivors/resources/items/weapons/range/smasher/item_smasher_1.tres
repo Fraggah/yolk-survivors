@@ -9,6 +9,9 @@
 
 [resource]
 script = ExtResource("3_c67k8")
+tags = Array[int]([1])
+scales_with_effects = false
+damage_scaling_stat = 2
 unlock_id = "smasher"
 selection_only = false
 type = 1
@@ -18,9 +21,11 @@ upgrade_to = ExtResource("5_0dpcr")
 attack_description = "Fires a rolling pin straight through enemies. Unlimited range and piercing; no bounces. Disappears beyond the full background; keeps hitting enemies offscreen."
 final_stat_modifiers = {}
 health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
 on_hit_effects = Array[ExtResource("2_c67k8")]([])
 item_name = "Smasher I"
 item_icon = ExtResource("1_8lfvj")
+icon_scale = 1.0
 item_tier = 0
 item_type = 0
 item_cost = 14

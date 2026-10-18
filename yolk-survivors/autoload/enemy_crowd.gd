@@ -81,7 +81,7 @@ func _process(delta: float) -> void:
 		cursor += 1
 		var enemy = members[id].ref.get_ref()
 		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion(): continue
-		if not enemy.can_move or (not enemy.movement_override_enabled and not enemy.can_move_towards_player() and enemy.knockback_power<=0):
+		if not enemy.can_move or enemy.get_movement_multiplier()<=0.0 or (not enemy.movement_override_enabled and not enemy.can_move_towards_player() and enemy.knockback_power<=0):
 			members[id].steering = Vector2.ZERO
 			enemy.crowd_steering = Vector2.ZERO
 			continue
@@ -102,6 +102,11 @@ func separation(enemy: Node2D) -> Vector2:
 	var id := enemy.get_instance_id()
 	if not members.has(id): return Vector2.ZERO
 	return members[id].steering
+
+func reset_steering(enemy: Node2D) -> void:
+	enemy.crowd_steering = Vector2.ZERO
+	var id := enemy.get_instance_id()
+	if members.has(id): members[id].steering = Vector2.ZERO
 
 func random_target(excluded_hurtboxes: Dictionary) -> Node2D:
 	if member_ids.is_empty(): return null
@@ -216,6 +221,8 @@ func _calculate(enemy: Node2D, id: int) -> Vector2:
 			if neighbors>=MAX_NEIGHBORS or checked>=MAX_CANDIDATES: break
 		if neighbors>=MAX_NEIGHBORS or checked>=MAX_CANDIDATES: break
 	checks_last_sample = checked
-	entry.steering = entry.steering.lerp(steering,0.5)
+	# Near-coincident bodies (for example a harpoon's captured group) must not
+	# turn the inverse-distance separation into an extreme velocity multiplier.
+	entry.steering = entry.steering.lerp(steering.limit_length(1.0),0.5)
 	enemy.crowd_steering = entry.steering
 	return entry.steering

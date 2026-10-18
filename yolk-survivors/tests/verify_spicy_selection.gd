@@ -11,8 +11,8 @@ func verify():
 	global.main_player_selected=arena.selection_panel.player_list[0].duplicate()
 	# Even a character's own starting weapon must be omitted for these previews.
 	global.main_player_selected.starting_weapon=load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
-	assert(menu.weapons_list.size()==40)
-	assert(menu.weapons_container.get_child_count()==40)
+	assert(menu.weapons_list.size()==42)
+	assert(menu.weapons_container.get_child_count()==42)
 	for item in items:
 		assert(menu.weapons_list.has(item) and not item.selection_only)
 		assert(arena.shop_panel.shop_items.has(item))

@@ -5,6 +5,9 @@
 [ext_resource type="Resource" path="res://resources/items/weapons/range/fusilli_launcher/stats_fusilli_launcher_4.tres" id="4"]
 [resource]
 script = ExtResource("1")
+tags = Array[int]([1, 6])
+damage_scaling_stat = 2
+scales_with_effects = false
 type = 1
 scene = ExtResource("3")
 stats = ExtResource("4")
@@ -13,4 +16,4 @@ item_name = "Fusilli Launcher IV"
 item_tier = 3
 item_type = 0
 item_cost = 64
-attack_description = "Low damage pasta with strong knockback."
+attack_description = "Launches enemies into Airbourne. Launched enemies damage others on collision."

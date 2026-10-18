@@ -62,9 +62,9 @@ func start(context: Spawner, geometry: ArenaEnvironment) -> void:
 	shadow.z_as_relative = false
 	shadow.z_index = -1
 	shadow.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	var material := ShaderMaterial.new()
-	material.shader = preload("res://shaders/spatula_shadow.gdshader")
-	shadow.material = material
+	var shadow_material := ShaderMaterial.new()
+	shadow_material.shader = preload("res://shaders/spatula_shadow.gdshader")
+	shadow.material = shadow_material
 	add_child(shadow)
 	update_visuals()
 

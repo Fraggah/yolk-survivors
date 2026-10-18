@@ -6,6 +6,9 @@
 [ext_resource type="Resource" path="res://resources/items/weapons/range/meatball_machinegun/item_meatball_machinegun_4.tres" id="5"]
 [resource]
 script = ExtResource("1")
+tags = Array[int]([1])
+damage_scaling_stat = 2
+scales_with_effects = false
 type = 1
 scene = ExtResource("3")
 stats = ExtResource("4")

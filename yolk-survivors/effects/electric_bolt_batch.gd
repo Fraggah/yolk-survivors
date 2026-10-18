@@ -6,8 +6,10 @@ var segment_count := 3
 var count := 0
 var submitted_frame := -1
 var buffer := PackedFloat32Array()
+var capacity := CAPACITY
 
-func configure(rays: int, burst: bool) -> void:
+func configure(rays: int, burst: bool, instance_capacity: int = CAPACITY) -> void:
+	capacity = maxi(1,instance_capacity)
 	ray_count = maxi(1,rays)
 	segment_count = 4 if burst else 3
 	process_priority = 1001
@@ -33,10 +35,10 @@ func configure(rays: int, burst: bool) -> void:
 	multimesh.use_colors = true
 	multimesh.use_custom_data = true
 	multimesh.mesh = mesh
-	multimesh.instance_count = CAPACITY
+	multimesh.instance_count = capacity
 	multimesh.visible_instance_count = 0
 	multimesh.custom_aabb = AABB(Vector3(-16384,-16384,-1),Vector3(32768,32768,2))
-	buffer.resize(CAPACITY*16)
+	buffer.resize(capacity*16)
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = preload("res://shaders/electric_bolts.gdshader")
 	shader_material.set_shader_parameter("ray_count",float(ray_count))
@@ -48,16 +50,16 @@ func submit_data(context: Node2D, center: Vector2, tint: Color, data: Color) -> 
 	if submitted_frame!=frame:
 		submitted_frame = frame
 		count = 0
-	if count>=CAPACITY: return
-	var transform := context.global_transform
-	transform.origin = transform*center
+	if count>=capacity: return
+	var world_transform := global_transform.affine_inverse()*context.global_transform
+	world_transform.origin = world_transform*center
 	var offset := count*16
-	buffer[offset] = transform.x.x
-	buffer[offset+1] = transform.y.x
-	buffer[offset+3] = transform.origin.x
-	buffer[offset+4] = transform.x.y
-	buffer[offset+5] = transform.y.y
-	buffer[offset+7] = transform.origin.y
+	buffer[offset] = world_transform.x.x
+	buffer[offset+1] = world_transform.y.x
+	buffer[offset+3] = world_transform.origin.x
+	buffer[offset+4] = world_transform.x.y
+	buffer[offset+5] = world_transform.y.y
+	buffer[offset+7] = world_transform.origin.y
 	buffer[offset+8] = tint.r
 	buffer[offset+9] = tint.g
 	buffer[offset+10] = tint.b

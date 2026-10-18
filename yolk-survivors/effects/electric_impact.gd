@@ -20,8 +20,8 @@ func configure(effect: StatusEffect, origin: Vector2, chain_endpoints: Array[Vec
 
 func _ready() -> void:
 	add_to_group("projectiles")
-	z_as_relative = false
-	z_index = 3
+	z_as_relative = true
+	z_index = 0
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
@@ -30,13 +30,20 @@ func _process(delta: float) -> void:
 	else: _submit_rays()
 
 func _bolt(points: PackedVector2Array, alpha: float) -> void:
-	ElectricRays.submit(self,points,Color(tint,alpha),12.0,glow)
+	# Chains belong to this impact's ground depth, not a foreground world batch.
+	draw_polyline(points,Color(tint,alpha*0.08*glow),12.0,true)
+	draw_polyline(points,Color(tint,alpha*0.3*glow),5.0,true)
+	draw_polyline(points,Color(tint.lightened(0.65),alpha),1.5,true)
 
 func _submit_rays() -> void:
 	var progress := clampf(elapsed / duration, 0.0, 1.0)
+	ElectricRays.submit_burst(self,radius,progress,elapsed,tint,glow,ray_count)
+	queue_redraw()
+
+func _draw() -> void:
+	var progress := clampf(elapsed / duration, 0.0, 1.0)
 	var alpha := (1.0 - progress) * (1.0 - progress)
 	var seed_frame := floorf(elapsed * 35.0)
-	ElectricRays.submit_burst(self,radius,progress,elapsed,tint,glow,ray_count)
 	for endpoint in endpoints:
 		var normal := endpoint.orthogonal().normalized()
 		var wobble := sin(seed_frame * 3.7) * 7.0

@@ -38,7 +38,7 @@ func detonate() -> void:
 	if exploded or Global.game_paused or not effects or not armed: return
 	if effects.popcorn_scene:
 		var popcorn := effects.popcorn_scene.instantiate() as Projectile
-		get_tree().root.add_child(popcorn)
+		(get_tree().current_scene if get_tree().current_scene else get_tree().root).add_child(popcorn)
 		popcorn.global_position = global_position
 		popcorn.setup_projectile(Vector2.from_angle(randf() * TAU) * effects.popcorn_speed, explosion_base_damage * effects.popcorn_damage_multiplier, hitbox.critical, 0.0, hitbox.source, effects.popcorn_range * Global.GAME_ENTITY_SCALE)
 		popcorn.hitbox.knockback_power = hitbox.knockback_power

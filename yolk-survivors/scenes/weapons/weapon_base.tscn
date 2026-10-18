@@ -17,7 +17,6 @@ radius = 120.0
 script = ExtResource("1_v4xn6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 2
 material = SubResource("ShaderMaterial_omet7")
 
 [node name="RangeArea" type="Area2D" parent="."]

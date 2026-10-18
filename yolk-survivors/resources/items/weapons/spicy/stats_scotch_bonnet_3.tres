@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Mines/scotch_bonnet.png" id="mine"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 5
+mine_texture = ExtResource("mine")
+mine_texture_rect = Rect2(293, 149, 949, 696)
+wave_duration = 0.18
+radius = 132.0
+lifetime = 16
+arming_time = 0.6
+trigger_radius = 42
+maximum_active = 6
+color = Color(1, 0.58, 0.06, 1)
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 32.4
+damage_scaling = 0.0
+cooldown = 1.5
+max_range = 550.0
+knockback = 0.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")

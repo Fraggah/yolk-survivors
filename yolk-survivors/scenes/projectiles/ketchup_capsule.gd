@@ -44,7 +44,7 @@ func _spawn_splatter(origin: Vector2, direction: Vector2, excluded_hurtbox: int,
 			droplet = arena.projectile_pool.acquire_drop()
 		else:
 			droplet = load("res://scenes/projectiles/projectile_ketchup_drop.tscn").instantiate()
-			get_tree().root.add_child(droplet)
+			(get_tree().current_scene if get_tree().current_scene else get_tree().root).add_child(droplet)
 		droplet.global_position = origin
 		droplet.setup_projectile(direction.rotated(offset) * effects.splatter_speed, droplet_damage, was_critical, 0.0, hitbox.source, initial_shot_range * effects.splatter_range_multiplier)
 		droplet.hitbox.weapon_damage_record = hitbox.weapon_damage_record

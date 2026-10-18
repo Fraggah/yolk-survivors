@@ -6,7 +6,7 @@ radius = 8.0
 [node name="ElectricSaw" type="Node2D" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("script")
 hitbox = NodePath("HitboxComponent")
-z_index = 2
+z_index = 0
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("bb") instance=ExtResource("hitbox")]
 collision_layer = 16
 collision_mask = 8

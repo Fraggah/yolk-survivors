@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="FireVisualSettings" load_steps=3 format=3]
+[ext_resource type="Script" path="res://resources/fire_visual_settings.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/small_fire.png" id="flame"]
+[resource]
+script = ExtResource("script")
+flame_count = 12
+flame_opacity = 0.85
+coverage = 1.1
+flicker_speed = 1.0
+core_color = Color(1, 0.82, 0.416, 1)
+ember_count = 16
+ember_size = 0.008
+ember_opacity = 0.65
+heat_opacity = 0.16
+fade_duration = 0.2
+flame_texture = ExtResource("flame")
+flame_sprite_height = 0.36
+size_pulse = 0.22
+flip_interval_min = 0.35
+flip_interval_max = 0.9
+distortion_strength = 0.018
+distortion_frequency = 38.0
+distortion_speed = 2.2
+lower_body_fraction = 0.8
+background_flame_opacity = 0.35
+background_flame_height = 1.3
+background_flame_width = 1.4

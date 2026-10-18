@@ -1,6 +1,26 @@
 extends Area2D
 class_name Unit
 
+## Canonical combat states for item synergies. Multiple states can coexist.
+enum State { BURNING, SHOKED, SLOW, ROOTED, AIRBOURNE }
+const STATE_NAMES := ["Burning", "Shoked", "Slow", "Rooted", "Airbourne"]
+
+func has_status(state: State) -> bool:
+	if not is_instance_valid(status_controller) or health_component.current_health <= 0.0: return false
+	return status_controller.has_status(state)
+
+func get_active_statuses() -> Array[State]:
+	var result: Array[State] = []
+	for state in State.values():
+		if has_status(state): result.append(state)
+	return result
+
+func has_status_named(state_name: String) -> bool:
+	for index in STATE_NAMES.size():
+		if STATE_NAMES[index].to_lower() == state_name.to_lower(): return has_status(index)
+	return false
+
+
 @export var stats: UnitStats
 var last_hit_grants_rewards := true
 var status_controller: Node2D
@@ -15,8 +35,9 @@ var status_movement_multiplier := 1.0
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	scale *= Global.GAME_ENTITY_SCALE
-	sprite.z_as_relative = false
-	sprite.z_index = 2
+	# Sort by the root ground anchor, keeping the visual subtree on one layer.
+	sprite.z_as_relative = true
+	sprite.z_index = 0
 	var ground_shadow := get_node_or_null("Visuals/Shadow") as Sprite2D
 	if ground_shadow:
 		ground_shadow.z_as_relative = false

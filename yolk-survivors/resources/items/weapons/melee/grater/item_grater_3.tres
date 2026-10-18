@@ -1,21 +1,31 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://biln58bhj281f"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://biln58bhj281f"]
 
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://yv01atooer62" path="res://assets/sprites/Weapons/Redesign/Icons/grater.png" id="2"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_sv7ab"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/melee/weapon_grater.tscn" id="3"]
-[ext_resource type="Resource" path="res://resources/items/weapons/melee/grater/stats_grater_3.tres" id="4"]
+[ext_resource type="Resource" uid="uid://grmr8lhnesp5" path="res://resources/items/weapons/melee/grater/stats_grater_3.tres" id="4"]
 [ext_resource type="Resource" uid="uid://oglfmjfui11" path="res://resources/items/weapons/melee/grater/item_grater_4.tres" id="5"]
 
 [resource]
 script = ExtResource("1")
+tags = Array[int]([0, 6])
+scales_with_effects = false
+damage_scaling_stat = 1
 unlock_id = ""
+selection_only = false
 type = 0
 scene = ExtResource("3")
 stats = ExtResource("4")
 upgrade_to = ExtResource("5")
 attack_description = "Holds enemies for three hits."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_sv7ab")]([])
 item_name = "Grater III"
 item_icon = ExtResource("2")
+icon_scale = 1.0
 item_tier = 2
 item_type = 0
 item_cost = 48

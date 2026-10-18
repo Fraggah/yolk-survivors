@@ -6,6 +6,7 @@ var tick_left := 0.0
 var interval := 0.5
 var elapsed := 0.0
 var tint := Color.ORANGE
+var contributions: Dictionary = {}
 
 static func apply(enemy: Unit, key: String, template: HitboxComponent, settings: StatusEffect, damage_scaled: bool = false) -> void:
 	if settings.duration <= 0.0 or settings.damage <= 0.0: return
@@ -36,7 +37,15 @@ static func apply(enemy: Unit, key: String, template: HitboxComponent, settings:
 	burn.hit.critical_chance = template.critical_chance
 	burn.hit.critical_multiplier = template.critical_multiplier
 	burn.hit.life_steal_chance = template.life_steal_chance
-	burn.hit.weapon_damage_record = template.weapon_damage_record
+	burn.hit.weapon_damage_record = settings.get_meta("damage_record",template.weapon_damage_record)
+	if settings.has_meta("fire_contributions"):
+		var multiplier := source_stats.get_effect_multiplier() * source_stats.final_multiplier("damage_percent") if source_stats and not damage_scaled else 1.0
+		var duration_scale := source_stats.effect_duration_multiplier() if source_stats else 1.0
+		for entry in settings.get_meta("fire_contributions"):
+			burn.contributions[entry.id] = {"record": entry.record, "damage": entry.damage * multiplier, "remaining": entry.duration * duration_scale}
+		burn._refresh_contributions()
+	enemy.status_controller.register_burning(burn)
+	load("res://effects/fire_visual.gd").attach(enemy,burn,settings.fire_visuals,settings.color)
 
 func _ready() -> void:
 	add_to_group("projectiles")
@@ -49,6 +58,9 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(enemy) or (enemy is Enemy and enemy.is_retiring) or enemy.health_component.current_health <= 0.0:
 		queue_free()
 		return
+	if not contributions.is_empty():
+		_process_contributions(delta, enemy)
+		return
 	var active_delta := minf(delta, maxf(0.0, remaining))
 	remaining -= delta
 	tick_left -= active_delta
@@ -58,14 +70,35 @@ func _process(delta: float) -> void:
 		if enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0.0: break
 		enemy.receive_hit(hit)
 	if remaining <= 0.0: queue_free()
-	queue_redraw()
 
-func _draw() -> void:
-	for index in 3:
-		var phase := fmod(elapsed * 1.7 + index * 0.33, 1.0)
-		var point := Vector2((index - 1) * 9.0 + sin(elapsed * 7.0 + index) * 2.0, -10.0 - phase * 24.0)
-		var size := 4.0 * (1.0 - phase) + 1.0
-		var color := tint
-		color.a *= 1.0 - phase
-		draw_colored_polygon(PackedVector2Array([point + Vector2(-size, 0), point + Vector2(0, -size * 2.5), point + Vector2(size, 0), point + Vector2(0, size)]), color)
-		draw_circle(point, size * 0.45, Color(1.0, 0.87, 0.3, color.a))
+
+func _refresh_contributions() -> void:
+	var total := 0.0
+	remaining = 0.0
+	var shares: Array[Dictionary] = []
+	for entry in contributions.values():
+		total += entry.damage
+		remaining = maxf(remaining, entry.remaining)
+		shares.append({"record": entry.record, "weight": entry.damage})
+	for share in shares: share.weight /= maxf(0.00001, total)
+	hit.base_damage = total
+	hit.damage = total
+	hit.weapon_damage_record = {"wave_damage": 0.0, "total_damage": 0.0, "contributors": shares}
+
+func _process_contributions(delta: float, enemy: Unit) -> void:
+	var left := delta
+	while left > 0.000001 and not contributions.is_empty():
+		var step := minf(left, maxf(0.0, tick_left))
+		for entry in contributions.values(): step = minf(step, maxf(0.0, entry.remaining))
+		left -= step
+		elapsed += step
+		tick_left -= step
+		for entry in contributions.values(): entry.remaining -= step
+		# A tick on an expiration boundary still belongs to the ending contribution.
+		if tick_left <= 0.00001:
+			tick_left += interval
+			if not enemy.is_queued_for_deletion() and enemy.health_component.current_health > 0.0: enemy.receive_hit(hit)
+		for id in contributions.keys():
+			if contributions[id].remaining <= 0.000001: contributions.erase(id)
+		_refresh_contributions()
+	if contributions.is_empty(): queue_free()

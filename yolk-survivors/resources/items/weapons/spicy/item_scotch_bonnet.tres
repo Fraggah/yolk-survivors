@@ -1,10 +1,14 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
 [ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/scotch_bonnet.png" id="icon"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_scotch_bonnet.tscn" id="scene"]
 [ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_scotch_bonnet.tres" id="stats"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_scotch_bonnet_2.tres" id="upgrade"]
 [resource]
 script = ExtResource("script")
+tags = Array[int]([2, 5])
+damage_scaling_stat = 3
+scales_with_effects = true
 selection_only = false
 type = 2
 scene = ExtResource("scene")
@@ -14,7 +18,8 @@ item_icon = ExtResource("icon")
 item_tier = 0
 item_type = 0
 item_cost = 14
-attack_description = "Places spicy proximity mines at random arena positions."
+attack_description = "Plants buried proximity mines around you. Extra copies expand placement range. Higher tiers increase blast area, damage and spawn frequency."
 
 final_stat_modifiers = {"effect_duration": 5.0, "enemy_count": 5.0}
 health_drain_per_second = 0.0
+upgrade_to = ExtResource("upgrade")

@@ -4,5 +4,6 @@
 [ext_resource type="Resource" path="res://resources/wave/enemies/fueguito.tres" id="2"]
 
 [node name="PanMechanic" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1")
 profile = ExtResource("2")

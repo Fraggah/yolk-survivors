@@ -1,5 +1,5 @@
 extends Node2D
-## Electric slow and immobilization state shared by player and enemies.
+## Electric visuals and independent control states shared by player and enemies.
 var slows: Array[Dictionary] = []
 var lightning_left := 0.0
 var lightning_color := Color(0.5, 0.85, 1.0)
@@ -12,10 +12,72 @@ var electric_visual_scale := 1.0
 var electric_hit: HitboxComponent
 var impact_cooldown := 0.0
 
+
+var burning_sources: Dictionary = {}
+var control_label: Label
+
+func register_burning(burn: Node) -> void:
+	burning_sources[burn.get_instance_id()] = weakref(burn)
+	# Exit cleanup also handles wave changes and externally removed burns.
+	if not burn.tree_exiting.is_connected(_remove_burning.bind(burn.get_instance_id())):
+		burn.tree_exiting.connect(_remove_burning.bind(burn.get_instance_id()), CONNECT_ONE_SHOT)
+
+func _remove_burning(id: int) -> void:
+	burning_sources.erase(id)
+
+func has_status(state: int) -> bool:
+	var unit := get_parent() as Unit
+	if not unit or unit.health_component.current_health <= 0.0: return false
+	if state == Unit.State.BURNING:
+		for reference in burning_sources.values():
+			var burn = reference.get_ref()
+			if is_instance_valid(burn) and not burn.is_queued_for_deletion() and burn.remaining > 0.0: return true
+		return false
+	if state == Unit.State.SHOKED: return lightning_left > 0.0
+	if state == Unit.State.AIRBOURNE: return unit is Enemy and unit.launch_left > 0.0
+	if state == Unit.State.ROOTED:
+		if unit is Enemy:
+			unit.get_movement_multiplier() # Remove expired pin owners before querying.
+			if not unit.pins.is_empty() or (unit.slow_left > 0.0 and unit.slow_factor <= 0.0): return true
+		for slow in slows:
+			if slow.left > 0.0 and slow.factor <= 0.0: return true
+	if state == Unit.State.SLOW:
+		if unit is Enemy and unit.slow_left > 0.0 and unit.slow_factor > 0.0 and unit.slow_factor < 1.0: return true
+		for slow in slows:
+			if slow.left > 0.0 and slow.factor > 0.0 and slow.factor < 1.0: return true
+	return false
+
+func refresh_control_text() -> void:
+	var names := PackedStringArray()
+	if has_status(Unit.State.SLOW): names.append("Slowed")
+	if has_status(Unit.State.ROOTED): names.append("Rooted")
+	if has_status(Unit.State.AIRBOURNE): names.append("Airbourne")
+	if not names.is_empty() and not is_instance_valid(control_label):
+		control_label = Label.new()
+		control_label.name = "ControlStates"
+		control_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		control_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		control_label.add_theme_font_size_override("font_size", 15)
+		control_label.add_theme_color_override("font_color", Color("a4c6d8"))
+		control_label.add_theme_color_override("font_outline_color", Color("292421"))
+		control_label.add_theme_constant_override("outline_size", 4)
+		add_child(control_label)
+	if is_instance_valid(control_label):
+		control_label.text = " · ".join(names)
+		control_label.visible = not names.is_empty()
+		var unit := get_parent() as Unit
+		var rect := unit.sprite.get_rect()
+		var anchor := to_local(unit.sprite.to_global(Vector2(rect.get_center().x, rect.position.y)))
+		# Keep text upright and in world units despite sprite flips/animation.
+		control_label.scale = Vector2.ONE / global_scale.abs()
+		control_label.reset_size()
+		control_label.position = anchor - Vector2(control_label.size.x * control_label.scale.x * 0.5, 22.0 / absf(global_scale.y))
+	if not names.is_empty(): set_process(true)
+
 func _ready() -> void:
 	add_to_group("status_controllers")
-	z_as_relative = false
-	z_index = 3
+	z_as_relative = true
+	z_index = 0
 	set_process(false)
 
 static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxComponent, spread: bool = true) -> void:
@@ -24,6 +86,7 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 	if effect.kind == StatusEffect.Kind.FIRE:
 		var source_id := template.source.get_instance_id() if is_instance_valid(template.source) else 0
 		var effect_id := effect.resource_path if not effect.resource_path.is_empty() else str(effect.get_instance_id())
+		if effect.has_meta("stack_id"): effect_id = str(effect.get_meta("stack_id"))
 		load("res://effects/fire_status.gd").apply(target, "Fire_%s_%s" % [source_id, effect_id.hash()], template, effect)
 		return
 	# Snapshot the primary's neighbors once; secondary applications never propagate.
@@ -33,7 +96,11 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 	var radius := effect.chain_radius * Global.GAME_ENTITY_SCALE
 	if spread and radius > 0.0 and effect.maximum_chain_targets > 0:
 		var group := "combat_players" if target is Player else "combat_enemies"
-		var candidates: Array = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),effect.maximum_chain_targets) if group=="combat_enemies" and EnemyCrowd.members.size()>32 else target.get_tree().get_nodes_in_group(group)
+		var candidates: Array
+		if group == "combat_enemies" and EnemyCrowd.members.size() > 32:
+			candidates = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),effect.maximum_chain_targets)
+		else:
+			candidates = target.get_tree().get_nodes_in_group(group)
 		for candidate in candidates:
 			if candidate == target or not is_instance_valid(candidate) or candidate.is_queued_for_deletion() or candidate.health_component.current_health <= 0.0: continue
 			if candidate is Enemy and candidate.is_retiring: continue
@@ -44,7 +111,6 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		if neighbors.size() > effect.maximum_chain_targets: neighbors.resize(effect.maximum_chain_targets)
 	var controller = target.status_controller
 	var status_duration := effect.duration * strength * (source_stats.effect_duration_multiplier() if source_stats else 1.0)
-	controller.add_slow(source_stats.effective_slow(effect.slow_factor) if source_stats else effect.slow_factor, status_duration)
 	controller.lightning_left = maxf(controller.lightning_left, status_duration)
 	controller.electric_duration = maxf(0.01, controller.lightning_left)
 	controller.electric_elapsed = 0.0
@@ -90,6 +156,7 @@ func add_slow(factor: float, duration: float) -> void:
 				return
 		slows.append({"factor":clampf(factor, 0.0, 1.0), "left":duration})
 		get_parent().status_movement_multiplier = movement_multiplier()
+		refresh_control_text()
 		set_process(true)
 
 func movement_multiplier() -> float:
@@ -98,6 +165,8 @@ func movement_multiplier() -> float:
 	return result
 
 func clear() -> void:
+	burning_sources.clear()
+	if is_instance_valid(control_label): control_label.hide()
 	set_process(false)
 	slows.clear()
 	get_parent().status_movement_multiplier = 1.0
@@ -122,7 +191,8 @@ func _process(delta: float) -> void:
 	if lightning_left > 0.0: electric_elapsed += delta
 	if lightning_left > 0.0: _submit_rays()
 	queue_redraw()
-	if slows.is_empty() and lightning_left<=0.0 and impact_cooldown<=0.0: set_process(false)
+	refresh_control_text()
+	if slows.is_empty() and lightning_left<=0.0 and impact_cooldown<=0.0 and not (is_instance_valid(control_label) and control_label.visible): set_process(false)
 
 func _submit_rays() -> void:
 	if lightning_left <= 0.0: return

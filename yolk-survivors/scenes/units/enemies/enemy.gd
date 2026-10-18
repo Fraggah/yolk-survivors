@@ -28,29 +28,29 @@ var launch_hitbox: HitboxComponent
 func pin_for(controller: Node) -> void:
 	if pins.is_empty(): pinned_position = global_position
 	pins[controller.get_instance_id()] = weakref(controller)
+	status_controller.refresh_control_text()
+	EnemyCrowd.reset_steering(self)
 
 func release_pin(controller: Node) -> void:
 	pins.erase(controller.get_instance_id())
+	status_controller.refresh_control_text()
+	if pins.is_empty(): EnemyCrowd.reset_steering(self)
 
 func get_movement_multiplier() -> float:
 	for id in pins.keys():
 		if not is_instance_valid(pins[id].get_ref()): pins.erase(id)
 	return 0.0 if not pins.is_empty() else (slow_factor if slow_left > 0.0 else 1.0) * status_movement_multiplier
 
-func apply_slow(factor: float, duration: float, text_duration: float = 1.3, text_color: Color = Color("86a9be"), text_value: String = "Slowed") -> void:
+func apply_slow(factor: float, duration: float, _text_duration: float = 1.3, _text_color: Color = Color("86a9be"), _text_value: String = "Slowed") -> void:
 	if duration <= 0.0 or factor >= 1.0: return
-	var already_slowed := slow_left > 0.0
 	slow_factor = minf(slow_factor if slow_left > 0.0 else 1.0, clampf(factor, 0.0, 1.0))
 	slow_left = maxf(slow_left, duration)
-	if not already_slowed and text_duration > 0.0 and not text_value.is_empty():
-		var text = Global.FLOATING_TEXT_SCENE.instantiate()
-		get_tree().current_scene.add_child(text)
-		text.global_position = sprite.global_position + Vector2.UP * 30.0
-		text.setup_text(text_value, text_color, text_duration)
+	status_controller.refresh_control_text()
 
 func launch_from(hitbox: HitboxComponent) -> void:
 	if not is_instance_valid(hitbox.source): return
-	launch_velocity = hitbox.source.global_position.direction_to(global_position) * hitbox.launch_speed * (1.0 - knockback_resistance)
+	var direction := hitbox.launch_direction.normalized() if not hitbox.launch_direction.is_zero_approx() else hitbox.source.global_position.direction_to(global_position)
+	launch_velocity = direction * hitbox.launch_speed * (1.0 - knockback_resistance)
 	launch_left = hitbox.launch_duration if launch_velocity.length_squared() > 1.0 else 0.0
 	if is_instance_valid(launch_hitbox): launch_hitbox.queue_free()
 	launch_hitbox = HitboxComponent.new()
@@ -62,6 +62,7 @@ func launch_from(hitbox: HitboxComponent) -> void:
 	launch_hitbox.weapon_damage_record = hitbox.weapon_damage_record
 	launch_hitbox.life_steal_chance = hitbox.life_steal_chance
 	add_child(launch_hitbox)
+	status_controller.refresh_control_text()
 
 func _move_launched(delta: float) -> void:
 	var previous := global_position
@@ -87,6 +88,7 @@ func _move_launched(delta: float) -> void:
 	if launch_left <= 0.0:
 		launch_hitbox.queue_free()
 		launch_velocity = Vector2.ZERO
+		status_controller.refresh_control_text()
 
 func _ready() -> void:
 	super._ready()
@@ -129,7 +131,7 @@ func _process(delta: float) -> void:
 	var direction := Vector2.ZERO
 	if player_valid:
 		direction = desired_direction if movement_override_enabled else offset.normalized()
-		if targetable: direction += crowd_steering
+		if targetable: direction = (direction+crowd_steering).limit_length(1.0)
 	var next_position := origin + (direction + knockback_dir * knockback_power) * stats.speed * delta * movement_multiplier
 	if arena_environment:
 		next_position = arena_environment.clamp_position(next_position)
@@ -159,7 +161,7 @@ func get_move_direction() -> Vector2:
 		return Vector2.ZERO
 
 	var direction := desired_direction if movement_override_enabled else global_position.direction_to(Global.player.global_position)
-	if targetable: direction += crowd_steering
+	if targetable: direction = (direction+crowd_steering).limit_length(1.0)
 
 	return direction
 

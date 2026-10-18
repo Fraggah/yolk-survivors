@@ -9,6 +9,9 @@
 
 [resource]
 script = ExtResource("1_h6jtr")
+tags = Array[int]([1, 2])
+scales_with_effects = false
+damage_scaling_stat = 2
 unlock_id = "corpse_l"
 selection_only = false
 type = 1
@@ -18,9 +21,11 @@ upgrade_to = ExtResource("5_bhw8q")
 attack_description = "Lobs a fried egg at the target position. No contact damage; explodes 0.3 s after landing and drops one extra yolk."
 final_stat_modifiers = {}
 health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
 on_hit_effects = Array[ExtResource("2_wluuc")]([])
 item_name = "Corpse L I"
 item_icon = ExtResource("1_th1bf")
+icon_scale = 1.0
 item_tier = 0
 item_type = 0
 item_cost = 12

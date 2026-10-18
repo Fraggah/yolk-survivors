@@ -32,3 +32,7 @@ Las áreas de daño y sus efectos se dibujan como óvalos. El daño de explosion
 Las cinco armas existentes conservan sus estadísticas y desbloqueos; reciben el arte aprobado. Knifer y Corpse Launcher usan los SVG de proyectiles retocados, Bloody la cápsula de kétchup y Smasher el palo de amasar. **Hydrant conserva su disparo actual: su chorro continuo con shader se implementará al final, según lo acordado.**
 
 Las familias y materiales del Excel siguen siendo provisionales; esta integración no añade bonificaciones de familias.
+
+### Profundidad de proyectiles
+
+Los proyectiles viajeros se crean dentro de la escena de arena, en la misma capa Z=0 que las unidades y columnas, y se ordenan por la Y global de su raíz. Esto incluye disparos secundarios (pochoclo, carozo y gotas), disparos enemigos y huevo/olla durante el vuelo y tras aterrizar. La altura animada del huevo/olla sigue en el sprite, sin cambiar su referencia de profundidad. ProjectilePool es Node2D con Y-sort anidado para que las gotas recicladas participen en el mismo orden sin perder su ciclo de reutilización. La regresión GPU de profundidad recorre todas las escenas de proyectiles y comprueba cruces por delante/detrás del jugador y de una columna, además de una gota del pool.

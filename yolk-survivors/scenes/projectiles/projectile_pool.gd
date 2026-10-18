@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 ## Cache, rather than a gameplay cap: overflow shots still spawn normally.
 const DROP_SCENE := preload("res://scenes/projectiles/projectile_ketchup_drop.tscn")
 const CAPACITY := 256
@@ -9,6 +9,8 @@ var created := 0
 
 func _ready() -> void:
 	name = "ProjectilePool"
+	# Flatten pooled projectiles into the arena native depth sort.
+	y_sort_enabled = true
 	add_to_group("projectile_pools")
 	for i in PREWARM: available.append(_create())
 

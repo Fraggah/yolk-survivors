@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 6
+radius = 264.0
+lifetime = 1
+wave_duration = 0.18
+wave_band = 14
+maximum_active = 2
+color = Color(0.63, 0.055, 0.035, 1)
+shockwave_core_color = Color(0.82, 0.18, 0.09, 1)
+opacity = 0.6
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 16.2
+damage_scaling = 0.0
+cooldown = 2.35
+max_range = 240.0
+knockback = 2.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")

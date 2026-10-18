@@ -15,7 +15,9 @@ func verify():
 		await process_frame
 		characters.roster_layout.refresh()
 		weapons.roster_layout.refresh()
-		var roster_rect = weapons.weapons_container.get_rect()
+		await process_frame
+		await process_frame
+		var roster_rect = weapons.roster_layout.weapon_scroll.get_rect()
 		assert(is_equal_approx(weapons.player_panel.size.x, weapons.weapon_panel.size.x))
 		for panel in [weapons.player_panel, weapons.weapon_panel]:
 			assert(is_equal_approx(panel.position.y, roster_rect.position.y))
@@ -31,11 +33,12 @@ func verify():
 		assert(weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Player text clipped at " + str(viewport_size))
 		assert(characters.players_container.get_child_count() == 15)
 		assert(characters.roster_layout.right_players.get_child_count() == 15)
-		assert(weapons.weapons_container.get_child_count() == 40)
+		assert(weapons.weapons_container.get_child_count() == 42)
 		for menu in [characters,weapons]:
 			var grids = [menu.players_container,menu.roster_layout.right_players] if menu == characters else [menu.weapons_container]
 			for grid in grids:
-				assert(menu.get_global_rect().encloses(grid.get_global_rect()))
+				var visible_grid=grid if menu==characters else menu.roster_layout.weapon_scroll
+				assert(menu.get_global_rect().encloses(visible_grid.get_global_rect()))
 				for slot in grid.get_children(): assert(grid.get_global_rect().encloses(slot.get_global_rect()))
 			for count in range(1,5):
 				var slots = menu.roster_layout.player_slot_rects(count,menu == weapons)

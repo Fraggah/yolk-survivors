@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/Pets/Icons/sausage_dog.png" id="icon"]
 [resource]
 script = ExtResource("script")
+tags = Array[int]([7])
+damage_scaling_stat = 3
+scales_with_effects = false
 selection_only = true
 item_name = "Perro salchicha"
 item_icon = ExtResource("icon")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="PackedScene" path="res://scenes/weapons/weapon_base.tscn" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/InGame/spark_lighter.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/components/hitbox_component.tscn" id="3"]
+[ext_resource type="Script" path="res://scenes/weapons/melee/catalogue_melee_behaviour.gd" id="4"]
+[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="5"]
+[sub_resource type="ShaderMaterial" id="Material"]
+resource_local_to_scene = true
+shader = ExtResource("5")
+shader_parameter/outline_width = 7.0
+shader_parameter/glow_intensity = 3.5
+[sub_resource type="RectangleShape2D" id="Shape"]
+size = Vector2(42, 24)
+[node name="Weaponspark_lighter" instance=ExtResource("1")]
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("Material")
+position = Vector2(32, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2")
+[node name="HitboxComponent" parent="Sprite2D" index="0" node_paths=PackedStringArray("bb") instance=ExtResource("3")]
+collision_layer = 16
+collision_mask = 8
+monitoring = false
+bb = NodePath("CollisionShape2D")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitboxComponent" index="0"]
+position = Vector2(77, 0)
+shape = SubResource("Shape")
+disabled = true
+[node name="WeaponBehaviour" parent="." index="3" node_paths=PackedStringArray("hitbox", "weapon")]
+script = ExtResource("4")
+style = 2
+hitbox = NodePath("../Sprite2D/HitboxComponent")
+weapon = NodePath("..")
+
+

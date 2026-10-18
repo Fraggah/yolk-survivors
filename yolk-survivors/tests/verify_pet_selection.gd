@@ -9,7 +9,7 @@ func verify():
 	global.main_player_selected=arena.selection_panel.player_list[0].duplicate()
 	global.main_player_selected.starting_weapon=load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
 	var menu=arena.weapon_selection_panel
-	assert(menu.weapons_list.size()==40 and menu.weapons_container.get_child_count()==40)
+	assert(menu.weapons_list.size()==42 and menu.weapons_container.get_child_count()==42)
 	var pets=load("res://resources/items/weapons/pet_catalogue.gd").items()
 	assert(pets.size()==2)
 	for pet in pets:

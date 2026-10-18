@@ -26,3 +26,29 @@ Balance points: UnitStats defaults and character resources, the new upgrades und
 ## Statistics panel
 
 Primary: health, regeneration, lifesteal, damage %, melee/ranged damage, attack speed, critical chance, armor, block chance, movement speed, luck and harvesting. Secondary: critical multiplier bonus, AoE, Effects, fire tick speed, block effectiveness, pickup range, piercing and bounces. The shared panel in pause/shop switches using buttons, Tab or gamepad Y, resets to Primary when opened, and reserves the larger page's size so the layout does not jump. Shortcut handling is limited to the panel within the active menu.
+
+## Presentación de quemado v2
+
+FireStatus mantiene sus ticks, duración, críticos, robo de vida y fuentes independientes. El dibujo anterior de tres rombos se reemplaza por FireVisual, un único visual compartido por unidad con un shader: llamas de tamaños/alturas variados, núcleos cálidos, brasas ascendentes y halo de calor oval en la base. El visual sigue el sprite en coordenadas globales, adaptándose a su tamaño y evitando que el cambio de orientación invierta el fuego. Permanece mientras haya alguna quemadura activa y se desvanece al terminar la última; se limpia en muerte/retiro y fin de oleada. Los números de daño siguen por encima.
+
+Configuración común: `resources/statuses/fire_visual_default.tres`. Propiedades: flame_count, flame_opacity, coverage, flicker_speed, core_color, ember_count, ember_size, ember_opacity, heat_opacity, fade_duration. Para una apariencia específica se puede asignar otro FireVisualSettings en `StatusEffect > Fire Visuals`; vacío usa el recurso común. Habanero y los demás fuegos usan el mismo visual por defecto. El recurso común se carga en ejecución para evitar dependencias circulares de precarga de estados.
+
+Una sola superficie de shader por unidad, sin nodos por brasa. No se afirma una mejora de FPS sin medir; el objetivo de optimización sigue pausado. Validación: verify_fire_visual, verify_status_system, verify_habanero y verify_remaining_spicy aprobadas; captura en Mobile/Vulkan revisada sobre jugador y enemigos.
+
+### Quemado v3: llamitas de sprite
+
+Se conserva el shader de aura y brasas; se eliminan sus antiguas llamas procedurales. Ahora cada unidad presenta copias del sprite `assets/sprites/Effects/small_fire.png`, agrupadas en un MultiMesh. Cada instancia tiene posición, tamaño, fase, velocidad de pulso e intervalo de inversión X propios. El shader anima tamaño e inversión sin mover el punto de apoyo; aplica distorsión UV pequeña (0,018), de frecuencia alta (38) y velocidad media (2,2). Elapsed se congela en pausa. La geometría se recalcula al cambiar tamaño del personaje o configuración; las animaciones corren en GPU.
+
+En fire_visual_default.tres > Flame Sprites: flame_texture, flame_sprite_height, size_pulse, flip_interval_min/max, distortion_strength/frequency/speed. Flame Count y Flame Opacity siguen controlando cantidad y transparencia. La imagen fuente generada se conserva como small_fire_source.png. Se recorta el margen transparente y se prepara un PNG de 128×160 para el juego.
+
+Cuatro regresiones aprobadas: fuego compartido y limpieza, estados, Habanero y otros picantes. Validación gráfica en Mobile/Vulkan: shader sin errores, posiciones y parámetros por instancia distintos confirmados y captura revisada.
+
+Arte creado con ImageGen integrado. Prompt final: “Create ONE tiny fire flame sprite for a cute hand-drawn 2D kitchen survivor game. Single compact asymmetrical flame silhouette, rounded droplet-like lower body, one curving pointed main tongue and two shorter side tongues. Flat clean cartoon illustration, only 3-4 solid colors: deep orange-red outer shape with a very thin darker orange edge, orange middle, golden yellow smaller inner flame. No black outline, no white-hot center, no glow, no gradients, no texture. Simple bold shape readable at 20 pixels tall. Flame upright, gently leaning to one side, suitable for periodically horizontally flipping. Centered on transparent background with generous padding, all edges fully visible. No face, no eyes, no logs, no ground, no smoke, no sparks, no text, no frame, just one standalone small fire icon. Width about 65% of its height.”
+
+Distribución v4: lower_body_fraction = 0,8 concentra aproximadamente 80% de las llamitas en el tercio inferior y reserva el resto para arriba (con 12 instancias: 10 abajo y 2 arriba). Ajustable en Flame Sprites del recurso visual. Se conserva la cantidad total y las animaciones independientes.
+
+Ajuste v5: opacidad del sprite de fuego 0,85 y variación individual de alfa 0,95–1. Las instancias se adjuntan directamente al Sprite animado del Unit y su geometría se calcula en coordenadas locales. Heredan salto, rotación y squash/stretch en el mismo frame, sin recalcular posiciones globales por llama. FireVisual conserva su aura/brasas y elimina el batch hijo al terminar. Validado con movimiento del jugador en Mobile/Vulkan y regresiones de seguimiento inmediato, estados y Habanero.
+
+Ajuste v6: una llama grande adicional detrás del sprite del personaje (z=1; personaje z=2; llamitas z=3), con opacidad 0,35. Usa el mismo arte y distorsión, pulso más suave y transform heredado del sprite animado. Ajustes Background Flame: background_flame_opacity, background_flame_height (1,3 del alto) y background_flame_width (1,4 del ancho), en fire_visual_default.tres. Se limpia junto con las llamitas pequeñas. Pruebas de estados y visual de fuego aprobadas; captura GPU revisada.
+
+Corrección de orden: personaje z=2, llama grande z=3, llamitas pequeñas z=4. La llama grande queda por delante del personaje y detrás de las pequeñas; conserva opacidad 0,35 y seguimiento de animación.

@@ -5,6 +5,7 @@ var menu: Control
 var body: Control
 var right_players: GridContainer
 var back: Button
+var weapon_scroll: ScrollContainer
 
 func setup(panel: Control) -> void:
 	menu = panel
@@ -30,6 +31,14 @@ func setup(panel: Control) -> void:
 		_add_placeholders(right_players, maxi(0, 15 - right_players.get_child_count()))
 	else:
 		_add_placeholders(menu.weapons_container, maxi(0, 40 - menu.weapons_container.get_child_count()))
+		weapon_scroll = ScrollContainer.new()
+		weapon_scroll.name = "WeaponRosterScroll"
+		weapon_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		weapon_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		weapon_scroll.follow_focus = true
+		body.add_child(weapon_scroll)
+		menu.weapons_container.reparent(weapon_scroll)
+		menu.weapons_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right_players.visible = menu.selection_mode == menu.SelectionMode.CHARACTER
 	menu.resized.connect(refresh)
 	menu.player_panel.resized.connect(refresh_player_detail)
@@ -94,7 +103,13 @@ func refresh() -> void:
 	else:
 		var roster := weapon_roster_rect()
 		_place(menu.weapon_panel, Rect2(Vector2(area.position.x + area.size.x * 0.225, roster.position.y), Vector2(area.size.x * 0.21, roster.size.y)))
-		_grid(menu.weapons_container, Rect2(area.position + Vector2(area.size.x * 0.45, 0), Vector2(area.size.x * 0.55, area.size.y)), 8, 5, gap)
+		_place(weapon_scroll,roster)
+		var side := floorf((roster.size.x-18.0-gap*7.0)/8.0)
+		var rows := ceili(menu.weapons_container.get_child_count()/8.0)
+		menu.weapons_container.add_theme_constant_override("h_separation",int(gap))
+		menu.weapons_container.add_theme_constant_override("v_separation",int(gap))
+		for card in menu.weapons_container.get_children(): card.custom_minimum_size = Vector2.ONE*side
+		menu.weapons_container.custom_minimum_size = Vector2(side*8+gap*7,side*rows+gap*(rows-1))
 	_detail(menu.player_panel, menu.player_icon, menu.player_name, menu.player_title, menu.player_description)
 	_detail(menu.weapon_panel, menu.weapon_icon, menu.weapon_name, menu.weapon_title, menu.weapon_description)
 	fit_descriptions.call_deferred()
@@ -143,12 +158,12 @@ func _detail(panel: Control, icon: TextureRect, title: Label, subtitle: Label, d
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", clampi(int(width * 0.095), 22, 32))
 	subtitle.position = Vector2(0, portrait + 80)
-	subtitle.size = Vector2(width, 30)
+	subtitle.size = Vector2(width, 50)
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle.add_theme_font_size_override("font_size", 20)
-	description.position = Vector2(0, portrait + 120)
-	description.size = Vector2(width, maxf(80, height - portrait - 120))
+	description.position = Vector2(0, portrait + 140)
+	description.size = Vector2(width, maxf(80, height - portrait - 140))
 	description.scroll_active = false
 	if height < 520:
 		# Preserve readable descriptions when cards follow the shorter roster.

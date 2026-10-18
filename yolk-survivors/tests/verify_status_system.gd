@@ -69,11 +69,11 @@ func verify():
 	assert(victim.health_component.current_health==976)
 	assert(near.health_component.current_health==994)
 	assert(far.health_component.current_health==1000, "Secondary target cannot extend the chain")
-	assert(is_equal_approx(victim.get_status_movement_multiplier(),0.7))
-	assert(is_equal_approx(victim.status_controller.slows[0].left,3))
+	assert(is_equal_approx(victim.get_status_movement_multiplier(),1.0))
+	assert(is_equal_approx(victim.status_controller.lightning_left,3))
 	global.game_paused=true
 	victim.status_controller._process(2)
-	assert(is_equal_approx(victim.status_controller.slows[0].left,3))
+	assert(is_equal_approx(victim.status_controller.lightning_left,3))
 	global.game_paused=false
 	victim.status_controller._process(3)
 	assert(victim.get_status_movement_multiplier()==1)
@@ -91,7 +91,7 @@ func verify():
 	var hp=player.health_component.current_health
 	player.receive_hit(contact)
 	assert(player.health_component.current_health==hp-4)
-	assert(is_equal_approx(player.get_status_movement_multiplier(),0.7))
+	assert(is_equal_approx(player.get_status_movement_multiplier(),1.0))
 	player.status_controller.clear()
 	contact.status_effects.assign([fire])
 	player.receive_hit(contact)

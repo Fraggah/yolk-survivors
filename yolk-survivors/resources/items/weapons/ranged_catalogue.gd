@@ -1,7 +1,7 @@
 extends RefCounted
 class_name RangedCatalogue
 
-const IDS := ["bomb_corn", "toothpick_shotgun", "pressure_cooker", "meatball_machinegun", "pepper_bazooka", "anchovy_doublebarrel", "baguette_harpoon", "plate_launcher", "olive_launcher", "fusilli_launcher"]
+const IDS := ["bomb_corn", "toothpick_shotgun", "pressure_cooker", "meatball_machinegun", "pepper_bazooka", "anchovy_doublebarrel", "baguette_harpoon", "plate_launcher", "olive_launcher", "fusilli_launcher", "kitchen_torch"]
 
 static func items(all_tiers: bool = false) -> Array[ItemWeapon]:
 	var result: Array[ItemWeapon] = []

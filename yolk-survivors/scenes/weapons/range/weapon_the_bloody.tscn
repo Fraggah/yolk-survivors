@@ -14,6 +14,7 @@ shader_parameter/glow_intensity = 3.5
 [node name="WeaponTheBloody" instance=ExtResource("1_xgbcd")]
 
 [node name="Sprite2D" parent="." index="0"]
+z_index = 2
 material = SubResource("ShaderMaterial_5xwol")
 position = Vector2(21, 0)
 texture = ExtResource("3_y1b2q")

@@ -91,9 +91,9 @@ func _update_trace() -> void:
 		var enemy = hurtbox.owner
 		if not enemy is Enemy or not enemy.targetable or enemy.is_retiring or enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0: continue
 		if count == 1:
-			var distance := stream_start.distance_squared_to(hurtbox.global_position)
-			if distance<closest_distance:
-				closest_distance = distance
+			var candidate_distance := stream_start.distance_squared_to(hurtbox.global_position)
+			if candidate_distance<closest_distance:
+				closest_distance = candidate_distance
 				closest = enemy
 			continue
 		if current_targets.has(enemy): continue

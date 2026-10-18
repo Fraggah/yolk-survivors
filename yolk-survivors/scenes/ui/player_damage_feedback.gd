@@ -88,6 +88,8 @@ func begin_defeat(screen_position: Vector2, display_size: float) -> void:
 	death_origin = screen_position
 	start_size = maxf(60, display_size)
 	corpse.position = death_origin
+	# Death can happen after this layer processed: initialize before the first draw.
+	corpse.scale = Vector2.ONE * start_size / maxf(1.0, corpse.texture.get_width())
 	corpse.show()
 	particles.position = death_origin
 	particles.restart()

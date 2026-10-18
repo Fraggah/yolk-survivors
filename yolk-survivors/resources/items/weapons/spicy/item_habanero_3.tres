@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/habanero.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_habanero.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_habanero_3.tres" id="stats"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_habanero_4.tres" id="upgrade"]
+[resource]
+script = ExtResource("script")
+tags = Array[int]([2, 3, 5])
+damage_scaling_stat = 3
+scales_with_effects = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+attack_description = "Random explosions around you ignite enemies."
+item_cost = 48
+item_name = "Habanero III"
+item_icon = ExtResource("icon")
+item_tier = 2
+item_type = 0
+
+final_stat_modifiers = {"area_of_effect": 10.0, "critical_chance": -10.0}
+health_drain_per_second = 0.0
+upgrade_to = ExtResource("upgrade")

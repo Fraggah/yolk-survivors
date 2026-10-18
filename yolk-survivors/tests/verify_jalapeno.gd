@@ -54,9 +54,9 @@ func verify():
 	assert(player.current_weapons.size()==2)
 	var second=player.current_weapons[1]
 	second.set_process(false)
-	assert(second.can_use_weapon())
-	second.use_weapon()
-	assert(second.cooldown_timer.time_left>0)
+	assert(not second.can_use_weapon(), "Extra jalapeno contributes damage without independent attacks")
+	second.weapon_behaviour.execute_attack()
+	assert(second.cooldown_timer.is_stopped())
 	player.prepare_for_new_wave()
 	assert(behaviour.elapsed==0 and pepper.cooldown_timer.is_stopped())
 	print("PASS Jalapeño oval damage, player-centered moving aura, cooldown, pause, copies, damage tracking and wave reset")

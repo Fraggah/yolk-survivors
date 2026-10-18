@@ -64,7 +64,7 @@ func create_projectile() -> void:
 
 func _spawn_pit(settings: RangedSettings) -> void:
 	var pit := settings.pit_projectile_scene.instantiate() as Projectile
-	get_tree().root.add_child(pit)
+	(get_tree().current_scene if get_tree().current_scene else get_tree().root).add_child(pit)
 	pit.global_position = weapon.global_position
 	var deviation := deg_to_rad(randf_range(-settings.pit_deviation_degrees, settings.pit_deviation_degrees))
 	var direction := Vector2.RIGHT.rotated(weapon.rotation + PI + deviation)
@@ -76,7 +76,7 @@ func _spawn_pit(settings: RangedSettings) -> void:
 
 func _spawn_projectile(angle_offset: float) -> void:
 	var instance := weapon.data.stats.projectile_scene.instantiate() as Projectile
-	get_tree().root.add_child(instance)
+	(get_tree().current_scene if get_tree().current_scene else get_tree().root).add_child(instance)
 	instance.global_position = muzzle.global_position
 	
 	var velocity := Vector2.RIGHT.rotated(weapon.rotation + angle_offset) * weapon.data.stats.projectile_speed

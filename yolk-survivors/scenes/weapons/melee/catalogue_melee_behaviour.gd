@@ -30,7 +30,7 @@ var ladle_secondary_target: Enemy
 
 func _ready() -> void:
 	super._ready()
-	z_index = 3
+	z_index = 0
 	if style == Style.GRATER: hitbox.collision_layer = 0
 
 func _process(delta: float) -> void:

@@ -91,12 +91,12 @@ func _update_instances() -> void:
 		var fade := clampf(particle.life / minf(0.12, particle.duration),0.0,1.0)
 		var radius: float = particle.radius * (0.55+0.45*fade)
 		var velocity: Vector2 = particle.velocity
-		var transform := Transform2D(velocity.angle(),Vector2(radius*2.0*1.35,radius*2.0*0.8),0.0,particle.position)
+		var particle_transform := Transform2D(velocity.angle(),Vector2(radius*2.0*1.35,radius*2.0*0.8),0.0,particle.position)
 		var index := i * 3
-		instances.set_instance_transform_2d(index,transform)
+		instances.set_instance_transform_2d(index,particle_transform)
 		instances.set_instance_color(index,Color(particle.edge,fade))
-		instances.set_instance_transform_2d(index+1,Transform2D(transform.x*0.78,transform.y*0.78,transform.origin))
+		instances.set_instance_transform_2d(index+1,Transform2D(particle_transform.x*0.78,particle_transform.y*0.78,particle_transform.origin))
 		instances.set_instance_color(index+1,Color(particle.body,fade))
-		instances.set_instance_transform_2d(index+2,Transform2D(transform.x*0.35,transform.y*0.35,transform*Vector2(-0.08,-0.1)))
+		instances.set_instance_transform_2d(index+2,Transform2D(particle_transform.x*0.35,particle_transform.y*0.35,particle_transform*Vector2(-0.08,-0.1)))
 		instances.set_instance_color(index+2,Color(particle.core,fade))
 	instances.visible_instance_count = particles.size() * 3

@@ -1,19 +1,29 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=5 format=3 uid="uid://djkn1if03lko7"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://djkn1if03lko7"]
 
 [ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://camfoai44nymx" path="res://assets/sprites/Weapons/Redesign/Icons/carving_fork.png" id="2"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_ew82q"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/melee/weapon_carving_fork.tscn" id="3"]
-[ext_resource type="Resource" path="res://resources/items/weapons/melee/carving_fork/stats_carving_fork_4.tres" id="4"]
+[ext_resource type="Resource" uid="uid://ogi6ks6p5d0n" path="res://resources/items/weapons/melee/carving_fork/stats_carving_fork_4.tres" id="4"]
 
 [resource]
 script = ExtResource("1")
+tags = Array[int]([0])
+scales_with_effects = false
+damage_scaling_stat = 1
 unlock_id = ""
+selection_only = false
 type = 0
 scene = ExtResource("3")
 stats = ExtResource("4")
 attack_description = "Long outward thrust."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("2_ew82q")]([])
 item_name = "Carving Fork IV"
 item_icon = ExtResource("2")
+icon_scale = 1.0
 item_tier = 3
 item_type = 0
 item_cost = 84

@@ -170,8 +170,8 @@ func can_use_weapon(weapon: ItemWeapon) -> bool:
 	if weapon.selection_only: return true
 	for passive in character_passives:
 		if passive == null: continue
-		if passive.effect == CharacterPassive.Effect.FORBID_MELEE and weapon.type == ItemWeapon.Type.MELEE: return false
-		if passive.effect == CharacterPassive.Effect.FORBID_RANGED and weapon.type == ItemWeapon.Type.RANGE: return false
+		if passive.effect == CharacterPassive.Effect.FORBID_MELEE and weapon.has_tag(ItemWeapon.Tag.MELEE): return false
+		if passive.effect == CharacterPassive.Effect.FORBID_RANGED and weapon.has_tag(ItemWeapon.Tag.RANGED): return false
 	return true
 
 func get_incoming_damage_multiplier() -> float:

@@ -6,6 +6,12 @@ class_name RangedSettings
 @export_range(1, 12, 1) var burst_count := 1
 @export_range(0.01, 1.0, 0.01) var burst_interval := 0.1
 @export var lock_burst_aim := false
+@export_group("Airbourne")
+@export var applies_airbourne := false
+@export var airbourne_speed := 520.0
+@export var airbourne_duration := 0.45
+## Collision damage relative to the full weapon hit, independently from contact damage.
+@export_range(0.0, 5.0, 0.05) var airbourne_damage_multiplier := 0.35
 @export_group("Explosion")
 @export var explodes := false
 @export var explode_on_impact := true

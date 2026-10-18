@@ -5,7 +5,8 @@ var elapsed := 0.0
 var sparks: CPUParticles2D
 
 func _ready() -> void:
-	z_index = 6
+	# Match the ground depth of the hazard during arrival and departure.
+	z_index = 0
 	sparks = CPUParticles2D.new()
 	sparks.amount = 18
 	sparks.lifetime = duration

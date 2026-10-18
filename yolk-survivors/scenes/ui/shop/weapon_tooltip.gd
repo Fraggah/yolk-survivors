@@ -90,6 +90,7 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	ItemBase.scale_icon(weapon_icon, weapon.icon_scale)
 	weapon_name.text = weapon.item_name
 	weapon_type.text = weapon.get_category_label()
+	weapon_type.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var style := Global.get_tier_style(weapon.item_tier).duplicate() as StyleBoxFlat
 	style.bg_color = UITheme.palette.surface
 	style.set_border_width_all(2)
@@ -109,7 +110,7 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 		"%s x" % _format_number(weapon.get_effective_critical_multiplier(Global.player.stats if is_instance_valid(Global.player) else null))
 	]
 	for index in values.size():
-		var show_stat := index < 5 or index >= 7 or (weapon.type != ItemWeapon.Type.MELEE and ((index == 5 and stats.unlimited_piercing) or int(values[index]) > 0))
+		var show_stat := index < 5 or index >= 7 or (weapon.has_tag(ItemWeapon.Tag.RANGED) and ((index == 5 and stats.unlimited_piercing) or int(values[index]) > 0))
 		stats_grid.get_child(index * 2).visible = show_stat
 		value_labels[index].visible = show_stat
 		value_labels[index].add_theme_color_override("default_color", UITheme.palette.positive)

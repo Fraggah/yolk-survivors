@@ -60,7 +60,7 @@ func verify():
 	await process_frame
 	assert(enemy.health_component.current_health<1000)
 	assert(neighbor.health_component.current_health<1000,"Electricity propagates on saw impact")
-	assert(enemy.get_status_movement_multiplier()<1 and neighbor.get_status_movement_multiplier()<1)
+	assert(enemy.get_status_movement_multiplier()==1 and neighbor.get_status_movement_multiplier()==1)
 	assert(enemy.status_controller.lightning_left>1.0,"Sparks persist beyond the impact flash")
 	var bursts=[]
 	for effect in get_nodes_in_group("projectiles"):
@@ -109,7 +109,7 @@ func verify():
 	await create_timer(1.2).timeout
 	assert(blade.weapon_behaviour.pulse_count==1)
 	assert(enemy.health_component.current_health<1000,"Normal knife attack damages through its melee hitbox")
-	assert(enemy.get_status_movement_multiplier()<1,"Knife hit applies electricity")
+	assert(enemy.status_controller.lightning_left>0 and enemy.get_status_movement_multiplier()==1,"Knife electrifies without slowing")
 	assert(neighbor.health_component.current_health<1000)
 	assert(not blade.is_attacking)
 	print("PASS electric weapons: four tiers, ranged saw impact/chain, melee knife, pause, spin, range and selection")

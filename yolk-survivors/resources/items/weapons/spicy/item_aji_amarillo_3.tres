@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/aji_amarillo.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_aji_amarillo.tscn" id="scene"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/stats_aji_amarillo_3.tres" id="stats"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_aji_amarillo_4.tres" id="upgrade"]
+[resource]
+script = ExtResource("script")
+tags = Array[int]([1, 5])
+damage_scaling_stat = 2
+scales_with_effects = true
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+item_name = "Ají amarillo III"
+item_icon = ExtResource("icon")
+item_tier = 2
+item_type = 0
+item_cost = 40
+attack_description = "Continuously fires seeds in a rotating spiral."
+
+final_stat_modifiers = {"attack_speed": 5.0, "critical_multiplier": -5.0}
+health_drain_per_second = 0.0
+upgrade_to = ExtResource("upgrade")

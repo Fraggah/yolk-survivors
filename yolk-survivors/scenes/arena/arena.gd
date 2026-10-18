@@ -226,7 +226,11 @@ func set_wave_paused(paused: bool) -> void:
 	if not wave_active:
 		if paused:
 			if pause_panel.visible: return
-			var panel: Control = shop_panel if shop_panel.visible else upgrade_panel if upgrade_panel.visible else null
+			var panel: Control = null
+			if shop_panel.visible:
+				panel = shop_panel
+			elif upgrade_panel.visible:
+				panel = upgrade_panel
 			if not panel: return
 			paused_intermission_focus = get_viewport().gui_get_focus_owner()
 			paused_intermission_panel = panel

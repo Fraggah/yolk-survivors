@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 1
+sprite_scale = 0.3
+radius = 65.0
+lifetime = 0
+tick_interval = 0.45
+orbit_speed = 3.6
+orbit_center_offset = Vector2(0, -40)
+maximum_active = 1
+color = Color(0.3, 0.65, 0.2, 1)
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 16.8
+damage_scaling = 0.0
+cooldown = 0.5
+max_range = 105.0
+knockback = 0.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")

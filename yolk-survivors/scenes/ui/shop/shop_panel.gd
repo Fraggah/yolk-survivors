@@ -127,9 +127,11 @@ func _position_weapon_actions() -> void:
 	weapon_actions.global_position = desired.clamp(bounds.position + Vector2(12, 12), bounds.end - weapon_actions.size - Vector2(12, 12))
 
 func _ready() -> void:
+	for item in load("res://resources/items/weapons/melee_catalogue.gd").items(true):
+		if not shop_items.has(item): shop_items.append(item)
 	for item in RangedCatalogue.items(true):
 		if not shop_items.has(item): shop_items.append(item)
-	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items():
+	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items(true):
 		if not item.selection_only and not shop_items.has(item): shop_items.append(item)
 	weapon_tooltip = WEAPON_TOOLTIP_SCENE.instantiate() as WeaponTooltip
 	add_child(weapon_tooltip)

@@ -48,13 +48,15 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/selection_panel/weapon_selection_panel.tscn" id="weapon_selection"]
 
 [node name="Arena" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_asdgj")
 normal_color = Color(1, 1, 1, 1)
 block_color = Color(1, 0.290196, 0.454902, 1)
 critical_color = Color(0.996078, 0.780392, 0.380392, 1)
 hp_reg_color = Color(0, 0.627451, 0.482353, 1)
 
-[node name="StageMechanics" type="Node" parent="."]
+[node name="StageMechanics" type="Node2D" parent="."]
+y_sort_enabled = true
 script = ExtResource("stage_mechanics")
 
 [node name="Environment" type="Node2D" parent="."]

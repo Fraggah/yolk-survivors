@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=5 format=3]
+[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://resources/items/weapons/spicy/pattern_settings.gd" id="pattern"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_pepper_seed.tscn" id="projectile"]
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("pattern")
+mode = 4
+count = 1
+radius = 27.5
+lifetime = 3
+spiral_step_degrees = 22.5
+maximum_active = 1
+color = Color(1, 0.8, 0.15, 1)
+area_y_ratio = 0.6
+[resource]
+script = ExtResource("stats")
+accuracy = 1.0
+damage = 5.4
+damage_scaling = 1.0
+cooldown = 0.14
+max_range = 430.0
+knockback = 0.0
+crit_chance = 0.05
+crit_damage = 1.5
+spicy_pattern = SubResource("settings")
+projectile_scene = ExtResource("projectile")
+projectile_speed = 650.0

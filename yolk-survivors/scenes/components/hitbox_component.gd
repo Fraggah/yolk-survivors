@@ -20,6 +20,7 @@ var continuous_contact := false
 var hit_once_per_activation := false
 var _hit_hurtboxes: Dictionary = {}
 var projectile: Node
+var launch_direction := Vector2.ZERO
 var launch_on_hit := false
 var launch_speed := 520.0
 var launch_duration := 0.45
@@ -68,6 +69,9 @@ func report_damage(target: Unit, amount: float) -> void:
 	if target is Enemy and not weapon_damage_record.is_empty():
 		weapon_damage_record.wave_damage += amount
 		weapon_damage_record.total_damage += amount
+		for share in weapon_damage_record.get("contributors",[]):
+			share.record.wave_damage += amount*share.weight
+			share.record.total_damage += amount*share.weight
 	if target is Enemy and is_instance_valid(source) and source is Player:
 		source.try_life_steal(life_steal_chance)
 	damage_dealt.emit(target, amount)
