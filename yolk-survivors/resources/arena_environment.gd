@@ -40,3 +40,32 @@ func random_spawn_position() -> Vector2:
 			randf_range(movement_bounds.position.y, movement_bounds.end.y))
 		if clamp_position(point).is_equal_approx(point): return point
 	return movement_bounds.get_center()
+
+## Distance to the playable boundary, including rounded corners and oval arenas.
+func boundary_clearance(point: Vector2) -> float:
+	if not clamp_position(point).is_equal_approx(point): return 0.0
+	var offset := (point - movement_bounds.get_center()).abs()
+	var half := movement_bounds.size * 0.5
+	if not oval:
+		var radius := clampf(corner_radius, 0.0, minf(half.x, half.y))
+		var q := offset - (half - Vector2.ONE * radius)
+		return maxf(0.0, radius - q.max(Vector2.ZERO).length() - minf(maxf(q.x, q.y), 0.0))
+	# Locate the closest arc, then refine it; no bounding-box approximation for ovals.
+	var best_angle := 0.0
+	var best_distance := INF
+	var step := PI * 0.5 / 24.0
+	for index in 25:
+		var angle := index * step
+		var distance := (Vector2(cos(angle), sin(angle)) * half).distance_squared_to(offset)
+		if distance < best_distance:
+			best_distance = distance
+			best_angle = angle
+	var low := maxf(0.0, best_angle-step)
+	var high := minf(PI*0.5, best_angle+step)
+	for iteration in 16:
+		var a := lerpf(low,high,1.0/3.0)
+		var b := lerpf(low,high,2.0/3.0)
+		if (Vector2(cos(a),sin(a))*half).distance_squared_to(offset) < (Vector2(cos(b),sin(b))*half).distance_squared_to(offset): high=b
+		else: low=a
+	var middle := (low+high)*0.5
+	return sqrt(minf(best_distance,(Vector2(cos(middle),sin(middle))*half).distance_squared_to(offset)))

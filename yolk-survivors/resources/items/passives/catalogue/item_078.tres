@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/078.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Yema de oro"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 78
+description = "Consumible almacenable. Confirmá su uso y elegí un arma o pasivo. 25%: se rompe; 40%: mejora 10%; 23%: mejora 25%; 10%: mejora 50%; 2%: duplica beneficios y elimina penalizaciones. Mejora una sola copia. Los únicos destruidos pueden volver a aparecer en la tienda."
+effect_key = "golden_yolk"
+ready_for_shop = true
+pending_reason = ""
+golden_outcome_weights = PackedFloat32Array(25, 40, 23, 10, 2)

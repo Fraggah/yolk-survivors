@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/082.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Giro de tortilla"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 82
+description = "10% de probabilidad por copia de relanzar un enemigo Airbourne al aterrizar. Conserva el 75% de la fuerza y el 50% de la duración del lanzamiento anterior. Puede encadenar hasta dos relanzamientos; vuelve a aplicar las reducciones en el segundo. Conserva el daño de colisión y su atribución al arma."
+effect_key = "tortilla_flip"
+ready_for_shop = true
+pending_reason = ""
+proc_chance = 0.1
+relaunch_speed_multiplier = 0.75
+relaunch_duration_multiplier = 0.5
+relaunch_maximum = 2

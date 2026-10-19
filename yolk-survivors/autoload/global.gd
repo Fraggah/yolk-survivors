@@ -17,7 +17,7 @@ signal on_enemy_died(enemy: Enemy)
 signal on_player_died
 
 const GAME_ENTITY_SCALE := 1.5
-const STARTING_COINS := 0
+const STARTING_COINS := 25
 const MAX_EQUIPPED_WEAPONS := 6
 
 const FLASH_MATERIAL = preload("res://effects/flash_material.tres")
@@ -29,17 +29,11 @@ const ITEM_CARD_SCENE = preload("res://scenes/ui/shop/item_card.tscn")
 const SPAWN_EFFECT_SCENE = preload("res://scenes/effects/spawn_effect.tscn")
 const FRIED_SCENE = preload("res://scenes/units/fried.tscn")
 
-const UPGRADE_PROBABILITY_CONFIG = {
-	"rare" : { "start_wave": 2, "base_mult": .06 },
-	"epic" : { "start_wave": 4, "base_mult": .02 },
-	"legendary" : { "start_wave": 7, "base_mult": .0023 },
-}
+## Level-up dispatch key; independent curve in resources/upgrade_rarity.gd.
+const UPGRADE_PROBABILITY_CONFIG = {"policy": "upgrade_cumulative_base"}
 
-const SHOP_PROBABILITY_CONFIG = {
-	"rare" : { "start_wave": 2, "base_mult": .1 },
-	"epic" : { "start_wave": 4, "base_mult": .05 },
-	"legendary" : { "start_wave": 7, "base_mult": .005 },
-}
+## Shop-only dispatch key; base curve and caps live in resources/shop_rarity.gd.
+const SHOP_PROBABILITY_CONFIG = {"policy": "shop_cumulative_base"}
 
 const TIER_COLORS: Dictionary[UpgradeTier, Color] = {
 	UpgradeTier.RARE: Color(.4, .857, .41),
@@ -142,6 +136,10 @@ func get_tier_style(tier: UpgradeTier) -> StyleBoxFlat:
 	return UITheme.tier_style(tier)
 
 func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[float]:
+	if config == SHOP_PROBABILITY_CONFIG:
+		return load("res://resources/shop_rarity.gd").probabilities(current_wave)
+	if config == UPGRADE_PROBABILITY_CONFIG:
+		return load("res://resources/upgrade_rarity.gd").probabilities(current_wave)
 	var common_chance := .0
 	var rare_chance := .0
 	var epic_chance := .0
@@ -185,17 +183,22 @@ func calculate_tier_probability(current_wave: int, config: Dictionary) -> Array[
 		max(.0, legendary_chance)
 	]
 
-func select_items_for_offer(item_pool: Array, current_wave: int, config: Dictionary, offer_count: int = 4, excluded_keys: Array = []) -> Array:
+func select_items_for_offer(item_pool: Array, current_wave: int, config: Dictionary, offer_count: int = 4, excluded_keys: Array = [], candidate_selector: Callable = Callable()) -> Array:
 	var chances: Array[float] = calculate_tier_probability(current_wave, config)
 	var remaining := item_pool.filter(func(item: ItemBase):
 		return item != null and not excluded_keys.has(item.get_offer_key()))
 	var offers: Array = []
 	while offers.size() < offer_count and not remaining.is_empty():
-		var roll := randf()
 		var tier := 0
-		if roll < chances[3]: tier = 3
-		elif roll < chances[3] + chances[2]: tier = 2
-		elif roll < chances[3] + chances[2] + chances[1]: tier = 1
+		if config == SHOP_PROBABILITY_CONFIG:
+			tier = load("res://resources/shop_rarity.gd").roll_tier(current_wave)
+		elif config == UPGRADE_PROBABILITY_CONFIG:
+			tier = load("res://resources/upgrade_rarity.gd").roll_tier(current_wave)
+		else:
+			var roll := randf()
+			if roll < chances[3]: tier = 3
+			elif roll < chances[3] + chances[2]: tier = 2
+			elif roll < chances[3] + chances[2] + chances[1]: tier = 1
 		var candidates: Array = []
 		while candidates.is_empty() and tier >= 0:
 			candidates = remaining.filter(func(item: ItemBase): return item.item_tier == tier)
@@ -203,7 +206,7 @@ func select_items_for_offer(item_pool: Array, current_wave: int, config: Diction
 		if candidates.is_empty():
 			candidates = remaining.filter(func(item: ItemBase): return chances[item.item_tier] > 0.0)
 		if candidates.is_empty(): break
-		var chosen: ItemBase = candidates.pick_random()
+		var chosen: ItemBase = candidate_selector.call(candidates) if candidate_selector.is_valid() else candidates.pick_random()
 		offers.append(chosen)
 		remaining = remaining.filter(func(item: ItemBase): return item.get_offer_key() != chosen.get_offer_key())
 	return offers

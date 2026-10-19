@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/077.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Liquidación"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 77
+description = "Único. Una de las cuatro tarjetas recibe una oferta del 10–90% o un 2×1 excepcional que reemplaza el descuento. Bloquear la oferta la conserva al refrescar. Todas las ofertas terminan al salir de la tienda."
+effect_key = "liquidation"
+ready_for_shop = true
+pending_reason = ""
+max_copies = 1
+minimum_discount_percent = 10
+maximum_discount_percent = 90
+two_for_one_chance = 0.02
+discount_band_weights = PackedFloat32Array(50, 28, 14, 6)

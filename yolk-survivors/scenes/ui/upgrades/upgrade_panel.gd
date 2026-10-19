@@ -68,15 +68,15 @@ func _process(_delta: float) -> void:
 @onready var item_container: HBoxContainer = %ItemContainer
 
 
-func load_upgrades(current_wave: int) -> void:
-	offer_level = current_wave
+func load_upgrades(character_level: int) -> void:
+	offer_level = maxi(1, character_level)
 	if item_container.get_child_count() > 0:
 		for child in item_container.get_children():
 			item_container.remove_child(child)
 			child.queue_free()
 	
 	var config := Global.UPGRADE_PROBABILITY_CONFIG
-	var selected_upgrades := Global.select_items_for_offer(upgrades, current_wave, config)
+	var selected_upgrades := Global.select_items_for_offer(upgrades, offer_level, config)
 	
 	for upgrade: ItemUpgrade in selected_upgrades:
 		var upgraded_instance := UPGRADE_CARD_SCENE.instantiate()

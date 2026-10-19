@@ -1,16 +1,29 @@
-[gd_resource type="Resource" script_class="ItemPassive" load_steps=3 format=3 uid="uid://btyn753ktmvya"]
+[gd_resource type="Resource" script_class="ItemPassive" load_steps=4 format=3 uid="uid://btyn753ktmvya"]
 
 [ext_resource type="Texture2D" uid="uid://cqhcmkv8ecvf3" path="res://assets/sprites/Items/Passives/power_ball.png" id="1_6frek"]
 [ext_resource type="Script" uid="uid://dat33idgol7a7" path="res://resources/items/passives/item_passive.gd" id="1_omkrg"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_w7182"]
 
 [resource]
 script = ExtResource("1_omkrg")
 add_value = 10.0
 add_stats_id = "damage_percent"
-remove_value = 0.0
-remove_stats_id = ""
+add_value_2 = 0.0
+add_stats_id_2 = "none"
+add_value_3 = 0.0
+add_stats_id_3 = "none"
+add_value_4 = 0.0
+add_stats_id_4 = "none"
+add_value_5 = 0.0
+add_stats_id_5 = "none"
+add_value_6 = 0.0
+add_stats_id_6 = "none"
+add_value_7 = 0.0
+add_stats_id_7 = "none"
+on_hit_effects = Array[ExtResource("2_w7182")]([])
 item_name = "Power Ball"
 item_icon = ExtResource("1_6frek")
+icon_scale = 1.0
 item_tier = 0
 item_type = 2
 item_cost = 12

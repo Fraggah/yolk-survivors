@@ -52,7 +52,7 @@ func _process(delta: float) -> void:
 			var enemy: Enemy = contact.enemy
 			contact_target_id = enemy.get_instance_id()
 			var push := settings.egg_contact_push
-			if hitbox.source is Unit: push *= hitbox.source.stats.final_multiplier("knockback")
+			if hitbox.source is Unit: push = hitbox.source.stats.get_push_force(push)
 			enemy.apply_knockback(velocity.normalized(), push)
 			landing_point = global_position
 			falling = true

@@ -81,7 +81,7 @@ func _plant() -> void:
 	z_index = 0
 	hold_duration = settings.harpoon_pin_duration
 	if hitbox.source is Unit:
-		hold_duration *= hitbox.source.stats.get_effect_multiplier() * hitbox.source.stats.effect_duration_multiplier()
+		hold_duration *= hitbox.source.stats.get_crowd_control_multiplier()
 	hold_left = hold_duration
 	if hold_left <= 0.0: finish()
 

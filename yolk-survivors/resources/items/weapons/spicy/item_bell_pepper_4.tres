@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("script")
 tags = Array[int]([1, 5])
-damage_scaling_stat = 3
+damage_scaling_stat = 2
 scales_with_effects = true
 selection_only = false
 type = 2

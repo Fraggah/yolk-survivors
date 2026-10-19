@@ -232,9 +232,13 @@ func verify() -> void:
 	player.is_dashing = false
 	zone._process(0.2)
 	assert(enemy.health_component.current_health == 48)
+	# Block chance is capped at 70%; the default block mitigates 50%, not all damage.
 	player.stats.block_chance = 100
+	player.stats.block_effectiveness = 50
 	zone._process(0.56)
-	assert(player.health_component.current_health == 100 and enemy.health_component.current_health == 46)
+	assert(player.health_component.current_health in [98.0, 99.0] and enemy.health_component.current_health == 46)
+	player.health_component.current_health = 100
+	player.hit_invulnerability_left = 0.0
 	player.stats.block_chance = 0
 	zone._process(0.76)
 	assert(player.health_component.current_health == 98 and enemy.health_component.current_health == 44)

@@ -37,7 +37,7 @@ func _ready() -> void:
 		debug_stage_selector.offset_top = -48
 		debug_stage_selector.offset_right = 370
 		debug_stage_selector.offset_bottom = -10
-		debug_stage_selector.add_item("TEST: escenario aleatorio")
+		debug_stage_selector.add_item("TEST: usar configuración de oleada")
 		for stage in stages: debug_stage_selector.add_item("TEST: " + stage.display_name)
 		debug_stage_selector.select(clampi(debug_forced_stage, 0, stages.size()))
 		debug_stage_selector.tooltip_text = "Se aplica al iniciar la próxima oleada. No se guarda."
@@ -62,7 +62,24 @@ func prepare_wave(wave: int, forced_stage: ArenaStage = null) -> ArenaStage:
 	if selected_stages.has(wave): return selected_stages[wave]
 	var eligible := stages.filter(func(stage): return stage != null and stage.is_valid())
 	if eligible.is_empty(): return null
-	var selected: ArenaStage = forced_stage if forced_stage != null and eligible.has(forced_stage) else eligible[stage_random.randi_range(0, eligible.size() - 1)]
+	var selected: ArenaStage
+	if forced_stage != null and eligible.has(forced_stage):
+		selected = forced_stage
+	else:
+		var spawner = get_parent().get_node_or_null("Spawner")
+		var config = spawner.wave_data_for(wave) if spawner else null
+		var mode: int = config.arena_mode if config else 0
+		if mode == 1 and config.fixed_arena != null and config.fixed_arena.is_valid():
+			selected = config.fixed_arena
+		elif mode == 2:
+			var specials := eligible.filter(func(stage): return stage.mechanic_scene != null)
+			if not specials.is_empty(): selected = specials[stage_random.randi_range(0, specials.size()-1)]
+		if selected == null:
+			for stage in eligible:
+				if stage.mechanic_scene == null:
+					selected = stage
+					break
+	if selected == null: return null
 	selected_stages[wave] = selected
 	return selected
 

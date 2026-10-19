@@ -71,7 +71,7 @@ func _update_trace() -> void:
 	var target_hurtbox := weapon.closest_target.get_node("HurtboxComponent") as HurtboxComponent
 	var direction := stream_start.direction_to(target_hurtbox.global_position)
 	if direction.is_zero_approx(): direction = Vector2.RIGHT.rotated(weapon.rotation)
-	var length := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x)
+	var length := weapon.get_effective_range() * absf(weapon.collision.global_scale.x)
 	var width := weapon.data.stats.ranged_settings.stream_width * Global.GAME_ENTITY_SCALE
 	var count := 1 + weapon.data.get_effective_piercing(weapon.get_parent().stats)
 	# Without piercing the chosen target already bounds the first-hit search.

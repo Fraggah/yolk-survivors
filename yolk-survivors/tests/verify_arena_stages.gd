@@ -60,12 +60,19 @@ func verify() -> void:
 	var seen: Array = []
 	var repeats := 0
 	var previous = null
-	for wave in range(1, 151):
+	var original_modes := []
+	for config in arena.spawner.waves_data:
+		original_modes.append(config.arena_mode)
+		config.arena_mode = 2
+	for sample in range(150):
+		var wave := sample % 20 + 1
+		controller.selected_stages.erase(wave)
 		var selected = controller.prepare_wave(wave)
 		if selected == previous: repeats += 1
 		if not seen.has(selected.id): seen.append(selected.id)
 		previous = selected
-	assert(seen.size() == 6 and repeats > 0)
+	assert(seen.size() == 5 and repeats > 0)
+	for index in arena.spawner.waves_data.size(): arena.spawner.waves_data[index].arena_mode = original_modes[index]
 	controller.reset_stage_selection()
 	assert(controller.prepare_wave(1, controller.stages[3]) == controller.stages[3])
 	assert(controller.prepare_wave(1, controller.stages[0]) == controller.stages[3], "A prepared draw stays immutable")

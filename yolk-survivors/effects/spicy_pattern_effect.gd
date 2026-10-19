@@ -63,6 +63,12 @@ func configure(weapon: Weapon, config: SpicyPatternSettings, point: Vector2, col
 		sprite.texture = weapon.sprite_2d.texture
 		sprite.scale = Vector2.ONE * settings.sprite_scale * Global.GAME_ENTITY_SCALE
 		sprite.z_index = 0
+		if weapon.data.golden_multiplier > 1.0:
+			sprite.material = load("res://effects/golden_visual.gd").material_for(weapon.data)
+			if weapon.data.golden_perfect:
+				var stars = load("res://effects/golden_sparkles.gd").new()
+				stars.radius = minf(sprite.get_rect().size.x, sprite.get_rect().size.y) * 0.5
+				sprite.add_child(stars)
 		add_child(sprite)
 		orbit_previous_center = source.global_position + settings.orbit_center_offset * Global.GAME_ENTITY_SCALE
 		global_position = _orbit_point(orbit_previous_center, orbit_angle)

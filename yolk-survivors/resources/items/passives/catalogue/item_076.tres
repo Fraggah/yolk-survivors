@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/076.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Imán de heladera"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 76
+description = "Tus ataques eléctricos también aplican 20% de Slow durante 1 segundo, incluidos los enemigos alcanzados por la cadena eléctrica. Refresca la duración sin acumular intensidad. Escala con Control de masas."
+effect_key = "fridge_magnet"
+ready_for_shop = true
+pending_reason = ""
+electric_slow_strength = 0.2
+electric_slow_duration = 1.0

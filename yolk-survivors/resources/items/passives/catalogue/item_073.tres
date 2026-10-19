@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/073.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Guante térmico"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 1
+item_cost = 25
+catalogue_id = 73
+description = "+1 de regeneración de vida por copia mientras el jugador está en Burning. El bonus se suma a la estadística y se retira al apagarse el fuego."
+effect_key = "thermal_glove"
+ready_for_shop = true
+pending_reason = ""
+burning_regen_bonus = 1.0

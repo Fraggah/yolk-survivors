@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/013.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Doble yema"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 0
+item_cost = 10
+catalogue_id = 13
+description = "+2 puntos porcentuales de probabilidad de obtener una yema adicional por enemigo. Acumulable sin límite; superar el 100% permite obtener yemas adicionales garantizadas"
+effect_key = "double_yolk"
+ready_for_shop = true
+pending_reason = ""

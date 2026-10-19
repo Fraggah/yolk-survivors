@@ -3,9 +3,14 @@ class_name StatusEffect
 const FireVisualConfig = preload("res://resources/fire_visual_settings.gd")
 
 enum Kind { FIRE, ELECTRICITY }
+const BASE_FIRE_INTERVAL := 0.5
 @export var kind := Kind.FIRE
 ## Damage per fire tick, or immediate electric damage; before source Effects scaling.
 @export var damage := 2.0
+@export var damage_scaling := 1.0
+## Use this resource's base damage and Effects coefficient for player fire ticks.
+## Disabled preserves generic item fire and native chili trail formulas.
+@export var configured_fire_damage := false
 @export_range(0.0, 30.0, 0.1) var duration := 3.0
 @export_range(0.05, 10.0, 0.05) var tick_interval := 0.5
 ## Base world radius before entity scale; electricity spreads from primary only.

@@ -20,7 +20,7 @@ func _land() -> void:
 	if hitbox.source is Unit:
 		radius *= hitbox.source.stats.get_area_radius_multiplier()
 		factor = hitbox.source.stats.effective_slow(factor)
-		duration *= hitbox.source.stats.get_effect_multiplier() * hitbox.source.stats.effect_duration_multiplier()
+		duration *= hitbox.source.stats.get_crowd_control_multiplier()
 	for enemy in get_tree().get_nodes_in_group("combat_enemies"):
 		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or enemy.is_retiring or enemy.health_component.current_health <= 0.0: continue
 		var offset: Vector2 = enemy.global_position - landing_point

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/081.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Rebozado"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 81
+description = "Consumible almacenable. Elegís un arma y recibe una tag aleatoria nueva. Melee/Ranged: escalado extra del 25%. Chili/Pet: +10% de daño por cada arma equipada de esa tag, incluyéndose. Pyro/Electric: 10% de aplicar el estado. Explosive: explosión de radio 40 y 25% del golpe. Control: ralentiza 20% por 1 segundo."
+effect_key = "breading"
+ready_for_shop = true
+pending_reason = ""
+breading_extra_scaling = 0.25
+breading_chili_damage_percent = 10.0
+breading_pet_damage_percent = 10.0
+breading_proc_chance = 0.1
+breading_explosion_radius = 40.0
+breading_explosion_damage_ratio = 0.25
+breading_slow_strength = 0.2
+breading_slow_duration = 1.0

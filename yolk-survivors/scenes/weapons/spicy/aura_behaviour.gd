@@ -29,14 +29,14 @@ func _process(delta: float) -> void:
 	var extent := Vector2.ZERO
 	var contributors := aura_contributors()
 	for equipped in contributors:
-		var reach: float = equipped.data.stats.max_range * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
+		var reach: float = equipped.get_effective_range() * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
 		extent.x = maxf(extent.x, reach)
 		extent.y = maxf(extent.y, reach * equipped.data.stats.aura_settings.area_y_ratio)
 	var coverage := PackedVector2Array()
 	coverage.resize(6)
 	for index in mini(6, contributors.size()):
 		var equipped := contributors[index]
-		var reach: float = equipped.data.stats.max_range * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
+		var reach: float = equipped.get_effective_range() * Global.GAME_ENTITY_SCALE * weapon.get_parent().stats.get_area_radius_multiplier()
 		coverage[index] = Vector2(reach / extent.x, reach * equipped.data.stats.aura_settings.area_y_ratio / extent.y)
 	aura_material.set_shader_parameter("coverage_count", mini(6, contributors.size()))
 	aura_material.set_shader_parameter("coverage_extents", coverage)
@@ -69,7 +69,7 @@ func execute_attack() -> void:
 		for equipped in contributors:
 			var offset: Vector2 = enemy.global_position - source.global_position
 			offset.y /= equipped.data.stats.aura_settings.area_y_ratio
-			var reach: float = equipped.data.stats.max_range * Global.GAME_ENTITY_SCALE * source.stats.get_area_radius_multiplier()
+			var reach: float = equipped.get_effective_range() * Global.GAME_ENTITY_SCALE * source.stats.get_area_radius_multiplier()
 			if offset.length_squared() > reach * reach: continue
 			var amount := equipped.data.get_effective_damage(source.stats)
 			total += amount

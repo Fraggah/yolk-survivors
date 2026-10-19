@@ -63,12 +63,12 @@ func verify():
 	assert(burns.size()==1, "One burn combines both cayennes")
 	var burn=burns[0]
 	burn.set_process(false)
-	var expected_fire=(item.on_hit_effects[0].damage+second.data.on_hit_effects[0].damage)*player.stats.get_effect_multiplier()*player.stats.final_multiplier("damage_percent")
+	var expected_fire=first_damage+second_damage
 	assert(is_equal_approx(burn.hit.base_damage,expected_fire))
 	burn.hit.critical_chance=0
 	burn._process(burn.interval)
-	assert(is_equal_approx(first.damage_record.wave_damage,first_damage+expected_fire*0.5))
-	assert(is_equal_approx(second.damage_record.wave_damage,second_damage+expected_fire*0.5))
+	assert(is_equal_approx(first.damage_record.wave_damage,first_damage+first_damage))
+	assert(is_equal_approx(second.damage_record.wave_damage,second_damage+second_damage))
 	# A later shared patch refreshes the existing burn instead of adding another.
 	var next=load("res://effects/spicy_pattern_effect.gd").new()
 	next.configure(first,item.stats.spicy_pattern,target.global_position)
@@ -102,7 +102,7 @@ func verify():
 	burn.tick_left=0.2
 	burn._process(0.2)
 	assert(burn.contributions.size()==1 and burn.contributions.has(second.get_instance_id()))
-	assert(is_equal_approx(burn.hit.base_damage,expected_fire*0.5))
+	assert(is_equal_approx(burn.hit.base_damage,second_damage))
 	patch.elapsed=patch.trail_lifetime-0.01
 	patch._process(0.02)
 	assert(patch.is_queued_for_deletion())

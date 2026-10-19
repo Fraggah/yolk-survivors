@@ -1,12 +1,15 @@
 extends Area2D
 class_name HitboxComponent
 
+static var _breading_handler: Script
+
 signal on_hit_hurtbox(hurtbox: HurtboxComponent)
 ## Emitted only after a Unit accepted damage, including lethal hits.
 signal damage_dealt(target: Unit, amount: float)
 
 var damage := 1.0
 var critical := false
+var critical_allowed := true
 var roll_critical_per_target := false
 var critical_chance := 0.0
 var critical_multiplier := 1.0
@@ -28,7 +31,9 @@ var launch_damage := 0.0
 var cancel_knockback_on_hit := false
 @export var status_effects: Array[StatusEffect] = []
 var is_status_damage := false
+var breading_suppressed := false
 var can_be_blocked := true
+var explosive_bonus_applied := false
 @export var bb: CollisionShape2D
 
 func enable() -> void:
@@ -45,7 +50,7 @@ func setup(p_damage: float, p_critical: bool, p_knockback: float, p_source: Node
 	base_damage = p_damage
 	roll_critical_per_target = false
 	critical = p_critical
-	knockback_power = p_knockback * (p_source.stats.final_multiplier("knockback") if p_source is Unit else 1.0)
+	knockback_power = p_source.stats.get_push_force(p_knockback) if p_source is Unit else p_knockback
 	source = p_source
 	if p_source is Unit:
 		for effect in p_source.stats.attack_effects:
@@ -75,8 +80,15 @@ func report_damage(target: Unit, amount: float) -> void:
 	if target is Enemy and is_instance_valid(source) and source is Player:
 		source.try_life_steal(life_steal_chance)
 	damage_dealt.emit(target, amount)
+	if not weapon_damage_record.is_empty():
+		if _breading_handler == null: _breading_handler = load("res://effects/breading_hit.gd")
+		_breading_handler.on_damage(self, target, amount)
 
 func roll_target_critical() -> void:
+	if not critical_allowed or (source is Player and not ItemWeapon.record_allows_critical(weapon_damage_record, source.stats)):
+		critical = false
+		damage = base_damage
+		return
 	if not roll_critical_per_target: return
 	critical = Global.get_chance_succes(critical_chance)
 	damage = base_damage * (critical_multiplier if critical else 1.0)

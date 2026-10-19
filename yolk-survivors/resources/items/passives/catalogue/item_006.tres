@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/006.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Cúrcuma"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 0
+item_cost = 10
+catalogue_id = 6
+description = "+2 de daño a distancia; −1 de daño melee. Acumulable por copia."
+effect_key = "turmeric"
+ready_for_shop = true
+pending_reason = ""
+add_value = 2.0
+add_stats_id = "ranged_damage"
+add_value_2 = -1.0
+add_stats_id_2 = "melee_damage"

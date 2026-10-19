@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/046.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Complejo B"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 1
+item_cost = 25
+catalogue_id = 46
+description = "5% de probabilidad de curar 0,1 de vida por cada yema obtenida. Cada yema cuenta, incluso en recogidas múltiples. Las copias suman probabilidad; no supera la vida máxima."
+effect_key = "vitamin_b"
+ready_for_shop = true
+pending_reason = ""
+proc_chance = 0.05
+heal_amount = 0.1

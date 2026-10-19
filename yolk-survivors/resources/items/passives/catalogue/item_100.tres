@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/100.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Último bocado"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 3
+item_cost = 80
+catalogue_id = 100
+description = "Al caer por debajo del 25% de Vida, +50% de Empuje y cooldown de dash reducido a la mitad. Activo mientras estés por debajo del umbral; se desactiva al recuperar 25% o más"
+effect_key = "last_bite"
+ready_for_shop = true
+pending_reason = ""
+last_bite_health_threshold = 0.25
+last_bite_push_percent = 50.0
+last_bite_dash_reduction = 0.5

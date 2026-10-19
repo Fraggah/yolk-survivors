@@ -30,7 +30,7 @@ func execute_attack() -> void:
 		hitbox.weapon_damage_record = weapon.damage_record
 	)
 	
-	var attack_pos := Vector2(weapon.atk_start_pos.x + weapon.data.stats.max_range, weapon.atk_start_pos.y)
+	var attack_pos := Vector2(weapon.atk_start_pos.x + weapon.get_effective_range(), weapon.atk_start_pos.y)
 	tween.tween_property(weapon.sprite_2d, "position", attack_pos, weapon.data.stats.attack_duration * time_scale)
 	
 	tween.tween_callback(func():
@@ -51,7 +51,7 @@ func _execute_semicircle() -> void:
 	var time_scale := weapon.get_animation_time_scale(stats.recoil_duration + stats.attack_duration + stats.back_duration) / maxf(0.01, stats.melee_settings.animation_speed)
 	var tween := create_attack_tween()
 	var start_position := weapon.atk_start_pos
-	var radius := stats.max_range * stats.melee_settings.semicircle_radius_multiplier
+	var radius := weapon.get_effective_range() * stats.melee_settings.semicircle_radius_multiplier
 	var first_angle := deg_to_rad(stats.melee_settings.sweep_start_angle)
 	var last_angle := deg_to_rad(stats.melee_settings.sweep_end_angle)
 	var arc_start := _sweep_center() + Vector2.from_angle(first_angle) * radius

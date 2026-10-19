@@ -13,6 +13,8 @@ var electric_hit: HitboxComponent
 var impact_cooldown := 0.0
 
 
+static var burning_enemy_count := 0
+var _counted_burning_enemy := false
 var burning_sources: Dictionary = {}
 var control_label: Label
 
@@ -21,9 +23,16 @@ func register_burning(burn: Node) -> void:
 	# Exit cleanup also handles wave changes and externally removed burns.
 	if not burn.tree_exiting.is_connected(_remove_burning.bind(burn.get_instance_id())):
 		burn.tree_exiting.connect(_remove_burning.bind(burn.get_instance_id()), CONNECT_ONE_SHOT)
+	_sync_player_burning_regen()
 
 func _remove_burning(id: int) -> void:
 	burning_sources.erase(id)
+	_sync_player_burning_regen()
+
+func _sync_player_burning_regen() -> void:
+	var unit = get_parent()
+	if unit is Player and is_instance_valid(unit.passive_items): unit.passive_items.refresh_burning_regen()
+	sync_burning_enemy()
 
 func has_status(state: int) -> bool:
 	var unit := get_parent() as Unit
@@ -49,15 +58,15 @@ func has_status(state: int) -> bool:
 
 func refresh_control_text() -> void:
 	var names := PackedStringArray()
-	if has_status(Unit.State.SLOW): names.append("Slowed")
-	if has_status(Unit.State.ROOTED): names.append("Rooted")
-	if has_status(Unit.State.AIRBOURNE): names.append("Airbourne")
+	if has_status(Unit.State.SLOW): names.append("Slow")
+	if has_status(Unit.State.ROOTED): names.append("Root")
+	if has_status(Unit.State.AIRBOURNE): names.append("Air")
 	if not names.is_empty() and not is_instance_valid(control_label):
 		control_label = Label.new()
 		control_label.name = "ControlStates"
 		control_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		control_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		control_label.add_theme_font_size_override("font_size", 15)
+		control_label.add_theme_font_size_override("font_size", 32)
 		control_label.add_theme_color_override("font_color", Color("a4c6d8"))
 		control_label.add_theme_color_override("font_outline_color", Color("292421"))
 		control_label.add_theme_constant_override("outline_size", 4)
@@ -71,7 +80,7 @@ func refresh_control_text() -> void:
 		# Keep text upright and in world units despite sprite flips/animation.
 		control_label.scale = Vector2.ONE / global_scale.abs()
 		control_label.reset_size()
-		control_label.position = anchor - Vector2(control_label.size.x * control_label.scale.x * 0.5, 22.0 / absf(global_scale.y))
+		control_label.position = anchor - Vector2(control_label.size.x * control_label.scale.x * 0.5, (control_label.size.y + 4.0) / absf(global_scale.y))
 	if not names.is_empty(): set_process(true)
 
 func _ready() -> void:
@@ -83,22 +92,26 @@ func _ready() -> void:
 static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxComponent, spread: bool = true) -> void:
 	if not is_instance_valid(target) or target.is_queued_for_deletion() or target.health_component.current_health <= 0.0: return
 	if target is Enemy and not target.targetable: return
+	if target is Player and is_instance_valid(target.passive_items):
+		target.passive_items.on_status_applied(effect.kind, target.has_status(Unit.State.BURNING if effect.kind == StatusEffect.Kind.FIRE else Unit.State.SHOKED))
 	if effect.kind == StatusEffect.Kind.FIRE:
 		var source_id := template.source.get_instance_id() if is_instance_valid(template.source) else 0
 		var effect_id := effect.resource_path if not effect.resource_path.is_empty() else str(effect.get_instance_id())
 		if effect.has_meta("stack_id"): effect_id = str(effect.get_meta("stack_id"))
+		elif not template.weapon_damage_record.is_empty(): effect_id += "_weapon_%s" % template.weapon_damage_record.get("instance_id", 0)
 		load("res://effects/fire_status.gd").apply(target, "Fire_%s_%s" % [source_id, effect_id.hash()], template, effect)
 		return
 	# Snapshot the primary's neighbors once; secondary applications never propagate.
 	var neighbors: Array[Unit] = []
 	var source_stats: UnitStats = template.source.stats if is_instance_valid(template.source) and template.source is Unit else null
-	var strength := source_stats.get_effect_multiplier() if source_stats else 1.0
+	var status_damage := source_stats.get_effect_damage(effect.damage, effect.damage_scaling) * ItemWeapon.status_damage_multiplier(template.weapon_damage_record, source_stats) if source_stats else effect.damage
+	var chain_limit: int = effect.maximum_chain_targets + (template.source.passive_items.discrete_power("spark") if template.source is Player else 0)
 	var radius := effect.chain_radius * Global.GAME_ENTITY_SCALE
-	if spread and radius > 0.0 and effect.maximum_chain_targets > 0:
+	if spread and radius > 0.0 and chain_limit > 0:
 		var group := "combat_players" if target is Player else "combat_enemies"
 		var candidates: Array
 		if group == "combat_enemies" and EnemyCrowd.members.size() > 32:
-			candidates = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),effect.maximum_chain_targets)
+			candidates = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),chain_limit)
 		else:
 			candidates = target.get_tree().get_nodes_in_group(group)
 		for candidate in candidates:
@@ -108,9 +121,9 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 			offset.y /= 0.6
 			if offset.length_squared() <= radius * radius: neighbors.append(candidate)
 		neighbors.sort_custom(func(a, b): return a.global_position.distance_squared_to(target.global_position) < b.global_position.distance_squared_to(target.global_position))
-		if neighbors.size() > effect.maximum_chain_targets: neighbors.resize(effect.maximum_chain_targets)
+		if neighbors.size() > chain_limit: neighbors.resize(chain_limit)
 	var controller = target.status_controller
-	var status_duration := effect.duration * strength * (source_stats.effect_duration_multiplier() if source_stats else 1.0)
+	var status_duration := effect.duration * (source_stats.effect_duration_multiplier() if source_stats else 1.0)
 	controller.lightning_left = maxf(controller.lightning_left, status_duration)
 	controller.electric_duration = maxf(0.01, controller.lightning_left)
 	controller.electric_elapsed = 0.0
@@ -137,13 +150,18 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		controller.electric_hit.monitoring = false
 		controller.add_child(controller.electric_hit)
 	var hit: HitboxComponent = controller.electric_hit
-	hit.setup(effect.damage * strength * (source_stats.final_multiplier("damage_percent") if source_stats else 1.0), false, 0.0, template.source)
+	hit.setup(status_damage, false, 0.0, template.source)
 	hit.status_effects.clear()
 	hit.is_status_damage = true
+	hit.breading_suppressed = bool(effect.get_meta("breading_generated", false))
 	hit.can_be_blocked = false
 	hit.weapon_damage_record = template.weapon_damage_record
 	hit.life_steal_chance = template.life_steal_chance
 	target.receive_hit(hit)
+	if target is Enemy and template.source is Player and target.health_component.current_health > 0.0 and not target.is_queued_for_deletion():
+		var items = template.source.passive_items
+		if items.electric_slow_strength > 0.0 and items.electric_slow_duration > 0.0:
+			controller.add_slow(source_stats.effective_slow(1.0 - items.electric_slow_strength), items.electric_slow_duration * source_stats.get_crowd_control_multiplier())
 	controller.queue_redraw()
 	for neighbor in neighbors: apply_effect(neighbor, effect, template, false)
 
@@ -178,6 +196,7 @@ func clear() -> void:
 		if child.get_script() == load("res://effects/fire_status.gd"):
 			child.hide()
 			child.queue_free()
+	_sync_player_burning_regen()
 	queue_redraw()
 
 func _process(delta: float) -> void:
@@ -203,3 +222,23 @@ func _submit_rays() -> void:
 	var size := (to_local(unit.sprite.to_global(rect.end)) - to_local(unit.sprite.to_global(rect.position))).abs()
 	var extent := Vector2(clampf(size.x * 0.43, 9.0, 55.0), clampf(size.y * 0.43, 12.0, 65.0)) * electric_visual_scale
 	ElectricRays.submit_aura(self,center,extent,electric_elapsed,lightning_left,lightning_color,electric_glow,electric_ray_count)
+
+func sync_burning_enemy() -> void:
+	var unit = get_parent()
+	var active: bool = unit is Enemy and unit.targetable and not unit.is_retiring and not unit.is_queued_for_deletion() and unit.health_component.current_health > 0.0 and has_status(Unit.State.BURNING)
+	if active and not unit.health_component.on_unit_died.is_connected(_on_burning_enemy_died):
+		unit.health_component.on_unit_died.connect(_on_burning_enemy_died, CONNECT_ONE_SHOT)
+	_set_burning_enemy_counted(active)
+
+func _on_burning_enemy_died() -> void:
+	_set_burning_enemy_counted(false)
+
+func _set_burning_enemy_counted(active: bool) -> void:
+	if _counted_burning_enemy == active: return
+	_counted_burning_enemy = active
+	burning_enemy_count = maxi(0, burning_enemy_count + (1 if active else -1))
+	if is_instance_valid(Global.player) and not Global.player.is_queued_for_deletion() and is_instance_valid(Global.player.passive_items):
+		Global.player.passive_items.refresh_flambe_damage()
+
+func _exit_tree() -> void:
+	_set_burning_enemy_counted(false)

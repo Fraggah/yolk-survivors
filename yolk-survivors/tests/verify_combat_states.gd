@@ -34,7 +34,7 @@ func verify():
 	victim.apply_slow(0.5, 1)
 	victim.immobilize_for(0.2)
 	assert(victim.has_status_named("Slow") and victim.has_status_named("Rooted"))
-	assert(victim.status_controller.control_label.text.contains("Rooted"))
+	assert(victim.status_controller.control_label.text.contains("Root"))
 	victim.status_controller._process(0.3)
 	assert(not victim.has_status_named("Rooted") and victim.has_status_named("Slow"))
 	victim.pin_for(contact)
@@ -55,7 +55,7 @@ func verify():
 	victim.get_node("HurtboxComponent")._on_area_entered(shot.hitbox)
 	assert(victim.has_status_named("Airbourne"))
 	assert(victim.launch_velocity.x > 0 and is_zero_approx(victim.launch_velocity.y))
-	assert(victim.status_controller.control_label.text == "Airbourne")
+	assert(victim.status_controller.control_label.text == "Air")
 	await physics_frame
 	await physics_frame
 	var hp = other.health_component.current_health

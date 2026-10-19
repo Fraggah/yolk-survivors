@@ -62,9 +62,20 @@ func setup_weapon(weapon_data: ItemWeapon) -> void:
 	if damage_record.is_empty():
 		damage_record = {"weapon": weapon_data, "instance_id": get_instance_id(), "wave_damage": 0.0, "last_wave_damage": 0.0, "total_damage": 0.0}
 		damage_records.append(damage_record)
-	collision.shape.radius = weapon_data.stats.max_range
+	collision.shape = collision.shape.duplicate()
+	_refresh_range()
+	if get_parent() is Unit and not get_parent().stats.stats_changed.is_connected(_refresh_range):
+		get_parent().stats.stats_changed.connect(_refresh_range)
 	center_range_on_weapon()
 	apply_tier_outline()
+	load("res://effects/golden_visual.gd").apply_weapon(self)
+
+func get_effective_range() -> float:
+	return data.get_effective_range(get_parent().stats if get_parent() is Unit else null)
+
+func _refresh_range() -> void:
+	collision.shape.radius = get_effective_range()
+	spatial_target_deadline = 0.0
 
 func can_use_weapon() -> bool:
 	return cooldown_timer.is_stopped() and not is_attacking and is_instance_valid(closest_target)
@@ -120,7 +131,7 @@ func get_closest_target() -> Enemy:
 	var origin := global_position
 	var nearest: Enemy = null
 	var nearest_distance_squared := INF
-	var world_range := data.stats.max_range * absf(collision.global_scale.x)
+	var world_range := get_effective_range() * absf(collision.global_scale.x)
 	var range_squared := world_range * world_range
 	if targets.is_empty():
 		if EnemyCrowd.clock<spatial_target_deadline and is_instance_valid(spatial_target) and not spatial_target.is_queued_for_deletion() and not spatial_target.is_retiring and spatial_target.health_component.current_health>0 and origin.distance_squared_to(spatial_target.global_position)<=range_squared:

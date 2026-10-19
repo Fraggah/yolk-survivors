@@ -2,9 +2,9 @@ extends Panel
 class_name StatsContainer
 
 const PRIMARY := ["health", "hp_regen", "life_steal", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "critical_chance", "armor", "block_chance", "speed", "luck", "harvesting"]
-const SECONDARY := ["critical_multiplier", "area_of_effect", "effects", "fire_tick_speed", "block_effectiveness", "pickup_range", "piercing", "bounces"]
-const TITLES := {"critical_multiplier":"Crit multiplier bonus:", "area_of_effect":"Area of effect:", "effects":"Effects:", "fire_tick_speed":"Fire tick speed:", "block_effectiveness":"Block Power:", "piercing":"Piercing:", "bounces":"Bounces:"}
-const PERCENT_STATS := ["life_steal", "damage_percent", "attack_speed", "critical_chance", "block_chance", "critical_multiplier", "area_of_effect", "effects", "fire_tick_speed", "block_effectiveness", "pickup_range"]
+const SECONDARY := ["slow_strength", "weapon_range", "knockback", "experience_gain", "critical_multiplier", "area_of_effect", "effects", "chili_power", "explosive_damage", "crowd_control", "fire_tick_speed", "block_effectiveness", "pickup_range", "piercing", "bounces"]
+const TITLES := {"chili_power":"Chili Power:", "explosive_damage":"Explosive damage:","slow_strength":"Slow potency:", "weapon_range":"Range:", "knockback":"Push:", "experience_gain":"Experience gain:", "critical_multiplier":"Crit multiplier bonus:", "area_of_effect":"Area of effect:", "effects":"Effects:", "crowd_control":"Crowd control:", "fire_tick_speed":"Fire tick speed:", "block_effectiveness":"Block Power:", "piercing":"Piercing:", "bounces":"Bounces:"}
+const PERCENT_STATS := ["slow_strength", "experience_gain", "life_steal", "damage_percent", "attack_speed", "critical_chance", "block_chance", "critical_multiplier", "area_of_effect", "chili_power", "explosive_damage", "crowd_control", "fire_tick_speed", "block_effectiveness", "pickup_range"]
 
 @onready var health_label: Label = %HealthLabel
 @onready var hp_regen_label: Label = %HpRegenLabel
@@ -31,8 +31,9 @@ var tabs: HBoxContainer
 var hint: Label
 
 func _ready() -> void:
+	hp_regen_label.get_parent().tooltip_text = "Each point restores 0.1 HP per second, in small pulses."
 	var layout := $MarginContainer/VBoxContainer
-	layout.add_theme_constant_override("separation", 5)
+	layout.add_theme_constant_override("separation", 3)
 	stat_labels = {"health":health_label, "hp_regen":hp_regen_label, "life_steal":life_steal_label, "damage_percent":damage_label, "melee_damage":melee_damage_label, "ranged_damage":ranged_damage_label, "attack_speed":attack_speed_label, "critical_chance":critical_chance_label, "armor":armor_label, "block_chance":block_label, "speed":speed_label, "luck":luck_label, "harvesting":harvesting_label, "pickup_range":pickup_range_label}
 	for stat in TITLES:
 		var row := Panel.new()
@@ -127,7 +128,8 @@ func _process(_delta: float) -> void:
 func _update_values() -> void:
 	if not is_instance_valid(Global.player): return
 	for stat in stat_labels:
-		stat_labels[stat].text = ItemWeapon.format_number(Global.player.stats.get(stat)) + ("%" if stat in PERCENT_STATS else "")
+		var value: float = Global.player.stats.get_block_chance() if stat == "block_chance" else float(Global.player.stats.get(stat))
+		stat_labels[stat].text = ItemWeapon.format_number(value) + ("%" if stat in PERCENT_STATS else "")
 
 func _fit_content() -> void:
 	if not is_instance_valid(tabs) or not is_instance_valid(hint): return
@@ -136,12 +138,12 @@ func _fit_content() -> void:
 	for stat in stat_rows:
 		var row: Panel = stat_rows[stat]
 		var content: Vector2 = row.get_child(0).get_combined_minimum_size()
-		row.custom_minimum_size = Vector2(content.x + 23, maxf(34, content.y))
+		row.custom_minimum_size = Vector2(content.x + 23, maxf(32, content.y))
 		width = maxf(width, row.custom_minimum_size.x)
 		heights[stat] = row.custom_minimum_size.y
 	var max_height := 0.0
 	for page in [PRIMARY, SECONDARY]:
-		var height: float = tabs.get_combined_minimum_size().y + hint.get_combined_minimum_size().y + (page.size() + 1) * 5
+		var height: float = tabs.get_combined_minimum_size().y + hint.get_combined_minimum_size().y + (page.size() + 1) * 3
 		for stat in page: height += heights[stat]
 		max_height = maxf(max_height, height)
 	custom_minimum_size = Vector2(maxf(480,width + 32), maxf(650,max_height + 32))

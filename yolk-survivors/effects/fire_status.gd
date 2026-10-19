@@ -9,8 +9,11 @@ var tint := Color.ORANGE
 var contributions: Dictionary = {}
 
 static func apply(enemy: Unit, key: String, template: HitboxComponent, settings: StatusEffect, damage_scaled: bool = false) -> void:
-	if settings.duration <= 0.0 or settings.damage <= 0.0: return
+	if settings.duration <= 0.0: return
+	var was_burning := enemy.has_status(Unit.State.BURNING)
 	var source_stats: UnitStats = template.source.stats if is_instance_valid(template.source) and template.source is Unit else null
+	var duration: float = source_stats.get_fire_duration(settings.duration) if source_stats else settings.duration
+	if duration <= 0.0: return
 	var burn = enemy.get_node_or_null(NodePath(key))
 	if burn and burn.is_queued_for_deletion():
 		burn.name = key + "_Expired_%s" % burn.get_instance_id()
@@ -24,28 +27,39 @@ static func apply(enemy: Unit, key: String, template: HitboxComponent, settings:
 		burn.hit.collision_mask = 0
 		burn.hit.monitoring = false
 		burn.add_child(burn.hit)
-		burn.tick_left = source_stats.get_fire_interval(settings.tick_interval) if source_stats else settings.tick_interval
+		burn.tick_left = source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL
 	# Refresh the duration, without restarting the tick timer or duplicating the burn.
-	burn.remaining = settings.duration * (source_stats.effect_duration_multiplier() if source_stats else 1.0)
-	burn.interval = source_stats.get_fire_interval(settings.tick_interval) if source_stats else maxf(0.05, settings.tick_interval)
+	burn.remaining = duration
+	burn.interval = source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL
 	burn.tint = settings.color
-	burn.hit.setup(settings.damage * (source_stats.get_effect_multiplier() * source_stats.final_multiplier("damage_percent") if source_stats and not damage_scaled else 1.0), false, 0.0, template.source)
+	var player_fire := template.source is Player and source_stats != null
+	var tick_damage: float = source_stats.get_burning_damage() if player_fire else maxf(0.0, source_stats.get_effect_damage(settings.damage, settings.damage_scaling) * source_stats.get_damage_percent_multiplier() if source_stats and not damage_scaled else settings.damage)
+	if player_fire:
+		if settings.configured_fire_damage:
+			tick_damage = maxf(0.1, source_stats.get_effect_damage(settings.damage, settings.damage_scaling)) * ItemWeapon.status_damage_multiplier(template.weapon_damage_record, source_stats)
+		else:
+			tick_damage = _native_breading_damage(tick_damage, template.weapon_damage_record, source_stats)
+	burn.hit.setup(tick_damage, false, 0.0, template.source)
 	burn.hit.status_effects.clear()
 	burn.hit.is_status_damage = true
+	burn.hit.breading_suppressed = bool(settings.get_meta("breading_generated", false))
 	burn.hit.can_be_blocked = false
-	burn.hit.roll_critical_per_target = template.roll_critical_per_target
-	burn.hit.critical_chance = template.critical_chance
-	burn.hit.critical_multiplier = template.critical_multiplier
+	burn.hit.critical_allowed = false
+	burn.hit.critical = false
+	burn.hit.roll_critical_per_target = false
+	burn.hit.critical_chance = 0.0
+	burn.hit.critical_multiplier = 1.0
 	burn.hit.life_steal_chance = template.life_steal_chance
 	burn.hit.weapon_damage_record = settings.get_meta("damage_record",template.weapon_damage_record)
 	if settings.has_meta("fire_contributions"):
-		var multiplier := source_stats.get_effect_multiplier() * source_stats.final_multiplier("damage_percent") if source_stats and not damage_scaled else 1.0
-		var duration_scale := source_stats.effect_duration_multiplier() if source_stats else 1.0
+		var multiplier := source_stats.get_damage_percent_multiplier() if source_stats and not damage_scaled else 1.0
 		for entry in settings.get_meta("fire_contributions"):
-			burn.contributions[entry.id] = {"record": entry.record, "damage": entry.damage * multiplier, "remaining": entry.duration * duration_scale}
+			burn.contributions[entry.id] = {"record": entry.record, "damage": _native_breading_damage(source_stats.get_burning_damage(), entry.record, source_stats) if player_fire else entry.damage * multiplier, "remaining": source_stats.get_fire_duration(entry.duration) if source_stats else entry.duration}
 		burn._refresh_contributions()
 	enemy.status_controller.register_burning(burn)
 	load("res://effects/fire_visual.gd").attach(enemy,burn,settings.fire_visuals,settings.color)
+	if not was_burning and burn.remaining > 0.0:
+		load("res://effects/fire_spread.gd").on_burning_started(enemy, key, template, settings, damage_scaled)
 
 func _ready() -> void:
 	add_to_group("projectiles")
@@ -69,7 +83,9 @@ func _process(delta: float) -> void:
 		tick_left += interval
 		if enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0.0: break
 		enemy.receive_hit(hit)
-	if remaining <= 0.0: queue_free()
+	if remaining <= 0.0:
+		queue_free()
+		enemy.status_controller.sync_burning_enemy()
 
 
 func _refresh_contributions() -> void:
@@ -101,4 +117,12 @@ func _process_contributions(delta: float, enemy: Unit) -> void:
 		for id in contributions.keys():
 			if contributions[id].remaining <= 0.000001: contributions.erase(id)
 		_refresh_contributions()
-	if contributions.is_empty(): queue_free()
+	if contributions.is_empty():
+		queue_free()
+		enemy.status_controller.sync_burning_enemy()
+
+static func _native_breading_damage(base_damage: float, record: Dictionary, stats: UnitStats) -> float:
+	var item = record.get("weapon")
+	if item is ItemWeapon and item.stats.spicy_pattern and item.stats.spicy_pattern.mode == SpicyPatternSettings.Mode.TRAIL:
+		return item.get_effective_damage(stats)
+	return base_damage * stats.get_damage_percent_multiplier(item.has_tag(ItemWeapon.Tag.CHILI) if item is ItemWeapon else false, item.has_tag(ItemWeapon.Tag.EXPLOSIVE) if item is ItemWeapon else false)

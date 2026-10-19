@@ -26,6 +26,8 @@ flock_push = 20.0
 targetable = true
 visual_scale = 1.0
 knockback_resistance = 0.0
+airbourne_tilt_degrees = 35.0
+airbourne_tilt_transition = 0.08
 stats = ExtResource("3_ekmfq")
 
 [node name="Sprite" parent="Visuals" index="1"]

@@ -16,7 +16,7 @@ func verify() -> void:
 	var shop = arena.shop_panel
 	var rules = load("res://resources/economy_rules.gd")
 	var item = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
-	assert(global.STARTING_COINS == 0)
+	assert(global.STARTING_COINS == 25)
 	for example in [[1, 12, 23, 45, 78], [5, 20, 35, 65, 110], [9, 28, 47, 85, 142]]:
 		for tier in 4:
 			assert(rules.shop_price([10, 20, 40, 70][tier], example[0]) == example[tier + 1])

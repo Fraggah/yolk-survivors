@@ -12,8 +12,8 @@ func configure_effects(settings: RangedSettings) -> void:
 		hitbox.launch_on_hit = effects.applies_airbourne
 		if effects.applies_airbourne:
 			hitbox.launch_direction = velocity.normalized()
-			hitbox.launch_speed = effects.airbourne_speed * (hitbox.source.stats.final_multiplier("knockback") if hitbox.source is Unit else 1.0)
-			hitbox.launch_duration = effects.airbourne_duration
+			hitbox.launch_speed = effects.airbourne_speed * (hitbox.source.stats.get_crowd_control_multiplier() if hitbox.source is Unit else 1.0)
+			hitbox.launch_duration = effects.airbourne_duration * (hitbox.source.stats.get_crowd_control_multiplier() if hitbox.source is Unit else 1.0)
 			hitbox.launch_damage = hitbox.base_damage * effects.airbourne_damage_multiplier
 			hitbox.cancel_knockback_on_hit = true
 			hitbox.knockback_power = 0.0

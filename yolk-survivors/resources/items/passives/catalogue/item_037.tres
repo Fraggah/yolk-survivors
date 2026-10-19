@@ -1,0 +1,82 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bhsw68jj7atrh"]
+
+[ext_resource type="Script" uid="uid://dnyefgc750gpo" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cmml4uk8ft867" path="res://assets/sprites/Items/Catalogue/037.png" id="2"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_fjig2"]
+
+[resource]
+script = ExtResource("1")
+catalogue_id = 37
+description = "+Alcance de recolección de yemas; +5% de experiencia obtenida"
+effect_key = ""
+ready_for_shop = true
+pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."
+proc_chance = 0.0
+effect_radius = 80.0
+heal_amount = 0.1
+max_copies = 0
+fire_interval_reduction = 0.0
+fire_duration_reduction = 0.0
+controlled_damage_percent = 0.0
+airbourne_collision_damage_percent = 0.0
+airbourne_explosion_damage_percent = 0.0
+burning_regen_bonus = 0.0
+regen_per_level = 0.0
+electric_slow_strength = 0.0
+electric_slow_duration = 0.0
+minimum_discount_percent = 10
+maximum_discount_percent = 90
+two_for_one_chance = 0.02
+discount_band_weights = null
+golden_outcome_weights = null
+flambe_damage_per_enemy = 10.0
+ayahuasca_outcome_weights = null
+ayahuasca_levels = 10
+mushroom_interval = 5.0
+mushroom_explosion_radius = 220.0
+mushroom_effects_scaling = 1.0
+mushroom_health_scaling = 0.1
+mushroom_damage_bonus = 100.0
+mushroom_speed_percent = 50.0
+mushroom_attack_speed_bonus = 100.0
+mushroom_buff_duration = 4.0
+mushroom_health_loss = 0.5
+mushroom_burn_duration = 4.0
+mushroom_burn_tick_health = 0.01
+mushroom_shock_health = 0.05
+mushroom_heal_health = 0.1
+last_bite_health_threshold = 0.25
+last_bite_push_percent = 50.0
+last_bite_dash_reduction = 0.5
+relaunch_speed_multiplier = 0.75
+relaunch_duration_multiplier = 0.5
+relaunch_maximum = 2
+breading_extra_scaling = 0.25
+breading_chili_damage_percent = 10.0
+breading_pet_damage_percent = 10.0
+breading_proc_chance = 0.1
+breading_explosion_radius = 40.0
+breading_explosion_damage_ratio = 0.25
+breading_slow_strength = 0.2
+breading_slow_duration = 1.0
+add_value = 10.0
+add_stats_id = "pickup_range"
+add_value_2 = 5.0
+add_stats_id_2 = "experience_gain"
+add_value_3 = 0.0
+add_stats_id_3 = "none"
+add_value_4 = 0.0
+add_stats_id_4 = "none"
+add_value_5 = 0.0
+add_stats_id_5 = "none"
+add_value_6 = 0.0
+add_stats_id_6 = "none"
+add_value_7 = 0.0
+add_stats_id_7 = "none"
+on_hit_effects = Array[ExtResource("2_fjig2")]([])
+item_name = "Cuchara sopera"
+item_icon = ExtResource("2")
+icon_scale = 1.0
+item_tier = 0
+item_type = 2
+item_cost = 10

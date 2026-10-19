@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/099.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Hongo desconocido"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 3
+item_cost = 80
+catalogue_id = 99
+description = "Único. Cada 5 s de combate, uno de 9 resultados equiprobables: explosión grande (100% Efectos + 10% vida máxima); +100% daño, +50% movimiento o +100% velocidad de ataque durante 4 s; perder 50% de vida actual sin morir; Burning 4 s (1% vida máxima por tick de 0,5 s); Shocked (5% vida máxima); curar 10% de vida máxima; curación total."
+effect_key = "unknown_mushroom"
+ready_for_shop = true
+pending_reason = ""
+max_copies = 1
+mushroom_interval = 5.0
+mushroom_explosion_radius = 220.0
+mushroom_effects_scaling = 1.0
+mushroom_health_scaling = 0.1
+mushroom_damage_bonus = 100.0
+mushroom_speed_percent = 50.0
+mushroom_attack_speed_bonus = 100.0
+mushroom_buff_duration = 4.0
+mushroom_health_loss = 0.5
+mushroom_burn_duration = 4.0
+mushroom_burn_tick_health = 0.01
+mushroom_shock_health = 0.05
+mushroom_heal_health = 0.1

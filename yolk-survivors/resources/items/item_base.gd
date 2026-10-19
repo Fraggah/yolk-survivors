@@ -16,6 +16,10 @@ enum ItemType {
 @export var item_tier: Global.UpgradeTier
 @export var item_type: ItemType
 @export var item_cost: int
+## Run-local enhancement, never written into catalogue resources.
+var golden_multiplier := 1.0
+var golden_penalty_multiplier := 1.0
+var golden_perfect := false
 
 func get_shop_price(completed_wave: int) -> int:
 	return ECONOMY_RULES.shop_price(item_cost, completed_wave)

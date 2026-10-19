@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/084.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Flambeado"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 84
+description = "+10% de daño general por cada enemigo vivo en llamas, por copia. Cuenta cada enemigo una sola vez aunque tenga varios fuegos. La bonificación desaparece cuando deja de arder o muere."
+effect_key = "flambe"
+ready_for_shop = true
+pending_reason = ""
+flambe_damage_per_enemy = 10.0

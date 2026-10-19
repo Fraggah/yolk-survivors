@@ -1,4 +1,4 @@
-# Picantes: first attack pass
+# Chilis: first attack pass
 
 All ten peppers are active equipables in selection and shop. Pets remain previews. Copies occupy separate weapon slots and attack independently. There is currently one development balance tier, without tier fusion; minimum-tier restrictions remain deferred.
 
@@ -63,9 +63,9 @@ En stats_jalapeno.tres > Aura Settings > Orbiting Embers: orbit_particle_count, 
 
 Ajuste v3: brasas orbitales con opacidad 0,4, brillo menor y naranja cercano al aura. Se agregan 24 brasitas centrales pequeñas, de vida breve y recorrido radial corto. Configurables en Central Embers: central_particle_count, central_particle_size, central_travel (fracción del radio), central_lifetime y central_opacity. Captura Mobile/Vulkan revisada y regresión de Jalapeño aprobada.
 
-## Cuatro tiers de los diez picantes
+## Cuatro tiers de los diez chilis
 
-Se conserva cada item_<id>.tres y stats_<id>.tres como tier I para compatibilidad con referencias existentes. Se agregan item_<id>_2/3/4.tres y stats_<id>_2/3/4.tres, unidos mediante upgrade_to. Selección inicial conserva diez picantes; tienda registra los 40 recursos. Compra, venta y combinación usan el flujo de armas existente, con rarezas I-IV. Cada tier es editable de forma independiente.
+Se conserva cada item_<id>.tres y stats_<id>.tres como tier I para compatibilidad con referencias existentes. Se agregan item_<id>_2/3/4.tres y stats_<id>_2/3/4.tres, unidos mediante upgrade_to. Selección inicial conserva diez chilis; tienda registra los 40 recursos. Compra, venta y combinación usan el flujo de armas existente, con rarezas I-IV. Cada tier es editable de forma independiente.
 
 Balance inicial: daño base por tier ×1 / ×1,35 / ×1,8 / ×2,4; radio de patrones y aura ×1 / ×1,1 / ×1,2 / ×1,3 donde corresponde. Precios base ×1/2/4/8. Buffs, debuffs y drenaje se conservan por copia en todos los tiers; no se multiplican nuevamente por rareza. Se conserva la cantidad de copias equipadas como base de acumulación de modificadores finales.
 
@@ -100,7 +100,7 @@ La presentación corre sólo en modo TRAIL, conservando el shader anterior para 
 
 En spicy_pattern de cada stats_cayenne*.tres > Trail Fire Visuals: trail_fire_visuals (opcional; vacío reutiliza fire_visual_default.tres), trail_flame_height (0,65 del radio), trail_fade_in y trail_fade_out. Los detalles de llama/brasas/distorsión provienen de FireVisualSettings, por lo que se puede asignar un recurso independiente para balance visual del Cayena. Opacity del patrón multiplica la transparencia de las llamas; los colores de calor siguen color del patrón.
 
-Regresiones de otros picantes, tiers y fuego aprobadas. Captura de varios parches revisada en Mobile/Vulkan y shader sin errores.
+Regresiones de otros chilis, tiers y fuego aprobadas. Captura de varios parches revisada en Mobile/Vulkan y shader sin errores.
 
 ### Cayena: contacto independiente del tick
 
@@ -116,7 +116,7 @@ Las quemaduras propias de Cayena también suman el daño configurado de sus copi
 
 El registro de daño compartido reparte cada golpe entre las copias según su aporte: daño directo proporcional al daño efectivo de cada arma y ticks de quemadura proporcional al daño de fuego aportado. El número de combate recibe un único golpe con el total. Los nuevos parches se recalculan con el equipo actual; las compras/combinaciones/ventas entre oleadas no dejan aportes fantasma. Si desaparece la copia principal, la siguiente equipada pasa a crear la estela; los parches ligados a la anterior se limpian por el mecanismo de referencia existente.
 
-Validación: verify_cayenne_stacking cubre mezcla de tiers, una sola estela, suma de daño, una quemadura compartida entre parches, reparto del registro de daño y sustitución de la copia principal. También pasan contacto de Cayena, otros picantes, Habanero, estados, visual de quemado y compra/combinación de tiers.
+Validación: verify_cayenne_stacking cubre mezcla de tiers, una sola estela, suma de daño, una quemadura compartida entre parches, reparto del registro de daño y sustitución de la copia principal. También pasan contacto de Cayena, otros chilis, Habanero, estados, visual de quemado y compra/combinación de tiers.
 
 ## Jalapeño: aura compartida entre copias
 
@@ -124,7 +124,7 @@ Se aplica la misma regla que Cayena: la primera copia equipada de la misma escen
 
 El golpe usa un registro compartido que reparte el daño real entre los registros de cada arma proporcionalmente a su aporte, igual que Cayena. No se duplican partículas ni números por copia. Si la principal se elimina, la siguiente equipada toma su lugar y se recalcula el daño con el equipo restante. Todas las auras conservan pausa y reset de oleada.
 
-verify_jalapeno_stacking verifica I + III + II, un aura visible, un evento de golpe con daño total, registros individuales, límites ovales y sustitución de la principal. También pasan Jalapeño, Cayena compartida, selección de picantes y tiers.
+verify_jalapeno_stacking verifica I + III + II, un aura visible, un evento de golpe con daño total, registros individuales, límites ovales y sustitución de la principal. También pasan Jalapeño, Cayena compartida, selección de chilis y tiers.
 
 ## Superposición por zona y duración (2026-10-16)
 
@@ -136,7 +136,7 @@ El quemado de Cayena conserva un único nodo y reloj por jugador/tipo de fuego. 
 
 Visualmente se conserva una sola aura y una estela, con transiciones suaves: mayor intensidad donde coinciden varios aportes; al vencer los cortos, disminuye el brillo local y permanece la región de los largos. Las llamas reutilizan los mismos MultiMesh, sin sistemas duplicados por copia. La presentación sigue siendo oval y se congela en pausa.
 
-Validación: verify_jalapeno_stacking cubre bandas I/II/III y registros por zona; verify_cayenne_stacking cubre radios diferentes, vencimiento independiente, continuidad hasta el último aporte, quemado compartido y registros. También se verifican contacto rápido, otros picantes, tiers, fuego y visual de quemado. Capturas de tiers combinados revisadas en Mobile/Vulkan.
+Validación: verify_jalapeno_stacking cubre bandas I/II/III y registros por zona; verify_cayenne_stacking cubre radios diferentes, vencimiento independiente, continuidad hasta el último aporte, quemado compartido y registros. También se verifican contacto rápido, otros chilis, tiers, fuego y visual de quemado. Capturas de tiers combinados revisadas en Mobile/Vulkan.
 
 ## Poblano: órbita y contacto (2026-10-16)
 
@@ -226,7 +226,7 @@ Cada copia de la misma escena ocupa un sector angular de 360/N grados según el 
 
 Los cuatro item_aji_amarillo*.tres mantienen type=SPICY y asignan damage_scaling_stat=RANGED. Sus stats tienen damage_scaling=1,0: el daño a distancia aporta el 100% de su valor como bono plano antes de daño general, modificadores finales y Efectos. No escala con daño melee. La descripción muestra el porcentaje y el icono de daño a distancia. El nuevo override DamageScalingStat de ItemWeapon permite elegir escalado sin alterar categoría, buffs/debuffs o combinación; AUTO conserva el comportamiento previo de las demás armas.
 
-verify_aji_amarillo cubre 1–6 copias, sectores iguales con tiers mezclados, avance de espiral, eliminación/reset, aporte de daño a distancia, exclusión de melee, categoría y descripción. También pasan patrones restantes, tiers y modificadores de picantes.
+verify_aji_amarillo cubre 1–6 copias, sectores iguales con tiers mezclados, avance de espiral, eliminación/reset, aporte de daño a distancia, exclusión de melee, categoría y descripción. También pasan patrones restantes, tiers y modificadores de chilis.
 
 ## Scotch Bonnet: minas locales y explosión rápida v2
 
@@ -300,7 +300,7 @@ El ensanchamiento del cuerpo y la refracción se calcula por píxel sobre un rec
 
 ### Superposición de efectos de combate
 
-Los cuerpos visuales de los patrones de picantes (cayena, poblano, nube, minas, onda de rocoto y explosiones de habanero) usan Z relativo 0 junto a su raíz de apoyo, sin capas absolutas positivas que sobrepasen columnas u otros actores. La estela breve del Reaper mantiene su capa de piso -1. El quemado y los rayos persistentes pertenecen al grupo de su unidad. ElectricRays reutiliza un MultiMesh pequeño por contexto eléctrico (capacidad de una instancia), en vez de dibujar todas las auras y explosiones eléctricas en un lote global frontal; conserva animación GPU, pausa, limpieza y conteo de segmentos. Las conexiones eléctricas entre objetivos se dibujan dentro del impacto con trazos de glow en su misma profundidad. La refracción del Reaper sigue antes de los cuerpos para no borrar efectos superpuestos.
+Los cuerpos visuales de los patrones de chilis (cayena, poblano, nube, minas, onda de rocoto y explosiones de habanero) usan Z relativo 0 junto a su raíz de apoyo, sin capas absolutas positivas que sobrepasen columnas u otros actores. La estela breve del Reaper mantiene su capa de piso -1. El quemado y los rayos persistentes pertenecen al grupo de su unidad. ElectricRays reutiliza un MultiMesh pequeño por contexto eléctrico (capacidad de una instancia), en vez de dibujar todas las auras y explosiones eléctricas en un lote global frontal; conserva animación GPU, pausa, limpieza y conteo de segmentos. Las conexiones eléctricas entre objetivos se dibujan dentro del impacto con trazos de glow en su misma profundidad. La refracción del Reaper sigue antes de los cuerpos para no borrar efectos superpuestos.
 
 ### Altura finita del tornado
 

@@ -34,6 +34,7 @@ var gold_list: Array[Coins]
 
 var in_arena := false
 var wave_active := false
+var _bonus_upgrades_before_wave := false
 var defeat_in_progress := false
 var unlock_modal_active := false
 var last_warning_second := -1
@@ -119,6 +120,8 @@ func create_floating_text(unit: Node2D) -> FloatingText:
 	return instance
 
 func start_new_wave() -> void:
+	# Also discard text queued or created during the intermission before resuming animations.
+	CombatTexts.clear()
 	Weapon.begin_damage_wave()
 	Global.game_paused = false
 	Global.player.prepare_for_new_wave()
@@ -129,8 +132,13 @@ func start_new_wave() -> void:
 
 
 func show_upgrades() -> void:
+	if _bonus_upgrades_before_wave and run_experience.pending_levels.is_empty():
+		_bonus_upgrades_before_wave = false
+		start_new_wave()
+		return
 	shop_panel.set_next_stage(environment_controller.prepare_wave(spawner.wave_index + 1), spawner.wave_index + 1)
 	if run_experience.pending_levels.is_empty():
+		shop_panel.set_pending_level_rewards(0)
 		shop_panel.load_shop(spawner.wave_index)
 		shop_panel.show()
 		return
@@ -142,6 +150,7 @@ func show_upgrades() -> void:
 func _on_experience_level_gained(_level: int) -> void:
 	if not is_instance_valid(Global.player): return
 	var player = Global.player
+	player.passive_items.on_level_gained()
 	var previous_max: float = player.stats.health
 	player.stats.apply_stat_change("health", 1.0)
 	player.health_component.max_health = player.stats.health
@@ -151,13 +160,18 @@ func _update_experience_bar() -> void:
 	experience_bar.progress_bar.value = float(run_experience.experience) / run_experience.required_experience()
 	experience_bar.health_value.text = "LV %d  %d / %d" % [run_experience.level, run_experience.experience, run_experience.required_experience()]
 	experience_bar.health_value.add_theme_font_size_override("font_size", 22)
+	shop_panel.set_pending_level_rewards(run_experience.pending_levels.size())
 
 
 func spawn_coins(enemy: Enemy) -> void:
 	var random_angle := randf_range(0, TAU)
 	var offset := Vector2.RIGHT.rotated(random_angle) * 35
 	var spawn_pos := enemy.global_position + offset
-	spawn_yolk_at(spawn_pos, enemy.stats.coin_drop)
+	var reward := enemy.stats.coin_drop
+	if reward > 0 and is_instance_valid(Global.player):
+		var chance: float = 0.02 * Global.player.passive_items.power("double_yolk")
+		reward += floori(chance) + (1 if randf() < fposmod(chance, 1.0) else 0)
+	spawn_yolk_at(spawn_pos, reward)
 
 func spawn_yolk_at(spawn_pos: Vector2, value: int = 1) -> void:
 	var instance := Global.COINS_SCENE.instantiate()
@@ -268,6 +282,7 @@ func _on_spawner_on_wave_completed() -> void:
 	wave_timer_label.text = str(0)
 	await get_tree().create_timer(1).timeout
 	Global.get_harvesting_coins()
+	if is_instance_valid(Global.player): Global.player.passive_items.finish_wave()
 	if spawner.wave_index >= spawner.last_wave_number():
 		Progression.end_run(true)
 		spawner.clear_fueguito()
@@ -289,11 +304,17 @@ func _on_upgrade_selected() -> void:
 	if not upgrade_panel.visible or run_experience.pending_levels.is_empty(): return
 	upgrade_panel.hide()
 	run_experience.pending_levels.pop_front()
+	shop_panel.set_pending_level_rewards(run_experience.pending_levels.size())
 	show_upgrades()
 
 
 func _on_shop_panel_on_shop_next_wave() -> void:
 	shop_panel.hide()
+	if not run_experience.pending_levels.is_empty():
+		Global.game_paused = true
+		_bonus_upgrades_before_wave = true
+		show_upgrades()
+		return
 	Global.game_paused = false
 	start_new_wave()
 
@@ -306,7 +327,7 @@ func _on_enemy_died(enemy: Enemy) -> void:
 	add_child(instance)
 	instance.global_position = enemy.global_position
 	if not enemy.last_hit_grants_rewards: return
-	if not stress_test.active: run_experience.add_experience(enemy.stats.experience_reward)
+	if not stress_test.active: run_experience.add_experience(enemy.stats.experience_reward, Global.player.stats.experience_gain)
 	Progression.record("kills", 1.0)
 	spawn_coins(enemy)
 
@@ -341,6 +362,7 @@ func _on_level_selected(level: int, stress_mode: bool = false) -> void:
 		for i in Global.MAX_EQUIPPED_WEAPONS: starting_weapons.append(selected)
 		Progression.end_run()
 	Global.yolk_reserve = 0
+	_bonus_upgrades_before_wave = false
 	run_experience.reset()
 	Weapon.damage_records.clear()
 	var player := Global.get_selected_player()
@@ -529,3 +551,11 @@ func _on_start_panel_on_exit_pressed() -> void:
 
 func _on_options_panel_on_load_game() -> void:
 	level_panel.enable_buttons(Global.level_reached)
+
+func rewind_upcoming_waves(amount: int) -> int:
+	var previous_next := spawner.wave_index + 1
+	spawner.wave_index = maxi(0, spawner.wave_index - maxi(0, amount))
+	var next_wave := spawner.wave_index + 1
+	shop_panel.set_next_stage(environment_controller.prepare_wave(next_wave), next_wave)
+	shop_panel.set_pending_level_rewards(run_experience.pending_levels.size())
+	return previous_next - next_wave

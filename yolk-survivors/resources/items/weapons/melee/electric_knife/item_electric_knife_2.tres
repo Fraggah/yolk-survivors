@@ -11,6 +11,7 @@
 script = ExtResource("electric_script")
 kind = 1
 damage = 4.0
+damage_scaling = 1.0
 duration = 1.5
 tick_interval = 0.5
 chain_radius = 65.0
@@ -25,7 +26,17 @@ electric_visual_scale = 1.0
 [resource]
 script = ExtResource("1")
 tags = Array[int]([0, 4])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("electric_script")]([])
 scales_with_effects = false
+effects_damage_scaling = 1.0
 damage_scaling_stat = 1
 unlock_id = ""
 selection_only = false

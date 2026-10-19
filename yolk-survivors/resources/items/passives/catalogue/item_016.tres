@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/016.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Aceite de oliva"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 0
+item_cost = 10
+catalogue_id = 16
+description = "+8% de velocidad de ataque; −3% de daño general. Acumulable por copia."
+effect_key = "olive_oil"
+ready_for_shop = true
+pending_reason = ""
+add_value = 8.0
+add_stats_id = "attack_speed"
+add_value_2 = -3.0
+add_stats_id_2 = "damage_percent"

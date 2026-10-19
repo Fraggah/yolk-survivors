@@ -55,11 +55,41 @@ func verify():
 		assert(arena.shop_panel.shop_items.has(data) and data.item_tier==tier-1)
 		assert(data.type==1 and data.stats.max_range==140 and data.stats.accuracy==1)
 		assert(data.on_hit_effects.size()==1 and data.on_hit_effects[0].kind==0)
+		assert(data.tags.size()==1 and data.has_tag(3))
+		assert(data.get_damage_scaling_stat_id()=="effects")
+		assert(data.on_hit_effects[0].configured_fire_damage)
+		assert(data.get_description(player.stats).contains("Burning / tick"))
 		if tier<4: assert(data.upgrade_to.item_tier==tier)
 	stream.update_stream(0.01,false)
 	assert(not stream.line.visible and not stream.stream_active)
 	stream.reset_attack()
 	assert(not weapon.is_attacking)
+	# Impact scales with Effects only; native burn has its own base and coefficient.
+	player.stats.damage_percent=0
+	player.stats.effects=10
+	player.stats.ranged_damage=999
+	assert(is_equal_approx(item.get_effective_damage(player.stats), item.stats.damage+10*item.stats.damage_scaling))
+	var effect=item.on_hit_effects[0].duplicate()
+	effect.damage=1
+	effect.damage_scaling=0.5
+	var hit=load("res://scenes/components/hitbox_component.tscn").instantiate()
+	arena.add_child(hit)
+	hit.setup(0,false,0,player)
+	hit.weapon_damage_record={"weapon":item,"wave_damage":0.0,"total_damage":0.0}
+	load("res://effects/fire_status.gd").apply(enemy,"TestConfiguredBurn",hit,effect)
+	var burn=enemy.get_node("TestConfiguredBurn")
+	burn.set_process(false)
+	assert(is_equal_approx(burn.hit.damage,6),"Burn is its own base 1 + 50% of Effects 10")
+	assert(not burn.hit.critical_allowed)
+	# Changing only the effect base changes the actual tick independently of impact.
+	effect.damage=4
+	load("res://effects/fire_status.gd").apply(enemy,"TestConfiguredBurn",hit,effect)
+	assert(is_equal_approx(burn.hit.damage,9))
+	for family in ["electric_knife", "immersion_blender", "spark_lighter"]:
+		for tier in range(1,5):
+			var electric=load("res://resources/items/weapons/melee/%s/item_%s_%d.tres" % [family,family,tier])
+			assert(electric.get_description(player.stats).contains("Electricity:"))
+			assert(electric.get_status_damage_description(player.stats).contains("% Effects"))
 	arena.queue_free()
 	await process_frame
 	print("PASS Kitchen Torch: short continuous trace, fire only, recurring damage, pause, reset, four shop tiers and selection")

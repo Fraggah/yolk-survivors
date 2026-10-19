@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/074.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Huevo añejo"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 74
+description = "+1 de regeneración de vida por copia por cada nivel ganado después de comprarla. Las ganancias son permanentes durante la partida. No cuenta niveles anteriores."
+effect_key = "aged_egg"
+ready_for_shop = true
+pending_reason = ""
+regen_per_level = 1.0

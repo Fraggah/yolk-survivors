@@ -4,7 +4,7 @@
 [resource]
 script = ExtResource("script")
 value = 20.0
-description = "+20%"
+description = "+20"
 stat_id = "effects"
 item_name = "Effects"
 item_icon = ExtResource("icon")

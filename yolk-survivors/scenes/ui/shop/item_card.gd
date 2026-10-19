@@ -28,13 +28,14 @@ func _set_item(value: ItemBase) -> void:
 	toggle_mode = item.item_type == ItemBase.ItemType.WEAPON
 	UITheme.style_slot(self, int(item.item_tier))
 	_refresh_marker()
+	_refresh_golden_visual()
 
 
 func _on_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
 	if item.item_type == ItemBase.ItemType.WEAPON:
 		Global.selected_weapon = item as ItemWeapon
-		on_item_card_selected.emit(self)
+	on_item_card_selected.emit(self)
 
 func _refresh_marker() -> void:
 	load("res://scenes/ui/rarity_marker.gd").apply(self, int(item.item_tier), true)
@@ -44,3 +45,20 @@ func _refresh_marker() -> void:
 		var label := marker.get_node("Text") as Label
 		label.text = str(quantity)
 		label.add_theme_color_override("font_color", UITheme.palette.text)
+
+func _refresh_golden_visual() -> void:
+	item_icon.material = load("res://effects/golden_visual.gd").material_for(item) if item.golden_multiplier > 1.0 else null
+	if has_node("GoldenSparkles"):
+		var old := get_node("GoldenSparkles")
+		remove_child(old)
+		old.queue_free()
+	if item.golden_perfect:
+		var stars = load("res://effects/golden_sparkles.gd").new()
+		stars.name = "GoldenSparkles"
+		stars.position = size * 0.5
+		stars.radius = minf(size.x, size.y) * 0.45
+		add_child(stars)
+	tooltip_text = item.item_name
+	if item is ItemPassive: tooltip_text += "\n" + ("Base: " if item.golden_multiplier > 1.0 else "") + item.get_description()
+	if item.golden_multiplier > 1.0:
+		tooltip_text += "\nBeneficios ×%s · Penalizaciones ×%s%s" % [ItemWeapon.format_number(item.golden_multiplier), ItemWeapon.format_number(item.golden_penalty_multiplier), " · Perfecta" if item.golden_perfect else ""]

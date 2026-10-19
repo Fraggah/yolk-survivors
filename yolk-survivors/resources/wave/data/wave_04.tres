@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=10 format=3 uid="uid://dg61154712v3a"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=11 format=3 uid="uid://dg61154712v3a"]
 
+[ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="6_8b0ei"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
@@ -12,6 +13,8 @@ script = ExtResource("group")
 label = "Introduction shooter"
 enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
 weights = Array[float]([1.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 2.0
 interval = 1.0
 minimum_count = 1
@@ -33,6 +36,8 @@ script = ExtResource("group")
 label = "Pressure"
 enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid"), ExtResource("chaser_mini")])
 weights = Array[float]([4.0, 4.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 0.0
 interval = 1.25
 minimum_count = 1
@@ -54,6 +59,8 @@ script = ExtResource("group")
 label = "Reinforcements"
 enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
 weights = Array[float]([1.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 8.0
 interval = 7.4
 minimum_count = 1
@@ -73,8 +80,10 @@ school_radius = 140.0
 [resource]
 script = ExtResource("wave")
 number = 4
-wave_time = 35.0
+wave_time = 30.0
 wave_type = 0
+arena_mode = 0
+scheduled_spawns = Array[ExtResource("6_8b0ei")]([])
 density_multiplier = 0
 groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1")])
 events = Array[ExtResource("group")]([SubResource("g2")])

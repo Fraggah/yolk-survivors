@@ -27,7 +27,7 @@ func _spawn_next() -> void:
 	if not is_instance_valid(source): return
 	var settings := weapon.data.stats.spicy_explosion_settings
 	var scale_factor := Global.GAME_ENTITY_SCALE
-	var max_distance := weapon.data.stats.max_range * scale_factor
+	var max_distance := weapon.get_effective_range() * scale_factor
 	var min_distance := minf(settings.minimum_distance * scale_factor, max_distance)
 	var angle := randf_range(0.0, TAU)
 	var distance := sqrt(randf_range(min_distance * min_distance, max_distance * max_distance))

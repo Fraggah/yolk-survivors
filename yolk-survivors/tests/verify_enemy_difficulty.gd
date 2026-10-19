@@ -105,7 +105,7 @@ func verify() -> void:
 	assert(spawner.pending_spawns == 1)
 	await create_timer(1.2).timeout
 	assert(spawner.alive_enemy_count() == 1 and spawner.generated_by_type.get(&"chaser_fast",0) == 1)
-	assert(global.coins == 0 and arena.run_experience.experience == 0)
+	assert(global.coins == global.STARTING_COINS and arena.run_experience.experience == 0)
 	spawner.scheduler_tick(41.0)
 	assert(spawner.pending_spawns == 0)
 	spawner.clear_enemies()

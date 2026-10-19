@@ -1,10 +1,16 @@
 extends Resource
 class_name WaveData
+const ScheduledSpawnResource = preload("res://resources/wave/scheduled_spawn.gd")
 
 enum WaveType { NORMAL, HORDE, SPECIAL, BOSS }
 @export_range(1, 100) var number := 1
-@export var wave_time := 20.0
+@export_range(0.1, 600.0, 0.1) var wave_time := 30.0
 @export var wave_type := WaveType.NORMAL
+## Horde controls enemy composition; arena selection is independent.
+enum ArenaMode { BASE, FIXED, RANDOM_SPECIAL }
+@export var arena_mode := ArenaMode.BASE
+@export var fixed_arena: ArenaStage
+@export var scheduled_spawns: Array[ScheduledSpawnResource] = []
 ## Zero uses the temporary crowd test; a positive value overrides it.
 @export_range(0, 10) var density_multiplier := 0
 @export var groups: Array[SpawnGroup] = []

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/056.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Baño de aceite"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 1
+item_cost = 25
+catalogue_id = 56
+description = "−0,05 s entre ticks de fuego; −0,1 s de duración del fuego por copia. Máximo: 5 copias."
+effect_key = "oil_bath"
+ready_for_shop = true
+pending_reason = ""
+max_copies = 5
+fire_interval_reduction = 0.05
+fire_duration_reduction = 0.1

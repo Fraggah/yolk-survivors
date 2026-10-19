@@ -23,13 +23,19 @@ func setup(template: HitboxComponent, config: RangedSettings, pit: bool) -> void
 	hit.collision_layer = 0
 	hit.collision_mask = 0
 	hit.monitoring = false
-	hit.setup(template.base_damage * (settings.pit_damage_multiplier if pit else settings.explosion_damage_multiplier), false, template.knockback_power, template.source)
+	hit.setup(template.base_damage * (settings.pit_damage_multiplier if pit else settings.explosion_damage_multiplier), false, 0.0, template.source)
+	if not pit and template.source is Player and not template.explosive_bonus_applied:
+		hit.base_damage *= ItemWeapon.explosion_damage_ratio(template.weapon_damage_record, template.source.stats)
+		hit.damage = hit.base_damage
+	hit.explosive_bonus_applied = template.explosive_bonus_applied or not pit
+	hit.knockback_power = template.knockback_power
 	hit.roll_critical_per_target = template.roll_critical_per_target
 	hit.critical_chance = template.critical_chance
 	hit.critical_multiplier = template.critical_multiplier
 	hit.life_steal_chance = template.life_steal_chance
 	hit.status_effects.assign(template.status_effects)
 	hit.weapon_damage_record = template.weapon_damage_record
+	hit.breading_suppressed = template.breading_suppressed
 	add_child(hit)
 	z_index = 2
 	if not pit: _damage_enemies()

@@ -27,7 +27,9 @@ func verify():
 	motion.execute_attack()
 	await create_timer(0.3).timeout
 	assert(weapon.is_attacking, "Glove swing is slower than half original speed")
-	await create_timer(0.5).timeout
+	var profile = motion.tuning
+	var total_time: float = (profile.preparation_duration + profile.hit_count * (profile.forward_duration + profile.contact_duration + profile.return_duration) + weapon.data.stats.back_duration) * motion._timing()
+	await create_timer(maxf(0.01, total_time - 0.3 + 0.1)).timeout
 	assert(not weapon.is_attacking)
 	await clear(weapon,[])
 	weapon = make_weapon("grater")
@@ -52,7 +54,7 @@ func verify():
 	enemy = make_enemy(motion.hitbox.global_position)
 	motion._pan_impact()
 	assert(is_equal_approx(enemy.slow_left, weapon.data.stats.slow_duration))
-	assert(enemy.has_status_named("Slow") and enemy.status_controller.control_label.text == "Slowed")
+	assert(enemy.has_status_named("Slow") and enemy.status_controller.control_label.text == "Slow")
 	var burst = arena.get_children().filter(func(node): return node.get_script() == load("res://effects/pan_slow_burst.gd")).back()
 	assert(burst.DURATION == 0.125)
 	enemy.set_process(true)

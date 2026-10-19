@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=9 format=3 uid="uid://bwngow8a6c3f6"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=10 format=3 uid="uid://bwngow8a6c3f6"]
 
+[ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="6_r7uns"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
@@ -12,6 +13,8 @@ script = ExtResource("group")
 label = "Pressure"
 enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mid"), ExtResource("chaser_mini")])
 weights = Array[float]([3.0, 4.0, 4.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 0.0
 interval = 1.0
 minimum_count = 1
@@ -33,6 +36,8 @@ script = ExtResource("group")
 label = "Fast packs"
 enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mid")])
 weights = Array[float]([3.0, 4.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 12.0
 interval = 8.0
 minimum_count = 3
@@ -52,8 +57,10 @@ school_radius = 140.0
 [resource]
 script = ExtResource("wave")
 number = 13
-wave_time = 60.0
+wave_time = 30.0
 wave_type = 2
+arena_mode = 0
+scheduled_spawns = Array[ExtResource("6_r7uns")]([])
 density_multiplier = 0
 groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1")])
 events = Array[ExtResource("group")]([])

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/045.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Salpicadura caliente"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 1
+item_cost = 25
+catalogue_id = 45
+description = "Al entrar un enemigo en Burning: 5% de propagarlo a otro a 80 unidades. Puede encadenarse; una tirada por entrada al estado, nunca por tick. −3% de probabilidad de bloqueo."
+effect_key = "hot_splash"
+ready_for_shop = true
+pending_reason = ""
+proc_chance = 0.05
+effect_radius = 80.0
+add_value_2 = -3.0
+add_stats_id_2 = "block_chance"

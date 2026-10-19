@@ -9,12 +9,12 @@ const STAT_LABELS := {
 	"luck": "Luck", "block_chance": "Block chance %", "hp_regen": "HP regen",
 	"life_steal": "Life steal %", "harvesting": "Harvesting",
 	"armor": "Armor", "critical_chance": "Critical chance %", "pickup_range": "Pickup range %",
-	"piercing": "Piercing", "bounces": "Bounces", "area_of_effect": "Area of effect %", "critical_multiplier": "Critical multiplier %", "block_effectiveness": "Block Power %", "effects": "Effects %", "fire_tick_speed": "Fire tick speed %"
+	"piercing": "Piercing", "bounces": "Bounces", "area_of_effect": "Area of effect %", "critical_multiplier": "Critical multiplier %", "block_effectiveness": "Block Power %", "effects": "Effects", "chili_power": "Chili Power %", "explosive_damage": "Explosive damage %", "fire_tick_speed": "Fire tick speed %", "experience_gain": "Experience gain %", "slow_strength": "Slow potency %", "weapon_range": "Range", "knockback": "Push", "crowd_control": "Crowd control %"
 }
 
 @export var effect: Effect = Effect.STAT_CONVERSION
-@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces", "area_of_effect", "critical_multiplier", "block_effectiveness", "effects", "fire_tick_speed") var target_stat: String = "melee_damage"
-@export_enum("health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces", "area_of_effect", "critical_multiplier", "block_effectiveness", "effects", "fire_tick_speed") var source_stat: String = "speed"
+@export_enum("chili_power", "explosive_damage", "health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces", "area_of_effect", "critical_multiplier", "block_effectiveness", "effects", "fire_tick_speed", "crowd_control", "experience_gain", "knockback", "weapon_range", "slow_strength") var target_stat: String = "melee_damage"
+@export_enum("chili_power", "explosive_damage", "health", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "speed", "luck", "block_chance", "hp_regen", "life_steal", "harvesting", "armor", "critical_chance", "pickup_range", "piercing", "bounces", "area_of_effect", "critical_multiplier", "block_effectiveness", "effects", "fire_tick_speed", "crowd_control", "experience_gain", "knockback", "weapon_range", "slow_strength") var source_stat: String = "speed"
 @export var source_amount := 1.0
 @export var bonus_amount := 1.0
 @export var gain_bonus_percent := 25.0

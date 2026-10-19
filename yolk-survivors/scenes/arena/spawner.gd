@@ -38,6 +38,7 @@ var pending_population := [0, 0, 0]
 var total_spawned := 0
 var generated_by_type: Dictionary = {}
 var active_groups: Array[Dictionary] = []
+var scheduled_events: Array[Dictionary] = []
 var arena_environment: ArenaEnvironment
 var debug_label: Label
 var fueguito: Enemy:
@@ -77,15 +78,25 @@ func last_wave_number() -> int:
 		if wave: last = maxi(last, wave.number)
 	return last
 
-func find_wave_data() -> WaveData:
+func wave_data_for(number: int) -> WaveData:
 	for wave in waves_data:
-		if wave and wave.is_valid_index(wave_index): return wave
+		if wave and wave.is_valid_index(number): return wave
 	return null
+
+func find_wave_data() -> WaveData:
+	return wave_data_for(wave_index)
 
 func start_wave() -> void:
 	clear_enemies()
 	clear_fueguito()
 	current_wave_data = find_wave_data()
+	if is_instance_valid(Global.player) and Global.player.passive_items.force_horde:
+		for wave in waves_data:
+			if wave and wave.wave_type == WaveData.WaveType.HORDE:
+				current_wave_data = wave.duplicate()
+				current_wave_data.number = wave_index
+				break
+		Global.player.passive_items.force_horde = false
 	if not current_wave_data:
 		push_error("No configuration for wave %d" % wave_index)
 		wave_timer.stop()
@@ -102,6 +113,10 @@ func start_wave() -> void:
 		if not group or group.enemies.is_empty(): continue
 		if not group.guaranteed and randf() >= group.activation_probability: continue
 		active_groups.append({"group": group, "next": group.start_second, "executions": 0, "pending": 0, "completed": 0, "active": true})
+	scheduled_events.clear()
+	for event in current_wave_data.scheduled_spawns:
+		if event and event.enemy and event.enemy.is_valid():
+			scheduled_events.append({"event":event,"pending":0,"completed":0})
 	on_wave_started.emit(wave_index)
 	wave_timer.start(maxf(0.1, current_wave_data.wave_time))
 	if OS.is_debug_build() and debug_enabled:
@@ -113,6 +128,17 @@ func start_spawn_timer() -> void:
 	spawn_timer.start(0.1)
 
 func scheduler_tick(elapsed: float) -> void:
+	if Global.game_paused or not current_wave_data or wave_timer.is_stopped(): return
+	# Fixed events reserve capacity before weighted streams; retries never reroll the enemy.
+	for state in scheduled_events:
+		var event = state.event
+		if elapsed < event.second or elapsed >= current_wave_data.wave_time: continue
+		var missing: int = event.count - state.completed - state.pending
+		for index in maxi(0, missing):
+			if not has_capacity(event.enemy.population): break
+			var point := get_safe_spawn_position(event.enemy, event.spawn_zone, event.edge_width)
+			if not point.is_finite(): break
+			_spawn_profile_at(event.enemy, point, state, event.telegraph)
 	for state in active_groups:
 		if not state.active: continue
 		var group: SpawnGroup = state.group
@@ -196,10 +222,31 @@ func is_spawn_geometry_valid(point: Vector2, profile: EnemyProfile = null) -> bo
 	query.collide_with_areas = false
 	return get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty()
 
-func get_safe_spawn_position(profile: EnemyProfile = null) -> Vector2:
-	for attempt in 32:
+func matches_spawn_zone(point: Vector2, zone: int, edge_width: float) -> bool:
+	if zone == 0: return true
+	var clearance: float
+	if arena_environment:
+		clearance = arena_environment.boundary_clearance(point)
+	else:
+		var remaining := spawn_area_size - point.abs()
+		clearance = minf(remaining.x,remaining.y)
+	return clearance <= edge_width if zone == 1 else clearance > edge_width
+
+func _state_spawn_zone(state: Dictionary) -> int:
+	var settings = state.get("group", state.get("event"))
+	return settings.spawn_zone if settings else 0
+
+func _state_edge_width(state: Dictionary) -> float:
+	var settings = state.get("group", state.get("event"))
+	return settings.edge_width if settings else 200.0
+
+func _state_position_valid(point: Vector2, profile: EnemyProfile, state: Dictionary) -> bool:
+	return is_spawn_position_safe(point,profile) and matches_spawn_zone(point,_state_spawn_zone(state),_state_edge_width(state))
+
+func get_safe_spawn_position(profile: EnemyProfile = null, zone: int = 0, edge_width: float = 200.0) -> Vector2:
+	for attempt in 128:
 		var candidate := get_random_spawn_position()
-		if is_spawn_position_safe(candidate, profile): return candidate
+		if matches_spawn_zone(candidate,zone,edge_width) and is_spawn_position_safe(candidate, profile): return candidate
 	return Vector2.INF
 
 func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
@@ -231,46 +278,47 @@ func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
 
 func spawn_profile(profile: EnemyProfile, state: Dictionary = {}) -> void:
 	if Global.game_paused or not current_wave_data or wave_timer.is_stopped() or not has_capacity(profile.population): return
-	var point := get_safe_spawn_position(profile)
+	var point := get_safe_spawn_position(profile, _state_spawn_zone(state), _state_edge_width(state))
 	if not point.is_finite(): return
 	_spawn_profile_at(profile, point, state)
 
 func spawn_school(profile: EnemyProfile, count: int = 10, center: Vector2 = Vector2.INF, spread_radius: float = 140.0, state: Dictionary = {}) -> int:
 	if not profile or not profile.is_valid() or profile.population != 0 or profile.id not in [&"chaser_mini", &"chaser_fast", &"chaser_mid"]: return 0
 	if Global.game_paused or not current_wave_data or wave_timer.is_stopped() or count <= 0: return 0
-	if not center.is_finite(): center = get_safe_spawn_position(profile)
+	if not center.is_finite(): center = get_safe_spawn_position(profile, _state_spawn_zone(state), _state_edge_width(state))
 	if not center.is_finite(): return 0
 	var admitted := 0
 	var available := maxi(0, population_limit(0) - population_count(0) - pending_population[0])
 	var desired := mini(count, available)
 	for index in desired:
 		var point := center + Vector2.from_angle(index * 2.399963) * sqrt((index + 0.5) / maxf(1, desired)) * maxf(0, spread_radius)
-		if not is_spawn_position_safe(point, profile):
+		if not _state_position_valid(point, profile, state):
 			var found := false
 			for attempt in 24:
 				point = center + Vector2.from_angle(randf() * TAU) * sqrt(randf()) * maxf(0, spread_radius)
-				if is_spawn_position_safe(point, profile): found = true; break
+				if _state_position_valid(point, profile, state): found = true; break
 			if not found: continue
 		_spawn_profile_at(profile, point, state)
 		admitted += 1
 	return admitted
 
-func _spawn_profile_at(profile: EnemyProfile, point: Vector2, state: Dictionary = {}) -> void:
+func _spawn_profile_at(profile: EnemyProfile, point: Vector2, state: Dictionary = {}, telegraph: bool = true) -> void:
 	if Global.game_paused or wave_timer.is_stopped() or not has_capacity(profile.population): return
 	var generation := spawn_generation
 	pending_spawns += 1
 	pending_population[profile.population] += 1
 	if not state.is_empty(): state.pending += 1
-	var effect := Global.SPAWN_EFFECT_SCENE.instantiate()
-	get_parent().add_child(effect)
-	effect.global_position = point
-	await effect.completed
+	if telegraph:
+		var effect := Global.SPAWN_EFFECT_SCENE.instantiate()
+		get_parent().add_child(effect)
+		effect.global_position = point
+		await effect.completed
 	if generation != spawn_generation: return
 	while Global.game_paused and not wave_timer.is_stopped():
 		await get_tree().process_frame
 		if generation != spawn_generation: return
 	if is_instance_valid(Global.player) and (Global.player.global_position.distance_to(point) < spawn_relocation_distance or not is_spawn_geometry_valid(point, profile)):
-		point = get_safe_spawn_position(profile)
+		point = get_safe_spawn_position(profile, _state_spawn_zone(state), _state_edge_width(state))
 	var ready_to_spawn := point.is_finite() and is_instance_valid(Global.player)
 	pending_spawns -= 1
 	pending_population[profile.population] -= 1
@@ -306,6 +354,7 @@ func clear_enemies() -> void:
 	pending_spawns = 0
 	pending_population = [0, 0, 0]
 	active_groups.clear()
+	scheduled_events.clear()
 	for effect in get_tree().get_nodes_in_group("spawn_effects"): effect.complete()
 	for enemy in spawned_enemies + boss_enemies:
 		if is_instance_valid(enemy): enemy.destroy_enemy()

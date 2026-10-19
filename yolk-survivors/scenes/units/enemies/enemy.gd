@@ -5,6 +5,8 @@ class_name Enemy
 @export var targetable := true
 @export var visual_scale := 1.0
 @export_range(0.0, 1.0) var knockback_resistance := 0.0
+@export_range(0.0, 90.0, 1.0) var airbourne_tilt_degrees := 35.0
+@export_range(0.01, 1.0, 0.01) var airbourne_tilt_transition := 0.08
 var arena_environment: ArenaEnvironment
 var movement_override_enabled := false
 var desired_direction := Vector2.ZERO
@@ -24,6 +26,20 @@ var slow_factor := 1.0
 var launch_left := 0.0
 var launch_velocity := Vector2.ZERO
 var launch_hitbox: HitboxComponent
+var _launch_duration := 0.0
+var _tortilla_relaunches := 0
+var _rest_visual_rotation := 0.0
+var _airbourne_tilt := 0.0
+
+func _update_airbourne_tilt(delta: float) -> void:
+	var target := 0.0
+	if launch_left > 0.0 and absf(launch_velocity.x) > 0.001:
+		target = deg_to_rad(airbourne_tilt_degrees) * signf(launch_velocity.x)
+	if is_equal_approx(_airbourne_tilt, target): return
+	var speed := deg_to_rad(airbourne_tilt_degrees) / maxf(0.01, airbourne_tilt_transition)
+	_airbourne_tilt = move_toward(_airbourne_tilt, target, speed * delta)
+	# Rotate the visual subtree outside animation tracks, leaving ground depth and collisions intact.
+	visuals.rotation = _rest_visual_rotation + _airbourne_tilt
 
 func pin_for(controller: Node) -> void:
 	if pins.is_empty(): pinned_position = global_position
@@ -52,21 +68,44 @@ func launch_from(hitbox: HitboxComponent) -> void:
 	var direction := hitbox.launch_direction.normalized() if not hitbox.launch_direction.is_zero_approx() else hitbox.source.global_position.direction_to(global_position)
 	launch_velocity = direction * hitbox.launch_speed * (1.0 - knockback_resistance)
 	launch_left = hitbox.launch_duration if launch_velocity.length_squared() > 1.0 else 0.0
+	_launch_duration = launch_left
+	_tortilla_relaunches = 0
 	if is_instance_valid(launch_hitbox): launch_hitbox.queue_free()
 	launch_hitbox = HitboxComponent.new()
 	launch_hitbox.collision_layer = 0
 	launch_hitbox.collision_mask = 0
 	launch_hitbox.monitoring = false
 	launch_hitbox.hit_once_per_activation = true
-	launch_hitbox.setup(hitbox.launch_damage if hitbox.launch_damage > 0.0 else hitbox.base_damage, false, 0.0, hitbox.source)
+	var collision_damage := hitbox.launch_damage if hitbox.launch_damage > 0.0 else hitbox.base_damage
+	if hitbox.source is Player and is_instance_valid(hitbox.source.passive_items):
+		collision_damage *= 1.0 + hitbox.source.passive_items.airbourne_collision_damage_percent / 100.0
+	launch_hitbox.setup(collision_damage, false, 0.0, hitbox.source)
 	launch_hitbox.weapon_damage_record = hitbox.weapon_damage_record
 	launch_hitbox.life_steal_chance = hitbox.life_steal_chance
 	add_child(launch_hitbox)
+	launch_hitbox.damage_dealt.connect(_on_launch_collision.bind(launch_hitbox))
 	status_controller.refresh_control_text()
+
+func _on_launch_collision(target: Unit, _amount: float, collision_hit: HitboxComponent) -> void:
+	if not is_instance_valid(collision_hit.source) or not collision_hit.source is Player: return
+	var items = collision_hit.source.passive_items
+	if not is_instance_valid(items) or items.airbourne_explosion_damage_percent <= 0.0: return
+	if not is_instance_valid(target): return
+	var config := RangedSettings.new()
+	config.explosion_radius = items.airbourne_explosion_radius / Global.GAME_ENTITY_SCALE
+	config.explosion_damage_multiplier = items.airbourne_explosion_damage_percent / 100.0
+	config.explosion_visual_duration = 0.18
+	config.explosion_color = Color("d5a35e")
+	var blast = load("res://scenes/projectiles/ranged_area_effect.gd").new()
+	get_tree().current_scene.add_child(blast)
+	blast.global_position = target.global_position
+	# The blast is a separate hitbox without the collision callback or launch flag.
+	blast.setup(collision_hit, config, false)
 
 func _move_launched(delta: float) -> void:
 	var previous := global_position
-	global_position += launch_velocity * delta * get_movement_multiplier()
+	var active_delta := minf(delta, launch_left)
+	global_position += launch_velocity * active_delta * get_movement_multiplier()
 	if arena_environment: global_position = arena_environment.clamp_position(global_position)
 	var travel := global_position - previous
 	var radius := 29.0 * visual_scale * absf(global_scale.x)
@@ -86,7 +125,9 @@ func _move_launched(delta: float) -> void:
 			other.get_node("HurtboxComponent")._on_area_entered(launch_hitbox)
 	launch_left = maxf(0.0, launch_left - delta)
 	if launch_left <= 0.0:
-		launch_hitbox.queue_free()
+		if _try_tortilla_relaunch(): return
+		if is_instance_valid(launch_hitbox): launch_hitbox.queue_free()
+		launch_hitbox = null
 		launch_velocity = Vector2.ZERO
 		status_controller.refresh_control_text()
 
@@ -94,6 +135,7 @@ func _ready() -> void:
 	super._ready()
 	if targetable: add_to_group("combat_enemies")
 	_apply_size()
+	_rest_visual_rotation = visuals.rotation
 	if targetable:
 		EnemyCrowd.register_enemy(self)
 		vision_area.set_deferred("monitoring",false)
@@ -111,6 +153,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Global.game_paused: return
 	if is_retiring or health_component.current_health <= 0.0: return
+	_update_airbourne_tilt(delta)
 	slow_left = maxf(0.0, slow_left - delta)
 	var movement_multiplier := get_movement_multiplier()
 	if movement_multiplier <= 0.0:
@@ -189,6 +232,7 @@ func can_move_towards_player() -> bool:
 func destroy_enemy() -> void:
 	if is_retiring or is_queued_for_deletion(): return
 	is_retiring = true
+	status_controller.sync_burning_enemy()
 	can_move = false
 	health_component.current_health = 0.0
 	for path in ["ChargeAttackBehaviour", "ShootingBehaviour"]:
@@ -230,3 +274,24 @@ func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 
 func _on_health_component_on_unit_died() -> void:
 	Global.on_enemy_died.emit(self)
+
+func _try_tortilla_relaunch(test_roll: float = -1.0) -> bool:
+	if launch_left > 0.0 or is_retiring or health_component.current_health <= 0.0: return false
+	if not is_instance_valid(launch_hitbox) or launch_hitbox.is_queued_for_deletion(): return false
+	var source_player := launch_hitbox.source as Player
+	if not is_instance_valid(source_player) or source_player.is_queued_for_deletion() or source_player.health_component.current_health <= 0.0: return false
+	var config: Dictionary = source_player.passive_items.get_tortilla_relaunch()
+	if _tortilla_relaunches >= config.maximum or config.chance <= 0.0: return false
+	var next_velocity := launch_velocity * float(config.speed_multiplier)
+	var next_duration := _launch_duration * float(config.duration_multiplier)
+	if next_velocity.length_squared() <= 1.0 or next_duration <= 0.0: return false
+	var success: bool = Global.get_chance_succes(config.chance) if test_roll < 0.0 else test_roll < config.chance
+	if not success: return false
+	_tortilla_relaunches += 1
+	launch_velocity = next_velocity
+	_launch_duration = next_duration
+	launch_left = next_duration
+	# Preserve collision damage, credit and direction; do not reapply CC/resistance.
+	launch_hitbox._hit_hurtboxes.clear()
+	status_controller.refresh_control_text()
+	return true

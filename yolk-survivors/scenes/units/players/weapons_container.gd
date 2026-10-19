@@ -17,6 +17,13 @@ func _ready() -> void:
 
 func update_weapons_position(weapons: Array[Weapon]) -> void:
 	var count := weapons.size()
+	if count > 6:
+		var radius := 60.0 * SLOT_DISTANCE_SCALE
+		for marker in six.get_children(): radius = maxf(radius, marker.position.length())
+		for index in count:
+			var angle := TAU * index / count - PI * 0.5
+			weapons[index].global_position = to_global(Vector2(cos(angle) * radius, sin(angle) * radius * 0.65))
+		return
 	var reference_node: Node2D
 	match count:
 		1: reference_node = one

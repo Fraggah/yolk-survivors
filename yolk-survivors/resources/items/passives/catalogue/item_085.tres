@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/085.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Guaraná"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 2
+item_cost = 50
+catalogue_id = 85
+description = "Reduce 1 segundo el cooldown del dash"
+effect_key = "guarana"
+ready_for_shop = true
+pending_reason = ""

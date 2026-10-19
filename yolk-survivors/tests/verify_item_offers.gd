@@ -40,6 +40,7 @@ func verify() -> void:
 	shop.load_shop(1)
 	global.coins = 0
 	await process_frame
+	await process_frame # Allow a full UI update after changing the starting balance.
 	assert(shop.reroll_button.disabled)
 	var card = shop.items_container.get_child(0)
 	var original = card.shop_item

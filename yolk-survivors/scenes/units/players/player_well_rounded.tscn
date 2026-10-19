@@ -151,7 +151,7 @@ one_shot = true
 unique_name_in_owner = true
 
 [node name="HPTimer" type="Timer" parent="." index="7"]
-wait_time = 3.0
+wait_time = 0.1
 autostart = true
 
 [node name="HurtboxComponent" parent="." index="8"]

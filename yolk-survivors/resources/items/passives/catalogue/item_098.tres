@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/098.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Ayahuasca"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 3
+item_cost = 80
+catalogue_id = 98
+description = "Consumible inmediato. Cuatro resultados equiprobables (25% cada uno). Al comprarla, ocurre uno de cuatro resultados aleatorios: retroceder 1 oleada, retroceder 2 oleadas, ganar 10 niveles o reducir a la mitad una estadística primaria positiva aleatoria. Al retroceder se conserva el progreso y se pueden volver a ganar yemas y experiencia"
+effect_key = "ayahuasca"
+ready_for_shop = true
+pending_reason = ""
+ayahuasca_outcome_weights = PackedFloat32Array(25, 25, 25, 25)
+ayahuasca_levels = 10

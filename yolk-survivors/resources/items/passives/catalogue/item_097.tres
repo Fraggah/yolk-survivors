@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/097.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Reducción infernal"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 3
+item_cost = 80
+catalogue_id = 97
+description = "Convierte todo el Daño melee y Daño a distancia planos en Daño de efectos, a razón de 1:1, incluyendo futuras ganancias y penalizaciones. No modifica los coeficientes de las armas"
+effect_key = "reduction"
+ready_for_shop = true
+pending_reason = ""

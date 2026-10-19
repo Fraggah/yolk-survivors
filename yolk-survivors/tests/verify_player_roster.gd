@@ -93,11 +93,11 @@ func verify() -> void:
 			assert(player.health_component.current_health > before_steal, "Existing life steal must heal Vampire")
 		player.health_component.current_health -= 5
 		var before_regen = player.health_component.current_health
-		player._on_hp_timer_timeout()
-		assert(player.health_component.current_health == before_regen + expected.hp_regen)
+		player._update_regeneration(1.0)
+		assert(is_equal_approx(player.health_component.current_health, before_regen + expected.hp_regen * 0.1))
 		global.game_paused = true
 		var paused_health = player.health_component.current_health
-		player._on_hp_timer_timeout()
+		player._update_regeneration(1.0)
 		assert(player.health_component.current_health == paused_health)
 		var coins_before = global.coins
 		global.get_harvesting_coins()

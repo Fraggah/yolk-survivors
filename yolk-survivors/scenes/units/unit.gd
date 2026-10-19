@@ -52,7 +52,7 @@ func get_status_movement_multiplier() -> float:
 	return status_movement_multiplier
 
 func immobilize_for(duration: float, source_stats: UnitStats = null) -> void:
-	status_controller.add_slow(0.0, duration * (source_stats.get_effect_multiplier() * source_stats.effect_duration_multiplier() if source_stats else 1.0))
+	status_controller.add_slow(0.0, duration * (source_stats.get_crowd_control_multiplier() if source_stats else 1.0))
 
 func set_flash_material() -> void:
 	if sprite.material != Global.FLASH_MATERIAL:
@@ -67,10 +67,11 @@ func receive_hit(hitbox: HitboxComponent) -> bool:
 	if Global.game_paused or is_queued_for_deletion() or health_component.current_health <= 0.0:
 		return false
 	if not is_instance_valid(hitbox) or hitbox.damage <= 0.0: return false
-	var blocked := hitbox.can_be_blocked and Global.get_chance_succes(clampf(stats.block_chance / 100.0, 0.0, 1.0))
+	var blocked := hitbox.can_be_blocked and Global.get_chance_succes(stats.get_block_chance() / 100.0)
 	if blocked:
 		if self is Player: SoundManager.play_sound(SoundManager.Sound.HIT_BLOQUEADO_AL_PLAYER)
 		Global.on_create_block_text.emit(self)
+		if self is Player and is_instance_valid(self.passive_items): self.passive_items.on_block()
 		if stats.block_effectiveness >= 100.0: return false
 	if self is Player:
 		hitbox.critical = false
@@ -81,6 +82,13 @@ func receive_hit(hitbox: HitboxComponent) -> bool:
 	last_hit_grants_rewards = hitbox.grants_enemy_rewards
 	set_flash_material()
 	var incoming_damage := hitbox.damage * (stats.get_incoming_damage_multiplier() if self is Player else 1.0)
+	if self is Enemy and hitbox.source is Player:
+		var items = hitbox.source.passive_items
+		if has_status(State.SLOW) or has_status(State.ROOTED) or has_status(State.AIRBOURNE):
+			incoming_damage *= 1.0 + items.controlled_damage_percent / 100.0
+		if hitbox.critical and has_status(State.SHOKED): incoming_damage *= 1.0 + 0.5 * items.power("electric_stove")
+		if hitbox.launch_on_hit and items.power("table_slam") > 0: incoming_damage *= 1.0 + hitbox.source.stats.block_effectiveness / 100.0 * items.power("table_slam")
+		if hitbox.critical and has_status(State.SLOW) and items.count("paste") > 0: immobilize_for(items.maximum_power("paste"), hitbox.source.stats)
 	if blocked: incoming_damage *= 1.0 - clampf(stats.block_effectiveness / 100.0, 0.0, 1.0)
 	health_component.take_damage(incoming_damage)
 	var dealt := before - health_component.current_health

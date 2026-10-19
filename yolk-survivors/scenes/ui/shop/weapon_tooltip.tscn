@@ -30,6 +30,7 @@ theme_override_constants/separation = 12
 
 [node name="WeaponIcon" type="TextureRect" parent="MarginContainer/Content/Header"]
 unique_name_in_owner = true
+texture_filter = 4
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 mouse_filter = 2

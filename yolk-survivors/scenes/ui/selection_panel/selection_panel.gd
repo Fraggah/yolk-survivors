@@ -39,11 +39,11 @@ const DISPLAY_STATS := [
 	["melee_damage", "Melee damage", false], ["ranged_damage", "Ranged damage", false],
 	["attack_speed", "Attack speed", true], ["speed", "Speed", false],
 	["luck", "Luck", false], ["block_chance", "Block chance", true],
-	["hp_regen", "HP regen / 3 s", false], ["life_steal", "Life steal", true],
+	["hp_regen", "HP regen", false], ["life_steal", "Life steal", true],
 	["harvesting", "Harvesting", false], ["armor", "Armor", false],
 	["critical_chance", "Critical chance", true], ["pickup_range", "Pickup range", true],
 	["area_of_effect", "Area of effect", true], ["critical_multiplier", "Crit multiplier bonus", true],
-	["block_effectiveness", "Block Power", true], ["effects", "Effects", true], ["fire_tick_speed", "Fire tick speed", true]
+	["block_effectiveness", "Block Power", true], ["effects", "Effects", true], ["crowd_control", "Crowd control", true], ["fire_tick_speed", "Fire tick speed", true]
 ]
 
 var preview_player: UnitStats

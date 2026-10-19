@@ -110,8 +110,8 @@ func verify() -> void:
 			var item = load("res://resources/items/passives/item_passive.gd").new()
 			item.add_stats_id = "damage_percent"
 			item.add_value = 100.0
-			item.remove_stats_id = "speed"
-			item.remove_value = 10.0
+			item.add_stats_id_2 = "speed"
+			item.add_value_2 = -10.0
 			item.apply_passive_values()
 			assert(player.stats.damage_percent == 250.0 and player.stats.speed == 290.0)
 		if base.name == "Tiny Egg":

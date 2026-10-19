@@ -20,6 +20,14 @@ var flying_to_jar := false
 var flight_start_screen: Vector2
 var flight_elapsed := 0.0
 var awarded := false
+var spawn_attraction_checked := false
+
+func _try_spawn_attraction() -> void:
+	if spawn_attraction_checked: return
+	spawn_attraction_checked = true
+	if flying_to_jar or not is_instance_valid(Global.player): return
+	if is_instance_valid(Global.player.passive_items) and Global.player.passive_items.should_attract_spawned_yolk():
+		collected = true
 
 func _process(delta: float) -> void:
 	if is_queued_for_deletion(): return
@@ -69,9 +77,10 @@ func add_coins() -> void:
 	awarded = true
 	SoundManager.play_sound(SoundManager.Sound.YOLK_PICKUP)
 	var bonus := Global.collect_yolk(value)
+	if is_instance_valid(Global.player) and is_instance_valid(Global.player.passive_items):
+		Global.player.passive_items.on_yolks_collected(maxi(0, value) + bonus)
 	if bonus > 0:
-		var text := Global.FLOATING_TEXT_SCENE.instantiate() as FloatingText
-		get_tree().root.add_child(text)
+		var text := CombatTexts.acquire() as FloatingText
 		text.global_position = global_position
 		text.setup_text("×2" if bonus == value else "+%d" % bonus, Color("ffd34e"))
 	queue_free()
@@ -91,3 +100,4 @@ func _ready() -> void:
 	scale *= Global.GAME_ENTITY_SCALE
 	sprite_base_scale = sprite.scale
 	squash_phase = randf() * TAU
+	_try_spawn_attraction()

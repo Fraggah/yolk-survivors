@@ -26,19 +26,18 @@ func verify():
 	assert(not player.try_life_steal(10), "Shared recovery cooldown remains")
 	player.life_steal_cooldown = 0
 	assert(player.try_life_steal(3))
-	assert(is_equal_approx(hp.current_health, 50.4))
+	assert(is_equal_approx(hp.current_health, 50.2))
 	seed(1234)
-	var saw_extra := false
-	var saw_base := false
-	for attempt in 60:
+	for chance in [1.0,2.5,3.0,50.0,80.0]:
 		player.life_steal_cooldown = 0
 		var before: float = hp.current_health
-		player.try_life_steal(2.5)
-		var gained: float = hp.current_health - before
-		assert(is_equal_approx(gained,0.2) or is_equal_approx(gained,0.3))
-		saw_extra = saw_extra or is_equal_approx(gained,0.3)
-		saw_base = saw_base or is_equal_approx(gained,0.2)
-	assert(saw_extra and saw_base)
+		assert(player.try_life_steal(chance))
+		assert(is_equal_approx(hp.current_health-before,0.1),"Excess chance cannot multiply healing per hit")
+	var successes := 0
+	for attempt in 1000:
+		player.life_steal_cooldown = 0
+		if player.try_life_steal(0.25): successes += 1
+	assert(successes>180 and successes<320,"Fractional chance still rolls per hit")
 	hp.current_health = 99.95
 	player.life_steal_cooldown = 0
 	player.try_life_steal(3)
@@ -71,7 +70,7 @@ func verify():
 	hitbox.life_steal_chance = 3
 	assert(enemy.receive_hit(hitbox))
 	assert(enemy.health_component.current_health == 84, "Player armor does not change enemy balance")
-	assert(is_equal_approx(hp.current_health,50.3), "Actual enemy hit activates source life steal")
+	assert(is_equal_approx(hp.current_health,50.1), "Actual enemy hit activates only one 0.1 life steal heal")
 	enemy.queue_free()
 	var weapon = player.current_weapons[0]
 	weapon.data = weapon.data.duplicate(true)
@@ -113,5 +112,5 @@ func verify():
 	hitbox.queue_free()
 	arena.queue_free()
 	await process_frame
-	print("PASS scaled fractional life steal, cooldown, healing cap, armor hit/block/pause flow, additive weapon criticals and dynamic pickup range/stat gains")
+	print("PASS fixed 0.1 life steal, fractional probability and overflow cap, cooldown, healing cap, armor hit/block/pause flow, additive weapon criticals and dynamic pickup range/stat gains")
 	quit()

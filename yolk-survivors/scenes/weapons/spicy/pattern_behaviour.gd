@@ -60,7 +60,7 @@ func execute_attack() -> void:
 		elif settings.mode == SpicyPatternSettings.Mode.MINE:
 			point = _mine_spawn_point(source, settings)
 		elif settings.mode == SpicyPatternSettings.Mode.TORNADO:
-			point += Vector2.from_angle(randf()*TAU) * weapon.data.stats.max_range * Global.GAME_ENTITY_SCALE * 0.35
+			point += Vector2.from_angle(randf()*TAU) * weapon.get_effective_range() * Global.GAME_ENTITY_SCALE * 0.35
 			if source.arena_environment: point = source.arena_environment.clamp_position(point)
 		var effect = load("res://effects/spicy_pattern_effect.gd").new()
 		effect.configure(weapon, settings, point)
@@ -97,7 +97,7 @@ func _cloud_spawn_point(source: Player, settings: SpicyPatternSettings) -> Vecto
 		if cloud.elapsed >= cloud.settings.lifetime*cloud.duration_multiplier: continue
 		active.append(cloud)
 	if active.is_empty(): return _random_cloud_point(source, settings)
-	var reach := maxf(0.0,weapon.data.stats.max_range)*Global.GAME_ENTITY_SCALE
+	var reach := maxf(0.0,weapon.get_effective_range())*Global.GAME_ENTITY_SCALE
 	var own_radius := settings.radius*Global.GAME_ENTITY_SCALE*source.stats.get_area_radius_multiplier()
 	var best := Vector2.INF
 	var best_score := -1.0
@@ -123,7 +123,7 @@ func _cloud_spawn_point(source: Player, settings: SpicyPatternSettings) -> Vecto
 	return Vector2.INF
 
 func _random_cloud_point(source: Player, settings: SpicyPatternSettings) -> Vector2:
-	return _local_spawn_point(source, maxf(0.0,weapon.data.stats.max_range)*Global.GAME_ENTITY_SCALE,settings.area_y_ratio)
+	return _local_spawn_point(source, maxf(0.0,weapon.get_effective_range())*Global.GAME_ENTITY_SCALE,settings.area_y_ratio)
 
 func _local_spawn_point(source: Player, reach: float, y_ratio: float) -> Vector2:
 	var offset := Vector2.from_angle(randf()*TAU)*sqrt(randf())*reach
@@ -162,7 +162,7 @@ func mine_contributors() -> Array[Weapon]:
 func get_mine_spawn_radius() -> float:
 	var config := weapon.data.stats.spicy_pattern
 	var copies := mine_contributors().size()
-	return maxf(0.0,weapon.data.stats.max_range)*Global.GAME_ENTITY_SCALE*(1.0+maxi(0,copies-1)*config.mine_spawn_growth_per_copy)
+	return maxf(0.0,weapon.get_effective_range())*Global.GAME_ENTITY_SCALE*(1.0+maxi(0,copies-1)*config.mine_spawn_growth_per_copy)
 
 func _mine_spawn_point(source: Player, settings: SpicyPatternSettings) -> Vector2:
 	return _local_spawn_point(source,get_mine_spawn_radius(),settings.area_y_ratio)

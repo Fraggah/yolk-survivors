@@ -68,7 +68,7 @@ func _spawn_pit(settings: RangedSettings) -> void:
 	pit.global_position = weapon.global_position
 	var deviation := deg_to_rad(randf_range(-settings.pit_deviation_degrees, settings.pit_deviation_degrees))
 	var direction := Vector2.RIGHT.rotated(weapon.rotation + PI + deviation)
-	var travel_range := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x) * settings.pit_range_multiplier
+	var travel_range := weapon.get_effective_range() * absf(weapon.collision.global_scale.x) * settings.pit_range_multiplier
 	pit.setup_projectile(direction * settings.pit_projectile_speed, get_base_damage() * settings.pit_damage_multiplier, false, weapon.data.stats.knockback, weapon.get_parent(), travel_range)
 	configure_hit_criticals(pit.hitbox)
 	pit.hitbox.weapon_damage_record = weapon.damage_record
@@ -81,7 +81,7 @@ func _spawn_projectile(angle_offset: float) -> void:
 	
 	var velocity := Vector2.RIGHT.rotated(weapon.rotation + angle_offset) * weapon.data.stats.projectile_speed
 	# Match the detection circle's world-space radius, including the entity scale.
-	var travel_range := weapon.data.stats.max_range * absf(weapon.collision.global_scale.x)
+	var travel_range := weapon.get_effective_range() * absf(weapon.collision.global_scale.x)
 	if weapon.data.stats.unlimited_range: travel_range = INF
 	instance.setup_projectile(velocity, get_base_damage(), false, weapon.data.stats.knockback, weapon.get_parent(), travel_range)
 	configure_hit_criticals(instance.hitbox)

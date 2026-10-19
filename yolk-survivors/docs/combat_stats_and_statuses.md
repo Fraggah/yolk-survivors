@@ -8,7 +8,7 @@ All five new fields live on UnitStats and can be changed by ItemPassive or chara
 | critical_multiplier | Percentage bonus to the weapon's critical damage multiplier: a 2x weapon with +50% becomes 3x. Minimum effective multiplier is 1x. |
 | block_chance | Probability of blocking, in percentage points. |
 | block_effectiveness | Damage PREVENTED on a successful block; defaults to 50%. Higher is better: 0% receives all damage, 100% prevents all damage. Upgrades add effectiveness. Damage received = damage × (1 - clamp(effectiveness/100, 0, 1)). Armor and block multiply. |
-| effects | +1% spicy and status damage, +1% slow and immobilization duration per point. Does not multiply fire duration. Habanero fire inherits its already-scaled damage without double scaling. |
+| effects | Flat damage scaled by each weapon/status coefficient; see damage_scaling.md. |
 | fire_tick_speed | Percentage bonus to fire tick frequency. Interval = base / (1 + value/100), clamped to at least 0.05 seconds. Only items can offer this stat. |
 
 ## Configuring fire and electricity
@@ -17,9 +17,9 @@ Create a StatusEffect resource using `resources/status_effect.gd`. Set kind to F
 
 Fire fields: damage per tick, duration, tick_interval, color and chance. A burn persists on its victim even after leaving the attack area or after the source disappears. Reapplying the same source/effect refreshes duration without restarting the tick countdown; distinct sources/effects can coexist. Fire ticks do not reapply on-hit effects or get suppressed by the player's contact invulnerability. They use armor but do not roll another block. Burns pause and are cleared when a wave ends. The Habanero adapter retains one burn per equipped copy. Fueguito contact applies `resources/statuses/fueguito_fire.tres` (1 damage per second for 3 seconds by default).
 
-Electricity fields: immediate damage, duration of slow, slow_factor (0.7 = 30% slower), chain_radius and maximum_chain_targets. A primary hit snapshots the nearest same-side units inside an oval with Y ratio 0.6 and spreads once, at application time; secondaries never propagate. New enemies entering later are unaffected. Source Effects scales electric damage and slow duration. `resources/statuses/electricity_default.tres` is a ready-to-use sample; no existing weapon is automatically converted to electricity yet. Player and enemies use the same controller. For future multiplayer the chain stays among players when a player is the primary target.
+Electricity fields: immediate damage, duration of slow, slow_factor (0.7 = 30% slower), chain_radius and maximum_chain_targets. A primary hit snapshots the nearest same-side units inside an oval with Y ratio 0.6 and spreads once, at application time; secondaries never propagate. New enemies entering later are unaffected. Source Effects scales electric damage only. Electricity does not slow. `resources/statuses/electricity_default.tres` is a ready-to-use sample; no existing weapon is automatically converted to electricity yet. Player and enemies use the same controller. For future multiplayer the chain stays among players when a player is the primary target.
 
-Runtime implementation: `effects/status_controller.gd` handles electricity and timed movement modifiers; `effects/fire_status.gd` handles fire. `Unit.immobilize_for(duration, source_stats)` exposes timed immobilization. Existing grater hold duration and pan slow duration also use Effects. Different slows retain their own timers and use the strongest current value; they expire without changing base speed. Enemy legacy pan slow and status movement multipliers multiply.
+Runtime implementation: `effects/status_controller.gd` handles electricity and timed movement modifiers; `effects/fire_status.gd` handles fire. `Unit.immobilize_for(duration, source_stats)` exposes timed immobilization. Grater hold, harpoon pin and pan slow durations use Crowd control; Airbourne speed and duration also use Crowd control. Different slows retain their own timers and use the strongest current value; they expire without changing base speed. Enemy legacy pan slow and status movement multipliers multiply.
 
 Balance points: UnitStats defaults and character resources, the new upgrades under `resources/items/upgrades/data`, StatusEffect `.tres` resources, and the existing pepper stats `.tres`. Final pepper-specific buff/debuff multipliers remain a separate pending step.
 
@@ -29,7 +29,7 @@ Primary: health, regeneration, lifesteal, damage %, melee/ranged damage, attack 
 
 ## Presentación de quemado v2
 
-FireStatus mantiene sus ticks, duración, críticos, robo de vida y fuentes independientes. El dibujo anterior de tres rombos se reemplaza por FireVisual, un único visual compartido por unidad con un shader: llamas de tamaños/alturas variados, núcleos cálidos, brasas ascendentes y halo de calor oval en la base. El visual sigue el sprite en coordenadas globales, adaptándose a su tamaño y evitando que el cambio de orientación invierta el fuego. Permanece mientras haya alguna quemadura activa y se desvanece al terminar la última; se limpia en muerte/retiro y fin de oleada. Los números de daño siguen por encima.
+FireStatus mantiene sus ticks, duración, robo de vida y fuentes independientes. Los ticks nunca hacen críticos (ver critical_rules.md). El dibujo anterior de tres rombos se reemplaza por FireVisual, un único visual compartido por unidad con un shader: llamas de tamaños/alturas variados, núcleos cálidos, brasas ascendentes y halo de calor oval en la base. El visual sigue el sprite en coordenadas globales, adaptándose a su tamaño y evitando que el cambio de orientación invierta el fuego. Permanece mientras haya alguna quemadura activa y se desvanece al terminar la última; se limpia en muerte/retiro y fin de oleada. Los números de daño siguen por encima.
 
 Configuración común: `resources/statuses/fire_visual_default.tres`. Propiedades: flame_count, flame_opacity, coverage, flicker_speed, core_color, ember_count, ember_size, ember_opacity, heat_opacity, fade_duration. Para una apariencia específica se puede asignar otro FireVisualSettings en `StatusEffect > Fire Visuals`; vacío usa el recurso común. Habanero y los demás fuegos usan el mismo visual por defecto. El recurso común se carga en ejecución para evitar dependencias circulares de precarga de estados.
 
@@ -41,7 +41,7 @@ Se conserva el shader de aura y brasas; se eliminan sus antiguas llamas procedur
 
 En fire_visual_default.tres > Flame Sprites: flame_texture, flame_sprite_height, size_pulse, flip_interval_min/max, distortion_strength/frequency/speed. Flame Count y Flame Opacity siguen controlando cantidad y transparencia. La imagen fuente generada se conserva como small_fire_source.png. Se recorta el margen transparente y se prepara un PNG de 128×160 para el juego.
 
-Cuatro regresiones aprobadas: fuego compartido y limpieza, estados, Habanero y otros picantes. Validación gráfica en Mobile/Vulkan: shader sin errores, posiciones y parámetros por instancia distintos confirmados y captura revisada.
+Cuatro regresiones aprobadas: fuego compartido y limpieza, estados, Habanero y otros chilis. Validación gráfica en Mobile/Vulkan: shader sin errores, posiciones y parámetros por instancia distintos confirmados y captura revisada.
 
 Arte creado con ImageGen integrado. Prompt final: “Create ONE tiny fire flame sprite for a cute hand-drawn 2D kitchen survivor game. Single compact asymmetrical flame silhouette, rounded droplet-like lower body, one curving pointed main tongue and two shorter side tongues. Flat clean cartoon illustration, only 3-4 solid colors: deep orange-red outer shape with a very thin darker orange edge, orange middle, golden yellow smaller inner flame. No black outline, no white-hot center, no glow, no gradients, no texture. Simple bold shape readable at 20 pixels tall. Flame upright, gently leaning to one side, suitable for periodically horizontally flipping. Centered on transparent background with generous padding, all edges fully visible. No face, no eyes, no logs, no ground, no smoke, no sparks, no text, no frame, just one standalone small fire icon. Width about 65% of its height.”
 
@@ -52,3 +52,21 @@ Ajuste v5: opacidad del sprite de fuego 0,85 y variación individual de alfa 0,9
 Ajuste v6: una llama grande adicional detrás del sprite del personaje (z=1; personaje z=2; llamitas z=3), con opacidad 0,35. Usa el mismo arte y distorsión, pulso más suave y transform heredado del sprite animado. Ajustes Background Flame: background_flame_opacity, background_flame_height (1,3 del alto) y background_flame_width (1,4 del ancho), en fire_visual_default.tres. Se limpia junto con las llamitas pequeñas. Pruebas de estados y visual de fuego aprobadas; captura GPU revisada.
 
 Corrección de orden: personaje z=2, llama grande z=3, llamitas pequeñas z=4. La llama grande queda por delante del personaje y detrás de las pequeñas; conserva opacidad 0,35 y seguimiento de animación.
+
+
+Empuje es una estadística secundaria plana independiente (knockback). Fuerza ordinaria = max(0, empuje base del arma + bonus plano) × modificador final específico de empuje. Control de masas no aumenta ese empuje; conserva el escalado de Slow, Rooted y Airbourne.
+
+
+## Fuego y Alcohol
+
+Todo Burning usa un intervalo base de 0,5 s, acelerado por fire_tick_speed. Burning causado por el jugador usa max(0,1; effects × 0,25) de daño base por tick; no reutiliza el antiguo multiplicador porcentual de Efectos en los estados genéricos. El fuego nativo de Cayena usa ahora el daño base y escalado de su arma; ambos aplican después los porcentajes de daño correspondientes (ver damage_scaling.md). Las fuentes hostiles conservan su daño configurado. Se mantienen las duraciones y las contribuciones separadas de los chilis. Alcohol concede 2 puntos de probabilidad por copia y resta 3 de vida máxima, con una única tirada acumulada (máximo 100%). Duración inicial: 3 s. El daño se atribuye al registro del arma que lo provoca; cada arma mantiene su fuente sin sobrescribir a otra.
+
+## Salpicadura caliente
+
+5% por copia y −3 puntos de probabilidad de bloqueo; configurables mediante proc_chance, effect_radius y add_value_2 (negativo) del item_045.tres. Al entrar un enemigo en Burning se busca el vecino no quemado más cercano a 80 unidades de mundo. Si existe, se realiza una sola tirada; el acierto aplica el mismo fuego a ese vecino, que puede continuar la cadena. No se repite por tick, por refresco, por otra fuente mientras ya arde ni por vecinos que lleguen después. Una nueva entrada a Burning tras extinguirse permite otra comprobación. La cola iterativa evita recursión y ciclos; se conserva el registro de daño del arma original.
+
+
+## Baño de aceite
+
+Cada copia resta 0,05 segundos al intervalo base de Burning y 0,1 segundos a su duración. Máximo 5 copias: las ofertas y las compras respetan max_copies del item_056.tres. Los valores fire_interval_reduction y fire_duration_reduction también se editan allí. Fórmula del intervalo: max(0,05; max(0,05; 0,5 − reducción plana) / max(0,05; 1 + fire_tick_speed / 100)). Duración: max(0; duración base × modificador final de duración − reducción plana). Con 5 copias y sin otros modificadores: 0,25 s entre ticks y 2,5 s para un Burning base de 3 s; 10 ticks completos. Las contribuciones de Cayena ajustan la duración por fuente individualmente.
+

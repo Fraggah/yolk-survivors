@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/065.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Papas fritas"
+item_icon = ExtResource("2")
+item_type = 2
+item_tier = 1
+item_cost = 25
+catalogue_id = 65
+description = "Fuerza la próxima oleada en la olla con aceite"
+effect_key = "stage_pot"
+ready_for_shop = true
+pending_reason = ""

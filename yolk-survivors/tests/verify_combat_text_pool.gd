@@ -40,6 +40,16 @@ func verify():
 	pool.clear()
 	pool._process(0)
 	assert(pool.active.is_empty())
+	# Text created after the wave-end clear must not survive the next-wave clear.
+	global.game_paused = true
+	var late_bonus = pool.acquire()
+	late_bonus.setup_text("×2", Color.YELLOW)
+	pool.queue_damage(target, 7, Color.WHITE, false)
+	pool.clear()
+	global.game_paused = false
+	pool._process(0)
+	assert(pool.active.is_empty() and pool.pending_damage.is_empty())
+	assert(not late_bonus.visible and not late_bonus.is_processing())
 	target.queue_free()
 	print("PASS combat text pool: bounded nodes, oldest-slot reuse, animation, pause, expiry, clear and reactivation")
 	quit()

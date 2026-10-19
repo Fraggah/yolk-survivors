@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=14 format=3 uid="uid://dsuwkg73gttnw"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=15 format=3 uid="uid://dsuwkg73gttnw"]
 
+[ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="9_osmkd"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/charger.tres" id="charger"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
@@ -15,6 +16,8 @@ script = ExtResource("group")
 label = "Schools"
 enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid"), ExtResource("chaser_fast"), ExtResource("chaser_mini")])
 weights = Array[float]([4.0, 3.0, 4.0])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 0.0
 interval = 2.5
 minimum_count = 10
@@ -36,6 +39,8 @@ script = ExtResource("group")
 label = "big"
 enemies = Array[ExtResource("profile")]([ExtResource("chaser_slow")])
 weights = Array[float]([])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 6.0
 interval = 25.0
 minimum_count = 1
@@ -57,6 +62,8 @@ script = ExtResource("group")
 label = "charge"
 enemies = Array[ExtResource("profile")]([ExtResource("charger")])
 weights = Array[float]([])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 10.0
 interval = 25.0
 minimum_count = 1
@@ -78,6 +85,8 @@ script = ExtResource("group")
 label = "shoot"
 enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
 weights = Array[float]([])
+spawn_zone = 0
+edge_width = 200.0
 start_second = 14.0
 interval = 25.0
 minimum_count = 1
@@ -97,8 +106,10 @@ school_radius = 140.0
 [resource]
 script = ExtResource("wave")
 number = 9
-wave_time = 60.0
+wave_time = 30.0
 wave_type = 2
+arena_mode = 0
+scheduled_spawns = Array[ExtResource("9_osmkd")]([])
 density_multiplier = 0
 groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("big"), SubResource("charge"), SubResource("shoot")])
 events = Array[ExtResource("group")]([])

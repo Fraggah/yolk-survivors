@@ -7,6 +7,40 @@ var shop_wave := 1
 var locked := false
 var lock_button: Button
 var purchase_in_progress := false
+var sale_discount_percent := 0
+var sale_two_for_one := false
+var sale_badge: Control
+
+func has_sale() -> bool:
+	return sale_discount_percent > 0 or sale_two_for_one
+
+func get_effective_price() -> int:
+	var base := shop_item.get_shop_price(shop_wave)
+	return maxi(1, floori(base * (100 - sale_discount_percent) / 100.0))
+
+func set_sale(discount: int = 0, two_for_one: bool = false) -> void:
+	sale_two_for_one = two_for_one
+	sale_discount_percent = 0 if two_for_one else clampi(discount, 0, 90)
+	_refresh_sale()
+
+func _refresh_sale() -> void:
+	if not is_node_ready() or shop_item == null: return
+	item_cost.text = str(get_effective_price())
+	if sale_badge == null and has_sale():
+		sale_badge = load("res://scenes/ui/shop/sale_badge.gd").new()
+		sale_badge.name = "SaleBadge"
+		add_child(sale_badge)
+		sale_badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+		sale_badge.offset_left = -94
+		sale_badge.offset_right = 14
+		sale_badge.offset_top = -18
+		sale_badge.offset_bottom = 66
+		sale_badge.pivot_offset = Vector2(54, 42)
+		sale_badge.rotation = deg_to_rad(-8)
+		sale_badge.z_index = 5
+	if sale_badge:
+		sale_badge.visible = has_sale()
+		sale_badge.set_caption("2×1" if sale_two_for_one else "−%d%%" % sale_discount_percent)
 
 @export var shop_item: ItemBase: set = _set_shop_item
 
@@ -37,7 +71,7 @@ func _ready() -> void:
 	lock_button.custom_minimum_size = Vector2(0, 44)
 	lock_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	lock_button.tooltip_text = "Keep this offer and its price through refreshes and waves."
+	lock_button.tooltip_text = "Keep this item through refreshes and waves. Sales survive refreshes while locked, but end when leaving the shop."
 	lock_button.toggled.connect(_on_lock_toggled)
 
 
@@ -54,9 +88,15 @@ func set_locked(value: bool) -> void:
 	UITheme.style_offer_lock(lock_button, value)
 
 func _refresh_palette() -> void:
-	if shop_item: _set_shop_item(shop_item)
+	if shop_item:
+		var saved_discount := sale_discount_percent
+		var saved_double := sale_two_for_one
+		_set_shop_item(shop_item)
+		set_sale(saved_discount, saved_double)
 
 func _set_shop_item(value: ItemBase) -> void:
+	sale_discount_percent = 0
+	sale_two_for_one = false
 	shop_item = value
 	item_icon.texture = shop_item.item_icon
 	ItemBase.scale_icon(item_icon, shop_item.icon_scale)
@@ -73,6 +113,7 @@ func _set_shop_item(value: ItemBase) -> void:
 	set_meta("ui_tier", int(shop_item.item_tier))
 	add_theme_stylebox_override("panel", style)
 	load("res://scenes/ui/rarity_marker.gd").apply(self, int(shop_item.item_tier))
+	_refresh_sale()
 
 
 func _on_custom_button_pressed() -> void:
