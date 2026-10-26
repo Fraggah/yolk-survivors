@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=49 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
@@ -15,8 +15,10 @@
 [ext_resource type="PackedScene" uid="uid://dxgobdv45wbll" path="res://scenes/ui/credits_panel/credits_panel.tscn" id="26_vspv4"]
 [ext_resource type="PackedScene" uid="uid://f2xh1o8ymjuc" path="res://scenes/ui/options_panel/options_panel.tscn" id="27_io46r"]
 [ext_resource type="PackedScene" uid="uid://dxk24jn6jkt71" path="res://scenes/ui/start_panel/start_panel.tscn" id="28_f7e6h"]
+[ext_resource type="Script" uid="uid://dbxsmcjjr82ye" path="res://scenes/coop/coop_selection.gd" id="coop_selection"]
 [ext_resource type="Script" uid="uid://rnc2khrv478v" path="res://scenes/arena/environment_controller.gd" id="env_controller"]
 [ext_resource type="PackedScene" uid="uid://b7s61o2yewfch" path="res://scenes/health_bar/health_bar.tscn" id="hud_health"]
+[ext_resource type="Script" uid="uid://bhllxma8sad3h" path="res://scenes/arena/music_player.gd" id="music_controller"]
 [ext_resource type="Resource" uid="uid://c6bovx8p26bso" path="res://resources/environments/stages/cooking_pot.tres" id="stage_cooking_pot"]
 [ext_resource type="Resource" uid="uid://b0jm4awyhrxeh" path="res://resources/environments/stages/deep_wok.tres" id="stage_deep_wok"]
 [ext_resource type="Resource" uid="uid://chbng8ed5nku1" path="res://resources/environments/stages/iron_griddle.tres" id="stage_iron_griddle"]
@@ -240,12 +242,18 @@ visible = false
 
 [node name="StartPanel" parent="GameUI" instance=ExtResource("28_f7e6h")]
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("26_c13hg")
+[node name="CoopSelection" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("coop_selection")
+
+[node name="MusicManager" type="AudioStreamPlayer" parent="."]
 volume_db = -5.0
-autoplay = true
 bus = &"Music"
-parameters/looping = true
+script = ExtResource("music_controller")
+menu_music = ExtResource("26_c13hg")
+shop_music = ExtResource("26_c13hg")
+wave_music_tracks = Array[AudioStream]([ExtResource("26_c13hg")])
+boss_music_tracks = Array[AudioStream]([ExtResource("26_c13hg")])
 
 [node name="CoockingPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("25_o7rjm")

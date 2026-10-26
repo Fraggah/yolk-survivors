@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ArenaStage" load_steps=10 format=3 uid="uid://c6bovx8p26bso"]
 
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://be3iuk54nfa1c" path="res://assets/environments/stages/cooking_pot.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://tj6s3mq4l73a" path="res://assets/environments/stages/cooking_pot_no_handles.png" id="2"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
 [ext_resource type="PackedScene" path="res://scenes/arena/mechanics/pot_mechanic.tscn" id="mechanic"]
@@ -24,8 +24,8 @@ script = ExtResource("3")
 first_wave = 1
 background_size = Vector2(3000, 2000)
 background_offset = Vector2(0, 0)
-vessel_size = Vector2(2900, 1900)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2990.71, 1989.51)
+vessel_offset = Vector2(-1.95, 32.2437)
 movement_bounds = Rect2(-1007.81, -560.547, 2011.72, 1191.41)
 oval = true
 corner_radius = 0.0
@@ -40,13 +40,15 @@ shader_parameter/tint_strength = 0.55
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"cooking_pot"
 display_name = "Cooking pot"
 description = "Exploding bubbles damage everyone."
 vessel = ExtResource("2")
 background_color = Color(0.741176, 0.694118, 0.54902, 1)
-vessel_size = Vector2(3000, 2000)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2990.71, 1989.51)
+vessel_offset = Vector2(-1.95, 32.2437)
+vessel_body_rect = Rect2(122, 37, 1292, 953)
 play_area = SubResource("PlayArea")
 mechanic_scene = ExtResource("mechanic")
 background_material = SubResource("FluidBackground")

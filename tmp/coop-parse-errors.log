@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "origin" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scenes/weapons/melee/catalogue_melee_behaviour.gd:240)
+ERROR: Failed to load script "res://scenes/weapons/melee/catalogue_melee_behaviour.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)

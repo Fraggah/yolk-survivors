@@ -25,8 +25,8 @@ var spawn_attraction_checked := false
 func _try_spawn_attraction() -> void:
 	if spawn_attraction_checked: return
 	spawn_attraction_checked = true
-	if flying_to_jar or not is_instance_valid(Global.player): return
-	if is_instance_valid(Global.player.passive_items) and Global.player.passive_items.should_attract_spawned_yolk():
+	if flying_to_jar or not is_instance_valid(Global.nearest_player(global_position)): return
+	if is_instance_valid(Global.nearest_player(global_position).passive_items) and Global.nearest_player(global_position).passive_items.should_attract_spawned_yolk():
 		collected = true
 
 func _process(delta: float) -> void:
@@ -38,10 +38,10 @@ func _process(delta: float) -> void:
 	squash_phase = fmod(squash_phase + delta * TAU / squash_period, TAU)
 	var stretch := 1.0 + sin(squash_phase) * squash_amount
 	sprite.scale = sprite_base_scale * Vector2(stretch, 1.0 / stretch)
-	if not is_instance_valid(Global.player): return
-	if not collected and global_position.distance_squared_to(Global.player.global_position) <= pow(Global.player.stats.get_pickup_distance(attraction_distance), 2): collected = true
+	if not is_instance_valid(Global.nearest_player(global_position)): return
+	if not collected and global_position.distance_squared_to(Global.nearest_player(global_position).global_position) <= pow(Global.nearest_player(global_position).stats.get_pickup_distance(attraction_distance), 2): collected = true
 	if not collected: return
-	target_pos = Global.player.global_position
+	target_pos = Global.nearest_player(global_position).global_position
 	global_position = global_position.move_toward(target_pos, move_speed * delta)
 	if global_position.distance_squared_to(target_pos) < collect_distance * collect_distance:
 		add_coins()
@@ -76,9 +76,10 @@ func add_coins() -> void:
 	if awarded or flying_to_jar or Global.game_paused or is_queued_for_deletion(): return
 	awarded = true
 	SoundManager.play_sound(SoundManager.Sound.YOLK_PICKUP)
-	var bonus := Global.collect_yolk(value)
-	if is_instance_valid(Global.player) and is_instance_valid(Global.player.passive_items):
-		Global.player.passive_items.on_yolks_collected(maxi(0, value) + bonus)
+	var coop=get_tree().current_scene.get("coop")
+	var bonus: int = coop.collect_yolk(value) if coop and coop.active else Global.collect_yolk(value)
+	if (not coop or not coop.active) and is_instance_valid(Global.nearest_player(global_position)) and is_instance_valid(Global.nearest_player(global_position).passive_items):
+		Global.nearest_player(global_position).passive_items.on_yolks_collected(maxi(0, value) + bonus)
 	if bonus > 0:
 		var text := CombatTexts.acquire() as FloatingText
 		text.global_position = global_position
@@ -86,7 +87,7 @@ func add_coins() -> void:
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	if area == Global.player and not flying_to_jar and not Global.game_paused and global_position.distance_to(area.global_position) <= Global.player.stats.get_pickup_distance(attraction_distance):
+	if area == Global.nearest_player(global_position) and not flying_to_jar and not Global.game_paused and global_position.distance_to(area.global_position) <= Global.nearest_player(global_position).stats.get_pickup_distance(attraction_distance):
 		collected = true
 
 func _ready() -> void:

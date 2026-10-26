@@ -1,0 +1,6 @@
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+   at: GDScript::reload (res://scenes/bosses/hot_zones_fueguitos.gd:99)
+ERROR: Failed to load script "res://scenes/bosses/hot_zones_fueguitos.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _next_section (res://scenes/bosses/boss_encounter.gd:121)

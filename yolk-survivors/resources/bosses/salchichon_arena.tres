@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="ArenaStage" load_steps=7 format=3 uid="uid://bs57tdgd5uu7c"]
+
+[ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="area"]
+[ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
+[ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="stage"]
+[ext_resource type="Texture2D" uid="uid://d4lopno4cvi1h" path="res://assets/environments/stages/salchichon_grill.png" id="vessel"]
+
+[sub_resource type="ShaderMaterial" id="FireBackground"]
+shader = ExtResource("background_shader")
+shader_parameter/color_a = Color(0.018, 0.012, 0.01, 1)
+shader_parameter/color_b = Color(0.65, 0.13, 0.025, 1)
+shader_parameter/speed = 0.12
+shader_parameter/pattern_scale = 2.0
+shader_parameter/flow_strength = 2.0
+shader_parameter/pattern_world_size = 1600.0
+shader_parameter/edge_softness = 0.03
+shader_parameter/seed = 71.0
+shader_parameter/phase = 0.0
+
+[sub_resource type="Resource" id="geometry"]
+script = ExtResource("area")
+first_wave = 1
+background_size = Vector2(2800, 1866.67)
+background_offset = Vector2(0, 0)
+vessel_size = Vector2(2900, 1900)
+vessel_offset = Vector2(0, 0)
+movement_bounds = Rect2(-1181.25, -641.667, 2362.5, 1297.92)
+oval = false
+corner_radius = 142.188
+camera_zoom = 0.924
+
+[resource]
+script = ExtResource("stage")
+music_tracks = Array[AudioStream]([])
+id = &"salchichon_test_arena"
+display_name = "Salchichón — Infernal grill"
+description = "Exclusive boss prototype. All nine attack sections across three phases are playable. Test encounter only."
+vessel = ExtResource("vessel")
+background_color = Color(1, 1, 1, 1)
+vessel_size = Vector2(2800, 1866.67)
+vessel_offset = Vector2(0, 0)
+vessel_body_rect = Rect2(0, 0, 0, 0)
+play_area = SubResource("geometry")
+background_material = SubResource("FireBackground")
+metadata/prototype_tint = Color(1, 1, 1, 1)

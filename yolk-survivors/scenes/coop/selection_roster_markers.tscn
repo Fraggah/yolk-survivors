@@ -1,0 +1,36 @@
+[gd_scene format=3]
+[node name="CoopMarkers" type="GridContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+columns = 2
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+mouse_filter = 2
+
+[node name="P1" type="Label" parent="."]
+visible = false
+theme_override_font_sizes/font_size = 14
+text = "P1"
+mouse_filter = 2
+[node name="P2" type="Label" parent="."]
+visible = false
+theme_override_font_sizes/font_size = 14
+text = "P2"
+mouse_filter = 2
+[node name="P3" type="Label" parent="."]
+visible = false
+theme_override_font_sizes/font_size = 14
+text = "P3"
+mouse_filter = 2
+[node name="P4" type="Label" parent="."]
+visible = false
+theme_override_font_sizes/font_size = 14
+text = "P4"
+mouse_filter = 2

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ArenaStage" load_steps=8 format=3 uid="uid://b0jm4awyhrxeh"]
 
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://fpvltf6ah65n" path="res://assets/environments/stages/deep_wok.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cmicn5ies810o" path="res://assets/environments/stages/deep_wok_no_handles.png" id="2"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
 [ext_resource type="PackedScene" path="res://scenes/arena/mechanics/wok_mechanic.tscn" id="mechanic"]
@@ -23,8 +23,8 @@ script = ExtResource("3")
 first_wave = 1
 background_size = Vector2(3900, 2600)
 background_offset = Vector2(0, 0)
-vessel_size = Vector2(2900, 1900)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(4177.53, 2583.42)
+vessel_offset = Vector2(275.305, -7.80696)
 movement_bounds = Rect2(-1086.72, -1122.27, 2729.49, 2170.9)
 oval = true
 corner_radius = 0.0
@@ -32,13 +32,15 @@ camera_zoom = 0.924
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"deep_wok"
 display_name = "Wok"
 description = "Edges push entities toward the center."
 vessel = ExtResource("2")
 background_color = Color(0.65098, 0.72549, 0.690196, 1)
-vessel_size = Vector2(3900, 2600)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(4177.53, 2583.42)
+vessel_offset = Vector2(275.305, -7.80696)
+vessel_body_rect = Rect2(235, 30, 1068, 941)
 play_area = SubResource("PlayArea")
 mechanic_scene = ExtResource("mechanic")
 background_material = SubResource("FluidBackground")

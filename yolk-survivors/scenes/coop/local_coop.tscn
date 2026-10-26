@@ -1,0 +1,139 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://scenes/coop/local_coop.gd" id="script"]
+
+[ext_resource type="Script" path="res://scenes/coop/shop_quadrants.gd" id="quadrants"]
+
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_combat_hud.tscn" id="combat_hud"]
+
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_combat_hud_right.tscn" id="combat_hud_right"]
+
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_combat_hud_bottom.tscn" id="hud_bottom"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_combat_hud_bottom_right.tscn" id="hud_bottom_right"]
+
+[node name="LocalCoop" type="Node"]
+process_mode = 3
+script = ExtResource("script")
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 8
+
+[node name="Screen" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_type_variation = &"ScreenPanel"
+
+[node name="Margin" type="MarginContainer" parent="UI/Screen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="UI/Screen/Margin"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="UI/Screen/Margin/Content"]
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
+text = "COOPERATIVO LOCAL"
+
+[node name="Lobby" type="HBoxContainer" parent="UI/Screen/Margin/Content"]
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="LeftSlots" type="GridContainer" parent="UI/Screen/Margin/Content/Lobby"]
+size_flags_horizontal = 3
+size_flags_vertical = 4
+columns = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="Players" type="VBoxContainer" parent="UI/Screen/Margin/Content/Lobby"]
+custom_minimum_size = Vector2(480, 0)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="RightSlots" type="GridContainer" parent="UI/Screen/Margin/Content/Lobby"]
+size_flags_horizontal = 3
+size_flags_vertical = 4
+columns = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="Panels" type="Container" parent="UI/Screen/Margin/Content"]
+visible = false
+size_flags_vertical = 3
+script = ExtResource("quadrants")
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="Hint" type="Label" parent="UI/Screen/Margin/Content"]
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+autowrap_mode = 2
+text = "Enter / A para unirse · B / Esc para volver"
+
+[node name="Back" type="Button" parent="UI/Screen/Margin/Content"]
+custom_minimum_size = Vector2(0, 45)
+size_flags_horizontal = 4
+text = "Volver al menú"
+focus_mode = 0
+
+[node name="HUD" type="Control" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="P1" parent="UI/HUD" instance=ExtResource("combat_hud")]
+anchor_left = 0.0
+anchor_right = 0.0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 16.0
+offset_right = 344.0
+offset_top = 16.0
+offset_bottom = 104.0
+
+[node name="P2" parent="UI/HUD" instance=ExtResource("combat_hud_right")]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = -344.0
+offset_right = -16.0
+offset_top = 16.0
+offset_bottom = 104.0
+
+[node name="P3" parent="UI/HUD" instance=ExtResource("hud_bottom")]
+anchor_left = 0.0
+anchor_right = 0.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = 344.0
+offset_top = -104.0
+offset_bottom = -16.0
+
+[node name="P4" parent="UI/HUD" instance=ExtResource("hud_bottom_right")]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -344.0
+offset_right = -16.0
+offset_top = -104.0
+offset_bottom = -16.0
+
+[node name="Reserve" parent="UI/HUD/P1/Wallet" index="1"]
+visible = true
+
+[editable path="UI/HUD/P1"]

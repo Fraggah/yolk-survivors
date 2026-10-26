@@ -1,0 +1,5 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/coins/coins.tscn" id="base"]
+[ext_resource type="Script" path="res://scenes/coins/burst_yolk.gd" id="script"]
+[node name="BurstYolk" instance=ExtResource("base")]
+script = ExtResource("script")

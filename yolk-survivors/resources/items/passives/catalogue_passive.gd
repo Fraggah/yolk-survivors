@@ -68,15 +68,16 @@ func get_shop_price(completed_wave: int) -> int:
 func get_description() -> String:
 	return description
 
-func apply_passive_values() -> void:
-	if is_instance_valid(Global.player) and available_for(Global.player):
-		Global.player.stats.initialize_character_passives()
-		var previous_gains: Dictionary = Global.player.stats._stat_gains.duplicate()
+func apply_passive_values(target: Player = null) -> void:
+	if not target: target=Global.player
+	if is_instance_valid(target) and available_for(target):
+		target.stats.initialize_character_passives()
+		var previous_gains: Dictionary = target.stats._stat_gains.duplicate()
 		# Catalogue stat items use the same gain/penalty pipeline as upgrades.
 		if effect_key == "alcohol":
-			apply_stat_values()
-		else: super.apply_passive_values()
-		Global.player.passive_items.acquire(self, previous_gains)
+			apply_stat_values(target)
+		else: super.apply_passive_values(target)
+		target.passive_items.acquire(self, previous_gains)
 
 func available_for(player: Player) -> bool:
 	if max_copies > 0 and is_instance_valid(player.passive_items) and player.passive_items.count(effect_key) >= max_copies: return false

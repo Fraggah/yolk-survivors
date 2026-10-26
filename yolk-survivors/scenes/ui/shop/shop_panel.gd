@@ -8,6 +8,9 @@ const SHOP_CARD_SCENE = preload("res://scenes/ui/shop/shop_card.tscn")
 const WEAPON_TOOLTIP_SCENE = preload("res://scenes/ui/shop/weapon_tooltip.tscn")
 
 @export var shop_items: Array[ItemBase]
+## Temporary animation test: guaranteed chocolate coin for Hoarder.
+@export var test_hoarder_chocolate_coin := true
+@export var test_glass_egg_golden_yolk := true
 
 @onready var items_container: HBoxContainer = %ItemsContainer
 @onready var passive_container: GridContainer = %PassiveContainer
@@ -20,6 +23,8 @@ var breading_control: Button
 var golden_control: Button
 var golden_result: AcceptDialog
 var gamble_button: Button
+var coin_animation: Control
+var golden_animation: Control
 
 var context_card: ItemCard
 var weapon_tooltip: WeaponTooltip
@@ -40,11 +45,10 @@ func _build_next_stage_preview() -> void:
 	next_stage_panel.name = "NextStagePreview"
 	next_stage_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	$MarginContainer/Control.add_child(next_stage_panel)
-	next_stage_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_LEFT)
-	next_stage_panel.offset_left = 20
-	next_stage_panel.offset_right = 620
-	next_stage_panel.offset_top = 154
-	next_stage_panel.offset_bottom = 238
+	var actions := $MarginContainer/Control/VBoxContainer
+	next_stage_panel.reparent(actions)
+	actions.move_child(next_stage_panel, 1)
+	next_stage_panel.custom_minimum_size = Vector2.ZERO
 	var style := UITheme.box(UITheme.palette.surface, UITheme.palette.outline)
 	style.content_margin_left = 12
 	style.content_margin_right = 12
@@ -60,7 +64,7 @@ func _build_next_stage_preview() -> void:
 	row.add_theme_constant_override("separation", 12)
 	next_stage_panel.add_child(row)
 	next_stage_icon = TextureRect.new()
-	next_stage_icon.custom_minimum_size = Vector2(96, 64)
+	next_stage_icon.custom_minimum_size = Vector2(48, 42)
 	next_stage_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	next_stage_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	next_stage_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -70,7 +74,8 @@ func _build_next_stage_preview() -> void:
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(text)
 	next_stage_label = Label.new()
-	next_stage_label.add_theme_font_size_override("font_size", 24)
+	next_stage_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	next_stage_label.add_theme_font_size_override("font_size", 20)
 	text.add_child(next_stage_label)
 	next_stage_description = Label.new()
 	next_stage_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -82,11 +87,35 @@ func set_next_stage(stage: ArenaStage, wave: int) -> void:
 	next_stage = stage
 	next_stage_wave = wave
 	if not next_stage_panel: return
-	next_stage_panel.visible = stage != null
+	next_stage_panel.hide()
 	if not stage: return
+	var special_arena := stage.id != &"neutral_plate"
+	var notices: Array[String] = []
+	var arena = get_tree().current_scene
+	if arena is Arena:
+		var data = arena.spawner.wave_data_for(wave)
+		if data:
+			if data.has_boss_encounter():
+				var boss_settings: Resource = data.boss_encounter
+				next_stage = boss_settings.arena_stage
+				next_stage_panel.show()
+				next_stage_icon.show()
+				next_stage_icon.texture = next_stage.vessel
+				next_stage_label.text = boss_settings.boss_name
+				next_stage_description.text = "BOSS · Defeat the boss to complete the wave"
+				next_stage_description.show()
+				return
+			if data.wave_type == WaveData.WaveType.HORDE or (is_instance_valid(Global.player) and Global.player.passive_items.force_horde): notices.append("HORDE")
+			elif data.wave_type == WaveData.WaveType.BOSS: notices.append("BOSS")
+			elif data.wave_type == WaveData.WaveType.SPECIAL: notices.append("SPECIAL WAVE")
+			for event in data.scheduled_spawns:
+				if event and event.enemy: notices.append("%s · %ds" % [String(event.enemy.id).capitalize(), roundi(event.second)])
+	next_stage_panel.visible = special_arena or not notices.is_empty()
+	next_stage_icon.visible = special_arena
 	next_stage_icon.texture = stage.vessel
-	next_stage_label.text = "NEXT WAVE %d — %s" % [wave, stage.display_name]
-	next_stage_description.text = stage.description
+	next_stage_label.text = stage.display_name if special_arena else "EVENTS"
+	next_stage_description.text = " · ".join(notices)
+	next_stage_description.visible = not notices.is_empty()
 
 func _build_weapon_actions() -> void:
 	weapon_actions = PanelContainer.new()
@@ -150,17 +179,41 @@ func _ready() -> void:
 	_build_next_stage_preview()
 	_build_golden_yolk_control()
 	_build_breading_control()
+	coin_animation = load("res://scenes/ui/shop/chocolate_coin_reveal.gd").new()
+	get_parent().add_child.call_deferred(coin_animation)
+	golden_animation = load("res://scenes/ui/shop/golden_yolk_reveal.gd").new()
+	get_parent().add_child.call_deferred(golden_animation)
 	gamble_button = Button.new()
-	gamble_button.text = "Gamble · 1 yolk"
-	gamble_button.position = Vector2(35, 180)
+	gamble_button.name = "GamblerCoinButton"
+	gamble_button.text = ""
+	gamble_button.flat = false
+	gamble_button.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	gamble_button.custom_minimum_size = Vector2(64, 64)
+	gamble_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var gamble_icon := TextureRect.new()
+	gamble_icon.name = "CoinIcon"
+	gamble_icon.texture = load("res://assets/sprites/Items/Catalogue/034.png")
+	gamble_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gamble_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	gamble_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gamble_button.add_child(gamble_icon)
+	gamble_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	gamble_icon.offset_left = 7
+	gamble_icon.offset_top = 7
+	gamble_icon.offset_right = -7
+	gamble_icon.offset_bottom = -7
+	var shimmer := ShaderMaterial.new()
+	shimmer.shader = load("res://effects/golden_item.gdshader")
+	shimmer.set_shader_parameter("strength", 0.65)
+	gamble_icon.material = shimmer
+	gamble_button.tooltip_text = "Apostar gratis · Requiere al menos 1 yema"
 	gamble_button.pressed.connect(func():
 		if Global.coins < 1: return
-		Global.coins -= 1
-		Global.coins = Global.coins * 2 if randf() < 0.5 else 0
+		resolve_chocolate_coin()
 		gamble_button.hide()
 		_update_reroll_button()
 	)
-	add_child(gamble_button)
+	$MarginContainer/Control.add_child(gamble_button)
 	gamble_button.hide()
 	clear_items()
 
@@ -174,7 +227,7 @@ func _on_visibility_changed() -> void:
 		if golden_result: golden_result.hide()
 
 func _on_item_card_hovered(card: ItemCard) -> void:
-	if is_visible_in_tree() and card.get_parent() == weapon_container:
+	if is_visible_in_tree() and card.get_parent() in [weapon_container, passive_container]:
 		weapon_tooltip.show_for_card(card)
 
 func load_shop(current_wave: int) -> void:
@@ -220,6 +273,7 @@ func _populate_offers(offers: Array) -> void:
 	var owned: Array[String] = load("res://resources/shop_weapon_bias.gd").families(load("res://resources/shop_weapon_bias.gd").equipped(Global.player))
 	for card in items_container.get_children():
 		if card.shop_item is ItemWeapon and owned.has(card.shop_item.get_offer_key()): equipped_guarantee_shown = true
+	_ensure_test_consumable()
 	_ensure_liquidation_offer()
 
 func _purchase_offer(item: ItemBase, card: ShopCard) -> bool:
@@ -316,6 +370,7 @@ func _refill_offer(purchased: ItemBase, card: ShopCard) -> void:
 	else:
 		items_container.remove_child(card)
 		card.queue_free()
+	_ensure_test_consumable()
 	_ensure_liquidation_offer()
 	_update_reroll_button()
 
@@ -347,6 +402,8 @@ func _on_reroll_button_pressed() -> void:
 
 func _process(_delta: float) -> void:
 	_update_reroll_button()
+	if is_instance_valid(gamble_button): gamble_button.disabled = Global.coins <= 0
+	_position_refresh_buttons()
 	_position_weapon_actions()
 
 func _update_reroll_button() -> void:
@@ -601,14 +658,14 @@ func _build_golden_yolk_control() -> void:
 	$MarginContainer/Control.add_child(golden_control)
 	golden_control.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	golden_control.offset_left = 785
-	golden_control.offset_right = 990
+	golden_control.offset_right = 925
 	golden_control.offset_top = -205
 	golden_control.offset_bottom = -145
 	golden_control.target_selected.connect(func(card): apply_golden_yolk(card))
 	golden_result = AcceptDialog.new()
 	golden_result.title = "Yema de oro"
 	add_child(golden_result)
-	weapon_container.columns = 4
+	weapon_container.columns = 3
 	for grid in [passive_container, weapon_container]:
 		var scroll := ScrollContainer.new()
 		scroll.name = "InventoryScroll"
@@ -617,7 +674,14 @@ func _build_golden_yolk_control() -> void:
 		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 		scroll.follow_focus = true
 		grid.get_parent().add_child(scroll)
-		grid.reparent(scroll)
+		if grid == weapon_container:
+			var center := CenterContainer.new()
+			center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			center.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+			scroll.add_child(center)
+			grid.reparent(center)
+		else:
+			grid.reparent(scroll)
 
 func apply_golden_yolk(card: ItemCard, test_roll: float = -1.0) -> bool:
 	if not is_instance_valid(Global.player) or not is_instance_valid(card) or card.is_queued_for_deletion(): return false
@@ -677,9 +741,7 @@ func apply_golden_yolk(card: ItemCard, test_roll: float = -1.0) -> bool:
 	context_card = null
 	Global.selected_weapon = null
 	combine_button.disabled = true
-	golden_result.title = "Yema de oro"
-	golden_result.dialog_text = ("%s se rompió." % original.item_name) if outcome < 0.0 else ("%s: +%d%% a beneficios y −%d%% a penalizaciones.%s" % [original.item_name, roundi(outcome * 100.0), roundi(outcome * 100.0), "\n¡Mejora perfecta!" if outcome >= 1.0 else ""])
-	if is_visible_in_tree(): golden_result.popup_centered(Vector2i(590, 180))
+	golden_animation.play_upgrade(original, replacement, outcome)
 	return true
 
 func _discard_owned_card(card: ItemCard) -> void:
@@ -704,7 +766,7 @@ func _build_breading_control() -> void:
 	$MarginContainer/Control.add_child(breading_control)
 	breading_control.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	breading_control.offset_left = 785
-	breading_control.offset_right = 990
+	breading_control.offset_right = 925
 	breading_control.offset_top = -100
 	breading_control.offset_bottom = -40
 	breading_control.target_selected.connect(func(card): apply_breading(card))
@@ -739,6 +801,7 @@ func apply_breading(card: ItemCard, test_tag: int = -1) -> bool:
 	load("res://effects/golden_visual.gd").apply_weapon(weapon)
 	card.item = replacement
 	manager.breading_charges -= 1
+	SoundManager.play_event("breading_apply")
 	cancel_consumable_selection()
 	Global.player.refresh_equipment_modifiers()
 	close_weapon_actions()
@@ -758,3 +821,35 @@ func show_ayahuasca_result(message: String) -> void:
 	golden_result.title = "Ayahuasca"
 	golden_result.dialog_text = message
 	if is_visible_in_tree(): golden_result.popup_centered(Vector2i(620, 200))
+
+func resolve_chocolate_coin(forced_outcome: int = -1) -> bool:
+	var previous_balance := Global.coins
+	var success := randf() < 0.5 if forced_outcome < 0 else forced_outcome == 1
+	Global.coins = Global.coins * 2 if success else 0
+	coin_animation.play(success, Global.coins, previous_balance)
+	return success
+
+func _ensure_test_consumable() -> void:
+	if not is_instance_valid(Global.player): return
+	var character: String = Global.player.stats.unlock_id
+	var path := ""
+	if test_hoarder_chocolate_coin and character == "hoarder": path = "res://resources/items/passives/catalogue/item_034.tres"
+	elif test_glass_egg_golden_yolk and character == "glass_egg": path = "res://resources/items/passives/catalogue/item_078.tres"
+	if path.is_empty(): return
+	var test_item: ItemBase = load(path)
+	var replacement: ShopCard
+	for card: ShopCard in items_container.get_children():
+		if card.shop_item.get_offer_key() == test_item.get_offer_key(): return
+		if not card.locked and (not replacement or card.shop_item is ItemPassive): replacement = card
+	# Preserve locked offers, including a fully locked shop.
+	if replacement: replacement.shop_item = test_item
+
+func _position_refresh_buttons() -> void:
+	if not is_instance_valid(gamble_button): return
+	var stats_panel := $MarginContainer/Control/StatsContainer as Control
+	var gap := 12.0
+	var coin_width := 64.0
+	var group_width := reroll_button.size.x + (gap + coin_width if gamble_button.visible else 0.0)
+	reroll_button.position.x = stats_panel.position.x + (stats_panel.size.x - group_width) * 0.5
+	gamble_button.size = Vector2(coin_width, reroll_button.size.y)
+	gamble_button.position = Vector2(reroll_button.position.x + reroll_button.size.x + gap, reroll_button.position.y + (reroll_button.size.y - gamble_button.size.y) * 0.5)

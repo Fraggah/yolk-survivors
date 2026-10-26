@@ -11,6 +11,7 @@ script = ExtResource("electric_script")
 kind = 1
 damage = 6.0
 damage_scaling = 1.0
+configured_fire_damage = false
 duration = 1.5
 tick_interval = 0.5
 chain_radius = 65.0

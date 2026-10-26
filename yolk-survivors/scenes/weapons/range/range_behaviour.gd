@@ -79,7 +79,10 @@ func _spawn_projectile(angle_offset: float) -> void:
 	(get_tree().current_scene if get_tree().current_scene else get_tree().root).add_child(instance)
 	instance.global_position = muzzle.global_position
 	
-	var velocity := Vector2.RIGHT.rotated(weapon.rotation + angle_offset) * weapon.data.stats.projectile_speed
+	var aim_angle := weapon.global_rotation
+	if is_instance_valid(weapon.closest_target):
+		aim_angle=muzzle.global_position.angle_to_point(weapon.closest_target.get_aim_position())+weapon.weapon_spread
+	var velocity := Vector2.RIGHT.rotated(aim_angle + angle_offset) * weapon.data.stats.projectile_speed
 	# Match the detection circle's world-space radius, including the entity scale.
 	var travel_range := weapon.get_effective_range() * absf(weapon.collision.global_scale.x)
 	if weapon.data.stats.unlimited_range: travel_range = INF
@@ -93,5 +96,5 @@ func _spawn_projectile(angle_offset: float) -> void:
 	instance.remaining_bounces = weapon.data.get_effective_bounces(player_stats)
 	if instance.has_method("configure_effects"): instance.configure_effects(weapon.data.stats.ranged_settings)
 	if instance.has_method("configure_target"):
-		var landing_point := weapon.closest_target.global_position if is_instance_valid(weapon.closest_target) else muzzle.global_position + velocity.normalized() * travel_range
+		var landing_point := weapon.closest_target.get_aim_position() if is_instance_valid(weapon.closest_target) else muzzle.global_position + velocity.normalized() * travel_range
 		instance.configure_target(landing_point)

@@ -71,7 +71,7 @@ func start(context: Spawner, geometry: ArenaEnvironment) -> void:
 func target_position() -> Vector2:
 	var bounds := area.movement_bounds
 	var size := impact_size.min(bounds.size - Vector2.ONE * (area.corner_radius * 2 + 20)).max(Vector2.ONE * 10)
-	var center := Global.player.global_position if is_live(Global.player) else bounds.get_center()
+	var center := Global.nearest_player(area.movement_bounds.get_center()).global_position if is_live(Global.nearest_player(area.movement_bounds.get_center())) else bounds.get_center()
 	var margin := Vector2.ONE * (area.corner_radius + 10)
 	# Aim a solid strip at the player, rather than the transparent central slot.
 	return Vector2(clampf(center.x - size.x * 0.37, bounds.position.x + margin.x, bounds.end.x - margin.x - size.x), clampf(center.y - size.y * 0.5, bounds.position.y + margin.y, bounds.end.y - margin.y - size.y))

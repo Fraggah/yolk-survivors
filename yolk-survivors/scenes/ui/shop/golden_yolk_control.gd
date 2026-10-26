@@ -12,7 +12,7 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	icon = load("res://assets/sprites/Items/Catalogue/%s.png" % ("081" if kind == "breading" else "078"))
 	expand_icon = true
-	custom_minimum_size = Vector2(205, 60)
+	custom_minimum_size = Vector2(140, 60)
 	add_theme_constant_override("icon_max_width", 48)
 	add_theme_font_size_override("font_size", 28)
 	tooltip_text = "Seleccioná un arma propia para agregar una tag aleatoria nueva." if kind == "breading" else "Usá una Yema de oro en un arma o ítem propio."
@@ -47,9 +47,11 @@ func _charges() -> int:
 	return Global.player.passive_items.breading_charges if kind == "breading" else Global.player.passive_items.golden_yolks
 
 func refresh() -> void:
-	text = "Cancelar" if selecting else "× %d" % _charges()
+	visible = _charges() > 0 or selecting
+	text = "× %d" % _charges()
 	disabled = _charges() <= 0 and not selecting
-	hint_label.text = ("Elegí un arma" if kind == "breading" else "Elegí un ítem") if selecting else display_name
+	hint_label.text = ""
+	tooltip_text = ("Elegí un arma; pulsá de nuevo para cancelar." if kind == "breading" else "Elegí un ítem; pulsá de nuevo para cancelar.") if selecting else display_name
 
 func cancel_selection() -> void:
 	selecting = false

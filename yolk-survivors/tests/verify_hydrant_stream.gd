@@ -50,6 +50,20 @@ func verify():
 	weapon._process(0)
 	var stream=weapon.weapon_behaviour
 	assert(stream.stream_active and stream.line.visible and weapon.is_attacking)
+	var feet=first.get_node("HurtboxComponent/CollisionShape2D").global_position
+	assert(first.get_aim_position().is_equal_approx(feet))
+	assert(stream.stream_end.distance_to(feet)<0.01,"Stream must end on the floor collision, not the Area2D origin")
+	assert(absf(angle_difference(weapon.rotation,weapon.global_position.angle_to_point(feet)))<0.001)
+	if OS.get_cmdline_user_args().has("--capture"):
+		arena.start_panel.hide(); arena.selection_panel.hide(); arena.weapon_selection_panel.hide()
+		var camera=arena.get_node("Camera2D")
+		camera.set_process(false)
+		camera.global_position=Vector2(80,0)
+		camera.zoom=Vector2.ONE*3
+		camera.force_update_scroll()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../tmp/hydrant-foot-aim.png"))
 	assert(stream.line.points.size()>2 and stream.line.material!=null,"Viscous strand uses curved geometry and shaded center/edges")
 	var pool=arena.get_node("MayonnaiseParticles")
 	assert(pool.particles.any(func(p): return p.impact))

@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed: Beam damages away from the body
+   at: verify (res://tests/verify_boss_fixed_turrets.gd:67)

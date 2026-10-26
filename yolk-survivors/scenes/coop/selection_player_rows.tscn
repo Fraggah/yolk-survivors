@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/coop/selection_player_card.tscn" id="card"]
+
+[node name="CoopRows" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="."]
+theme_override_constants/separation = 8
+mouse_filter = 2
+
+[node name="Player1" parent="Rows" instance=ExtResource("card")]
+[node name="Player2" parent="Rows" instance=ExtResource("card")]
+[node name="Player3" parent="Rows" instance=ExtResource("card")]
+[node name="Player4" parent="Rows" instance=ExtResource("card")]

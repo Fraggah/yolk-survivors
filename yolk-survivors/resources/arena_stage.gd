@@ -1,5 +1,7 @@
 extends Resource
 class_name ArenaStage
+## Empty inherits the wave manager defaults; a wave override takes precedence.
+@export var music_tracks: Array[AudioStream] = []
 
 @export var id: StringName
 @export var display_name: String
@@ -8,6 +10,8 @@ class_name ArenaStage
 @export var background_color := Color("c8b99e")
 @export var vessel_size := Vector2(3000, 2000)
 @export var vessel_offset := Vector2.ZERO
+## Pixel bounds of the vessel body, excluding transparent padding and soft glow.
+@export var vessel_body_rect := Rect2()
 @export var play_area: ArenaEnvironment
 @export var mechanic_scene: PackedScene
 # Optional presentation material.

@@ -21,7 +21,7 @@ func _on_hitbox_component_on_hit_hurtbox(hurtbox: HurtboxComponent) -> void:
 	if not is_instance_valid(target):
 		_break_plate()
 		return
-	velocity = global_position.direction_to(target.global_position) * velocity.length()
+	velocity = global_position.direction_to((target as Unit).get_aim_position()) * velocity.length()
 	max_distance = INF
 	rotation = 0.0
 

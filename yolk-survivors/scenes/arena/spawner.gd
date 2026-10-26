@@ -6,6 +6,7 @@ class_name Spawner
 signal on_wave_completed
 signal on_wave_cleared
 signal on_wave_started(wave: int)
+signal on_boss_wave_started(settings: Resource)
 const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
 @export var waves_data: Array[WaveData]
 @export var spawn_area_size := Vector2(1000, 500)
@@ -30,11 +31,12 @@ var current_wave_data: WaveData
 var spawned_enemies: Array[Enemy] = []
 var special_enemies: Array[Enemy] = []
 var boss_enemies: Array[Enemy] = []
+var reward_enemies: Array[Enemy] = []
 var difficulty_index := 0:
 	set(value): difficulty_index = DIFFICULTY_RULES.normalize_level(value)
 var spawn_generation := 0
 var pending_spawns := 0
-var pending_population := [0, 0, 0]
+var pending_population := [0, 0, 0, 0]
 var total_spawned := 0
 var generated_by_type: Dictionary = {}
 var active_groups: Array[Dictionary] = []
@@ -90,6 +92,14 @@ func start_wave() -> void:
 	clear_enemies()
 	clear_fueguito()
 	current_wave_data = find_wave_data()
+	if current_wave_data and current_wave_data.has_boss_encounter():
+		wave_timer.stop()
+		spawn_timer.stop()
+		total_spawned = 0
+		generated_by_type.clear()
+		on_wave_started.emit(wave_index)
+		on_boss_wave_started.emit(current_wave_data.boss_encounter)
+		return
 	if is_instance_valid(Global.player) and Global.player.passive_items.force_horde:
 		for wave in waves_data:
 			if wave and wave.wave_type == WaveData.WaveType.HORDE:
@@ -176,7 +186,7 @@ func test_profile_count(profile: EnemyProfile) -> int:
 	return test_wave_multiplier() if profile.population == 0 and profile.id != &"chaser_slow" else 1
 
 func population_count(population: int) -> int:
-	var list: Array[Enemy] = spawned_enemies if population == 0 else special_enemies if population == 1 else boss_enemies
+	var list: Array[Enemy] = spawned_enemies if population == 0 else special_enemies if population == 1 else boss_enemies if population == 2 else reward_enemies
 	var alive := 0
 	for i in range(list.size() - 1, -1, -1):
 		var enemy = list[i]
@@ -189,7 +199,7 @@ func alive_enemy_count() -> int:
 
 func population_limit(population: int) -> int:
 	if not current_wave_data: return 0
-	return mini(max_alive_enemies, current_wave_data.common_limit * test_wave_multiplier()) if population == 0 else current_wave_data.hazard_limit if population == 1 else current_wave_data.boss_limit
+	return mini(max_alive_enemies, current_wave_data.common_limit * test_wave_multiplier()) if population == 0 else current_wave_data.hazard_limit if population == 1 else current_wave_data.boss_limit if population == 2 else current_wave_data.reward_limit
 
 func has_capacity(population: int) -> bool:
 	return population_count(population) + pending_population[population] < population_limit(population)
@@ -199,10 +209,10 @@ func get_random_spawn_position() -> Vector2:
 	return Vector2(randf_range(-spawn_area_size.x, spawn_area_size.x), randf_range(-spawn_area_size.y, spawn_area_size.y))
 
 func is_spawn_position_safe(point: Vector2, profile: EnemyProfile = null) -> bool:
-	if not point.is_finite() or not is_instance_valid(Global.player): return false
+	if not point.is_finite() or Global.live_players().is_empty(): return false
 	var margin := profile.spawn_margin * profile.visual_scale if profile else 80.0
 	var player_distance := maxf(min_spawn_distance, profile.minimum_player_distance if profile else min_spawn_distance) + margin
-	if point.distance_squared_to(Global.player.global_position) < player_distance * player_distance: return false
+	if not Global.players_clear_of(point, player_distance): return false
 	return is_spawn_geometry_valid(point, profile)
 
 func is_spawn_geometry_valid(point: Vector2, profile: EnemyProfile = null) -> bool:
@@ -262,7 +272,7 @@ func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
 	if is_instance_valid(Global.player): scaled.speed *= Global.player.stats.final_multiplier("enemy_speed")
 	if temporary_crowd_test and profile:
 		if profile.id in [&"chaser_slow", &"charger"]: scaled.health *= test_heavy_health_multiplier
-	if temporary_reward_test and profile and profile.population != 1:
+	if temporary_reward_test and profile and profile.population not in [1,3]:
 		scaled.coin_drop = 1
 		scaled.experience_reward = maxi(1, ceili(scaled.health / maxf(1.0, test_health_per_experience)))
 	instance.stats = scaled
@@ -317,7 +327,7 @@ func _spawn_profile_at(profile: EnemyProfile, point: Vector2, state: Dictionary 
 	while Global.game_paused and not wave_timer.is_stopped():
 		await get_tree().process_frame
 		if generation != spawn_generation: return
-	if is_instance_valid(Global.player) and (Global.player.global_position.distance_to(point) < spawn_relocation_distance or not is_spawn_geometry_valid(point, profile)):
+	if not Global.players_clear_of(point, spawn_relocation_distance) or not is_spawn_geometry_valid(point, profile):
 		point = get_safe_spawn_position(profile, _state_spawn_zone(state), _state_edge_width(state))
 	var ready_to_spawn := point.is_finite() and is_instance_valid(Global.player)
 	pending_spawns -= 1
@@ -330,7 +340,8 @@ func _spawn_profile_at(profile: EnemyProfile, point: Vector2, state: Dictionary 
 	enemy.global_position = point
 	if profile.population == 0: spawned_enemies.append(enemy)
 	elif profile.population == 1: special_enemies.append(enemy)
-	else: boss_enemies.append(enemy)
+	elif profile.population == 2: boss_enemies.append(enemy)
+	else: reward_enemies.append(enemy)
 	total_spawned += 1
 	generated_by_type[profile.id] = int(generated_by_type.get(profile.id, 0)) + 1
 	if not state.is_empty(): state.completed += 1
@@ -352,14 +363,15 @@ func clear_enemies() -> void:
 	spawn_generation += 1
 	Engine.time_scale = 1.0
 	pending_spawns = 0
-	pending_population = [0, 0, 0]
+	pending_population = [0, 0, 0, 0]
 	active_groups.clear()
 	scheduled_events.clear()
 	for effect in get_tree().get_nodes_in_group("spawn_effects"): effect.complete()
-	for enemy in spawned_enemies + boss_enemies:
+	for enemy in spawned_enemies + boss_enemies + reward_enemies:
 		if is_instance_valid(enemy): enemy.destroy_enemy()
 	spawned_enemies.clear()
 	boss_enemies.clear()
+	reward_enemies.clear()
 
 func clear_fueguito() -> void:
 	for enemy in special_enemies:
@@ -371,7 +383,7 @@ func debug_snapshot() -> Dictionary:
 	var elapsed := current_wave_data.wave_time - wave_timer.time_left if current_wave_data else 0.0
 	for state in active_groups:
 		if state.active and elapsed >= state.group.start_second: labels.append(state.group.label)
-	return {"common": population_count(0), "limit": population_limit(0), "hazards": population_count(1), "bosses": population_count(2), "generated": total_spawned, "groups": labels, "pending": pending_spawns}
+	return {"common": population_count(0), "limit": population_limit(0), "hazards": population_count(1), "bosses": population_count(2), "rewards": population_count(3), "generated": total_spawned, "groups": labels, "pending": pending_spawns}
 
 func get_wave_timer_text() -> String:
 	return str(int(ceil(wave_timer.time_left)))

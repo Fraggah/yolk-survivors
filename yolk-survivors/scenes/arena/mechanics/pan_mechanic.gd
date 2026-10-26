@@ -44,7 +44,6 @@ func create_flare(point: Vector2) -> void:
 	flare.global_position = point
 
 func begin_batch() -> void:
-	SoundManager.play_sound(SoundManager.Sound.FUEGUITO)
 	if not active or Global.game_paused or not profile: return
 	spawn_points.clear()
 	for index in mini(batch_size, maximum_active):
@@ -66,7 +65,7 @@ func materialize_batch() -> void:
 	if not active or Global.game_paused: return
 	for point in spawn_points:
 		# The flare owns its location: cancel unsafe arrivals rather than teleport.
-		if not is_instance_valid(Global.player) or Global.player.global_position.distance_to(point) < spawner.spawn_relocation_distance: continue
+		if Global.live_players().is_empty() or not Global.players_clear_of(point,spawner.spawn_relocation_distance): continue
 		var enemy := profile.scene.instantiate() as Enemy
 		spawner.prepare_enemy(enemy, profile)
 		enemy.stats.coin_drop = 0
@@ -84,6 +83,7 @@ func materialize_batch() -> void:
 func retire_batch() -> void:
 	for enemy in hazards:
 		if not is_instance_valid(enemy): continue
+		if enemy.has_method("announce_exit"): enemy.announce_exit()
 		create_flare(enemy.global_position)
 		enemy.is_retiring = true
 		enemy.get_node("HitboxComponent").disable()
@@ -110,6 +110,7 @@ func separate_hazards(delta: float) -> void:
 func stop() -> void:
 	for enemy in hazards:
 		if is_instance_valid(enemy):
+			if enemy.has_method("announce_exit"): enemy.announce_exit()
 			enemy.is_retiring = true
 			enemy.get_node("HitboxComponent").disable()
 	pending = 0

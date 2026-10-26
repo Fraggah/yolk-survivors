@@ -6,6 +6,11 @@ enum WaveType { NORMAL, HORDE, SPECIAL, BOSS }
 @export_range(1, 100) var number := 1
 @export_range(0.1, 600.0, 0.1) var wave_time := 30.0
 @export var wave_type := WaveType.NORMAL
+## Dedicated encounter replaces timed groups when this is a BOSS wave.
+@export var boss_encounter: Resource
+## Empty inherits arena/default music. One entry forces a track; several randomize.
+@export var music_tracks: Array[AudioStream] = []
+
 ## Horde controls enemy composition; arena selection is independent.
 enum ArenaMode { BASE, FIXED, RANDOM_SPECIAL }
 @export var arena_mode := ArenaMode.BASE
@@ -18,6 +23,7 @@ enum ArenaMode { BASE, FIXED, RANDOM_SPECIAL }
 @export_range(1, 500) var common_limit := 35
 @export_range(0, 10) var hazard_limit := 0
 @export_range(0, 10) var boss_limit := 0
+@export_range(0, 20) var reward_limit := 2
 @export var health_multiplier := 1.0
 @export var damage_multiplier := 1.0
 @export var speed_multiplier := 1.0
@@ -25,3 +31,6 @@ enum ArenaMode { BASE, FIXED, RANDOM_SPECIAL }
 
 func is_valid_index(index: int) -> bool:
 	return number == index
+
+func has_boss_encounter() -> bool:
+	return wave_type == WaveType.BOSS and boss_encounter != null

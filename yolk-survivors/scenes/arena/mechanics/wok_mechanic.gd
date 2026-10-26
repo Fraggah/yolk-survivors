@@ -22,7 +22,7 @@ func force_at(point: Vector2) -> Vector2:
 func _process(delta: float) -> void:
 	if not active or Global.game_paused: return
 	# Use the spawner's bounded lists, not a scene-wide entity search.
-	if is_live(Global.player): apply_force(Global.player, delta)
+	for actor in Global.live_players(): apply_force(actor, delta)
 	for list in [spawner.spawned_enemies, spawner.boss_enemies, spawner.special_enemies]:
 		for unit in list:
 			if is_live(unit): apply_force(unit, delta)

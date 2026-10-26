@@ -1,0 +1,86 @@
+Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
+
+first_scan_filesystem: begin: Inicialización del proyecto steps: 5
+	first_scan_filesystem: step 0: Escaneando la estructura del archivo...
+	first_scan_filesystem: step 1: Cargando nombres de clases globales...
+	first_scan_filesystem: step 2: Verificando GDExtensions...
+	first_scan_filesystem: step 3: Creando scripts de carga automática...
+	first_scan_filesystem: step 4: Inicializando complementos...
+	first_scan_filesystem: step 5: Iniciando escaneo de archivos...
+first_scan_filesystem: end
+update_scripts_classes: begin: Registrando clases globales... steps: 16
+	update_scripts_classes: step 0: 
+	update_scripts_classes: step 1: 
+	update_scripts_classes: step 2: 
+	update_scripts_classes: step 3: Arena
+	update_scripts_classes: step 4: ArenaEnvironmentController
+	update_scripts_classes: step 5: 
+	update_scripts_classes: step 6: 
+	update_scripts_classes: step 7: 
+	update_scripts_classes: step 8: 
+	update_scripts_classes: step 9: 
+	update_scripts_classes: step 10: LevelPanel
+	update_scripts_classes: step 11: ShopPanel
+	update_scripts_classes: step 12: Enemy
+	update_scripts_classes: step 13: Unit
+	update_scripts_classes: step 14: 
+	update_scripts_classes: step 15: 
+update_scripts_classes: end
+reimport: begin: (Re)Importación de Assets steps: 1
+	reimport: step 0: Preparando archivos para reimportarlos...
+	reimport: step 0: Ejecutando operaciones de pre-reimportación...
+	reimport: step 0: salchichon.png
+	reimport: step 1: Finalizando la importación de recursos...
+reimport: end
+update_script_paths_documentation: begin: Actualizando documentación de scripts steps: 16
+	update_script_paths_documentation: step 0: fire_status.gd
+	update_script_paths_documentation: step 1: status_controller.gd
+	update_script_paths_documentation: step 2: boss_encounter_settings.gd
+	update_script_paths_documentation: step 3: arena.gd
+	update_script_paths_documentation: step 4: environment_controller.gd
+	update_script_paths_documentation: step 5: salchichon.gd
+	update_script_paths_documentation: step 6: boss_encounter.gd
+	update_script_paths_documentation: step 7: boss_health_bar.gd
+	update_script_paths_documentation: step 8: boss_health_component.gd
+	update_script_paths_documentation: step 9: baguette_harpoon.gd
+	update_script_paths_documentation: step 10: level_panel.gd
+	update_script_paths_documentation: step 11: shop_panel.gd
+	update_script_paths_documentation: step 12: enemy.gd
+	update_script_paths_documentation: step 13: unit.gd
+	update_script_paths_documentation: step 14: preview_shop_layout.gd
+	update_script_paths_documentation: step 15: verify_boss_encounter.gd
+update_script_paths_documentation: end
+update_scene_groups: begin: Actualizando Grupos de Escenas steps: 23
+	update_scene_groups: step 0: sound_manager.tscn
+	update_scene_groups: step 1: arena.tscn
+	update_scene_groups: step 2: salchichon.tscn
+	update_scene_groups: step 3: hitbox_component.tscn
+	update_scene_groups: step 4: projectile_ketchup_drop.tscn
+	update_scene_groups: step 5: credits_panel.tscn
+	update_scene_groups: step 6: custom_button.tscn
+	update_scene_groups: step 7: level_panel.tscn
+	update_scene_groups: step 8: options_panel.tscn
+	update_scene_groups: step 9: pause_panel.tscn
+	update_scene_groups: step 10: selection_panel.tscn
+	update_scene_groups: step 11: item_card.tscn
+	update_scene_groups: step 12: shop_card.tscn
+	update_scene_groups: step 13: shop_panel.tscn
+	update_scene_groups: step 14: start_panel.tscn
+	update_scene_groups: step 15: stats_container.tscn
+	update_scene_groups: step 16: upgrade_card.tscn
+	update_scene_groups: step 17: upgrade_panel.tscn
+	update_scene_groups: step 18: enemy_chaser.tscn
+	update_scene_groups: step 19: player_well_rounded.tscn
+	update_scene_groups: step 20: unit.tscn
+	update_scene_groups: step 21: weapon_the_bloody.tscn
+	update_scene_groups: step 22: weapon_base.tscn
+update_scene_groups: end
+reimport: begin: (Re)Importación de Assets steps: 1
+	reimport: step 0: Ejecutando operaciones post-reimportación...
+reimport: end
+loading_editor_layout: begin: Cargando editor steps: 5
+	loading_editor_layout: step 0: Cargando diseño del editor...
+	loading_editor_layout: step 1: Cargando paneles...
+	loading_editor_layout: step 2: Reabriendo escenas...
+	loading_editor_layout: step 3: Cargando el diseño del editor central...
+	loading_editor_layout: step 4: Cargando complemento del diseño de la ventana...

@@ -1,0 +1,18 @@
+SCRIPT ERROR: Cannot call method 'get_parent' on a null value.
+   at: setup (res://scenes/bosses/fixed_turrets.gd:31)
+SCRIPT ERROR: Assertion failed: Missing audio event: turret_spawn
+   at: heard (res://tests/verify_selected_sfx.gd:11)
+SCRIPT ERROR: Assertion failed: Missing audio event: laser_warning
+   at: heard (res://tests/verify_selected_sfx.gd:11)
+SCRIPT ERROR: Assertion failed: Missing audio event: laser_fire
+   at: heard (res://tests/verify_selected_sfx.gd:11)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_present' in base 'Nil'.
+   at: _begin_landing (res://scenes/bosses/boss_encounter.gd:165)
+SCRIPT ERROR: Assertion failed: Missing audio event: boss_impact
+   at: heard (res://tests/verify_selected_sfx.gd:11)
+SCRIPT ERROR: Assertion failed: Missing audio event: explosion
+   at: heard (res://tests/verify_selected_sfx.gd:11)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_present' in base 'Nil'.
+   at: _begin_departure (res://scenes/bosses/boss_encounter.gd:224)
+SCRIPT ERROR: Assertion failed: Missing audio event: boss_jump
+   at: heard (res://tests/verify_selected_sfx.gd:11)

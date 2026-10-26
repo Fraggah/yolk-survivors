@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ArenaStage" load_steps=8 format=3 uid="uid://crj3rb3r41iyb"]
 
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cy5nmf02vwv35" path="res://assets/environments/stages/nonstick_pan.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://6frufln0v8qw" path="res://assets/environments/stages/nonstick_pan_no_handles.png" id="2"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
 [ext_resource type="PackedScene" path="res://scenes/arena/mechanics/pan_mechanic.tscn" id="mechanic"]
@@ -23,8 +23,8 @@ script = ExtResource("3")
 first_wave = 1
 background_size = Vector2(3000, 2000)
 background_offset = Vector2(0, 0)
-vessel_size = Vector2(2900, 1900)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(3147.5, 1943.46)
+vessel_offset = Vector2(286.085, 6.80796)
 movement_bounds = Rect2(-718.75, -628.906, 2011.72, 1269.53)
 oval = true
 corner_radius = 0.0
@@ -32,13 +32,15 @@ camera_zoom = 0.924
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"nonstick_pan"
 display_name = "Nonstick pan"
 description = "Indestructible Fueguito."
 vessel = ExtResource("2")
 background_color = Color(0.792157, 0.74902, 0.619608, 1)
-vessel_size = Vector2(3000, 2000)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(3147.5, 1943.46)
+vessel_offset = Vector2(286.085, 6.80796)
+vessel_body_rect = Rect2(199, 87, 1139, 849)
 play_area = SubResource("PlayArea")
 mechanic_scene = ExtResource("mechanic")
 background_material = SubResource("FluidBackground")

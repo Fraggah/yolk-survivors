@@ -163,6 +163,13 @@ theme_override_font_sizes/font_size = 22
 text = "Inmortal · 6 armas · tandas de enemigos · contador de FPS"
 horizontal_alignment = 1
 
+[node name="BossTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(700, 60)
+layout_mode = 2
+tooltip_text = "Boss en desarrollo: 1000 HP, secciones de 30 s. Las tres fases y sus nueve secciones son jugables. Personaje elegido: 85 HP, 15 armadura, 20% bloqueo, 0 regeneración y 20% robo de vida, 15 daño a distancia y +40% daño. No otorga progreso."
+theme_override_font_sizes/font_size = 26
+text = "Probar boss — Salchichón del Infierno"
+
 [node name="CustomButton" parent="." instance=ExtResource("4_801sb")]
 layout_mode = 1
 anchors_preset = 0
@@ -186,4 +193,5 @@ text = "Back"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Level5Button" to="." method="_on_level_5_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Stress500Button" to="." method="_on_stress_500_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StressTestButton" to="." method="_on_stress_test_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/BossTestButton" to="." method="_on_boss_test_button_pressed"]
 [connection signal="pressed" from="CustomButton" to="." method="_on_custom_button_pressed"]

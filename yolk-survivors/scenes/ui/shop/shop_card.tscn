@@ -55,7 +55,7 @@ offset_bottom = 58.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
 text = "item name"
-autowrap_mode = 3
+clip_text = true
 
 [node name="ItemType" type="Label" parent="MarginContainer/Control"]
 unique_name_in_owner = true
@@ -106,11 +106,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/CustomButton/HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+size_flags_vertical = 4
 texture = ExtResource("5_xbnkv")
 expand_mode = 1
 stretch_mode = 5
@@ -120,5 +122,6 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "30"
+vertical_alignment = 1
 
 [connection signal="pressed" from="MarginContainer/Control/CustomButton" to="." method="_on_custom_button_pressed"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_chaser.tscn" id="base"]
+[ext_resource type="Script" path="res://scenes/units/enemies/reward_roamer.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Enemies/Redesign/yolker.png" id="texture"]
+[ext_resource type="Resource" path="res://resources/units/enemies/stats_enemy_yolker.tres" id="stats"]
+[node name="Yolker" instance=ExtResource("base")]
+script = ExtResource("script")
+stats = ExtResource("stats")
+reward_kind = 1
+visual_scale = 0.75
+knockback_resistance = 0.4
+[node name="Sprite" parent="Visuals" index="1"]
+texture_filter = 4
+texture = ExtResource("texture")

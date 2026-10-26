@@ -1,49 +1,44 @@
-[gd_scene load_steps=21 format=3 uid="uid://bo7wq72qm255y"]
+[gd_scene load_steps=17 format=3 uid="uid://bo7wq72qm255y"]
 
 [ext_resource type="Script" uid="uid://cafybmtpa8uft" path="res://autoload/sound_manager.gd" id="1_i3yra"]
-[ext_resource type="AudioStream" uid="uid://dq0q86mgttds" path="res://assets/audio/SFX/Highlight_03.wav" id="2_culwi"]
-[ext_resource type="AudioStream" uid="uid://c4h8ammbkeqvo" path="res://assets/audio/SFX/Clicked_In_08.wav" id="3_r8tf1"]
-[ext_resource type="AudioStream" uid="uid://c75ptuxeeji2n" path="res://assets/audio/SFX/Highlight_08.wav" id="4_ekme8"]
-[ext_resource type="AudioStream" uid="uid://cf5c1qmer7ybb" path="res://assets/audio/SFX/Menu_Close_04.wav" id="5_tfrwk"]
-[ext_resource type="AudioStream" uid="uid://dx06jt37i71f7" path="res://assets/audio/SFX/Highlight_06.wav" id="6_p7ier"]
-[ext_resource type="AudioStream" uid="uid://7hh7cli0yp5x" path="res://assets/audio/SFX/Highlight_15.wav" id="7_e34uw"]
-[ext_resource type="AudioStream" uid="uid://ciu2ghxqnj11m" path="res://assets/audio/SFX/Clock_Tick_05.wav" id="8_6bt45"]
-[ext_resource type="AudioStream" uid="uid://d0fgpxn203hw3" path="res://assets/audio/SFX/Failure_04.wav" id="8_o703v"]
-[ext_resource type="AudioStream" uid="uid://6tcyqktl5cu5" path="res://assets/audio/SFX/Sell_02.wav" id="10_8was3"]
-[ext_resource type="AudioStream" uid="uid://fvir1k6sv60p" path="res://assets/audio/SFX/Lock_04.wav" id="11_wwgj4"]
-[ext_resource type="AudioStream" uid="uid://cbgji16qi57bl" path="res://assets/audio/SFX/Unlock_02.wav" id="12_pfs4q"]
-[ext_resource type="AudioStream" uid="uid://cjdu4xeqfn828" path="res://assets/audio/SFX/Purchase_04.wav" id="13_piosy"]
-[ext_resource type="AudioStream" uid="uid://d1jecaox4eupt" path="res://assets/audio/SFX/Error_06.wav" id="14_ns6tw"]
-[ext_resource type="AudioStream" uid="uid://cjh4yiy60g7me" path="res://assets/audio/SFX/Sell_03.wav" id="15_gigap"]
-[ext_resource type="AudioStream" uid="uid://c4m7pm4yluunu" path="res://assets/audio/SFX/Purchase_02.wav" id="16_6rsrl"]
-[ext_resource type="AudioStream" uid="uid://dktt7hr2ebwgl" path="res://assets/audio/SFX/Success_05.wav" id="17_ytqns"]
-[ext_resource type="AudioStream" uid="uid://b423rura1b3yv" path="res://assets/audio/SFX/Level_Up_03.wav" id="18_4qsbl"]
-[ext_resource type="AudioStream" uid="uid://cdy8v1foncijr" path="res://assets/audio/SFX/mixkit-achievement-completed-2068.wav" id="19_6bt45"]
-[ext_resource type="AudioStream" uid="uid://bxeobrqjn8muw" path="res://assets/audio/SFX/Highlight_10.wav" id="20_sqk4b"]
+[ext_resource type="AudioStream" uid="uid://d02o8mwfppgno" path="res://assets/audio/SFX/Hover.wav" id="2_vala3"]
+[ext_resource type="AudioStream" uid="uid://byruoxgs7u4co" path="res://assets/audio/SFX/Highlight_01.wav" id="3_rjaah"]
+[ext_resource type="AudioStream" uid="uid://byfd5var3y7qx" path="res://assets/audio/SFX/Highlight_02.wav" id="4_rx1ey"]
+[ext_resource type="AudioStream" uid="uid://b5nonrqfjg1jd" path="res://assets/audio/SFX/Highlight_05.wav" id="5_culwi"]
+[ext_resource type="AudioStream" uid="uid://brwfintm0v1wf" path="res://assets/audio/SFX/Clock_Tick_06.wav" id="6_vala3"]
+[ext_resource type="AudioStream" uid="uid://w37ehxb21elc" path="res://assets/audio/SFX/Hit.wav" id="8_1div1"]
+[ext_resource type="AudioStream" uid="uid://b4hkef78uowto" path="res://assets/audio/SFX/Currency_07.wav" id="9_rwfwi"]
+[ext_resource type="AudioStream" uid="uid://d4nqat5fabj7b" path="res://assets/audio/SFX/Game_Lose.wav" id="9_wwgj4"]
+[ext_resource type="AudioStream" uid="uid://c0ipui4tclhgl" path="res://assets/audio/SFX/Lock_05.wav" id="10_fi5o7"]
+[ext_resource type="AudioStream" uid="uid://b307saur8qsm7" path="res://assets/audio/SFX/Unlock_02.wav" id="11_6bt45"]
+[ext_resource type="AudioStream" uid="uid://crogkup20wklo" path="res://assets/audio/SFX/Purchase_04.wav" id="12_8was3"]
+[ext_resource type="AudioStream" uid="uid://ce6r3y7iyi7bi" path="res://assets/audio/SFX/Error_03.wav" id="13_wwgj4"]
+[ext_resource type="AudioStream" uid="uid://dxkkyrcw42d2e" path="res://assets/audio/SFX/Sell_01.wav" id="14_pfs4q"]
+[ext_resource type="AudioStream" uid="uid://docjanrysvhyd" path="res://assets/audio/SFX/Purchase_05.wav" id="15_piosy"]
+[ext_resource type="AudioStream" uid="uid://bj078hmfky8v5" path="res://assets/audio/SFX/Yolk.wav" id="16_vala3"]
 
 [node name="SoundManager" type="Node" node_paths=PackedStringArray("stream_players")]
 script = ExtResource("1_i3yra")
 stream_players = [NodePath("AudioStreamPlayer"), NodePath("AudioStreamPlayer2"), NodePath("AudioStreamPlayer3"), NodePath("AudioStreamPlayer4"), NodePath("AudioStreamPlayer5"), NodePath("AudioStreamPlayer6"), NodePath("AudioStreamPlayer7"), NodePath("AudioStreamPlayer8"), NodePath("AudioStreamPlayer9"), NodePath("AudioStreamPlayer10")]
-ui_hover = ExtResource("2_culwi")
-ui_accept = ExtResource("3_r8tf1")
-ui_play = ExtResource("4_ekme8")
-ui_back = ExtResource("5_tfrwk")
-selection_hover = ExtResource("6_p7ier")
-selection_accept = ExtResource("3_r8tf1")
-selection_invalid = ExtResource("7_e34uw")
-wave_final_seconds = ExtResource("8_6bt45")
-run_defeat = ExtResource("8_o703v")
-shop_reroll = ExtResource("10_8was3")
-shop_lock = ExtResource("11_wwgj4")
-shop_unlock = ExtResource("12_pfs4q")
-shop_buy = ExtResource("13_piosy")
-shop_no_money = ExtResource("14_ns6tw")
-shop_sell = ExtResource("15_gigap")
-shop_combine = ExtResource("16_6rsrl")
-unlock_reveal = ExtResource("17_ytqns")
-unlock_sequence_start = ExtResource("18_4qsbl")
-unlock_sequence_end = ExtResource("19_6bt45")
-yolk_pickup = ExtResource("20_sqk4b")
+ui_hover = ExtResource("2_vala3")
+ui_accept = ExtResource("3_rjaah")
+ui_play = ExtResource("3_rjaah")
+ui_back = ExtResource("4_rx1ey")
+selection_hover = ExtResource("2_vala3")
+selection_accept = ExtResource("3_rjaah")
+selection_invalid = ExtResource("5_culwi")
+wave_final_seconds = ExtResource("6_vala3")
+run_defeat = ExtResource("9_wwgj4")
+hit_al_enemigo = ExtResource("8_1div1")
+critico_al_enemigo = ExtResource("8_1div1")
+shop_reroll = ExtResource("9_rwfwi")
+shop_lock = ExtResource("10_fi5o7")
+shop_unlock = ExtResource("11_6bt45")
+shop_buy = ExtResource("12_8was3")
+shop_no_money = ExtResource("13_wwgj4")
+shop_sell = ExtResource("14_pfs4q")
+shop_combine = ExtResource("15_piosy")
+yolk_pickup = ExtResource("16_vala3")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -12.0

@@ -1,7 +1,7 @@
 extends Resource
 class_name EnemyProfile
 ## An enemy family shared by wave groups; additions need only a new resource.
-enum Population { COMMON, HAZARD, BOSS }
+enum Population { COMMON, HAZARD, BOSS, REWARD }
 @export var id: StringName
 @export var scene: PackedScene
 @export var population := Population.COMMON

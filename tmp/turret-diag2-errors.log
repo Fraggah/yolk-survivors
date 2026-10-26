@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed: Contact damages during the warning, before any beam fires
+   at: verify (res://tests/verify_boss_fixed_turrets.gd:51)

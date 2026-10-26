@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 	if not running(): return
 	elapsed += delta
 	if not exploded:
-		var player_near := is_instance_valid(Global.player) and contains_point(Global.player.global_position)
+		var player_near := Global.live_players().any(func(actor): return contains_point(actor.global_position))
 		if elapsed >= warning_duration or (is_red() and player_near): explode()
 	else:
 		explosion_elapsed += delta

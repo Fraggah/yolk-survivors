@@ -1,0 +1,80 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="PackedScene" path="res://scenes/health_bar/health_bar.tscn" id="bar"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk.png" id="yolk"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk_jar.png" id="jar"]
+[node name="PlayerHUD" type="Control"]
+offset_right = 328.0
+offset_bottom = 88.0
+mouse_filter = 2
+[node name="Health" parent="." instance=ExtResource("bar")]
+offset_top = 0.0
+offset_right = 328.0
+offset_bottom = 48.0
+use_ui_palette = true
+mouse_filter = 2
+[node name="Experience" parent="." instance=ExtResource("bar")]
+offset_top = 58.0
+offset_right = 328.0
+offset_bottom = 88.0
+use_ui_palette = true
+experience_bar = true
+mouse_filter = 2
+[node name="PlayerLabel" type="Label" parent="."]
+z_index = 6
+offset_left = 18.0
+offset_top = 0.0
+offset_right = 80.0
+offset_bottom = 48.0
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 28
+text = "P1"
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="Wallet" type="Control" parent="."]
+offset_right = 328.0
+offset_bottom = 88.0
+mouse_filter = 2
+[node name="Balance" type="HBoxContainer" parent="Wallet"]
+offset_top = 96.0
+offset_right = 328.0
+offset_bottom = 148.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+[node name="Icon" type="TextureRect" parent="Wallet/Balance"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("yolk")
+expand_mode = 1
+stretch_mode = 5
+[node name="Value" type="Label" parent="Wallet/Balance"]
+layout_mode = 2
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 40
+text = "25"
+vertical_alignment = 1
+mouse_filter = 2
+[node name="Reserve" type="HBoxContainer" parent="Wallet"]
+visible = false
+offset_left = 348.0
+offset_right = 508.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+[node name="Icon" type="TextureRect" parent="Wallet/Reserve"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("jar")
+expand_mode = 1
+stretch_mode = 5
+[node name="Value" type="Label" parent="Wallet/Reserve"]
+layout_mode = 2
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 32
+text = "0"
+vertical_alignment = 1
+mouse_filter = 2

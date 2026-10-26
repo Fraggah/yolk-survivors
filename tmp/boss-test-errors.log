@@ -1,0 +1,10 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "index" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scenes/bosses/static_fire_lines.gd:48)
+ERROR: Failed to load script "res://scenes/bosses/static_fire_lines.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _next_section (res://scenes/bosses/boss_encounter.gd:94)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _next_section (res://scenes/bosses/boss_encounter.gd:94)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _next_section (res://scenes/bosses/boss_encounter.gd:94)

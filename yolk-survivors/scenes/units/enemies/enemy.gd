@@ -2,9 +2,12 @@ extends Unit
 class_name Enemy
 
 @export var flock_push := 20.0
+@export var displacement_immune := false
 @export var targetable := true
 @export var visual_scale := 1.0
 @export_range(0.0, 1.0) var knockback_resistance := 0.0
+## Ground distance at which pursuit stops; contact hazards can use zero.
+@export_range(0.0,300.0,1.0) var pursuit_stop_distance := 60.0
 @export_range(0.0, 90.0, 1.0) var airbourne_tilt_degrees := 35.0
 @export_range(0.01, 1.0, 0.01) var airbourne_tilt_transition := 0.08
 var arena_environment: ArenaEnvironment
@@ -42,6 +45,7 @@ func _update_airbourne_tilt(delta: float) -> void:
 	visuals.rotation = _rest_visual_rotation + _airbourne_tilt
 
 func pin_for(controller: Node) -> void:
+	if displacement_immune: return
 	if pins.is_empty(): pinned_position = global_position
 	pins[controller.get_instance_id()] = weakref(controller)
 	status_controller.refresh_control_text()
@@ -58,12 +62,14 @@ func get_movement_multiplier() -> float:
 	return 0.0 if not pins.is_empty() else (slow_factor if slow_left > 0.0 else 1.0) * status_movement_multiplier
 
 func apply_slow(factor: float, duration: float, _text_duration: float = 1.3, _text_color: Color = Color("86a9be"), _text_value: String = "Slowed") -> void:
+	if status_immune: return
 	if duration <= 0.0 or factor >= 1.0: return
 	slow_factor = minf(slow_factor if slow_left > 0.0 else 1.0, clampf(factor, 0.0, 1.0))
 	slow_left = maxf(slow_left, duration)
 	status_controller.refresh_control_text()
 
 func launch_from(hitbox: HitboxComponent) -> void:
+	if displacement_immune: return
 	if not is_instance_valid(hitbox.source): return
 	var direction := hitbox.launch_direction.normalized() if not hitbox.launch_direction.is_zero_approx() else hitbox.source.global_position.direction_to(global_position)
 	launch_velocity = direction * hitbox.launch_speed * (1.0 - knockback_resistance)
@@ -164,18 +170,21 @@ func _process(delta: float) -> void:
 		return
 
 	if not can_move: return
-	var player := Global.player
+	var player := Global.nearest_player(global_position)
 	var player_valid := is_instance_valid(player)
 	var origin := global_position
 	var player_position := player.global_position if player_valid else origin
 	var offset := player_position-origin
-	var stop_distance := 60.0*visual_scale
+	var stop_distance := pursuit_stop_distance*visual_scale
 	if not movement_override_enabled and (not player_valid or offset.length_squared()<=stop_distance*stop_distance) and knockback_power<=0.0: return
 	var direction := Vector2.ZERO
 	if player_valid:
 		direction = desired_direction if movement_override_enabled else offset.normalized()
 		if targetable: direction = (direction+crowd_steering).limit_length(1.0)
-	var next_position := origin + (direction + knockback_dir * knockback_power) * stats.speed * delta * movement_multiplier
+	var step := (direction + knockback_dir * knockback_power) * stats.speed * delta * movement_multiplier
+	if not movement_override_enabled and knockback_power<=0.0:
+		step = step.limit_length(offset.length())
+	var next_position := origin + step
 	if arena_environment:
 		next_position = arena_environment.clamp_position(next_position)
 	# One transform write also avoids moving all attached physics Areas twice.
@@ -187,6 +196,11 @@ func _process(delta: float) -> void:
 func _apply_size() -> void:
 	# Scale the visual container, outside animation tracks; root movement stays unchanged.
 	visuals.scale = Vector2.ONE * 0.5 * visual_scale
+	# Scale both parts of authored collision offsets together. Scaling only the
+	# child shape moves the feet hitbox away from the floor on large/small enemies.
+	for path in ["HurtboxComponent", "HitboxComponent"]:
+		var component := get_node_or_null(path) as Node2D
+		if component: component.position *= visual_scale
 	for path in ["CollisionShape2D", "VisionArea/CollisionShape2D", "HurtboxComponent/CollisionShape2D", "HitboxComponent/CollisionShape2D2"]:
 		var collision := get_node_or_null(path) as CollisionShape2D
 		if not collision or not collision.shape: continue
@@ -200,15 +214,16 @@ func _apply_size() -> void:
 	flock_push *= visual_scale
 
 func get_move_direction() -> Vector2:
-	if not is_instance_valid(Global.player):
+	if not is_instance_valid(Global.nearest_player(global_position)):
 		return Vector2.ZERO
 
-	var direction := desired_direction if movement_override_enabled else global_position.direction_to(Global.player.global_position)
+	var direction := desired_direction if movement_override_enabled else global_position.direction_to(Global.nearest_player(global_position).global_position)
 	if targetable: direction = (direction+crowd_steering).limit_length(1.0)
 
 	return direction
 
 func apply_knockback(knock_dir: Vector2, knock_pow: float) -> void:
+	if displacement_immune: return
 	knockback_dir = knock_dir.normalized()
 	knockback_power = maxf(0.0, knock_pow) * (1.0 - knockback_resistance)
 	knockback_timer.start()
@@ -218,16 +233,16 @@ func reset_knockback() -> void:
 	knockback_power = 0
 
 func update_rotation() -> void:
-	if not is_instance_valid(Global.player): return
+	if not is_instance_valid(Global.nearest_player(global_position)): return
 
-	var player_pos := Global.player.global_position
+	var player_pos := Global.nearest_player(global_position).global_position
 	var moving_right := global_position.x < player_pos.x
 	var facing_scale := Vector2(-.5, .5) * visual_scale if moving_right else Vector2(.5, .5) * visual_scale
 	if visuals.scale != facing_scale: visuals.scale = facing_scale
 
 func can_move_towards_player() -> bool:
-	return is_instance_valid(Global.player) and\
-	global_position.distance_squared_to(Global.player.global_position) > pow(60 * visual_scale,2)
+	return is_instance_valid(Global.nearest_player(global_position)) and\
+	global_position.distance_squared_to(Global.nearest_player(global_position).global_position) > pow(pursuit_stop_distance * visual_scale,2)
 
 func destroy_enemy() -> void:
 	if is_retiring or is_queued_for_deletion(): return
@@ -245,7 +260,9 @@ func destroy_enemy() -> void:
 	for component in [get_node("HurtboxComponent"), get_node("HitboxComponent")]:
 		component.set_deferred("monitoring", false)
 		component.set_deferred("monitorable", false)
-	anim_player.stop()
+	# Preserve runtime sprite normalization; restoring animation defaults can
+	# briefly enlarge high-resolution reward sprites before the root shrinks.
+	anim_player.stop(true)
 	get_node("HealthBar").hide()
 	var retirement := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	retirement.set_ignore_time_scale(true)
@@ -273,6 +290,7 @@ func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 
 
 func _on_health_component_on_unit_died() -> void:
+	SoundManager.play_event("enemy_death")
 	Global.on_enemy_died.emit(self)
 
 func _try_tortilla_relaunch(test_roll: float = -1.0) -> bool:

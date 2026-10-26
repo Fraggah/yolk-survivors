@@ -1,0 +1,902 @@
+[
+  {
+    "id": 1,
+    "name": "Pimentón",
+    "description": "+2% de robo de vida; −1 de regeneración de vida. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\001.png",
+    "file": "001-pimenton.png"
+  },
+  {
+    "id": 2,
+    "name": "Comino",
+    "description": "+3 de vida máxima. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\002.png",
+    "file": "002-comino.png"
+  },
+  {
+    "id": 3,
+    "name": "Orégano",
+    "description": "+3 de Efectos. Acumulable por copia. No modifica el control de masas.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\003.png",
+    "file": "003-oregano.png"
+  },
+  {
+    "id": 4,
+    "name": "Canela",
+    "description": "+10% de experiencia obtenida; −2 de suerte. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\004.png",
+    "file": "004-canela.png"
+  },
+  {
+    "id": 5,
+    "name": "Hoja de laurel",
+    "description": "+5% de experiencia obtenida. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\005.png",
+    "file": "005-hoja-de-laurel.png"
+  },
+  {
+    "id": 6,
+    "name": "Cúrcuma",
+    "description": "+2 de daño a distancia; −1 de daño melee. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\006.png",
+    "file": "006-curcuma.png"
+  },
+  {
+    "id": 7,
+    "name": "Romero",
+    "description": "+15 de empuje; −3% de velocidad de ataque. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\007.png",
+    "file": "007-romero.png"
+  },
+  {
+    "id": 8,
+    "name": "Azafrán",
+    "description": "+5% de velocidad de ataque. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\008.png",
+    "file": "008-azafran.png"
+  },
+  {
+    "id": 9,
+    "name": "Sal fina",
+    "description": "+3 de suerte; −5% de área de efecto. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\009.png",
+    "file": "009-sal-fina.png"
+  },
+  {
+    "id": 10,
+    "name": "Levadura",
+    "description": "+5% de área de efecto. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\010.png",
+    "file": "010-levadura.png"
+  },
+  {
+    "id": 11,
+    "name": "Azúcar",
+    "description": "+8% de velocidad de ataque; −2 de daño melee. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\011.png",
+    "file": "011-azucar.png"
+  },
+  {
+    "id": 12,
+    "name": "Calcio",
+    "description": "+1 de armadura. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\012.png",
+    "file": "012-calcio.png"
+  },
+  {
+    "id": 13,
+    "name": "Doble yema",
+    "description": "+2 puntos porcentuales de probabilidad de obtener una yema adicional por enemigo. Acumulable sin límite; superar el 100% permite obtener yemas adicionales garantizadas",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\013.png",
+    "file": "013-doble-yema.png"
+  },
+  {
+    "id": 14,
+    "name": "Cacao amargo",
+    "description": "+3% de probabilidad de bloqueo. Acumulable por copia. Máximo efectivo: 70%.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\014.png",
+    "file": "014-cacao-amargo.png"
+  },
+  {
+    "id": 15,
+    "name": "Vinagre",
+    "description": "+5 puntos porcentuales de poder de bloqueo; −2 de vida máxima. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\015.png",
+    "file": "015-vinagre.png"
+  },
+  {
+    "id": 16,
+    "name": "Aceite de oliva",
+    "description": "+8% de velocidad de ataque; −3% de daño general. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\016.png",
+    "file": "016-aceite-de-oliva.png"
+  },
+  {
+    "id": 17,
+    "name": "Grano de mostaza",
+    "description": "+10 de suerte. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\017.png",
+    "file": "017-grano-de-mostaza.png"
+  },
+  {
+    "id": 18,
+    "name": "Sellado al vacío",
+    "description": "+15% de alcance de recolección. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\018.png",
+    "file": "018-sellado-al-vacio.png"
+  },
+  {
+    "id": 19,
+    "name": "Comida miniatura",
+    "description": "+25 de alcance; −10% de área de efecto. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\019.png",
+    "file": "019-comida-miniatura.png"
+  },
+  {
+    "id": 20,
+    "name": "Crema cortada",
+    "description": "−3 de vida máxima; +5 de Efectos. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\020.png",
+    "file": "020-crema-cortada.png"
+  },
+  {
+    "id": 21,
+    "name": "Jugo de limón",
+    "description": "+10% de probabilidad de crítico; −5% de daño general. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\021.png",
+    "file": "021-jugo-de-limon.png"
+  },
+  {
+    "id": 22,
+    "name": "Diente de ajo",
+    "description": "+5 de vida máxima. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\022.png",
+    "file": "022-diente-de-ajo.png"
+  },
+  {
+    "id": 23,
+    "name": "Manteca derretida",
+    "description": "+15 de velocidad de movimiento; −5% de Control de masas. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\023.png",
+    "file": "023-manteca-derretida.png"
+  },
+  {
+    "id": 24,
+    "name": "Queso untable",
+    "description": "+5% de probabilidad de bloqueo; −5 de velocidad de movimiento. Acumulable por copia. Máximo efectivo de bloqueo: 70%.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\024.png",
+    "file": "024-queso-untable.png"
+  },
+  {
+    "id": 25,
+    "name": "Tomate cherry",
+    "description": "−3 de armadura; +5 puntos porcentuales de poder de bloqueo. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\025.png",
+    "file": "025-tomate-cherry.png"
+  },
+  {
+    "id": 26,
+    "name": "Miel espesa",
+    "description": "+10% de potencia de Slow. No modifica Rooted ni Airbourne. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\026.png",
+    "file": "026-miel-espesa.png"
+  },
+  {
+    "id": 27,
+    "name": "Cocción acelerada",
+    "description": "+10% de experiencia obtenida. Acumulable por copia.",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\027.png",
+    "file": "027-coccion-acelerada.png"
+  },
+  {
+    "id": 28,
+    "name": "Bicarbonato",
+    "description": "+X de Armadura; −X de Daño general",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\028.png",
+    "file": "028-bicarbonato.png"
+  },
+  {
+    "id": 29,
+    "name": "Lengua mordida",
+    "description": "+X de Robo de vida; −X de Vida máxima",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\029.png",
+    "file": "029-lengua-mordida.png"
+  },
+  {
+    "id": 30,
+    "name": "Cubiertos lujosos",
+    "description": "+X de Alcance",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\030.png",
+    "file": "030-cubiertos-lujosos.png"
+  },
+  {
+    "id": 31,
+    "name": "Brotes",
+    "description": "+X de Regeneración de vida; −X de Probabilidad de bloqueo",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\031.png",
+    "file": "031-brotes.png"
+  },
+  {
+    "id": 32,
+    "name": "Lata de atún",
+    "description": "+X de Daño a distancia; −X de Probabilidad de crítico",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\032.png",
+    "file": "032-lata-de-atun.png"
+  },
+  {
+    "id": 33,
+    "name": "Masa madre",
+    "description": "+X de Área de efecto",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\033.png",
+    "file": "033-masa-madre.png"
+  },
+  {
+    "id": 34,
+    "name": "Moneda de chocolate",
+    "description": "Cuesta exactamente 1 yema. 50% de duplicar las yemas actuales; 50% de perderlas todas. El personaje Gambler siempre puede apostar al entrar a la tienda",
+    "tier": 0,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\034.png",
+    "file": "034-moneda-de-chocolate.png"
+  },
+  {
+    "id": 35,
+    "name": "Leche entera",
+    "description": "+X de Vida máxima; −X de Daño de Chilis",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\035.png",
+    "file": "035-leche-entera.png"
+  },
+  {
+    "id": 36,
+    "name": "Café doble",
+    "description": "+X de Velocidad de movimiento; −X de Armadura",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\036.png",
+    "file": "036-cafe-doble.png"
+  },
+  {
+    "id": 37,
+    "name": "Cuchara sopera",
+    "description": "+X de Alcance de recolección de yemas; +5% de experiencia obtenida",
+    "tier": 0,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\037.png",
+    "file": "037-cuchara-sopera.png"
+  },
+  {
+    "id": 38,
+    "name": "Provenzal",
+    "description": "+X de Daño a distancia; +X de Daño melee",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\038.png",
+    "file": "038-provenzal.png"
+  },
+  {
+    "id": 39,
+    "name": "Nuez moscada",
+    "description": "+X de Daño explosivo; −X de Área de efecto",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\039.png",
+    "file": "039-nuez-moscada.png"
+  },
+  {
+    "id": 40,
+    "name": "Pimienta",
+    "description": "+X de Probabilidad de crítico de Chilis",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\040.png",
+    "file": "040-pimienta.png"
+  },
+  {
+    "id": 41,
+    "name": "Vitamina A",
+    "description": "+X de Alcance; +X de Armadura; +X de Vida máxima",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\041.png",
+    "file": "041-vitamina-a.png"
+  },
+  {
+    "id": 42,
+    "name": "Carnicero amigo",
+    "description": "Reduce un 10% el coste de refrescar la tienda",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\042.png",
+    "file": "042-carnicero-amigo.png"
+  },
+  {
+    "id": 43,
+    "name": "Arroz coreano",
+    "description": "+X de Multiplicador crítico; −X de Probabilidad de crítico",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\043.png",
+    "file": "043-arroz-coreano.png"
+  },
+  {
+    "id": 44,
+    "name": "Alcohol",
+    "description": "2% de probabilidad de aplicar Burning durante 3 segundos; −3 de vida máxima. Fuego: 25% de Efectos por tick (mínimo 0,1), cada 0,5 s de base. Daño atribuido al arma.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\044.png",
+    "file": "044-alcohol.png"
+  },
+  {
+    "id": 45,
+    "name": "Salpicadura caliente",
+    "description": "Al entrar un enemigo en Burning: 5% de propagarlo a otro a 80 unidades. Puede encadenarse; una tirada por entrada al estado, nunca por tick. −3% de probabilidad de bloqueo.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\045.png",
+    "file": "045-salpicadura-caliente.png"
+  },
+  {
+    "id": 46,
+    "name": "Complejo B",
+    "description": "5% de probabilidad de curar 0,1 de vida por cada yema obtenida. Cada yema cuenta, incluso en recogidas múltiples. Las copias suman probabilidad; no supera la vida máxima.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\046.png",
+    "file": "046-complejo-b.png"
+  },
+  {
+    "id": 47,
+    "name": "Imán amarillo",
+    "description": "5% de probabilidad de atraer automáticamente una yema al aparecer, desde cualquier distancia. Una sola tirada por yema física. Las copias suman probabilidad.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\047.png",
+    "file": "047-iman-amarillo.png"
+  },
+  {
+    "id": 48,
+    "name": "Brochette",
+    "description": "+1 penetración de proyectiles; −X de Daño general",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\048.png",
+    "file": "048-brochette.png"
+  },
+  {
+    "id": 49,
+    "name": "Curry violento",
+    "description": "+X de Daño de efectos; −X de Daño a distancia; −X de Daño melee",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\049.png",
+    "file": "049-curry-violento.png"
+  },
+  {
+    "id": 50,
+    "name": "Chimichurri",
+    "description": "+X de Daño a distancia; +X de Alcance",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\050.png",
+    "file": "050-chimichurri.png"
+  },
+  {
+    "id": 51,
+    "name": "Champiñón raro",
+    "description": "+X de Probabilidad de crítico; −X de Multiplicador crítico; −X de Daño general",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\051.png",
+    "file": "051-champinon-raro.png"
+  },
+  {
+    "id": 52,
+    "name": "Pelo en la comida",
+    "description": "−X de Vida máxima; +X de Suerte; −X de Daño de efectos",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\052.png",
+    "file": "052-pelo-en-la-comida.png"
+  },
+  {
+    "id": 53,
+    "name": "Olor rico",
+    "description": "+X de Daño de efectos; +X de Regeneración de vida",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\053.png",
+    "file": "053-olor-rico.png"
+  },
+  {
+    "id": 54,
+    "name": "Espinacas",
+    "description": "+X de Vida máxima; +X de Daño melee; +X de Potencia de control de masas",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\054.png",
+    "file": "054-espinacas.png"
+  },
+  {
+    "id": 55,
+    "name": "Brasa de ébano",
+    "description": "+X de Duración de Burning",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\055.png",
+    "file": "055-brasa-de-ebano.png"
+  },
+  {
+    "id": 56,
+    "name": "Baño de aceite",
+    "description": "−0,05 s entre ticks de fuego; −0,1 s de duración del fuego por copia. Máximo: 5 copias.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\056.png",
+    "file": "056-bano-de-aceite.png"
+  },
+  {
+    "id": 57,
+    "name": "Cocina eléctrica",
+    "description": "Los golpes críticos infligen +50% de daño contra enemigos con Shocked",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\057.png",
+    "file": "057-cocina-electrica.png"
+  },
+  {
+    "id": 58,
+    "name": "Cocción lenta",
+    "description": "+25% de daño contra enemigos con Slow, Rooted o Airbourne. El bonus se aplica una sola vez aunque tengan varios de esos estados. Las copias suman el porcentaje.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\058.png",
+    "file": "058-coccion-lenta.png"
+  },
+  {
+    "id": 59,
+    "name": "Semillas de chili",
+    "description": "+X de Daño de Chilis",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\059.png",
+    "file": "059-semillas-de-chili.png"
+  },
+  {
+    "id": 60,
+    "name": "Pancake",
+    "description": "+25% de daño por colisiones de enemigos en Airbourne. No aumenta el daño del golpe que los lanza. Las copias suman el porcentaje.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\060.png",
+    "file": "060-pancake.png"
+  },
+  {
+    "id": 61,
+    "name": "Wasabi",
+    "description": "Aumenta un 10% tanto los beneficios como las penalizaciones de los Chilis",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\061.png",
+    "file": "061-wasabi.png"
+  },
+  {
+    "id": 62,
+    "name": "Cáscara extra",
+    "description": "Un golpe letal deja al personaje con vida y concede 1 segundo de invulnerabilidad. Una activación por oleada",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\062.png",
+    "file": "062-cascara-extra.png"
+  },
+  {
+    "id": 63,
+    "name": "Salteado feroz",
+    "description": "Las colisiones de enemigos en Airbourne generan una explosión física de 60 unidades de radio con 50% del daño de colisión por copia. Las explosiones no generan otras explosiones.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\063.png",
+    "file": "063-salteado-feroz.png"
+  },
+  {
+    "id": 64,
+    "name": "Huevo frito",
+    "description": "Fuerza la próxima oleada en la sartén antiadherente con Fueguito",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\064.png",
+    "file": "064-huevo-frito.png"
+  },
+  {
+    "id": 65,
+    "name": "Papas fritas",
+    "description": "Fuerza la próxima oleada en la olla con aceite",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\065.png",
+    "file": "065-papas-fritas.png"
+  },
+  {
+    "id": 66,
+    "name": "Pizza casera",
+    "description": "Fuerza la próxima oleada en la bandeja de horno",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\066.png",
+    "file": "066-pizza-casera.png"
+  },
+  {
+    "id": 67,
+    "name": "Chop suey",
+    "description": "Fuerza la próxima oleada en el Wok",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\067.png",
+    "file": "067-chop-suey.png"
+  },
+  {
+    "id": 68,
+    "name": "Gorro de chef",
+    "description": "+X de Empuje; +X de Potencia de control de masas",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\068.png",
+    "file": "068-gorro-de-chef.png"
+  },
+  {
+    "id": 69,
+    "name": "Engrudo",
+    "description": "Los golpes críticos contra enemigos que ya tienen Slow aplican Rooted durante 1 segundo. Los nuevos críticos refrescan la duración, sin acumularla",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\069.png",
+    "file": "069-engrudo.png"
+  },
+  {
+    "id": 70,
+    "name": "Guantes de goma",
+    "description": "+X de Poder de bloqueo; −X de Daño general",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\070.png",
+    "file": "070-guantes-de-goma.png"
+  },
+  {
+    "id": 71,
+    "name": "Masa elástica",
+    "description": "+X de Potencia de control de masas; −X de Velocidad de ataque",
+    "tier": 1,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\071.png",
+    "file": "071-masa-elastica.png"
+  },
+  {
+    "id": 72,
+    "name": "Cáscara resbaladiza",
+    "description": "Al bloquear un ataque, +20% de Velocidad de movimiento durante 3 segundos. No acumula intensidad; cada nuevo bloqueo reinicia el temporizador",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\072.png",
+    "file": "072-cascara-resbaladiza.png"
+  },
+  {
+    "id": 73,
+    "name": "Guante térmico",
+    "description": "+1 de regeneración de vida por copia mientras el jugador está en Burning. El bonus se suma a la estadística y se retira al apagarse el fuego.",
+    "tier": 1,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\073.png",
+    "file": "073-guante-termico.png"
+  },
+  {
+    "id": 74,
+    "name": "Huevo añejo",
+    "description": "+1 de regeneración de vida por copia por cada nivel ganado después de comprarla. Las ganancias son permanentes durante la partida. No cuenta niveles anteriores.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\074.png",
+    "file": "074-huevo-anejo.png"
+  },
+  {
+    "id": 75,
+    "name": "Chispa",
+    "description": "Las cadenas eléctricas golpean a un enemigo adicional",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\075.png",
+    "file": "075-chispa.png"
+  },
+  {
+    "id": 76,
+    "name": "Imán de heladera",
+    "description": "Tus ataques eléctricos también aplican 20% de Slow durante 1 segundo, incluidos los enemigos alcanzados por la cadena eléctrica. Refresca la duración sin acumular intensidad. Escala con Control de masas.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\076.png",
+    "file": "076-iman-de-heladera.png"
+  },
+  {
+    "id": 77,
+    "name": "Liquidación",
+    "description": "Único. Una de las cuatro tarjetas recibe una oferta del 10-90% o un 2×1 excepcional que reemplaza el descuento. Bloquear la oferta la conserva al refrescar. Todas las ofertas terminan al salir de la tienda. El 2x1 tiene 2% de probabilidad y no puede aplicarse a únicos.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\077.png",
+    "file": "077-liquidacion.png"
+  },
+  {
+    "id": 78,
+    "name": "Yema de oro",
+    "description": "Consumible almacenable. Confirmá su uso y elegí un arma o pasivo. 25%: se rompe; 40%: mejora 10%; 23%: mejora 25%; 10%: mejora 50%; 2%: duplica beneficios y elimina penalizaciones. Mejora una sola copia. Los únicos destruidos pueden volver a aparecer en la tienda.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\078.png",
+    "file": "078-yema-de-oro.png"
+  },
+  {
+    "id": 79,
+    "name": "Brazo auxiliar",
+    "description": "+1 slot de equipamiento ofensivo. Máximo 3 copias. Una mejora perfecta de Yema de oro da un segundo slot por copia; las mejoras menores conservan 1 slot. Hasta 12 armas con las tres copias perfectas.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\079.png",
+    "file": "079-brazo-auxiliar.png"
+  },
+  {
+    "id": 80,
+    "name": "Vianda",
+    "description": "Al finalizar cada oleada, una estadística PRIMARIA aleatoria gana 5 puntos y se restan 3 puntos repartidos aleatoriamente entre otras estadísticas PRIMARIAS. Los cambios son permanentes",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\080.png",
+    "file": "080-vianda.png"
+  },
+  {
+    "id": 81,
+    "name": "Rebozado",
+    "description": "Consumible almacenable. Elegís un arma y recibe una tag aleatoria nueva. Melee/Ranged: escalado extra del 25%. Chili/Pet: +10% de daño por cada arma equipada de esa tag, incluyéndose. Pyro/Electric: 10% de aplicar el estado. Explosive: explosión de radio 40 y 25% del golpe. Control: ralentiza 20% por 1 segundo.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\081.png",
+    "file": "081-rebozado.png"
+  },
+  {
+    "id": 82,
+    "name": "Giro de tortilla",
+    "description": "10% de probabilidad por copia de relanzar un enemigo Airbourne al aterrizar. Conserva el 75% de la fuerza y el 50% de la duración del lanzamiento anterior. Puede encadenar hasta dos relanzamientos; vuelve a aplicar las reducciones en el segundo. Conserva el daño de colisión y su atribución al arma.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\082.png",
+    "file": "082-giro-de-tortilla.png"
+  },
+  {
+    "id": 83,
+    "name": "Diente libre",
+    "description": "Fuerza que la próxima oleada sea una horda",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\083.png",
+    "file": "083-diente-libre.png"
+  },
+  {
+    "id": 84,
+    "name": "Flambeado",
+    "description": "+10% de daño general por cada enemigo vivo en llamas, por copia. Cuenta cada enemigo una sola vez aunque tenga varios fuegos. La bonificación desaparece cuando deja de arder o muere.",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\084.png",
+    "file": "084-flambeado.png"
+  },
+  {
+    "id": 85,
+    "name": "Guaraná",
+    "description": "Reduce 1 segundo el cooldown del dash",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\085.png",
+    "file": "085-guarana.png"
+  },
+  {
+    "id": 86,
+    "name": "Delantal negro",
+    "description": "+2 Vida máxima por cada punto de Armadura. Representación visual: delantal de hierro",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\086.png",
+    "file": "086-delantal-negro.png"
+  },
+  {
+    "id": 87,
+    "name": "Impresora de comida",
+    "description": "Cada 100 enemigos eliminados, genera una copia de un pasivo Común aleatorio que ya poseés. El contador continúa entre oleadas",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\087.png",
+    "file": "087-impresora-de-comida.png"
+  },
+  {
+    "id": 88,
+    "name": "Sobrecarga",
+    "description": "Cada vez que el personaje se electrocuta, gana +5% de Daño general permanentemente durante la run",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\088.png",
+    "file": "088-sobrecarga.png"
+  },
+  {
+    "id": 89,
+    "name": "Recalentado",
+    "description": "Cada vez que el personaje se quema, gana +5% de Velocidad de ataque permanentemente durante la run",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\089.png",
+    "file": "089-recalentado.png"
+  },
+  {
+    "id": 90,
+    "name": "Batido energético",
+    "description": "+2% de Velocidad de ataque por cada +1% de Velocidad de movimiento positiva",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\090.png",
+    "file": "090-batido-energetico.png"
+  },
+  {
+    "id": 91,
+    "name": "Golpe de mesa",
+    "description": "Los golpes que aplican Airbourne reciben un aumento porcentual de daño igual al valor de Poder de bloqueo. Ejemplo: 50 de daño y 50 de Poder de bloqueo producen 75 de daño",
+    "tier": 2,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\091.png",
+    "file": "091-golpe-de-mesa.png"
+  },
+  {
+    "id": 92,
+    "name": "Bolsa de mercadería",
+    "description": "Al comprarla, una estadística PRIMARIA aleatoria gana 50 puntos y se restan 40 puntos repartidos aleatoriamente entre otras estadísticas PRIMARIAS",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\092.png",
+    "file": "092-bolsa-de-mercaderia.png"
+  },
+  {
+    "id": 93,
+    "name": "Receta de la abuela",
+    "description": "Efecto: X (pendiente de definir).",
+    "tier": 3,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\093.png",
+    "file": "093-receta-de-la-abuela.png"
+  },
+  {
+    "id": 94,
+    "name": "Ingrediente secreto",
+    "description": "Efecto: X (pendiente de definir).",
+    "tier": 3,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\094.png",
+    "file": "094-ingrediente-secreto.png"
+  },
+  {
+    "id": 95,
+    "name": "Caramelizado",
+    "description": "Efecto: X (pendiente de definir).",
+    "tier": 3,
+    "active": false,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\095.png",
+    "file": "095-caramelizado.png"
+  },
+  {
+    "id": 96,
+    "name": "Refrito",
+    "description": "Los proyectiles compatibles obtienen un rebote adicional. Los proyectiles que ya rebotan ganan otro rebote. Smasher no puede rebotar",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\096.png",
+    "file": "096-refrito.png"
+  },
+  {
+    "id": 97,
+    "name": "Reducción infernal",
+    "description": "Convierte todo el Daño melee y Daño a distancia planos en Daño de efectos, a razón de 1:1, incluyendo futuras ganancias y penalizaciones. No modifica los coeficientes de las armas",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\097.png",
+    "file": "097-reduccion-infernal.png"
+  },
+  {
+    "id": 98,
+    "name": "Ayahuasca",
+    "description": "Consumible inmediato. Cuatro resultados equiprobables (25% cada uno). Al comprarla, ocurre uno de cuatro resultados aleatorios: retroceder 1 oleada, retroceder 2 oleadas, ganar 10 niveles o reducir a la mitad una estadística primaria positiva aleatoria. Al retroceder se conserva el progreso y se pueden volver a ganar yemas y experiencia",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\098.png",
+    "file": "098-ayahuasca.png"
+  },
+  {
+    "id": 99,
+    "name": "Hongo desconocido",
+    "description": "Único. Cada 5 s de combate, uno de 9 resultados equiprobables: explosión grande (100% Efectos + 10% vida máxima); +100% daño, +50% movimiento o +100% velocidad de ataque durante 4 s; perder 50% de vida actual sin morir; Burning 4 s (1% vida máxima por tick de 0,5 s); Shocked (5% vida máxima); curar 10% de vida máxima; curación total. Burning y los tres buffs duran 4 s; el fuego hace un tick cada 0,5 s. En oleadas de 30 s se activa en 5, 10, 15, 20 y 25 s.",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\099.png",
+    "file": "099-hongo-desconocido.png"
+  },
+  {
+    "id": 100,
+    "name": "Último bocado",
+    "description": "Al caer por debajo del 25% de Vida, +50% de Empuje y cooldown de dash reducido a la mitad. Activo mientras estés por debajo del umbral; se desactiva al recuperar 25% o más",
+    "tier": 3,
+    "active": true,
+    "sprite": "D:\\Docs\\Documents\\Godot Projects\\yolk-survivors\\yolk-survivors\\assets\\sprites\\Items\\Catalogue\\100.png",
+    "file": "100-ultimo-bocado.png"
+  }
+]

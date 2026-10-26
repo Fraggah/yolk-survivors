@@ -31,7 +31,7 @@ func _on_damage_dealt(target: Unit, _amount: float) -> void:
 	var direction: Vector2 = impact_directions.get(hurtbox.get_instance_id(),impact_direction)
 	# Keep the capsule's rolled damage, including its critical, without a second roll.
 	var droplet_damage := hitbox.damage * effects.splatter_damage_multiplier
-	var origin := hurtbox.global_position + direction * 5.0 * Global.GAME_ENTITY_SCALE
+	var origin := hurtbox.get_target_position() + direction * 5.0 * Global.GAME_ENTITY_SCALE
 	# Physics callbacks cannot safely insert new collision shapes immediately.
 	call_deferred("_spawn_splatter", origin, direction, hurtbox.get_instance_id(), droplet_damage, hitbox.critical)
 

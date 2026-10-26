@@ -1,0 +1,6 @@
+ERROR: Attempted to use 'has' a variable of type 'StringName' into a TypedArray of type 'int'.
+   at: validate (core/variant/container_type_validate.h:103)
+ERROR: Condition "!_p->typed.validate(value, "use 'has'")" is true. Returning: false
+   at: has (core/variant/array.cpp:477)
+SCRIPT ERROR: Assertion failed: Fueguito preserves its existing fire effect
+   at: verify (res://tests/verify_boss_hot_zones.gd:68)

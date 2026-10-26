@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/shop_card.tscn" id="base"]
+[node name="CoopOfferCard" instance=ExtResource("base")]
+custom_minimum_size = Vector2(320,652)
+size_flags_horizontal = 3
+text_scale = 2.0
+body_text_scale = 0.5
+action_buy_height = 64.0
+action_lock_height = 64.0
+price_icon_size = 48.0
+price_text_scale = 0.6
+price_icon_right = true
+[node name="ItemName" parent="MarginContainer/Control" index="2"]
+anchor_left = 0.0
+anchor_right = 1.0
+offset_left = 116.0
+offset_right = 0.0
+offset_bottom = 84.0
+[node name="ItemType" parent="MarginContainer/Control" index="3"]
+anchor_left = 0.0
+anchor_right = 1.0
+offset_left = 116.0
+offset_right = 0.0
+offset_top = 88.0
+offset_bottom = 132.0
+[node name="ItemDescription" parent="MarginContainer/Control" index="4"]
+custom_minimum_size = Vector2(0,0)
+anchor_left = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_right = 0.0
+offset_top = 148.0
+offset_bottom = -146.0
+[editable path="MarginContainer/Control"]

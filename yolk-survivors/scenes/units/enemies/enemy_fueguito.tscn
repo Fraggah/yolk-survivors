@@ -1,18 +1,21 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://fenelcdkkcx3"]
 
-[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_chaser.tscn" id="1_enemy"]
-[ext_resource type="Script" path="res://scenes/units/enemies/fueguito.gd" id="2_script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Enemies/Fueguito.svg" id="3_sprite"]
+[ext_resource type="PackedScene" uid="uid://wjxii7k20fpj" path="res://scenes/units/enemies/enemy_chaser.tscn" id="1_enemy"]
+[ext_resource type="Script" uid="uid://drrb6mw4f2pkf" path="res://scenes/units/enemies/fueguito.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://s838bpvjv8xm" path="res://assets/sprites/Enemies/Fueguito.svg" id="3_sprite"]
 [ext_resource type="Resource" path="res://resources/units/enemies/stats_enemy_fueguito.tres" id="4_stats"]
-[ext_resource type="Script" path="res://scenes/components/fueguito_health_component.gd" id="5_health"]
+[ext_resource type="Script" uid="uid://dx222lrmgh6x" path="res://scenes/components/fueguito_health_component.gd" id="5_health"]
 
 [sub_resource type="Animation" id="Animation_flame"]
 resource_name = "flame"
 length = 0.6
 loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Visuals/Sprite:scale")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
@@ -20,8 +23,11 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(0.93, 1.07), Vector2(1.04, 0.96), Vector2(0.96, 1.04), Vector2(1, 1)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Visuals/Sprite:rotation")
 tracks/1/interp = 1
+tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
@@ -36,13 +42,16 @@ _data = {
 
 [node name="Fueguito" instance=ExtResource("1_enemy")]
 collision_layer = 0
-collision_mask = 0
 script = ExtResource("2_script")
 targetable = false
+pursuit_stop_distance = 0.0
 stats = ExtResource("4_stats")
 
 [node name="Sprite" parent="Visuals" index="1"]
 texture = ExtResource("3_sprite")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -5)
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -57,10 +66,8 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0, -14)
 disabled = true
 
 [node name="HealthComponent" parent="." index="6"]
 script = ExtResource("5_health")
-
-[node name="HealthBar" parent="." index="7"]
-visible = false

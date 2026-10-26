@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed: Actual enemy hit activates source life steal
+   at: verify (res://tests/verify_core_player_stats.gd:73)

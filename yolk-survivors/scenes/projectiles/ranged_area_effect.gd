@@ -15,6 +15,7 @@ func _ready() -> void:
 func setup(template: HitboxComponent, config: RangedSettings, pit: bool) -> void:
 	settings = config
 	is_pit = pit
+	if not pit: SoundManager.play_event("explosion")
 	lifetime = settings.pit_duration if pit else settings.explosion_visual_duration
 	radius = (settings.pit_radius if pit else settings.explosion_radius) * Global.GAME_ENTITY_SCALE
 	if template.source is Unit: radius *= template.source.stats.get_area_radius_multiplier()

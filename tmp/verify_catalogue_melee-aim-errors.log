@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed: Sustained overlap must receive repeated pulses: tenderizer
+   at: verify (res://tests/verify_catalogue_melee.gd:65)

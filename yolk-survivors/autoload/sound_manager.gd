@@ -4,7 +4,7 @@ extends Node
 
 @export_group("Menus e interfaz")
 @export var ui_hover: AudioStream
-@export var ui_accept: AudioStream = preload("res://assets/audio/UI Pop.mp3")
+@export var ui_accept: AudioStream
 @export var ui_play: AudioStream
 @export var ui_back: AudioStream
 @export var selection_hover: AudioStream
@@ -16,7 +16,7 @@ extends Node
 @export var wave_complete: AudioStream
 @export var run_defeat: AudioStream
 @export_group("Combate")
-@export var hit_al_enemigo: AudioStream = preload("res://assets/audio/EnemyHit.wav")
+@export var hit_al_enemigo: AudioStream
 @export var critico_al_enemigo: AudioStream
 @export var hit_al_player: AudioStream
 @export var hit_bloqueado_al_player: AudioStream
@@ -41,11 +41,49 @@ extends Node
 @export_group("Armas - impactos especiales")
 @export var plate_break: AudioStream
 @export_group("Armas por defecto")
-@export var default_ranged_attack: AudioStream = preload("res://assets/audio/ShotgunFire.wav")
+@export var default_ranged_attack: AudioStream
 @export var default_melee_attack: AudioStream
+@export_group("Jugador y recompensas")
+@export var dash: AudioStream
+@export var enemy_death: AudioStream
+@export var yolker_burst: AudioStream
+@export var incognito_confetti: AudioStream
+@export var level_up: AudioStream
+@export_group("Estados")
+@export var burning_apply: AudioStream
+@export var electric_apply: AudioStream
+@export_group("Explosiones y ataques continuos")
+@export var explosion: AudioStream
+@export var default_continuous_attack: AudioStream
+@export_group("Moneda de chocolate")
+@export var coin_spin: AudioStream
+@export var coin_reveal: AudioStream
+@export var coin_win: AudioStream
+@export var coin_lose: AudioStream
+@export_group("Yema de oro y Rebozado")
+@export var golden_anticipation: AudioStream
+@export var golden_impact: AudioStream
+@export var golden_reveal: AudioStream
+@export var golden_success: AudioStream
+@export var golden_broken: AudioStream
+@export var breading_apply: AudioStream
+@export_group("Boss")
+@export var laser_warning: AudioStream
+@export var laser_fire: AudioStream
+@export var turret_spawn: AudioStream
+@export var boss_jump: AudioStream
+@export var boss_fall_warning: AudioStream
+@export var boss_impact: AudioStream
+@export_group("Fueguitos - todos los escenarios")
+@export var fueguito_spawn: AudioStream
+@export var fueguito_exit: AudioStream
+
 @export_group("Limites")
 @export_range(1, 16) var maximum_event_voices := 4
 @export_range(-40.0, 6.0) var sfx_gain_db := 0.0
+@export_group("Volumen por evento (dB)")
+## Per-event trims, added to the global SFX gain without altering source files.
+@export var event_gain_db: Dictionary = {}
 var event_times: Dictionary = {}
 
 var sfx_volume : float = 1.0
@@ -128,11 +166,34 @@ func play_stream(audio: AudioStream, event: String = "weapon_attack") -> void:
 	event_times[event] = now
 	player.set_meta("sfx_event",event)
 	player.stream_paused = false
-	player.volume_db = sfx_gain_db
+	player.volume_db = sfx_gain_db + float(event_gain_db.get(event,0.0))
 	player.bus = &"SFX"
 	player.stream = audio
 	player.pitch_scale = 1.0 if event.begins_with("ui_") or event.begins_with("selection_") else randf_range(0.95,1.05)
 	player.play()
+
+## New semantic events use the Inspector field name; empty slots are silent.
+func play_event(event: String) -> void:
+	var audio := get(event) as AudioStream
+	if event == "fueguito_spawn" and not audio: audio = fueguito
+	play_stream(audio,event)
+
+func set_weapon_loop(weapon: Weapon, active: bool) -> void:
+	var player := weapon.get_node_or_null("ContinuousAudio") as AudioStreamPlayer
+	if not active:
+		if player: player.active = false; player.stop()
+		return
+	var audio: AudioStream = weapon.continuous_sound if weapon.continuous_sound else default_continuous_attack
+	if not audio: return
+	if not player:
+		player = AudioStreamPlayer.new()
+		player.set_script(preload("res://autoload/continuous_weapon_audio.gd"))
+		player.name = "ContinuousAudio"
+		player.bus = &"SFX"
+		weapon.add_child(player)
+	player.stream = audio
+	player.volume_db = sfx_gain_db
+	player.active = true
 
 func play_weapon_attack(weapon: Weapon) -> void:
 	var audio: AudioStream = weapon.attack_sound
@@ -140,7 +201,11 @@ func play_weapon_attack(weapon: Weapon) -> void:
 	play_stream(audio,"weapon:" + weapon.scene_file_path)
 
 func _node_added(node: Node) -> void:
-	if node is Button: call_deferred("_hook_button",node)
+	if node is Button: call_deferred("_hook_button_id",node.get_instance_id())
+
+func _hook_button_id(id: int) -> void:
+	var button=instance_from_id(id)
+	if is_instance_valid(button) and button is Button: _hook_button(button)
 
 func _hook_button(button: Button) -> void:
 	if not is_instance_valid(button) or button.has_meta("sfx_hooked"): return
@@ -153,6 +218,7 @@ func _hook_button(button: Button) -> void:
 		if not button.disabled: play_sound(Sound.UI_HOVER))
 	button.focus_entered.connect(func():
 		if MenuInput.gamepad_active and not button.disabled: play_sound(Sound.UI_HOVER))
+	if button.get_meta("sfx_manual",false): return
 	if button.text.to_upper() == "BACK":
 		button.pressed.connect(play_sound.bind(Sound.UI_BACK))
 		return

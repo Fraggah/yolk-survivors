@@ -26,8 +26,8 @@ func stop() -> void:
 
 func live_units() -> Array[Unit]:
 	var result: Array[Unit] = []
-	if is_live(Global.player): result.append(Global.player)
-	for list in [spawner.spawned_enemies, spawner.boss_enemies, spawner.special_enemies]:
+	for actor in Global.live_players(): result.append(actor)
+	for list in [spawner.spawned_enemies, spawner.boss_enemies, spawner.special_enemies, spawner.reward_enemies]:
 		for unit in list:
 			if is_live(unit): result.append(unit)
 	return result

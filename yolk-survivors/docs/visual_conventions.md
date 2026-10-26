@@ -1,5 +1,13 @@
 # Criterios visuales
 
+## Configuración base en escena
+
+Mantener sprites, pivotes, sombras, escalas, posiciones y colisiones correctamente
+acomodados en la propia escena de Godot para facilitar su edición. No arreglar la
+disposición mediante valores hardcodeados al iniciar. Las animaciones y mecánicas
+deben partir de los valores de la escena, sin sobrescribir los ajustes del usuario.
+Verificar la configuración guardada y el resultado en juego.
+
 Las áreas circulares sobre el suelo se representan como óvalos achatados en Y,
 para respetar la perspectiva del juego. Esto se aplica a ondas, áreas de efecto
 y sus partículas. No se aplica a elementos circulares de la interfaz.

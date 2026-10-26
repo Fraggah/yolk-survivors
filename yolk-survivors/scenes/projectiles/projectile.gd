@@ -65,7 +65,7 @@ func _on_hitbox_component_on_hit_hurtbox(hurtbox: HurtboxComponent) -> void:
 	if remaining_bounces > 0:
 		var target := EnemyCrowd.random_target(hit_targets)
 		if target:
-			velocity = global_position.direction_to(target.global_position) * velocity.length()
+			velocity = global_position.direction_to((target as Unit).get_aim_position()) * velocity.length()
 			rotation = velocity.angle()
 			remaining_bounces -= 1
 			# The initial shot respects weapon range; bounce legs can reach their target.

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/Bosses/sausage_turret.png" id="art"]
+[ext_resource type="Shader" path="res://shaders/turret_fire_band.gdshader" id="fire"]
+[ext_resource type="Script" path="res://scenes/components/hitbox_component.gd" id="hit"]
+
+[ext_resource type="Script" path="res://scenes/bosses/sausage_turret.gd" id="body_script"]
+
+[sub_resource type="ShaderMaterial" id="FireBand"]
+resource_local_to_scene = true
+shader = ExtResource("fire")
+shader_parameter/phase = 0.0
+shader_parameter/firing = 0.0
+shader_parameter/fire_red = Color(0.75, 0.08, 0.018, 1)
+shader_parameter/fire_orange = Color(1, 0.48, 0.045, 1)
+shader_parameter/fire_yellow = Color(1, 0.86, 0.33, 1)
+
+[sub_resource type="CircleShape2D" id="ContactShape"]
+radius = 42.0
+
+[node name="SausageTurret" type="Node2D"]
+z_index = 1
+script = ExtResource("body_script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+scale = Vector2(0.13765978, 0.13765978)
+texture_filter = 4
+texture = ExtResource("art")
+region_enabled = true
+region_rect = Rect2(320, 177, 509, 1017)
+offset = Vector2(0, -508.5)
+material = SubResource("FireBand")
+
+[node name="RayOrigin" type="Marker2D" parent="."]
+position = Vector2(0, -75)
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+script = ExtResource("hit")
+monitoring = false
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("ContactShape")

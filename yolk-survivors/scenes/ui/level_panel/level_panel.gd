@@ -5,10 +5,12 @@ const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
 
 signal on_level_selection_exited
 signal on_stress_test_selected(population: int)
+signal on_boss_test_selected
 
 @export var buttons: Array[Button] = []
 
 func _ready() -> void:
+	$MarginContainer/VBoxContainer/BossTestButton.visible = OS.is_debug_build()
 	Progression.progress_changed.connect(_refresh_locks)
 	for index in buttons.size():
 		buttons[index].tooltip_text = DIFFICULTY_RULES.description(index)
@@ -85,3 +87,6 @@ func _on_stress_test_button_pressed() -> void:
 
 func _on_stress_500_button_pressed() -> void:
 	on_stress_test_selected.emit(500)
+
+func _on_boss_test_button_pressed() -> void:
+	on_boss_test_selected.emit()

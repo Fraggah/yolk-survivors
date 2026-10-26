@@ -1,0 +1,44 @@
+Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
+
+SPAWN CHECK 1 left=6.764256 count=2 pending=1
+TRANSITION wave 1 PASS
+SPAWN CHECK 2 left=6.30760266666667 count=4 pending=2
+TRANSITION wave 2 PASS
+SPAWN CHECK 3 left=6.46724266666667 count=3 pending=3
+TRANSITION wave 3 PASS
+SPAWN CHECK 4 left=6.41213333333333 count=12 pending=8
+TRANSITION wave 4 PASS
+SPAWN CHECK 5 left=6.439312 count=7 pending=6
+TRANSITION wave 5 PASS
+SPAWN CHECK 6 left=6.506968 count=16 pending=11
+TRANSITION wave 6 PASS
+SPAWN CHECK 7 left=6.9042303030303 count=5 pending=25
+TRANSITION wave 7 PASS
+SPAWN CHECK 8 left=6.93003733333333 count=5 pending=11
+TRANSITION wave 8 PASS
+SPAWN CHECK 9 left=6.93311733333334 count=1 pending=4
+TRANSITION wave 9 PASS
+SPAWN CHECK 10 left=6.93288533333333 count=5 pending=11
+TRANSITION wave 10 PASS
+SPAWN CHECK 11 left=6.90467563636364 count=5 pending=7
+TRANSITION wave 11 PASS
+SPAWN CHECK 12 left=6.90242739393939 count=5 pending=15
+TRANSITION wave 12 PASS
+SPAWN CHECK 13 left=6.80496 count=10 pending=10
+TRANSITION wave 13 PASS
+SPAWN CHECK 14 left=6.86336533333333 count=6 pending=10
+TRANSITION wave 14 PASS
+SPAWN CHECK 15 left=6.89232993939394 count=10 pending=20
+TRANSITION wave 15 PASS
+SPAWN CHECK 16 left=6.81069333333333 count=6 pending=6
+TRANSITION wave 16 PASS
+SPAWN CHECK 17 left=6.88026109090909 count=5 pending=15
+TRANSITION wave 17 PASS
+SPAWN CHECK 18 left=6.591064 count=6 pending=10
+TRANSITION wave 18 PASS
+SPAWN CHECK 19 left=6.933128 count=5 pending=21
+TRANSITION wave 19 PASS
+SPAWN CHECK 20 left=6.866248 count=6 pending=10
+TRANSITION wave 20 PASS
+PASS full 20-wave run, actual enemies/caps, no early victory, final victory, shop/upgrade transitions, lock persistence, XP/yolk rewards and duplicate guard (test-only compressed timings)

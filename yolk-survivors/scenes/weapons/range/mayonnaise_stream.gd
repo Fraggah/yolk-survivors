@@ -46,13 +46,17 @@ func _ready() -> void:
 
 func update_stream(delta: float, has_target: bool) -> void:
 	if Global.game_paused: return
-	if not has_target or weapon.data == null or weapon.data.stats.ranged_settings == null:
+	if not has_target or not is_instance_valid(weapon.closest_target) or not weapon.closest_target.targetable or weapon.closest_target.is_retiring or weapon.closest_target.health_component.current_health <= 0.0 or weapon.data == null or weapon.data.stats.ranged_settings == null:
 		_stop_stream()
 		return
 	if not stream_active:
 		stream_active = true
 		tick_left = 0.0
-		SoundManager.play_weapon_attack(weapon)
+		# A configured loop replaces the generic gunshot, while an explicitly
+		# assigned attack clip can still provide the stream's opening sound.
+		if weapon.attack_sound or (not weapon.continuous_sound and not SoundManager.default_continuous_attack):
+			SoundManager.play_weapon_attack(weapon)
+		SoundManager.set_weapon_loop(weapon,true)
 	weapon.is_attacking = true
 	flow_phase += delta * weapon.data.stats.ranged_settings.stream_flow_speed
 	_update_trace()
@@ -68,15 +72,15 @@ func update_stream(delta: float, has_target: bool) -> void:
 
 func _update_trace() -> void:
 	stream_start = muzzle.global_position
-	var target_hurtbox := weapon.closest_target.get_node("HurtboxComponent") as HurtboxComponent
-	var direction := stream_start.direction_to(target_hurtbox.global_position)
+	var target_position := weapon.closest_target.get_aim_position()
+	var direction := stream_start.direction_to(target_position)
 	if direction.is_zero_approx(): direction = Vector2.RIGHT.rotated(weapon.rotation)
 	var length := weapon.get_effective_range() * absf(weapon.collision.global_scale.x)
 	var width := weapon.data.stats.ranged_settings.stream_width * Global.GAME_ENTITY_SCALE
 	var count := 1 + weapon.data.get_effective_piercing(weapon.get_parent().stats)
 	# Without piercing the chosen target already bounds the first-hit search.
 	# Querying behind it needlessly includes the whole packed horde.
-	if count == 1: length = minf(length,stream_start.distance_to(target_hurtbox.global_position))
+	if count == 1: length = minf(length,stream_start.distance_to(target_position))
 	stream_end = stream_start + direction * length
 	trace_shape.radius = width * 0.5
 	trace_shape.height = length + width
@@ -91,13 +95,13 @@ func _update_trace() -> void:
 		var enemy = hurtbox.owner
 		if not enemy is Enemy or not enemy.targetable or enemy.is_retiring or enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0: continue
 		if count == 1:
-			var candidate_distance := stream_start.distance_squared_to(hurtbox.global_position)
+			var candidate_distance := stream_start.distance_squared_to(hurtbox.get_target_position())
 			if candidate_distance<closest_distance:
 				closest_distance = candidate_distance
 				closest = enemy
 			continue
 		if current_targets.has(enemy): continue
-		var distance := stream_start.distance_squared_to(hurtbox.global_position)
+		var distance := stream_start.distance_squared_to(hurtbox.get_target_position())
 		var insertion := distances.bsearch(distance)
 		if insertion>=count: continue
 		distances.insert(insertion,distance)
@@ -110,7 +114,7 @@ func _update_trace() -> void:
 	if current_targets.size() > count: current_targets.resize(count)
 	if not current_targets.is_empty():
 		var last: Enemy = current_targets.back()
-		var distance: float = (last.get_node("HurtboxComponent").global_position - stream_start).dot(direction)
+		var distance: float = (last.get_aim_position() - stream_start).dot(direction)
 		stream_end = stream_start + direction * clampf(distance, 0.0, length)
 	line.width = weapon.data.stats.ranged_settings.stream_width
 	line.default_color = weapon.data.stats.ranged_settings.stream_color
@@ -141,7 +145,7 @@ func _emit_particles(delta: float) -> void:
 	var particles = load("res://effects/mayonnaise_particles.gd")
 	particles.emit_at(self,stream_start,direction,config,false)
 	for enemy in current_targets:
-		var point: Vector2 = enemy.get_node("HurtboxComponent").global_position
+		var point: Vector2 = enemy.get_aim_position()
 		particles.emit_at(self,point,direction,config,true)
 
 func _damage_tick() -> void:
@@ -155,6 +159,7 @@ func _damage_tick() -> void:
 		enemy._on_hurtbox_component_on_damage(hit)
 
 func _stop_stream() -> void:
+	SoundManager.set_weapon_loop(weapon,false)
 	stream_active = false
 	weapon.is_attacking = false
 	tick_left = 0.0

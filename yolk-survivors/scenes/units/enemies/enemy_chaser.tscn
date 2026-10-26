@@ -13,7 +13,7 @@ radius = 7.0
 radius = 150.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_go2lf"]
-radius = 37.0135
+radius = 15.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v0hn2"]
 radius = 15.2971
@@ -23,19 +23,24 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("2_ekmfq")
 flock_push = 20.0
+displacement_immune = false
 targetable = true
 visual_scale = 1.0
 knockback_resistance = 0.0
+pursuit_stop_distance = 60.0
 airbourne_tilt_degrees = 35.0
 airbourne_tilt_transition = 0.08
 stats = ExtResource("3_ekmfq")
+
+[node name="Visuals" parent="." index="0"]
+position = Vector2(0, 3)
 
 [node name="Sprite" parent="Visuals" index="1"]
 z_index = 2
 texture = ExtResource("2_c4rqr")
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -27)
+position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_c4rqr")
 
 [node name="VisionArea" type="Area2D" parent="." index="3"]
@@ -47,6 +52,7 @@ position = Vector2(0, -22)
 shape = SubResource("CircleShape2D_ekmfq")
 
 [node name="HurtboxComponent" parent="." index="4"]
+position = Vector2(0, 25)
 collision_layer = 8
 collision_mask = 16
 

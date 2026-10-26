@@ -1,0 +1,386 @@
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/stage_mechanic.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/stage_mechanics_controller.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/arena.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/projectiles/ketchup_capsule.gd:0)
+ERROR: Failed to load script "res://scenes/projectiles/ketchup_capsule.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not find type "ScheduledSpawn" in the current scope.
+   at: GDScript::reload (res://resources/wave/wave_data.gd:12)
+ERROR: Failed to load script "res://resources/wave/wave_data.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/pot_mechanic.gd:0)
+ERROR: Failed to load script "res://scenes/arena/mechanics/pot_mechanic.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/wok_mechanic.gd:0)
+ERROR: Failed to load script "res://scenes/arena/mechanics/wok_mechanic.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/griddle_mechanic.gd:0)
+ERROR: Failed to load script "res://scenes/arena/mechanics/griddle_mechanic.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/pan_mechanic.gd:0)
+ERROR: Failed to load script "res://scenes/arena/mechanics/pan_mechanic.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/mechanics/tray_mechanic.gd:0)
+ERROR: Failed to load script "res://scenes/arena/mechanics/tray_mechanic.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Trying to assign value of type 'Node2D' to a variable of type 'spawner.gd'.
+   at: Arena.@implicit_ready (res://scenes/arena/arena.gd:14)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "scheduled_spawns".
+   at: GDScript::reload (res://scenes/arena/spawner.gd:117)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scenes/arena/stress_test.gd:0)
+ERROR: Failed to load script "res://scenes/arena/stress_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid access to property or key 'on_stress_test_selected' on a base object of type 'Nil'.
+   at: Arena._ready (res://scenes/arena/arena.gd:54)
+SCRIPT ERROR: Invalid access to property or key 'player_list' on a base object of type 'Nil'.
+   at: verify (res://tests/verify_school_waves.gd:9)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_wave_text' in base 'Nil'.
+   at: Arena._process (res://scenes/arena/arena.gd:102)

@@ -61,6 +61,7 @@ func _process(delta: float) -> void:
 func detonate() -> void:
 	if detonated or Global.game_paused: return
 	detonated = true
+	SoundManager.play_event("explosion")
 	if settings.ember_count > 0:
 		var embers = preload("res://effects/habanero_embers.gd").new()
 		get_tree().current_scene.add_child(embers)

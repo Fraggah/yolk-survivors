@@ -52,3 +52,7 @@ La lista antigua **Events** se conserva para eventos avanzados basados en SpawnG
 - `verify_wave_run.gd`: recorrido completo por las 20 oleadas con tiempos comprimidos solo en la prueba.
 
 Ejecutar con Godot headless usando `--path yolk-survivors --script res://tests/NOMBRE.gd`.
+
+## Enemigos de recompensa
+
+Yolker e Incógnito tienen perfiles en `resources/wave/enemies/yolker.tres` e `incognito.tres`. Se usan en Groups o Scheduled Spawns igual que los demás. Su población es REWARD y el límite se configura por oleada con **Reward Limit** (2 de base); no consumen Hazard Limit ni Boss Limit. La oleada 1 incluye apariciones iniciales de prueba en los segundos 10 y 18. Ver reward_enemies.md para arte, estadísticas y recompensas.

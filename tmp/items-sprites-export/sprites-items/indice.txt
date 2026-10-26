@@ -1,0 +1,104 @@
+YOLK SURVIVORS - SPRITES DE LOS 100 ITEMS
+PNG originales, sin reescalado.
+Numeración del catálogo.
+
+001-pimenton.png | Pimentón
+002-comino.png | Comino
+003-oregano.png | Orégano
+004-canela.png | Canela
+005-hoja-de-laurel.png | Hoja de laurel
+006-curcuma.png | Cúrcuma
+007-romero.png | Romero
+008-azafran.png | Azafrán
+009-sal-fina.png | Sal fina
+010-levadura.png | Levadura
+011-azucar.png | Azúcar
+012-calcio.png | Calcio
+013-doble-yema.png | Doble yema
+014-cacao-amargo.png | Cacao amargo
+015-vinagre.png | Vinagre
+016-aceite-de-oliva.png | Aceite de oliva
+017-grano-de-mostaza.png | Grano de mostaza
+018-sellado-al-vacio.png | Sellado al vacío
+019-comida-miniatura.png | Comida miniatura
+020-crema-cortada.png | Crema cortada
+021-jugo-de-limon.png | Jugo de limón
+022-diente-de-ajo.png | Diente de ajo
+023-manteca-derretida.png | Manteca derretida
+024-queso-untable.png | Queso untable
+025-tomate-cherry.png | Tomate cherry
+026-miel-espesa.png | Miel espesa
+027-coccion-acelerada.png | Cocción acelerada
+028-bicarbonato.png | Bicarbonato
+029-lengua-mordida.png | Lengua mordida
+030-cubiertos-lujosos.png | Cubiertos lujosos
+031-brotes.png | Brotes
+032-lata-de-atun.png | Lata de atún
+033-masa-madre.png | Masa madre
+034-moneda-de-chocolate.png | Moneda de chocolate
+035-leche-entera.png | Leche entera
+036-cafe-doble.png | Café doble
+037-cuchara-sopera.png | Cuchara sopera
+038-provenzal.png | Provenzal
+039-nuez-moscada.png | Nuez moscada
+040-pimienta.png | Pimienta
+041-vitamina-a.png | Vitamina A
+042-carnicero-amigo.png | Carnicero amigo
+043-arroz-coreano.png | Arroz coreano
+044-alcohol.png | Alcohol
+045-salpicadura-caliente.png | Salpicadura caliente
+046-complejo-b.png | Complejo B
+047-iman-amarillo.png | Imán amarillo
+048-brochette.png | Brochette
+049-curry-violento.png | Curry violento
+050-chimichurri.png | Chimichurri
+051-champinon-raro.png | Champiñón raro
+052-pelo-en-la-comida.png | Pelo en la comida
+053-olor-rico.png | Olor rico
+054-espinacas.png | Espinacas
+055-brasa-de-ebano.png | Brasa de ébano
+056-bano-de-aceite.png | Baño de aceite
+057-cocina-electrica.png | Cocina eléctrica
+058-coccion-lenta.png | Cocción lenta
+059-semillas-de-chili.png | Semillas de chili
+060-pancake.png | Pancake
+061-wasabi.png | Wasabi
+062-cascara-extra.png | Cáscara extra
+063-salteado-feroz.png | Salteado feroz
+064-huevo-frito.png | Huevo frito
+065-papas-fritas.png | Papas fritas
+066-pizza-casera.png | Pizza casera
+067-chop-suey.png | Chop suey
+068-gorro-de-chef.png | Gorro de chef
+069-engrudo.png | Engrudo
+070-guantes-de-goma.png | Guantes de goma
+071-masa-elastica.png | Masa elástica
+072-cascara-resbaladiza.png | Cáscara resbaladiza
+073-guante-termico.png | Guante térmico
+074-huevo-anejo.png | Huevo añejo
+075-chispa.png | Chispa
+076-iman-de-heladera.png | Imán de heladera
+077-liquidacion.png | Liquidación
+078-yema-de-oro.png | Yema de oro
+079-brazo-auxiliar.png | Brazo auxiliar
+080-vianda.png | Vianda
+081-rebozado.png | Rebozado
+082-giro-de-tortilla.png | Giro de tortilla
+083-diente-libre.png | Diente libre
+084-flambeado.png | Flambeado
+085-guarana.png | Guaraná
+086-delantal-negro.png | Delantal negro
+087-impresora-de-comida.png | Impresora de comida
+088-sobrecarga.png | Sobrecarga
+089-recalentado.png | Recalentado
+090-batido-energetico.png | Batido energético
+091-golpe-de-mesa.png | Golpe de mesa
+092-bolsa-de-mercaderia.png | Bolsa de mercadería
+093-receta-de-la-abuela.png | Receta de la abuela
+094-ingrediente-secreto.png | Ingrediente secreto
+095-caramelizado.png | Caramelizado
+096-refrito.png | Refrito
+097-reduccion-infernal.png | Reducción infernal
+098-ayahuasca.png | Ayahuasca
+099-hongo-desconocido.png | Hongo desconocido
+100-ultimo-bocado.png | Último bocado

@@ -1,0 +1,8 @@
+Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
+
+PASS actual cap 35
+PASS actual cap 55
+PASS actual cap 75
+PASS actual cap 90
+PASS actual cap 65
+PASS all five actual population caps (35/55/75/90/65), bounded reservations, no backlog and single-slot refill

@@ -16,7 +16,7 @@ class_name Arena
 @onready var shop_panel: ShopPanel = %ShopPanel
 @onready var coins_bag: CoinsBag = %CoinsBag
 @onready var coocking_player: AudioStreamPlayer = $CoockingPlayer
-@onready var music_player: AudioStreamPlayer = $MusicPlayer
+@onready var music_player = $MusicManager
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
 @onready var weapon_selection_panel: SelectionPanel = $GameUI/WeaponSelectionPanel
@@ -41,24 +41,41 @@ var last_warning_second := -1
 var damage_feedback: CanvasLayer
 var paused_intermission_panel: Control
 var paused_intermission_focus: Control
+var boss_encounter: Node2D
+var boss_test_mode := false
+var boss_wave_active := false
+var coop: Node
+@onready var coop_selection: Node = $CoopSelection
 var stress_test: Node
+var incognito_rewards
 var projectile_pool: Node
 var run_experience = preload("res://resources/run_experience.gd").new()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	coop=preload("res://scenes/coop/local_coop.tscn").instantiate()
+	add_child(coop)
+	coop_selection.setup(self)
 	projectile_pool = load("res://scenes/projectiles/projectile_pool.gd").new()
 	add_child(projectile_pool)
 	stress_test = load("res://scenes/arena/stress_test.gd").new()
 	add_child(stress_test)
 	level_panel.on_stress_test_selected.connect(_on_stress_test_selected)
+	boss_encounter = load("res://scenes/bosses/boss_encounter.gd").new()
+	add_child(boss_encounter)
+	boss_encounter.defeated.connect(_on_boss_test_defeated, CONNECT_DEFERRED)
+	level_panel.on_boss_test_selected.connect(_on_boss_test_selected)
 	damage_feedback = load("res://scenes/ui/player_damage_feedback.gd").new()
 	add_child(damage_feedback)
 	damage_feedback.defeat_finished.connect(_finish_defeat)
 	run_experience.level_gained.connect(_on_experience_level_gained)
 	run_experience.changed.connect(_update_experience_bar)
 	_update_experience_bar()
-	MenuInput.register_menus([pause_panel, options_panel, credits_panel, final_screen, level_panel, weapon_selection_panel, selection_panel, shop_panel, upgrade_panel, start_panel])
+	incognito_rewards = load("res://scenes/ui/incognito_rewards.gd").new()
+	incognito_rewards.arena = self
+	$GameUI.add_child(incognito_rewards)
+	incognito_rewards.resolved.connect(_continue_wave_rewards)
+	MenuInput.register_menus([shop_panel.golden_animation, shop_panel.coin_animation, pause_panel, options_panel, credits_panel, final_screen, level_panel, weapon_selection_panel, selection_panel, incognito_rewards, shop_panel, upgrade_panel, start_panel])
 	Global.on_create_block_text.connect(on_create_block_text)
 	Global.on_create_damage_text.connect(_on_create_damage_text)
 	Global.on_create_heal_text.connect(_on_create_heal_text)
@@ -72,33 +89,45 @@ func _ready() -> void:
 	coocking_player.stream_paused = true
 	spawner.on_wave_started.connect(_apply_wave_environment)
 	spawner.on_wave_started.connect(_on_wave_started_sfx)
+	spawner.on_boss_wave_started.connect(_start_boss_wave)
 	stage_mechanics.setup(spawner, environment_controller)
 	_apply_wave_environment(1)
+	_play_menu_music()
 
 func _apply_wave_environment(wave: int) -> void:
 	last_warning_second = -1
+	wave_index_label.show()
+	wave_timer_label.show()
 	Progression.begin_wave()
 	var environment := environment_controller.apply_wave(wave)
+	_configure_environment(environment)
+
+func _configure_environment(environment: ArenaEnvironment) -> void:
 	if not environment: return
 	spawner.arena_environment = environment
-	$Camera2D.zoom = Vector2.ONE * environment.camera_zoom
-	$Camera2D.world_bounds = Rect2(environment.background_offset - environment.background_size * 0.5, environment.background_size)
+	$Camera2D.configure_view(Rect2(environment.background_offset - environment.background_size * 0.5, environment.background_size), Vector2.ONE * environment.camera_zoom, true, environment_controller.overview_playable_bounds())
 	if is_instance_valid(Global.player):
 		Global.player.arena_environment = environment
 		Global.player.global_position = environment.movement_bounds.get_center()
 		player_health_bar.reset_damage_flash()
 	if is_instance_valid(spawner.fueguito):
 		spawner.fueguito.global_position = environment.clamp_position(spawner.fueguito.global_position)
+	if coop and coop.active: coop.configure_players()
 
 func _process(_delta: float) -> void:
 	if stress_test and stress_test.active:
 		wave_index_label.text = "STRESS TEST"
 		wave_timer_label.text = ""
 		return
-	player_health_bar.visible = in_arena and is_instance_valid(Global.player) and not final_screen.visible and not defeat_in_progress
+	player_health_bar.visible = in_arena and is_instance_valid(Global.player) and not final_screen.visible and not defeat_in_progress and not (coop and coop.active)
 	experience_bar.visible = player_health_bar.visible
+	if coop and coop.active: coins_bag.hide()
 	toggle_pause()
 	if Global.game_paused: return
+	if boss_test_mode or boss_wave_active:
+		wave_index_label.hide()
+		wave_timer_label.hide()
+		return
 	wave_index_label.text = spawner.get_wave_text()
 	wave_timer_label.text = spawner.get_wave_timer_text()
 	var seconds_left := int(wave_timer_label.text)
@@ -111,6 +140,18 @@ func _process(_delta: float) -> void:
 
 func _on_wave_started_sfx(_wave: int) -> void:
 	SoundManager.play_sound(SoundManager.Sound.WAVE_START)
+	var wave = spawner.current_wave_data
+	var is_boss: bool = wave != null and wave.has_boss_encounter()
+	music_player.play_track(music_player.choose_music(wave, environment_controller.current_stage, is_boss), "boss" if is_boss else "wave")
+
+func _play_menu_music() -> void:
+	music_player.play_track(music_player.menu_music, "menu")
+
+func _start_boss_wave(settings: Resource) -> void:
+	boss_wave_active = true
+	boss_encounter.settings = settings
+	boss_encounter.start(self)
+	wave_active = true
 
 func create_floating_text(unit: Node2D) -> FloatingText:
 	var instance = CombatTexts.acquire() as FloatingText
@@ -127,11 +168,14 @@ func start_new_wave() -> void:
 	Global.player.prepare_for_new_wave()
 	spawner.wave_index += 1
 	spawner.start_wave()
-	wave_active = not spawner.wave_timer.is_stopped()
+	wave_active = boss_wave_active or not spawner.wave_timer.is_stopped()
 	coocking_player.stream_paused = false
 
 
 func show_upgrades() -> void:
+	if not incognito_rewards.pending.is_empty():
+		incognito_rewards.open_next()
+		return
 	if _bonus_upgrades_before_wave and run_experience.pending_levels.is_empty():
 		_bonus_upgrades_before_wave = false
 		start_new_wave()
@@ -150,6 +194,7 @@ func show_upgrades() -> void:
 func _on_experience_level_gained(_level: int) -> void:
 	if not is_instance_valid(Global.player): return
 	var player = Global.player
+	SoundManager.play_event("level_up")
 	player.passive_items.on_level_gained()
 	var previous_max: float = player.stats.health
 	player.stats.apply_stat_change("health", 1.0)
@@ -167,11 +212,32 @@ func spawn_coins(enemy: Enemy) -> void:
 	var random_angle := randf_range(0, TAU)
 	var offset := Vector2.RIGHT.rotated(random_angle) * 35
 	var spawn_pos := enemy.global_position + offset
-	var reward := enemy.stats.coin_drop
+	var reward: int = enemy.roll_yolk_reward() if enemy.has_method("roll_yolk_reward") else enemy.stats.coin_drop
 	if reward > 0 and is_instance_valid(Global.player):
 		var chance: float = 0.02 * Global.player.passive_items.power("double_yolk")
+		if coop and coop.active:
+			chance=0.0
+			for session in coop.sessions: chance+=0.02*session.actor.passive_items.power("double_yolk")/coop.sessions.size()
 		reward += floori(chance) + (1 if randf() < fposmod(chance, 1.0) else 0)
-	spawn_yolk_at(spawn_pos, reward)
+	if enemy.has_method("roll_yolk_reward"):
+		SoundManager.play_event("yolker_burst")
+		spawn_yolk_burst(spawn_pos,reward,enemy.burst_min_distance,enemy.burst_max_distance,enemy.burst_flight_duration)
+	else:
+		spawn_yolk_at(spawn_pos, reward)
+
+func spawn_yolk_burst(origin: Vector2, count: int, minimum_distance: float = 150.0, maximum_distance: float = 320.0, duration: float = 0.5) -> void:
+	var geometry := spawner.arena_environment
+	if geometry: origin=geometry.clamp_position(origin)
+	for index in maxi(0,count):
+		var angle := TAU*float(index)/maxi(1,count)+randf_range(-0.1,0.1)
+		var distance := randf_range(maxf(0,minimum_distance),maxf(minimum_distance,maximum_distance))
+		var destination := origin+Vector2.from_angle(angle)*distance
+		if geometry: destination=geometry.clamp_position(destination)
+		var pickup := load("res://scenes/coins/burst_yolk.tscn").instantiate() as Coins
+		pickup.value=1
+		pickup.launch(origin,destination,duration*randf_range(0.85,1.15),randf_range(40,85))
+		gold_list.append(pickup)
+		call_deferred("add_child",pickup)
 
 func spawn_yolk_at(spawn_pos: Vector2, value: int = 1) -> void:
 	var instance := Global.COINS_SCENE.instantiate()
@@ -181,7 +247,9 @@ func spawn_yolk_at(spawn_pos: Vector2, value: int = 1) -> void:
 	instance.value = value
 	call_deferred("add_child", instance)
 
-func clear_arena(bank_yolks: bool = false) -> void:
+func clear_arena(bank_yolks: bool = false, jar_target: Control = null) -> void:
+	boss_wave_active = false
+	if is_instance_valid(boss_encounter): boss_encounter.stop()
 	CombatTexts.clear()
 	ElectricRays.clear()
 	projectile_pool.clear()
@@ -204,7 +272,7 @@ func clear_arena(bank_yolks: bool = false) -> void:
 		if not is_instance_valid(coin) or coin.is_queued_for_deletion(): continue
 		if bank_yolks:
 			Global.yolk_reserve += maxi(0, coin.value)
-			coin.call_deferred("fly_to_jar", coins_bag.jar_icon)
+			coin.call_deferred("fly_to_jar", jar_target if is_instance_valid(jar_target) else coins_bag.jar_icon)
 		else:
 			coin.queue_free()
 	if not bank_yolks:
@@ -222,6 +290,7 @@ func on_create_block_text(unit: Node2D) -> void:
 func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 	var color := critical_color if hitbox.critical else normal_color
 	var displayed_damage: float = hitbox.damage * (unit.stats.get_incoming_damage_multiplier() if unit is Player else 1.0)
+	if unit.has_meta("last_boss_damage"): displayed_damage = float(unit.get_meta("last_boss_damage"))
 	CombatTexts.queue_damage(unit, displayed_damage, color, hitbox.critical)
 
 func _on_create_heal_text(unit: Node2D, value: float) -> void:
@@ -229,6 +298,9 @@ func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	text.setup_text("+ %s" % ItemWeapon.format_number(value), hp_reg_color)
 
 func toggle_pause() -> void:
+	if coop and coop.active: return
+	if is_instance_valid(shop_panel.golden_animation) and shop_panel.golden_animation.visible: return
+	if is_instance_valid(shop_panel.coin_animation) and shop_panel.coin_animation.visible: return
 	if unlock_modal_active: return
 	if not in_arena or defeat_in_progress: return
 	if not Input.is_action_just_pressed("pause"): return
@@ -243,6 +315,8 @@ func set_wave_paused(paused: bool) -> void:
 			var panel: Control = null
 			if shop_panel.visible:
 				panel = shop_panel
+			elif incognito_rewards.visible:
+				panel = incognito_rewards
 			elif upgrade_panel.visible:
 				panel = upgrade_panel
 			if not panel: return
@@ -268,6 +342,12 @@ func set_wave_paused(paused: bool) -> void:
 	music_player.stream_paused = paused
 
 func _on_spawner_on_wave_completed() -> void:
+	if coop and coop.active:
+		if boss_wave_active: return
+		coop.wave_completed()
+		return
+	if boss_test_mode: return
+	if boss_wave_active: return
 	if stress_test and stress_test.active: return
 	SoundManager.play_sound(SoundManager.Sound.WAVE_COMPLETE)
 	Weapon.finish_damage_wave()
@@ -276,6 +356,8 @@ func _on_spawner_on_wave_completed() -> void:
 	Progression.finish_wave()
 	Global.game_paused = true
 	coocking_player.stream_paused = true
+	if spawner.wave_index >= spawner.last_wave_number(): _play_menu_music()
+	else: music_player.play_track(music_player.shop_music, "shop")
 	clear_arena(spawner.wave_index < spawner.last_wave_number())
 	if spawner.wave_index < spawner.last_wave_number():
 		shop_panel.set_next_stage(environment_controller.prepare_wave(spawner.wave_index + 1), spawner.wave_index + 1)
@@ -283,6 +365,11 @@ func _on_spawner_on_wave_completed() -> void:
 	await get_tree().create_timer(1).timeout
 	Global.get_harvesting_coins()
 	if is_instance_valid(Global.player): Global.player.passive_items.finish_wave()
+	_continue_wave_rewards()
+
+func _continue_wave_rewards() -> void:
+	if not is_instance_valid(Global.player) or defeat_in_progress: return
+	if incognito_rewards.open_next(): return
 	if spawner.wave_index >= spawner.last_wave_number():
 		Progression.end_run(true)
 		spawner.clear_fueguito()
@@ -319,6 +406,9 @@ func _on_shop_panel_on_shop_next_wave() -> void:
 	start_new_wave()
 
 func _on_enemy_died(enemy: Enemy) -> void:
+	if coop and coop.active:
+		coop.enemy_died(enemy)
+		return
 	if not wave_active or not is_instance_valid(Global.player): return
 	if enemy.get_meta("stage_hazard", false): return
 	if enemy.has_meta("kill_reward_processed"): return
@@ -329,7 +419,19 @@ func _on_enemy_died(enemy: Enemy) -> void:
 	if not enemy.last_hit_grants_rewards: return
 	if not stress_test.active: run_experience.add_experience(enemy.stats.experience_reward, Global.player.stats.experience_gain)
 	Progression.record("kills", 1.0)
-	spawn_coins(enemy)
+	if enemy.get_meta("incognito_reward",false):
+		play_incognito_death(enemy)
+		incognito_rewards.enqueue_drop(Global.player,spawner.wave_index)
+	else:
+		spawn_coins(enemy)
+
+func play_incognito_death(enemy: Enemy) -> void:
+	SoundManager.play_event("incognito_confetti")
+	var confetti := Node2D.new()
+	confetti.set_script(load("res://effects/incognito_confetti.gd"))
+	confetti.position = to_local(enemy.global_position)
+	confetti.origin = to_local(enemy.sprite.to_global(Vector2.ZERO)) - confetti.position
+	add_child(confetti)
 
 func _on_selection_panel_on_selection_completed() -> void:
 	await selection_panel.animate_character_to_weapons()
@@ -350,9 +452,16 @@ func _on_stress_test_selected(population: int = 1000) -> void:
 	stress_test.target_population = population
 	_on_level_selected(0,true)
 
-func _on_level_selected(level: int, stress_mode: bool = false) -> void:
+func _on_boss_test_selected() -> void:
+	_on_level_selected(0, false, true)
+
+func _on_level_selected(level: int, stress_mode: bool = false, boss_mode: bool = false) -> void:
+	if coop_selection.enabled and not stress_mode and not boss_mode:
+		coop_selection.start_difficulty(level)
+		return
 	# Ignore repeated confirmation and refuse an incomplete/invalid loadout.
 	if in_arena: return
+	boss_test_mode = boss_mode
 	var starting_weapons := Global.get_starting_weapons()
 	if starting_weapons.is_empty() and not Global.is_empty_preview_loadout(): return
 	if stress_mode:
@@ -366,19 +475,33 @@ func _on_level_selected(level: int, stress_mode: bool = false) -> void:
 	run_experience.reset()
 	Weapon.damage_records.clear()
 	var player := Global.get_selected_player()
+	if boss_mode:
+		Progression.end_run()
+		player.stats.apply_stat_change("health", boss_encounter.settings.test_health - player.stats.health)
+		player.stats.apply_stat_change("hp_regen", boss_encounter.settings.test_regen - player.stats.hp_regen)
+		player.stats.apply_stat_change("armor", boss_encounter.settings.test_armor - player.stats.armor)
+		player.stats.apply_stat_change("block_chance", boss_encounter.settings.test_block_chance - player.stats.block_chance)
+		player.stats.apply_stat_change("life_steal", boss_encounter.settings.test_life_steal - player.stats.life_steal)
 	_reset_damage_feedback()
 	level = spawner.DIFFICULTY_RULES.normalize_level(level)
 	Global.level_selected = level
 	environment_controller.reset_stage_selection()
+	incognito_rewards.reset()
 	spawner.reset_run(level)
 	add_child(player)
+	if boss_mode:
+		player.stats.apply_stat_change("ranged_damage", boss_encounter.settings.test_ranged_damage - player.stats.ranged_damage)
+		var damage_adjustment: float = boss_encounter.settings.test_damage_percent - player.stats.damage_percent
+		if damage_adjustment>0:
+			damage_adjustment /= maxf(0.0001,player.stats.get_stat_gain_multiplier("damage_percent"))
+		player.stats.apply_stat_change("damage_percent", damage_adjustment)
 	player.get_node("HealthBar").hide()
 	player.health_component.on_health_changed.connect(player_health_bar._on_health_component_on_health_changed)
 	player.health_component.on_health_changed.connect(damage_feedback.update_health)
 	player.health_component.on_unit_hit.connect(player_health_bar.flash_damage)
 	damage_feedback.update_health(player.health_component.current_health, player.health_component.max_health)
 	player_health_bar._on_health_component_on_health_changed(player.health_component.current_health, player.health_component.max_health)
-	if not stress_mode: Progression.begin_run(player.stats.unlock_id, player.stats)
+	if not stress_mode and not boss_mode: Progression.begin_run(player.stats.unlock_id, player.stats)
 	Global.equipped_weapons.clear()
 	shop_panel.reset_offers()
 	shop_panel.clear_items()
@@ -389,8 +512,11 @@ func _on_level_selected(level: int, stress_mode: bool = false) -> void:
 	coocking_player.stream_paused = false
 	spawner.wave_timer.paused = false
 	spawner.spawn_timer.paused = false
-	spawner.start_wave()
-	wave_active = not spawner.wave_timer.is_stopped()
+	if boss_mode:
+		boss_encounter.start(self)
+		music_player.play_track(music_player.choose_music(null, boss_encounter.settings.arena_stage, true), "boss")
+	else: spawner.start_wave()
+	wave_active = boss_mode or boss_wave_active or not spawner.wave_timer.is_stopped()
 	Global.game_paused = false
 	Global.coins = Global.STARTING_COINS
 	in_arena = true
@@ -400,6 +526,8 @@ func _on_level_selected(level: int, stress_mode: bool = false) -> void:
 		wave_active = true
 
 func _on_player_died() -> void:
+	if is_instance_valid(boss_encounter): boss_encounter.stop()
+	incognito_rewards.reset()
 	if defeat_in_progress or not is_instance_valid(Global.player): return
 	defeat_in_progress = true
 	SoundManager.play_sound(SoundManager.Sound.RUN_DEFEAT)
@@ -415,7 +543,7 @@ func _on_player_died() -> void:
 	spawner.clear_fueguito()
 	spawner.spawn_timer.stop()
 	Global.game_paused = true
-	for enemy in spawner.spawned_enemies + spawner.special_enemies + spawner.boss_enemies:
+	for enemy in spawner.spawned_enemies + spawner.special_enemies + spawner.boss_enemies + spawner.reward_enemies:
 		if is_instance_valid(enemy): enemy.process_mode = Node.PROCESS_MODE_DISABLED
 	stage_mechanics.process_mode = Node.PROCESS_MODE_DISABLED
 	$Camera2D.clear_shake()
@@ -429,6 +557,7 @@ func _on_player_died() -> void:
 
 func _finish_defeat() -> void:
 	if not defeat_in_progress: return
+	_play_menu_music()
 	clear_arena()
 	final_label.text = "YOU LOSE!"
 	final_label.add_theme_color_override("font_color", UITheme.palette.hud_text)
@@ -457,6 +586,9 @@ func _reset_damage_feedback() -> void:
 	if is_instance_valid(environment_controller.debug_stage_selector): environment_controller.debug_stage_selector.show()
 
 func _on_final_button_pressed() -> void:
+	_play_menu_music()
+	boss_test_mode = false
+	incognito_rewards.reset()
 	_reset_damage_feedback()
 	wave_active = false
 	spawner.clear_fueguito()
@@ -498,16 +630,22 @@ func _on_credits_panel_on_credits_exited() -> void:
 
 
 func _on_level_panel_on_level_selection_exited() -> void:
+	if coop_selection.enabled:
+		coop_selection.back_to_weapons()
+		return
 	level_panel.hide()
 	weapon_selection_panel.show()
 
 
 func _on_selection_panel_on_level_select_exited() -> void:
+	if coop_selection.enabled: coop_selection.disable()
 	selection_panel.hide()
 	start_panel.show()
 
 
 func _on_pause_panel_on_exit_pressed() -> void:
+	boss_test_mode = false
+	incognito_rewards.reset()
 	paused_intermission_panel = null
 	paused_intermission_focus = null
 	shop_panel.hide()
@@ -534,8 +672,7 @@ func _on_pause_panel_on_exit_pressed() -> void:
 	Global.player = null
 	Global.game_paused = true
 	start_panel.show()
-	music_player.stop()
-	music_player.play()
+	_play_menu_music()
 	pause_panel.hide()
 
 
@@ -559,3 +696,24 @@ func rewind_upcoming_waves(amount: int) -> int:
 	shop_panel.set_next_stage(environment_controller.prepare_wave(next_wave), next_wave)
 	shop_panel.set_pending_level_rewards(run_experience.pending_levels.size())
 	return previous_next - next_wave
+
+func _on_boss_test_defeated() -> void:
+	if coop and coop.active:
+		coop.wave_completed()
+		return
+	if defeat_in_progress or not is_instance_valid(Global.player): return
+	if boss_wave_active:
+		boss_wave_active = false
+		_on_spawner_on_wave_completed()
+		return
+	if not boss_test_mode: return
+	_play_menu_music()
+	wave_active = false
+	Global.game_paused = true
+	Weapon.finish_damage_wave()
+	clear_arena()
+	coocking_player.stream_paused = true
+	final_label.text = "BOSS TEST COMPLETE!"
+	final_screen.show()
+	if is_instance_valid(Global.player): Global.player.queue_free()
+	Global.player = null

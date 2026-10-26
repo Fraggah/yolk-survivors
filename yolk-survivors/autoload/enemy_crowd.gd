@@ -160,7 +160,7 @@ func nearest(origin: Vector2, radius: float) -> Node2D:
 			var distance := origin.distance_squared_to(entry.position)
 			if distance>best_distance: continue
 			var enemy = entry.ref.get_ref()
-			if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or enemy.is_retiring or enemy.health_component.current_health<=0: continue
+			if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or not enemy.targetable or enemy.is_retiring or enemy.health_component.current_health<=0: continue
 			# Check the live position before accepting a cached-grid candidate.
 			distance = origin.distance_squared_to(enemy.global_position)
 			if distance<=best_distance:

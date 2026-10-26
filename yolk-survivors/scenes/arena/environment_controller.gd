@@ -3,6 +3,8 @@ class_name ArenaEnvironmentController
 
 @export var stages: Array[ArenaStage]
 @export var debug_forced_stage := 0
+## World-space breathing room around the playable area in full-arena view.
+@export var overview_playable_margin := Vector2(140,160)
 var debug_stage_selector: OptionButton
 @onready var background: Sprite2D = $BG
 @onready var vessel: Sprite2D = $Vessel
@@ -14,6 +16,7 @@ var stage_random := RandomNumberGenerator.new()
 var background_phase := 0.0
 
 func _process(delta: float) -> void:
+	_sync_debug_shop_visibility()
 	background_phase += delta
 	if flat_background and flat_background.material is ShaderMaterial:
 		flat_background.material.set_shader_parameter("phase", background_phase)
@@ -42,6 +45,21 @@ func _ready() -> void:
 		debug_stage_selector.select(clampi(debug_forced_stage, 0, stages.size()))
 		debug_stage_selector.tooltip_text = "Se aplica al iniciar la próxima oleada. No se guarda."
 		debug_stage_selector.item_selected.connect(_on_debug_stage_selected)
+		_bind_debug_shop_visibility.call_deferred()
+
+func _bind_debug_shop_visibility() -> void:
+	var arena=get_parent()
+	arena.shop_panel.visibility_changed.connect(_sync_debug_shop_visibility)
+	if arena.coop:
+		arena.coop.screen.visibility_changed.connect(_sync_debug_shop_visibility)
+		arena.coop.grids.visibility_changed.connect(_sync_debug_shop_visibility)
+	_sync_debug_shop_visibility()
+
+func _sync_debug_shop_visibility() -> void:
+	if not is_instance_valid(debug_stage_selector): return
+	var arena=get_parent()
+	var coop_shop: bool=arena.coop!=null and arena.coop.mode in ["shop","upgrades","rewards"] and arena.coop.screen.is_visible_in_tree()
+	debug_stage_selector.visible=not arena.in_arena and not arena.wave_active and not (arena.coop and arena.coop.active) and not arena.shop_panel.is_visible_in_tree() and not coop_shop
 
 func _on_debug_stage_selected(index: int) -> void:
 	debug_forced_stage = index
@@ -56,6 +74,11 @@ func reset_stage_selection() -> void:
 	current_stage = null
 
 func prepare_wave(wave: int, forced_stage: ArenaStage = null) -> ArenaStage:
+	var wave_spawner = get_parent().get_node_or_null("Spawner")
+	var wave_config = wave_spawner.wave_data_for(wave) if wave_spawner else null
+	if wave_config and wave_config.has_boss_encounter():
+		selected_stages[wave] = wave_config.boss_encounter.arena_stage
+		return selected_stages[wave]
 	if OS.is_debug_build() and debug_forced_stage > 0 and debug_forced_stage <= stages.size():
 		selected_stages[wave] = stages[debug_forced_stage - 1]
 		return selected_stages[wave]
@@ -84,7 +107,30 @@ func prepare_wave(wave: int, forced_stage: ArenaStage = null) -> ArenaStage:
 	return selected
 
 func apply_wave(wave: int) -> ArenaEnvironment:
-	current_stage = prepare_wave(wave)
+	return apply_stage(prepare_wave(wave))
+
+func overview_playable_bounds() -> Rect2:
+	# Handles and other decorative extensions must not shift the gameplay center.
+	var margin := overview_playable_margin.max(Vector2.ZERO)
+	var framed := Rect2(current.movement_bounds.position-margin,current.movement_bounds.size+margin*2)
+	if current_stage.vessel_body_rect.has_area():
+		var pixels := current_stage.vessel_body_rect
+		var body := vessel.global_transform * Rect2(vessel.get_rect().position+pixels.position,pixels.size)
+		framed = framed.merge(body.grow(40))
+	# Preserve the gameplay center even if a future sprite has an asymmetric rim.
+	var center := current.movement_bounds.get_center()
+	var half := (framed.position-center).abs().max((framed.end-center).abs())
+	return Rect2(center-half,half*2)
+
+func cover_camera_background(view: Rect2) -> void:
+	if not current or not is_instance_valid(flat_background): return
+	var base := Rect2(current.background_offset-current.background_size*0.5,current.background_size)
+	var covered := base.merge(view)
+	flat_background.position = to_local(covered.position)
+	flat_background.size = covered.size
+
+func apply_stage(stage: ArenaStage) -> ArenaEnvironment:
+	current_stage = stage
 	if not current_stage: return null
 	current = current_stage.play_area
 	if current_stage:
@@ -94,6 +140,7 @@ func apply_wave(wave: int) -> ArenaEnvironment:
 		flat_background.size = current.background_size
 		vessel.texture = current_stage.vessel
 		vessel.material = current_stage.vessel_material
+		vessel.modulate = current_stage.get_meta("prototype_tint", Color.WHITE)
 		vessel.position = current_stage.vessel_offset
 		vessel.scale = current_stage.vessel_size / vessel.texture.get_size()
 	return current

@@ -1,0 +1,6 @@
+Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
+
+Wave: 2, Luck: 5.0 => Chances C:0.94 R:0.06 E:0.00 L:0.00
+Wave: 2, Luck: 5.0 => Chances C:0.94 R:0.06 E:0.00 L:0.00
+Wave: 3, Luck: 5.0 => Chances C:0.87 R:0.13 E:0.00 L:0.00
+PASS: locked slot/item/price across reroll/waves, unique offers, locked purchase/refill/reset, all-locked no charge, upgrade reroll currency/pending/shared costs/separate shop

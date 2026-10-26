@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyProfile" load_steps=3 format=3 uid="uid://taaxvva0lqb3"]
+
+[ext_resource type="PackedScene" path="res://scenes/units/enemies/enemy_incognito.tscn" id="scene"]
+[ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="script"]
+
+[resource]
+script = ExtResource("script")
+id = &"incognito"
+scene = ExtResource("scene")
+population = 3
+visual_scale = 0.65
+knockback_resistance = 0.4
+spawn_margin = 80.0
+minimum_player_distance = 180.0
+health_growth_multiplier = 1.0
+damage_growth_multiplier = 1.0
+speed_growth_per_wave = 0.0
+resistance_growth_per_wave = 0.0

@@ -1,6 +1,15 @@
 extends PanelContainer
 class_name WeaponTooltip
 
+@export var text_scale := 1.0
+@export var body_text_scale := 1.0
+@export var manual_selection := false
+@export var show_full_description := false
+var preview_stats: UnitStats
+var shop_wave_override := -1
+@onready var scroll_hint: Label=$MarginContainer/Content/ScrollHint
+@onready var full_description: RichTextLabel = $MarginContainer/Content/FullDescription
+
 const SCREEN_MARGIN := 12.0
 const SLOT_GAP := 10.0
 
@@ -9,16 +18,28 @@ const SLOT_GAP := 10.0
 @onready var weapon_type: Label = %WeaponType
 @onready var stats_grid: GridContainer = %StatsGrid
 
+var passive_description: Label
 var hovered_card: ItemCard
 var displayed_weapon: ItemWeapon
 var value_labels: Array[RichTextLabel] = []
 
 func _ready() -> void:
+	scroll_hint.add_theme_font_size_override("font_size",roundi(18*text_scale))
+	weapon_name.add_theme_font_size_override("font_size",roundi(26*text_scale))
+	weapon_type.add_theme_font_size_override("font_size",roundi(22*text_scale*body_text_scale))
+	full_description.add_theme_font_size_override("normal_font_size",roundi(22*text_scale*body_text_scale))
+	full_description.add_theme_font_size_override("bold_font_size",roundi(22*text_scale*body_text_scale))
+	passive_description = Label.new()
+	passive_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	passive_description.custom_minimum_size.x = 390
+	passive_description.add_theme_font_size_override("font_size", roundi(22*text_scale*body_text_scale))
+	$MarginContainer/Content.add_child(passive_description)
+	passive_description.hide()
 	_ignore_mouse(self)
 	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Life steal", "Piercing", "Bounces", "Sell price", "Critical multiplier"]:
 		var caption := Label.new()
 		caption.text = stat_name
-		caption.add_theme_font_size_override("font_size", 22)
+		caption.add_theme_font_size_override("font_size", roundi(22*text_scale*body_text_scale))
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_add_stat_cell(caption, stat_name == "Sell price")
@@ -28,7 +49,7 @@ func _ready() -> void:
 		value.scroll_active = false
 		value.custom_minimum_size = Vector2(220, 30)
 		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		value.add_theme_font_size_override("normal_font_size", 22)
+		value.add_theme_font_size_override("normal_font_size", roundi(22*text_scale*body_text_scale))
 		value.set_meta("ui_color", "positive")
 		_add_stat_cell(value, stat_name == "Sell price")
 		value_labels.append(value)
@@ -52,11 +73,14 @@ func _ignore_mouse(control: Control) -> void:
 			_ignore_mouse(child)
 
 func show_for_card(card: ItemCard) -> void:
-	if not card.item is ItemWeapon or not card.is_visible_in_tree(): return
-	var weapon := card.item as ItemWeapon
-	if not weapon.stats: return
+	if not card.item or not card.is_visible_in_tree(): return
 	hovered_card = card
-	_update_weapon(weapon)
+	if card.item is ItemWeapon:
+		if not card.item.stats: return
+		_update_weapon(card.item)
+	elif card.item is ItemPassive:
+		_update_passive(card.item)
+	else: return
 	show()
 	set_process(true)
 	_position_above_card()
@@ -75,16 +99,23 @@ func _process(_delta: float) -> void:
 	if not is_instance_valid(hovered_card) or hovered_card.is_queued_for_deletion():
 		dismiss()
 		return
-	if not hovered_card.is_visible_in_tree() or (not hovered_card.has_focus() and not hovered_card.get_global_rect().has_point(get_global_mouse_position())):
+	if not hovered_card.is_visible_in_tree() or (not manual_selection and not hovered_card.has_focus() and not hovered_card.get_global_rect().has_point(get_global_mouse_position())):
 		dismiss()
 		return
-	if not hovered_card.item is ItemWeapon:
+	if hovered_card.item is ItemWeapon:
+		_update_weapon(hovered_card.item)
+	elif hovered_card.item is ItemPassive:
+		_update_passive(hovered_card.item)
+	else:
 		dismiss()
 		return
-	_update_weapon(hovered_card.item as ItemWeapon)
+	var bar=full_description.get_v_scroll_bar()
+	scroll_hint.visible=show_full_description and full_description.visible and bar.max_value>bar.page
 	_position_above_card()
 
 func _update_weapon(weapon: ItemWeapon) -> void:
+	stats_grid.show()
+	passive_description.hide()
 	displayed_weapon = weapon
 	weapon_icon.texture = weapon.item_icon
 	ItemBase.scale_icon(weapon_icon, weapon.icon_scale)
@@ -99,15 +130,15 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	add_theme_stylebox_override("panel", style)
 	var stats := weapon.stats
 	var values: Array[String] = [
-		weapon.get_damage_description(Global.player.stats if is_instance_valid(Global.player) else null),
-		"%s s" % _format_number(weapon.get_effective_cooldown(Global.player.stats if is_instance_valid(Global.player) else null)),
-		weapon.get_range_description(),
-		"%s%%" % _format_number(weapon.get_effective_critical_chance(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
-		"%s%%" % _format_number(weapon.get_effective_life_steal(Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
-		"Unlimited" if stats.unlimited_piercing else str(weapon.get_effective_piercing(Global.player.stats if is_instance_valid(Global.player) else null)),
-		str(weapon.get_effective_bounces(Global.player.stats if is_instance_valid(Global.player) else null)),
-		str(weapon.get_sell_price((get_parent() as ShopPanel).shop_wave)),
-		"%s x" % _format_number(weapon.get_effective_critical_multiplier(Global.player.stats if is_instance_valid(Global.player) else null))
+		weapon.get_damage_description(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null),
+		"%s s" % _format_number(weapon.get_effective_cooldown(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
+		_format_number(weapon.get_effective_range(preview_stats)) if preview_stats else weapon.get_range_description(),
+		"%s%%" % _format_number(weapon.get_effective_critical_chance(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
+		"%s%%" % _format_number(weapon.get_effective_life_steal(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
+		"Unlimited" if stats.unlimited_piercing else str(weapon.get_effective_piercing(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
+		str(weapon.get_effective_bounces(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
+		str(weapon.get_sell_price(shop_wave_override if shop_wave_override>=0 else (get_parent() as ShopPanel).shop_wave if get_parent() is ShopPanel else 1)),
+		"%s x" % _format_number(weapon.get_effective_critical_multiplier(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null))
 	]
 	for index in values.size():
 		var show_stat := index < 5 or index >= 7 or (weapon.has_tag(ItemWeapon.Tag.RANGED) and ((index == 5 and stats.unlimited_piercing) or int(values[index]) > 0))
@@ -115,17 +146,48 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 		value_labels[index].visible = show_stat
 		value_labels[index].add_theme_color_override("default_color", UITheme.palette.positive)
 		value_labels[index].text = "[right]%s[/right]" % UITheme.rich_text(values[index])
+	full_description.visible=show_full_description
+	if show_full_description:
+		var extra: PackedStringArray=[]
+		for line in weapon.get_description(preview_stats).split("\n"):
+			if line.get_slice(":",0).strip_edges().to_lower() not in ["damage","cooldown","range","critical chance","life steal","piercing","bounces"]: extra.append(line)
+		var description=UITheme.rich_text("\n".join(extra))
+		if full_description.text!=description: full_description.text=description
+		full_description.visible=not extra.is_empty()
+	reset_size()
+
+func _update_passive(item: ItemPassive) -> void:
+	full_description.hide()
+	displayed_weapon = null
+	stats_grid.hide()
+	passive_description.show()
+	weapon_icon.texture = item.item_icon
+	ItemBase.scale_icon(weapon_icon, item.icon_scale)
+	weapon_name.text = item.item_name
+	weapon_type.text = "Passive" + (" · ×%d" % hovered_card.quantity if hovered_card.quantity > 1 else "")
+	var style := Global.get_tier_style(item.item_tier).duplicate() as StyleBoxFlat
+	style.bg_color = UITheme.palette.surface
+	style.set_border_width_all(2)
+	style.shadow_color = UITheme.palette.shadow_color
+	style.shadow_size = UITheme.palette.shadow_size
+	add_theme_stylebox_override("panel", style)
+	passive_description.text = item.get_description()
+	if item.golden_multiplier > 1.0:
+		passive_description.text += "\nBeneficios ×%s · Penalizaciones ×%s%s" % [ItemWeapon.format_number(item.golden_multiplier), ItemWeapon.format_number(item.golden_penalty_multiplier), " · Perfecta" if item.golden_perfect else ""]
+	if show_full_description:
+		passive_description.hide()
+		full_description.show()
+		if full_description.text!=passive_description.text: full_description.text=passive_description.text
 	reset_size()
 
 func _format_number(value: float) -> String:
 	return ("%.2f" % value).trim_suffix("0").trim_suffix("0").trim_suffix(".")
 
 func _position_above_card() -> void:
-	var slot_rect := hovered_card.get_global_rect()
-	var bounds := (get_parent() as Control).get_global_rect().grow(-SCREEN_MARGIN)
-	var target := Vector2(slot_rect.get_center().x - size.x * 0.5, slot_rect.position.y - size.y - SLOT_GAP)
-	if target.y < bounds.position.y:
-		target.y = slot_rect.end.y + SLOT_GAP
-	target.x = clampf(target.x, bounds.position.x, maxf(bounds.position.x, bounds.end.x - size.x))
-	target.y = clampf(target.y, bounds.position.y, maxf(bounds.position.y, bounds.end.y - size.y))
-	global_position = target
+	# Work in the parent's coordinates: co-op canvases are scaled per quadrant.
+	var parent_control=get_parent() as Control
+	var slot_rect: Rect2=parent_control.get_global_transform().affine_inverse()*hovered_card.get_global_rect()
+	var bounds:=Rect2(Vector2.ZERO,parent_control.size).grow(-SCREEN_MARGIN)
+	var target:=Vector2(slot_rect.get_center().x-size.x*.5,slot_rect.position.y-size.y-SLOT_GAP)
+	if target.y<bounds.position.y: target.y=slot_rect.end.y+SLOT_GAP
+	position=target.clamp(bounds.position,(bounds.end-size).max(bounds.position))

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ArenaStage" load_steps=8 format=3 uid="uid://diytj0pixcxjt"]
 
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://iivbiw2wovh5" path="res://assets/environments/stages/oven_tray.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cr2xqarc60edl" path="res://assets/environments/stages/oven_tray_no_handles.png" id="2"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
 [ext_resource type="PackedScene" path="res://scenes/arena/mechanics/tray_mechanic.tscn" id="mechanic"]
@@ -23,8 +23,8 @@ script = ExtResource("3")
 first_wave = 1
 background_size = Vector2(3000, 2000)
 background_offset = Vector2(0, 0)
-vessel_size = Vector2(2900, 1900)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2997.76, 2000)
+vessel_offset = Vector2(-6.83083, 55.665)
 movement_bounds = Rect2(-1001.95, -515.625, 1992.19, 1080.08)
 oval = false
 corner_radius = 87.8906
@@ -32,13 +32,15 @@ camera_zoom = 0.924
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"oven_tray"
 display_name = "Oven tray"
 description = "Giant spatula pushes entities."
 vessel = ExtResource("2")
 background_color = Color(0.129412, 0.105882, 0.101961, 1)
-vessel_size = Vector2(3000, 2000)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2997.76, 2000)
+vessel_offset = Vector2(-6.83083, 55.665)
+vessel_body_rect = Rect2(98, 96, 1341, 800)
 play_area = SubResource("PlayArea")
 mechanic_scene = ExtResource("mechanic")
 background_material = SubResource("FluidBackground")

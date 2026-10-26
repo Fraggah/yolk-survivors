@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=35 format=3 uid="uid://85rf32ecc04m"]
 
 [ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
 [ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_dh0xd"]
@@ -15,6 +15,7 @@
 [ext_resource type="Resource" uid="uid://btond2h0jjbga" path="res://resources/items/weapons/range/corpse_l/item_corpse_l_1.tres" id="16_4wjk5"]
 [ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="17_tx3iw"]
 [ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="18_lur41"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_game_toggle.tscn" id="coop_toggle"]
 [ext_resource type="Resource" uid="uid://bty3cy6s1frh7" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_1.tres" id="new_carving_fork_1"]
 [ext_resource type="Resource" uid="uid://1f0en3f43328" path="res://resources/items/weapons/melee/electric_knife/item_electric_knife_1.tres" id="new_electric_knife_1"]
 [ext_resource type="Resource" uid="uid://ccenn175akxu4" path="res://resources/items/weapons/melee/frying_pan/item_frying_pan_1.tres" id="new_frying_pan_1"]
@@ -71,6 +72,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CustomButtonExit" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
+z_index = 3
 layout_mode = 1
 anchors_preset = 4
 anchor_left = 0.0
@@ -316,5 +318,16 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 46
 text = "Select Player"
+
+[node name="CoopGame" parent="." instance=ExtResource("coop_toggle")]
+z_index = 3
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = 90.0
+grow_horizontal = 0
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

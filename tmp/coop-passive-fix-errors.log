@@ -1,0 +1,8 @@
+SCRIPT ERROR: Compile Error: Identifier not found: Global
+   at: GDScript::reload (res://resources/items/passives/item_passive.gd:51)
+SCRIPT ERROR: Compile Error: Identifier not found: Global
+   at: GDScript::reload (res://resources/items/upgrades/item_upgrades.gd:9)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/verify_coop_shop_ui.gd:0)
+ERROR: Failed to load script "res://tests/verify_coop_shop_ui.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)

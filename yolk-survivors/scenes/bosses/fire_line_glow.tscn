@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="Shader" path="res://shaders/boss_laser_glow.gdshader" id="glow"]
+[sub_resource type="ShaderMaterial" id="Glow"]
+resource_local_to_scene = true
+shader = ExtResource("glow")
+shader_parameter/glow_color = Color(1, 0.32, 0.025, 1)
+
+[sub_resource type="Gradient" id="White"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="Surface"]
+gradient = SubResource("White")
+width = 1
+height = 1
+
+[node name="LaserGlow" type="Polygon2D"]
+material = SubResource("Glow")
+texture = SubResource("Surface")
+polygon = PackedVector2Array(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5)
+uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)

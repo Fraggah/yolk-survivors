@@ -31,6 +31,7 @@ camera_zoom = 0.924
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"neutral_plate"
 display_name = "Kitchen plate"
 description = "No environmental hazards."
@@ -38,5 +39,6 @@ vessel = ExtResource("2")
 background_color = Color(0.705882, 0.666667, 0.627451, 1)
 vessel_size = Vector2(2800, 1866.67)
 vessel_offset = Vector2(0, 0)
+vessel_body_rect = Rect2(0, 0, 0, 0)
 play_area = SubResource("PlayArea")
 background_material = SubResource("FluidBackground")

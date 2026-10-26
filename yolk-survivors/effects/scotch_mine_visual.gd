@@ -78,6 +78,7 @@ func configure(config: SpicyPatternSettings, reach: float, texture: Texture2D) -
 func detonate() -> void:
 	if detonated: return
 	detonated = true
+	SoundManager.play_event("explosion")
 	sprite.hide()
 	blast.show()
 	flame_burst.show()

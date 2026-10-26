@@ -21,7 +21,7 @@ func _ready() -> void:
 	current_cooldown = cooldown
 
 func _process(delta: float) -> void:
-	if Global.game_paused or enemy.is_retiring or not is_instance_valid(Global.player): return
+	if Global.game_paused or enemy.is_retiring or not is_instance_valid(Global.nearest_player(enemy.global_position)): return
 	if enemy.get_movement_multiplier() <= 0.0 or enemy.launch_left > 0.0: return
 	match state:
 		State.PURSUIT:
@@ -30,8 +30,8 @@ func _process(delta: float) -> void:
 		State.PREPARING:
 			state_time -= delta
 			if state_time <= 0.0:
-				charge_direction = enemy.global_position.direction_to(Global.player.global_position)
-				var distance := minf(maximum_charge_distance, enemy.global_position.distance_to(Global.player.global_position))
+				charge_direction = enemy.global_position.direction_to(Global.nearest_player(enemy.global_position).global_position)
+				var distance := minf(maximum_charge_distance, enemy.global_position.distance_to(Global.nearest_player(enemy.global_position).global_position))
 				charge_atk_position = enemy.global_position + charge_direction * distance
 				if enemy.arena_environment: charge_atk_position = enemy.arena_environment.clamp_position(charge_atk_position)
 				enemy.update_rotation()

@@ -12,6 +12,9 @@ func verify():
 	var copies: Array[WaveData] = []
 	for resource in spawner.waves_data:
 		var wave = resource.duplicate(true)
+		# Exercise the timed-wave fallback; the configured wave-20 encounter
+		# and its real victory path are covered by verify_wave20_boss.gd.
+		wave.boss_encounter = null
 		wave.wave_time = 8.0
 		for group in wave.groups + wave.events:
 			group.start_second *= .02

@@ -1,0 +1,4 @@
+Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
+
+PASS rotating turrets: phase transition, one every 3 s, lifetime 3 s, warning, +/-30 degrees/s, contact/rotated damage, dash, pause, edge cues and cleanup

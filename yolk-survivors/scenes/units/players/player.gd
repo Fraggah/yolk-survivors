@@ -2,6 +2,7 @@ extends Unit
 class_name Player
 
 var passive_items: Node
+var coop_session: RefCounted
 
 func get_weapon_limit() -> int:
 	return Global.MAX_EQUIPPED_WEAPONS + (passive_items.weapon_slot_bonus() if is_instance_valid(passive_items) else 0)
@@ -95,7 +96,7 @@ func _process(delta: float) -> void:
 			health_component.take_damage(health_drain_per_second+health_component.max_health*max_health_drain_percent_per_second/100.0)
 	hit_invulnerability_left = maxf(0.0, hit_invulnerability_left - delta)
 	life_steal_cooldown = maxf(0.0, life_steal_cooldown - delta)
-	move_dir = Input.get_vector("move_left","move_right","move_up","move_down")
+	move_dir = coop_session.poll_movement() if coop_session else Input.get_vector("move_left","move_right","move_up","move_down")
 
 	var current_velocity := move_dir * stats.speed * get_status_movement_multiplier()
 	if is_dashing:
@@ -129,6 +130,7 @@ func add_weapon(data: ItemWeapon) -> void:
 	weapons_container.update_weapons_position(current_weapons)
 
 func start_dash() -> void:
+	SoundManager.play_event("dash")
 	is_dashing = true
 	dash_timer.start()
 	visuals.modulate.a = .9
@@ -137,9 +139,11 @@ func start_dash() -> void:
 	shadow.material.set_shader_parameter("outline_color", Color(.0,.0,.0,.0))
 
 func can_dash() -> bool:
+	var requested: bool = coop_session.dash_requested if coop_session else Input.is_action_just_pressed("dash")
+	if coop_session: coop_session.dash_requested = false
 	return not is_dashing and\
 	dash_cooldown_timer.is_stopped() and\
-	Input.is_action_just_pressed("dash") and\
+	requested and\
 	move_dir != Vector2.ZERO
 
 func update_animations() -> void:
@@ -219,6 +223,9 @@ func _update_regeneration(delta: float) -> void:
 
 
 func _on_health_component_on_unit_died() -> void:
+	if coop_session:
+		get_tree().current_scene.coop.player_down(self)
+		return
 	Global.on_player_died.emit()
 	print("final player") # se emite
 

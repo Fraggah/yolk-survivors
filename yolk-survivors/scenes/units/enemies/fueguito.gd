@@ -5,6 +5,7 @@ extends Enemy
 
 func _ready() -> void:
 	super._ready()
+	SoundManager.play_event("fueguito_spawn")
 	contact_hitbox.setup(stats.damage, false, 0.0, self)
 	contact_hitbox.status_effects.append(load("res://resources/statuses/fueguito_fire.tres"))
 
@@ -21,6 +22,15 @@ func apply_knockback(_knock_dir: Vector2, _knock_pow: float) -> void:
 
 func _on_health_component_on_unit_died() -> void:
 	pass
+
+var exit_announced := false
+func announce_exit() -> void:
+	if exit_announced: return
+	exit_announced = true
+	SoundManager.play_event("fueguito_exit")
+
+func _exit_tree() -> void:
+	if is_instance_valid(get_tree().current_scene) and not get_tree().current_scene.is_queued_for_deletion(): announce_exit()
 
 func destroy_enemy() -> void:
 	# The pan owner handles retirement and its flare, outside generic enemy cleanup.

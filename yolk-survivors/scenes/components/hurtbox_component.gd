@@ -5,6 +5,16 @@ signal on_damage(hitbox: HitboxComponent)
 
 const CONTACT_INTERVAL := 0.5
 var contact_cooldowns: Dictionary = {}
+var target_shape: CollisionShape2D
+
+func get_target_position() -> Vector2:
+	# The Area2D origin need not coincide with its authored floor-level shape.
+	if not is_instance_valid(target_shape):
+		for child in get_children():
+			if child is CollisionShape2D and child.shape:
+				target_shape=child
+				break
+	return target_shape.global_position if is_instance_valid(target_shape) else global_position
 
 func _ready() -> void:
 	set_physics_process(false)

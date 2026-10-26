@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 func _on_hitbox_component_on_hit_hurtbox(hurtbox: HurtboxComponent) -> void:
 	if planted or Global.game_paused or is_queued_for_deletion(): return
 	var enemy := hurtbox.owner as Enemy
-	if not is_instance_valid(enemy) or enemy.is_retiring or enemy.health_component.current_health <= 0.0: return
+	if not is_instance_valid(enemy) or enemy.displacement_immune or enemy.is_retiring or enemy.health_component.current_health <= 0.0: return
 	var id := hurtbox.get_instance_id()
 	if hit_targets.has(id): return
 	hit_targets[id] = true

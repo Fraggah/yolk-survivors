@@ -15,7 +15,11 @@ func verify():
 		sound.play_stream(sound.get(field),field)
 		sound.set(field,old)
 	assert(sound.stream_players.all(func(p): return not p.playing))
-	var clip = load("res://assets/audio/EnemyHit.wav")
+	var clip = AudioStreamWAV.new()
+	clip.mix_rate = 22050
+	var sample = PackedByteArray()
+	sample.resize(44100)
+	clip.data = sample
 	sound.ui_play = clip
 	sound.event_times.clear()
 	arena.start_panel.get_node("MarginContainer/VBoxContainer/PlayButton").pressed.emit()
@@ -37,3 +41,4 @@ func verify():
 	assert(sound.stream_players.any(func(p): return p.playing and p.stream == clip))
 	print("PASS all inspector SFX fields, safe empty slots, Play semantic event, repeat limit and per-weapon override")
 	quit()
+

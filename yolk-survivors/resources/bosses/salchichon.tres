@@ -1,0 +1,122 @@
+[gd_resource type="Resource" load_steps=10 format=3 uid="uid://bw1r3x0c0a2gc"]
+
+[ext_resource type="PackedScene" uid="uid://ds4d18asn4qqr" path="res://scenes/bosses/salchichon/salchichon.tscn" id="boss"]
+[ext_resource type="Resource" path="res://resources/wave/enemies/fueguito.tres" id="fueguito"]
+[ext_resource type="Script" uid="uid://cndqhnxjdqiyc" path="res://resources/bosses/static_line_pattern.gd" id="line_pattern"]
+[ext_resource type="Script" uid="uid://c84msqpmj8gqe" path="res://resources/bosses/boss_encounter_settings.gd" id="settings"]
+[ext_resource type="Resource" uid="uid://bs57tdgd5uu7c" path="res://resources/bosses/salchichon_arena.tres" id="stage"]
+[ext_resource type="PackedScene" path="res://scenes/bosses/sausage_turret.tscn" id="turret_art"]
+
+[sub_resource type="Resource" id="horizontal_lines"]
+script = ExtResource("line_pattern")
+label = "Irregular cross A"
+horizontal_positions = PackedFloat32Array(0.05, 0.14, 0.21, 0.38, 0.49, 0.57, 0.77, 0.94)
+vertical_positions = PackedFloat32Array(0.025, 0.085, 0.13, 0.21, 0.32, 0.37, 0.46, 0.58, 0.635, 0.73, 0.86, 0.96)
+
+[sub_resource type="Resource" id="vertical_lines"]
+script = ExtResource("line_pattern")
+label = "Irregular cross B"
+horizontal_positions = PackedFloat32Array(0.035, 0.19, 0.27, 0.34, 0.53, 0.65, 0.73, 0.93)
+vertical_positions = PackedFloat32Array(0.04, 0.15, 0.205, 0.26, 0.38, 0.49, 0.535, 0.63, 0.755, 0.81, 0.88, 0.975)
+
+[sub_resource type="Resource" id="cross_lines"]
+script = ExtResource("line_pattern")
+label = "Irregular cross C"
+horizontal_positions = PackedFloat32Array(0.075, 0.15, 0.32, 0.43, 0.5, 0.69, 0.81, 0.9)
+vertical_positions = PackedFloat32Array(0.02, 0.08, 0.195, 0.3, 0.355, 0.42, 0.55, 0.665, 0.72, 0.825, 0.89, 0.955)
+
+[resource]
+script = ExtResource("settings")
+boss_name = "Salchichón del Infierno"
+arena_stage = ExtResource("stage")
+boss_scene = ExtResource("boss")
+total_health = 1000.0
+vulnerable_seconds = 8.0
+section_seconds = 30.0
+initial_wait_seconds = 3.0
+departure_wait_seconds = 2.0
+landing_warning_seconds = 1.2
+fall_seconds = 0.4
+contact_damage = 5.0
+landing_damage = 5.0
+landing_radius_multiplier = 1.0
+fall_height = 600.0
+landing_visual_radius_multiplier = 1.1
+takeoff_anticipation_seconds = 0.22
+takeoff_jump_seconds = 0.48
+takeoff_compression = 0.22
+takeoff_height = 1800.0
+idle_squash_strength = 0.045
+idle_squash_period = 1.4
+landing_squash_strength = 0.2
+landing_squash_seconds = 0.55
+test_health = 85.0
+test_regen = 0.0
+test_ranged_damage = 15.0
+test_damage_percent = 40.0
+test_armor = 15.0
+test_block_chance = 20.0
+test_life_steal = 20.0
+static_line_patterns = Array[Resource]([SubResource("horizontal_lines"), SubResource("vertical_lines"), SubResource("cross_lines")])
+line_width = 72.0
+line_damage = 10.0
+laser_end_overscan = 240.0
+laser_glow_strength = 1.0
+laser_flash_strength = 1.225
+laser_flash_seconds = 0.22
+line_target_player = true
+line_warning_seconds = 1.2
+line_active_seconds = 1.0
+line_rest_seconds = 0.8
+turret_scene = ExtResource("turret_art")
+turret_batch_interval = 2.0
+turret_lifetime = 4.0
+turret_warning_seconds = 1.2
+turret_target_player = true
+turret_line_width = 72.0
+turret_line_damage = 10.0
+turret_contact_damage = 5.0
+turret_spawn_min_distance = 220.0
+turret_contact_radius = 42.0
+turret_visual_height = 140.0
+turret_positions = PackedVector2Array(0.18, 0.23, 0.52, 0.2, 0.82, 0.32, 0.25, 0.76, 0.62, 0.7, 0.87, 0.8, 0.12, 0.55, 0.45, 0.42, 0.78, 0.16, 0.31, 0.15, 0.6, 0.85, 0.88, 0.51)
+fueguito_profile = ExtResource("fueguito")
+fueguito_interval = 3.0
+fueguito_flare_seconds = 0.45
+hot_zone_interval = 5.0
+hot_zone_count = 12
+hot_zone_radius = 350.0
+hot_zone_damage = 2.0
+hot_zone_damage_interval = 0.75
+hot_zone_warning_seconds = 1.0
+hot_zone_cooling_seconds = 1.2
+phase_two_fueguito_enabled = true
+moving_line_interval = 3.0
+moving_line_warning_seconds = 0.6
+moving_line_travel_seconds = 2.4
+moving_line_width = 72.0
+moving_line_damage = 10.0
+moving_line_directions = PackedVector2Array(0, -1, 0, 1, 1, -1, -1, 0, 1, 0, -1, -1, 1, 0, 1, 1, -1, 1, 0, -1)
+moving_line_double_attacks = PackedInt32Array(5, 10)
+moving_line_triple_from = 6
+moving_line_triple_spacing = 108.0
+moving_line_parallel_count = 3
+rotating_turret_interval = 3.0
+rotating_turret_lifetime = 3.0
+rotating_turret_warning_seconds = 1.2
+rotating_turret_degrees_per_second = 30.0
+intensified_line_interval = 2.0
+intensified_line_density = 0.375
+complex_line_interval = 2.5
+complex_moving_warning_seconds = 0.5
+complex_moving_travel_seconds = 1.5
+complex_moving_parallel_count = 5
+complex_moving_spacing = 108.0
+mobile_turret_start_positions = PackedVector2Array(0.18, 0.25, 0.82, 0.75, 0.2, 0.75, 0.8, 0.25, 0.5, 0.2, 0.15, 0.5)
+mobile_turret_end_positions = PackedVector2Array(0.82, 0.25, 0.18, 0.75, 0.8, 0.25, 0.2, 0.75, 0.5, 0.8, 0.85, 0.5)
+mixed_mechanic_interval = 2.5
+rotating_turret_spawn_limit = 0
+rotating_turret_sequence_offset = 0
+test_static_lines_first = false
+test_moving_lines_first = false
+test_complex_lines_first = false

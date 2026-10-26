@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed.
+   at: verify (res://tests/verify_stats_pages.gd:71)

@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed.
+   at: verify (res://tests/verify_player_roster.gd:15)

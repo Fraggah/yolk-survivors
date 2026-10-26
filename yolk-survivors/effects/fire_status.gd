@@ -9,7 +9,7 @@ var tint := Color.ORANGE
 var contributions: Dictionary = {}
 
 static func apply(enemy: Unit, key: String, template: HitboxComponent, settings: StatusEffect, damage_scaled: bool = false) -> void:
-	if settings.duration <= 0.0: return
+	if enemy.status_immune or settings.duration <= 0.0: return
 	var was_burning := enemy.has_status(Unit.State.BURNING)
 	var source_stats: UnitStats = template.source.stats if is_instance_valid(template.source) and template.source is Unit else null
 	var duration: float = source_stats.get_fire_duration(settings.duration) if source_stats else settings.duration
@@ -59,6 +59,7 @@ static func apply(enemy: Unit, key: String, template: HitboxComponent, settings:
 	enemy.status_controller.register_burning(burn)
 	load("res://effects/fire_visual.gd").attach(enemy,burn,settings.fire_visuals,settings.color)
 	if not was_burning and burn.remaining > 0.0:
+		SoundManager.play_event("burning_apply")
 		load("res://effects/fire_spread.gd").on_burning_started(enemy, key, template, settings, damage_scaled)
 
 func _ready() -> void:

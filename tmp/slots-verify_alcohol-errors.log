@@ -1,0 +1,6 @@
+ERROR: Attempt to open script 'res://tests/verify_alcohol.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1115)
+ERROR: Failed loading resource: res://tests/verify_alcohol.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Can't load script: res://tests/verify_alcohol.gd
+   at: start (main/main.cpp:3927)

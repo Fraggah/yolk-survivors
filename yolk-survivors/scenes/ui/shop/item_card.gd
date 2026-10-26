@@ -2,6 +2,7 @@ extends Button
 class_name ItemCard
 
 signal on_item_card_selected(card: ItemCard)
+var independent_selection := false
 var weapon_instance: Weapon
 
 @export var item: ItemBase: set  = _set_item
@@ -33,7 +34,7 @@ func _set_item(value: ItemBase) -> void:
 
 func _on_pressed() -> void:
 	SoundManager.play_sound(SoundManager.Sound.UI_CLICK)
-	if item.item_type == ItemBase.ItemType.WEAPON:
+	if item.item_type == ItemBase.ItemType.WEAPON and not independent_selection:
 		Global.selected_weapon = item as ItemWeapon
 	on_item_card_selected.emit(self)
 
@@ -58,7 +59,4 @@ func _refresh_golden_visual() -> void:
 		stars.position = size * 0.5
 		stars.radius = minf(size.x, size.y) * 0.45
 		add_child(stars)
-	tooltip_text = item.item_name
-	if item is ItemPassive: tooltip_text += "\n" + ("Base: " if item.golden_multiplier > 1.0 else "") + item.get_description()
-	if item.golden_multiplier > 1.0:
-		tooltip_text += "\nBeneficios ×%s · Penalizaciones ×%s%s" % [ItemWeapon.format_number(item.golden_multiplier), ItemWeapon.format_number(item.golden_penalty_multiplier), " · Perfecta" if item.golden_perfect else ""]
+	tooltip_text = ""

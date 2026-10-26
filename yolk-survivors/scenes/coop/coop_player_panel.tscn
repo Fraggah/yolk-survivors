@@ -1,0 +1,294 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="Script" path="res://scenes/coop/coop_shop_panel.gd" id="script"]
+[ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="fit"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_offer_card.tscn" id="offer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/stats/stats_container.tscn" id="stats"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk.png" id="yolk"]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/weapon_tooltip.tscn" id="tooltip"]
+
+[sub_resource type="StyleBoxFlat" id="inner_surface"]
+bg_color = Color(1,0.968627,0.901961,1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[node name="PlayerPanel" type="PanelContainer"]
+offset_right = 940.0
+offset_bottom = 520.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("script")
+clip_contents = true
+
+[node name="InnerFrame" type="Control" parent="."]
+mouse_filter = 2
+[node name="Surface" type="Panel" parent="InnerFrame"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner_surface")
+
+[node name="Margin" type="MarginContainer" parent="."]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+theme_override_constants/separation = 4
+
+[node name="ShopViewport" type="Container" parent="Margin/Content"]
+size_flags_vertical = 3
+script = ExtResource("fit")
+design_size = Vector2(1880,1080)
+
+[node name="ShopView" type="Control" parent="Margin/Content/ShopViewport"]
+offset_right = 1880
+offset_bottom = 1080
+scale = Vector2(0.48,0.48)
+mouse_filter = 2
+
+[node name="Balance" type="Label" parent="Margin/Content/ShopViewport/ShopView"]
+offset_left = 84
+offset_top = 12
+offset_right = 300
+offset_bottom = 108
+text = "25"
+theme_override_font_sizes/font_size = 72
+vertical_alignment = 1
+
+[node name="Yolk" type="TextureRect" parent="Margin/Content/ShopViewport/ShopView"]
+texture_filter = 4
+offset_left = 0
+offset_top = 24
+offset_right = 72
+offset_bottom = 96
+texture = ExtResource("yolk")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Cards" type="HBoxContainer" parent="Margin/Content/ShopViewport/ShopView"]
+offset_top = 120
+offset_right = 1880
+offset_bottom = 772
+theme_override_constants/separation = 16
+
+[node name="Offer0" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
+layout_mode = 2
+text_scale = 2.0
+
+[node name="Offer1" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
+layout_mode = 2
+text_scale = 2.0
+
+[node name="Offer2" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
+layout_mode = 2
+text_scale = 2.0
+
+[node name="Offer3" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
+layout_mode = 2
+
+text_scale = 2.0
+
+[node name="Stats" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("stats")]
+visible = false
+text_scale = 1.85
+offset_left = 0
+offset_top = 120
+offset_right = 900
+offset_bottom = 950
+
+[node name="Refresh" type="Button" parent="Margin/Content/ShopViewport/ShopView"]
+offset_left = 1438
+offset_top = 28
+offset_right = 1864
+offset_bottom = 92
+text = ""
+theme_override_font_sizes/font_size = 48
+focus_mode = 0
+[node name="Content" type="HBoxContainer" parent="Margin/Content/ShopViewport/ShopView/Refresh"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+theme_override_constants/separation = 12
+mouse_filter = 2
+[node name="CostLabel" type="Label" parent="Margin/Content/ShopViewport/ShopView/Refresh/Content"]
+text = "REFRESH 1"
+theme_override_font_sizes/font_size = 48
+vertical_alignment = 1
+mouse_filter = 2
+[node name="YolkIcon" type="TextureRect" parent="Margin/Content/ShopViewport/ShopView/Refresh/Content"]
+custom_minimum_size = Vector2(48,48)
+size_flags_vertical = 4
+texture_filter = 4
+texture = ExtResource("yolk")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Inventory" type="Control" parent="Margin/Content/ShopViewport/ShopView"]
+offset_top = 0
+offset_right = 1880
+offset_bottom = 950
+theme_override_constants/separation = 16
+
+[node name="PassivesPanel" type="VBoxContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory"]
+visible = false
+offset_top = 120.0
+offset_right = 1880.0
+offset_bottom = 950.0
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Margin/Content/ShopViewport/ShopView/Inventory/PassivesPanel"]
+text = "ITEMS"
+theme_override_font_sizes/font_size = 61
+horizontal_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory/PassivesPanel"]
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="Passives" type="GridContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory/PassivesPanel/Scroll"]
+columns = 18
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="WeaponsPanel" type="VBoxContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory"]
+offset_top = 792.0
+offset_right = 1880.0
+offset_bottom = 950.0
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Margin/Content/ShopViewport/ShopView/Inventory/WeaponsPanel"]
+text = "WEAPONS"
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 0
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory/WeaponsPanel"]
+size_flags_vertical = 3
+horizontal_scroll_mode = 1
+vertical_scroll_mode = 0
+
+[node name="Weapons" type="GridContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory/WeaponsPanel/Scroll"]
+columns = 99
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="Ready" type="Button" parent="Margin/Content/ShopViewport/ShopView"]
+offset_left = 1428.0
+offset_top = 980
+offset_right = 1880.0
+offset_bottom = 1070
+text = "LISTO"
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 74
+focus_mode = 0
+
+[node name="WeaponActions" type="PanelContainer" parent="Margin/Content/ShopViewport/ShopView"]
+visible = false
+z_index = 101
+offset_left = 650
+offset_top = 400
+offset_right = 1150
+offset_bottom = 588
+[node name="Margin" type="MarginContainer" parent="Margin/Content/ShopViewport/ShopView/WeaponActions"]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+[node name="Content" type="VBoxContainer" parent="Margin/Content/ShopViewport/ShopView/WeaponActions/Margin"]
+theme_override_constants/separation = 8
+[node name="Combine" type="Button" parent="Margin/Content/ShopViewport/ShopView/WeaponActions/Margin/Content"]
+text = "COMBINAR"
+custom_minimum_size = Vector2(480,52)
+theme_override_font_sizes/font_size = 48
+focus_mode = 0
+[node name="Sell" type="Button" parent="Margin/Content/ShopViewport/ShopView/WeaponActions/Margin/Content"]
+text = "VENDER"
+custom_minimum_size = Vector2(480,52)
+theme_type_variation = &"DangerButton"
+theme_override_font_sizes/font_size = 48
+focus_mode = 0
+[node name="Close" type="Button" parent="Margin/Content/ShopViewport/ShopView/WeaponActions/Margin/Content"]
+text = "VOLVER"
+custom_minimum_size = Vector2(480,48)
+theme_override_font_sizes/font_size = 48
+focus_mode = 0
+
+[node name="Inspect" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("tooltip")]
+manual_selection = true
+show_full_description = true
+text_scale = 1.8
+body_text_scale = 0.5
+
+[node name="Empty" type="Label" parent="."]
+visible = false
+text = "Jugador no conectado"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 42
+
+[node name="TabAnchor" type="Control" parent="."]
+mouse_filter = 2
+[node name="PlayerTab" type="PanelContainer" parent="TabAnchor"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = 0.0
+offset_right = 32.0
+grow_horizontal = 2
+offset_bottom = 26.0
+mouse_filter = 2
+[node name="Label" type="Label" parent="TabAnchor/PlayerTab"]
+text = "P1"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+mouse_filter = 2
+
+[node name="StatsSecondary" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("stats")]
+visible = false
+text_scale = 1.85
+offset_left = 960.0
+offset_top = 120.0
+offset_right = 1860.0
+offset_bottom = 950.0
+[node name="ItemsButton" type="Button" parent="Margin/Content/ShopViewport/ShopView"]
+offset_left = 476.0
+offset_top = 980.0
+offset_right = 928.0
+offset_bottom = 1070.0
+text = "ITEMS"
+theme_override_font_sizes/font_size = 74
+focus_mode = 0
+[node name="StatsButton" type="Button" parent="Margin/Content/ShopViewport/ShopView"]
+offset_left = 952.0
+offset_top = 980.0
+offset_right = 1404.0
+offset_bottom = 1070.0
+text = "STATS"
+theme_override_font_sizes/font_size = 74
+focus_mode = 0
+
+[node name="ReadyShade" type="ColorRect" parent="."]
+visible = false
+z_index = 200
+color = Color(0,0,0,0.45)
+mouse_filter = 2
+
+[node name="ShopButton" type="Button" parent="Margin/Content/ShopViewport/ShopView"]
+offset_top = 980.0
+offset_right = 452.0
+offset_bottom = 1070.0
+text = "SHOP"
+theme_override_font_sizes/font_size = 74
+focus_mode = 0

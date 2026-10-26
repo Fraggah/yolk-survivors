@@ -21,6 +21,7 @@ func has_status_named(state_name: String) -> bool:
 	return false
 
 
+@export var status_immune := false
 @export var stats: UnitStats
 var last_hit_grants_rewards := true
 var status_controller: Node2D
@@ -31,6 +32,10 @@ var status_movement_multiplier := 1.0
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var flash_timer: Timer = $FlashTimer
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
+
+func get_aim_position() -> Vector2:
+	return hurtbox_component.get_target_position()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -52,6 +57,7 @@ func get_status_movement_multiplier() -> float:
 	return status_movement_multiplier
 
 func immobilize_for(duration: float, source_stats: UnitStats = null) -> void:
+	if status_immune: return
 	status_controller.add_slow(0.0, duration * (source_stats.get_crowd_control_multiplier() if source_stats else 1.0))
 
 func set_flash_material() -> void:

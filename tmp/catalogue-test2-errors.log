@@ -1,0 +1,6 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "chain_limit" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://effects/status_controller.gd:98)
+ERROR: Failed to load script "res://effects/status_controller.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Player._ready (res://scenes/units/unit.gd:46)

@@ -91,6 +91,7 @@ func _ready() -> void:
 
 static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxComponent, spread: bool = true) -> void:
 	if not is_instance_valid(target) or target.is_queued_for_deletion() or target.health_component.current_health <= 0.0: return
+	if target.status_immune: return
 	if target is Enemy and not target.targetable: return
 	if target is Player and is_instance_valid(target.passive_items):
 		target.passive_items.on_status_applied(effect.kind, target.has_status(Unit.State.BURNING if effect.kind == StatusEffect.Kind.FIRE else Unit.State.SHOKED))
@@ -124,6 +125,7 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		if neighbors.size() > chain_limit: neighbors.resize(chain_limit)
 	var controller = target.status_controller
 	var status_duration := effect.duration * (source_stats.effect_duration_multiplier() if source_stats else 1.0)
+	if status_duration>0 and controller.lightning_left<=0: SoundManager.play_event("electric_apply")
 	controller.lightning_left = maxf(controller.lightning_left, status_duration)
 	controller.electric_duration = maxf(0.01, controller.lightning_left)
 	controller.electric_elapsed = 0.0
@@ -166,6 +168,7 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 	for neighbor in neighbors: apply_effect(neighbor, effect, template, false)
 
 func add_slow(factor: float, duration: float) -> void:
+	if get_parent().status_immune: return
 	if duration > 0.0:
 		for slow in slows:
 			if is_equal_approx(slow.factor,clampf(factor,0.0,1.0)):
@@ -237,8 +240,8 @@ func _set_burning_enemy_counted(active: bool) -> void:
 	if _counted_burning_enemy == active: return
 	_counted_burning_enemy = active
 	burning_enemy_count = maxi(0, burning_enemy_count + (1 if active else -1))
-	if is_instance_valid(Global.player) and not Global.player.is_queued_for_deletion() and is_instance_valid(Global.player.passive_items):
-		Global.player.passive_items.refresh_flambe_damage()
+	for actor in Global.live_players():
+		if is_instance_valid(actor.passive_items): actor.passive_items.refresh_flambe_damage()
 
 func _exit_tree() -> void:
 	_set_burning_enemy_counted(false)

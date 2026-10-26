@@ -167,7 +167,7 @@ func _jabs(tween: Tween) -> void:
 func _scrape(tween: Tween) -> void:
 	var timing: float = _timing() * weapon.get_parent().stats.get_crowd_control_multiplier()
 	_release_captured()
-	var center := weapon.closest_target.global_position if is_instance_valid(weapon.closest_target) else hitbox.global_position
+	var center := weapon.closest_target.get_aim_position() if is_instance_valid(weapon.closest_target) else hitbox.global_position
 	for enemy in weapon.get_tree().get_nodes_in_group("combat_enemies"):
 		if enemy is Enemy and not enemy.is_retiring and enemy.health_component.current_health > 0.0 and enemy.global_position.distance_to(center) <= tuning.capture_radius * absf(weapon.global_scale.x) * weapon.get_parent().stats.get_area_radius_multiplier():
 			captured_enemies.append(enemy)
@@ -236,8 +236,8 @@ func _start_roll_return() -> void:
 	_begin_pulse()
 
 func _second_ladle_target() -> Enemy:
-	if not is_instance_valid(Global.player): return null
-	var origin := Global.player.global_position
+	if not is_instance_valid(weapon.get_parent()): return null
+	var origin: Vector2 = weapon.get_parent().global_position
 	var radius: float = weapon.get_effective_range() * absf(weapon.global_scale.x)
 	var eligible: Array[Enemy] = []
 	for enemy in weapon.get_tree().get_nodes_in_group("combat_enemies"):

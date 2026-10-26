@@ -11,6 +11,8 @@ func setup(panel: Control) -> void:
 	menu = panel
 	body = Control.new()
 	body.name = "RosterLayout"
+	# The layout itself is transparent to input; its buttons remain interactive.
+	body.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	menu.add_child(body)
 	back = menu.heading.get_node("CustomButtonExit")
 	for node in [menu.heading, back, menu.player_panel, menu.weapon_panel, menu.players_container, menu.weapons_container]:
@@ -95,6 +97,10 @@ func refresh() -> void:
 	menu.heading.add_theme_font_size_override("font_size", clampi(int(menu.size.y * 0.045), 30, 48))
 	back.position = Vector2(area.position.x, 30)
 	back.size = Vector2(back_width, 60)
+	var coop_toggle := menu.get_node_or_null("CoopGame") as Button
+	if coop_toggle:
+		coop_toggle.position = Vector2(menu.size.x - area.position.x - back_width, back.position.y)
+		coop_toggle.size = back.size
 	var character: bool = menu.selection_mode == menu.SelectionMode.CHARACTER
 	_place(menu.player_panel, player_slot_rects(1, not character)[0])
 	if character:

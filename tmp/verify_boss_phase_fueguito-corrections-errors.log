@@ -1,0 +1,14 @@
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+   at: GDScript::reload (res://scenes/bosses/hot_zones_fueguitos.gd:99)
+ERROR: Failed to load script "res://scenes/bosses/hot_zones_fueguitos.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _next_section (res://scenes/bosses/boss_encounter.gd:121)
+SCRIPT ERROR: Parse Error: Could not resolve super class inheritance from "res://scenes/bosses/hot_zones_fueguitos.gd".
+   at: GDScript::reload (res://scenes/bosses/phase_fueguito.gd:1)
+ERROR: Failed to load script "res://scenes/bosses/phase_fueguito.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3022)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _begin_phase (res://scenes/bosses/boss_encounter.gd:84)
+SCRIPT ERROR: Assertion failed.
+   at: verify (res://tests/verify_boss_phase_fueguito.gd:36)

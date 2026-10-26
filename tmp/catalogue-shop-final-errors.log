@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed.
+   at: verify (res://tests/verify_catalogue_shop.gd:40)

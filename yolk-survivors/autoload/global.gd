@@ -65,6 +65,30 @@ var coins: int = STARTING_COINS
 # Unspent pickups from the previous wave, redeemed only by real pickups.
 var yolk_reserve: int = 0
 var player: Player
+## Local co-op participants. Empty retains the existing single-player path.
+var coop_players: Array[Player] = []
+
+func live_players() -> Array[Player]:
+	var result: Array[Player] = []
+	for actor in coop_players:
+		if is_instance_valid(actor) and not actor.is_queued_for_deletion() and actor.health_component.current_health>0: result.append(actor)
+	if coop_players.is_empty() and is_instance_valid(player) and not player.is_queued_for_deletion() and player.health_component.current_health>0: result.append(player)
+	return result
+
+func nearest_player(origin: Vector2) -> Player:
+	var best: Player
+	var distance := INF
+	for actor in live_players():
+		var squared := origin.distance_squared_to(actor.global_position)
+		if squared < distance:
+			best=actor
+			distance=squared
+	return best
+
+func players_clear_of(point: Vector2, distance: float) -> bool:
+	for actor in live_players():
+		if point.distance_squared_to(actor.global_position)<distance*distance: return false
+	return true
 var game_paused: bool:
 	set(value):
 		game_paused = value

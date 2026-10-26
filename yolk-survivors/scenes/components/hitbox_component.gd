@@ -79,6 +79,8 @@ func report_damage(target: Unit, amount: float) -> void:
 			share.record.total_damage += amount*share.weight
 	if target is Enemy and is_instance_valid(source) and source is Player:
 		source.try_life_steal(life_steal_chance)
+	if not is_status_damage and target is Enemy:
+		SoundManager.play_stream(weapon_damage_record.get("impact_sound"),weapon_damage_record.get("impact_event","weapon_impact"))
 	damage_dealt.emit(target, amount)
 	if not weapon_damage_record.is_empty():
 		if _breading_handler == null: _breading_handler = load("res://effects/breading_hit.gd")

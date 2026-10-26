@@ -42,4 +42,5 @@ func heal(amount: float) -> void:
 	on_health_changed.emit(current_health, max_health)
 
 func die() -> void:
+	if owner is Player and owner.coop_session: return
 	owner.queue_free()

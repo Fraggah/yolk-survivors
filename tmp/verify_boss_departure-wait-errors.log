@@ -1,0 +1,4 @@
+SCRIPT ERROR: Compile Error: Identifier not found: Global
+   at: GDScript::reload (res://tests/verify_boss_departure.gd:9)
+ERROR: Failed to load script "res://tests/verify_boss_departure.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3022)

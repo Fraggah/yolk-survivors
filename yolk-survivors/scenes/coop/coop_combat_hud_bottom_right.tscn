@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_combat_hud_right.tscn" id="base"]
+[node name="PlayerHUD" instance=ExtResource("base")]
+[node name="Balance" parent="Wallet" index="0"]
+offset_top = -56.0
+offset_bottom = -4.0

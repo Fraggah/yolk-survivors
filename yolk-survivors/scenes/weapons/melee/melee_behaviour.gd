@@ -75,7 +75,7 @@ func _execute_semicircle() -> void:
 
 func _sweep_center() -> Vector2:
 	# Keep the arc centered on the player regardless of the equipped slot.
-	return weapon.to_local(Global.player.global_position)
+	return weapon.to_local(weapon.get_parent().global_position)
 
 func reset_attack() -> void:
 	super.reset_attack()

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ArenaStage" load_steps=8 format=3 uid="uid://chbng8ed5nku1"]
 
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://bymhlg3a5sgf1" path="res://assets/environments/stages/iron_griddle.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cispvpfg8vhym" path="res://assets/environments/stages/iron_griddle_no_handles.png" id="2"]
 [ext_resource type="Script" uid="uid://c6coucr6vlbcl" path="res://resources/arena_environment.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cd2gwflcy4rgn" path="res://shaders/oil_water_background.gdshader" id="background_shader"]
 [ext_resource type="PackedScene" path="res://scenes/arena/mechanics/griddle_mechanic.tscn" id="mechanic"]
@@ -23,8 +23,8 @@ script = ExtResource("3")
 first_wave = 1
 background_size = Vector2(3000, 2000)
 background_offset = Vector2(0, 0)
-vessel_size = Vector2(2900, 1900)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2898.22, 1992.32)
+vessel_offset = Vector2(-0.97, 4.8513)
 movement_bounds = Rect2(-1021.48, -511.719, 2041.02, 1015.63)
 oval = false
 corner_radius = 109.375
@@ -32,13 +32,15 @@ camera_zoom = 0.924
 
 [resource]
 script = ExtResource("1")
+music_tracks = Array[AudioStream]([])
 id = &"iron_griddle"
 display_name = "Iron griddle"
 description = "Hot zones damage everyone."
 vessel = ExtResource("2")
 background_color = Color(0.713725, 0.690196, 0.607843, 1)
-vessel_size = Vector2(3000, 2000)
-vessel_offset = Vector2(0, 0)
+vessel_size = Vector2(2898.22, 1992.32)
+vessel_offset = Vector2(-0.97, 4.8513)
+vessel_body_rect = Rect2(149, 117, 1238, 781)
 play_area = SubResource("PlayArea")
 mechanic_scene = ExtResource("mechanic")
 background_material = SubResource("FluidBackground")

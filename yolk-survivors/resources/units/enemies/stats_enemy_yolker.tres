@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=4 format=3 uid="uid://bnnbjibb3ouim"]
+
+[ext_resource type="Script" uid="uid://by64j6ya8x86m" path="res://resources/character_passives/character_passive.gd" id="1_xr6st"]
+[ext_resource type="Texture2D" uid="uid://24ev7vr28db8" path="res://assets/sprites/Enemies/Redesign/yolker.png" id="icon"]
+[ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="script"]
+
+[resource]
+script = ExtResource("script")
+unlock_id = ""
+name = "Yolker"
+type = 1
+icon = ExtResource("icon")
+character_passives = Array[ExtResource("1_xr6st")]([])
+health = 30.0
+initial_health = 30.0
+health_increase_per_wave = 3.0
+damage = 2.0
+damage_percent = 0.0
+melee_damage = 0.0
+ranged_damage = 0.0
+attack_speed = 0.0
+piercing = 0
+bounces = 0
+initial_damage = 2.0
+damage_increase_per_wave = 0.3
+speed = 175.0
+luck = 1.0
+initial_luck = 1.0
+block_chance = 0.0
+initial_block_chance = 0.0
+experience_gain = 0.0
+experience_reward = 2
+coin_drop = 10
+hp_regen = 0.0
+life_steal = 0.0
+armor = 0.0
+critical_chance = 0.0
+area_of_effect = 0.0
+critical_multiplier = 0.0
+block_effectiveness = 50.0
+effects = 0.0
+chili_power = 0.0
+explosive_damage = 0.0
+crowd_control = 0.0
+slow_strength = 0.0
+knockback = 0.0
+fire_tick_speed = 0.0
+fire_interval_reduction = 0.0
+fire_duration_reduction = 0.0
+attack_effects = Array[Resource]([])
+weapon_range = 0.0
+pickup_range = 0.0
+harvesting = 0.0

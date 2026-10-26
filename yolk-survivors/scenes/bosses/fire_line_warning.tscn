@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Shader" path="res://shaders/boss_laser_warning.gdshader" id="heat"]
+
+[sub_resource type="ShaderMaterial" id="HeatWarning"]
+resource_local_to_scene = true
+shader = ExtResource("heat")
+shader_parameter/distortion_pixels = 22.0
+shader_parameter/initial_intensity = 0.2
+shader_parameter/initial_edge_brightness = 0.25
+shader_parameter/peak_progress = 0.92
+shader_parameter/refraction_split_pixels = 1.6
+shader_parameter/edge_red = Color(0.8, 0.1, 0.018, 1)
+shader_parameter/edge_orange = Color(1, 0.48, 0.045, 1)
+shader_parameter/edge_yellow = Color(1, 0.78, 0.23, 1)
+
+[sub_resource type="Gradient" id="White"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="Surface"]
+gradient = SubResource("White")
+width = 1
+height = 1
+
+[node name="HeatWarning" type="Polygon2D"]
+material = SubResource("HeatWarning")
+texture = SubResource("Surface")
+polygon = PackedVector2Array(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5)
+uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)

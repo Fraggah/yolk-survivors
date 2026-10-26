@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=8 format=3 uid="uid://q8v7y2ftym2y"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=12 format=3 uid="uid://q8v7y2ftym2y"]
 
 [ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="4_uqbwg"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
 [ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
+[ext_resource type="Resource" uid="uid://taaxvva0lqb3" path="res://resources/wave/enemies/incognito.tres" id="reward_incognito_profile"]
+[ext_resource type="Resource" uid="uid://bu4i0au7icbt6" path="res://resources/wave/enemies/yolker.tres" id="reward_yolker_profile"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
 
 [sub_resource type="Resource" id="g1"]
@@ -52,19 +54,39 @@ school_probability = 0.0
 affected_by_density = true
 school_radius = 140.0
 
+[sub_resource type="Resource" id="reward_yolker"]
+script = ExtResource("4_uqbwg")
+enemy = ExtResource("reward_yolker_profile")
+second = 10.0
+count = 1
+spawn_zone = 0
+edge_width = 200.0
+telegraph = true
+
+[sub_resource type="Resource" id="reward_incognito"]
+script = ExtResource("4_uqbwg")
+enemy = ExtResource("reward_incognito_profile")
+second = 18.0
+count = 1
+spawn_zone = 0
+edge_width = 200.0
+telegraph = true
+
 [resource]
 script = ExtResource("wave")
 number = 1
 wave_time = 30.0
 wave_type = 0
+music_tracks = Array[AudioStream]([])
 arena_mode = 0
-scheduled_spawns = Array[ExtResource("4_uqbwg")]([])
+scheduled_spawns = Array[ExtResource("4_uqbwg")]([SubResource("reward_yolker"), SubResource("reward_incognito")])
 density_multiplier = 0
 groups = Array[ExtResource("group")]([SubResource("g0")])
 events = Array[ExtResource("group")]([SubResource("g1")])
 common_limit = 35
 hazard_limit = 0
 boss_limit = 0
+reward_limit = 2
 health_multiplier = 1.0
 damage_multiplier = 1.0
 speed_multiplier = 1.0

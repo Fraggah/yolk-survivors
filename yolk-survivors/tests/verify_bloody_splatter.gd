@@ -74,7 +74,7 @@ func verify():
 	# A real secondary overlap deals one quarter damage and cannot spawn more drops.
 	var drop=spawned[1]
 	var secondary=enemy_at(Vector2(300,100))
-	drop.global_position=secondary.get_node("HurtboxComponent").global_position
+	drop.global_position=secondary.get_aim_position()
 	var quarter=drop.hitbox.damage
 	await physics_frame
 	await physics_frame

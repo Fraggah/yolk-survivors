@@ -54,6 +54,7 @@ var player_group := ButtonGroup.new()
 var weapon_group := ButtonGroup.new()
 
 func _ready() -> void:
+	$CoopGame.visible=selection_mode==SelectionMode.CHARACTER
 	for item in load("res://resources/items/weapons/melee_catalogue.gd").items():
 		if not weapons_list.has(item): weapons_list.append(item)
 	for item in RangedCatalogue.items():
@@ -143,6 +144,10 @@ func show_player_info(value: bool) -> void:
 	player_description.visible = value
 
 func _on_player_selected(player: UnitStats) -> void:
+	var flow=_coop_flow()
+	if flow and flow.handles_panel(self):
+		flow.choose_character(player,true)
+		return
 	if transitioning: return
 	if not Progression.is_character_unlocked(player):
 		SoundManager.play_sound(SoundManager.Sound.SELECTION_INVALID)
@@ -176,6 +181,10 @@ func _restore_selected_player_preview() -> void:
 		preview_player = null
 
 func _on_weapon_selected(weapon: ItemWeapon) -> void:
+	var flow=_coop_flow()
+	if flow and flow.handles_panel(self):
+		flow.choose_weapon(weapon,true)
+		return
 	if transitioning: return
 	if not Global.is_valid_selection(weapon) or not Progression.is_weapon_unlocked(weapon) or not Global.main_player_selected or not Global.main_player_selected.can_use_weapon(weapon):
 		SoundManager.play_sound(SoundManager.Sound.SELECTION_INVALID)
@@ -310,4 +319,15 @@ func _complete_selection() -> void:
 
 func _on_custom_button_exit_pressed() -> void:
 	if transitioning: return
+	var flow=_coop_flow()
+	if flow and flow.handles_panel(self):
+		if selection_mode==SelectionMode.WEAPON: flow.back_to_characters()
+		else:
+			flow.disable()
+			on_level_select_exited.emit()
+		return
 	on_level_select_exited.emit()
+
+func _coop_flow():
+	var scene=get_tree().current_scene
+	return scene.get_node_or_null("CoopSelection") if scene else null

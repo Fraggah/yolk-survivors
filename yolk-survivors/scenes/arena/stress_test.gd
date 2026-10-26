@@ -1,9 +1,10 @@
 extends Node
 ## Isolated endless load test. Ordinary wave/profile caps remain unchanged.
 @export var target_population := 1000
-@export var batch_size := 100
-@export var batch_interval := 2.0
-@export var spawn_per_frame := 10
+@export var batch_size := 5
+@export var batch_interval := 0.1
+@export var spawn_per_frame := 1
+@export_range(0,1,0.01) var yolk_attraction_chance := 1.0
 var active := false
 var arena: Arena
 var enemies: Array[Enemy] = []
@@ -40,11 +41,14 @@ func start(context: Arena) -> void:
 	arena.stage_mechanics.stop()
 	arena.spawner.clear_fueguito()
 	Global.player.health_component.debug_invulnerable = true
+	Global.player.passive_items.debug_yolk_magnet_chance = yolk_attraction_chance
 	Engine.time_scale = 1.0
 	label.show()
 	_update_hud()
 
 func stop() -> void:
+	if active and is_instance_valid(Global.player) and is_instance_valid(Global.player.passive_items):
+		Global.player.passive_items.debug_yolk_magnet_chance = -1.0
 	active = false
 	pending = 0
 	enemies.clear()
@@ -61,7 +65,8 @@ func _process(delta: float) -> void:
 		hud_left = 0.25
 	if batch_left <= 0.0:
 		pending += mini(batch_size,maxi(0,target_population-enemies.size()-pending))
-		batch_left = batch_interval
+		# Keep the cadence without releasing multiple overdue batches after a stall.
+		batch_left = maxf(0.0,batch_left+batch_interval)
 	for i in mini(spawn_per_frame,pending):
 		if enemies.size() >= target_population:
 			pending = 0
@@ -82,4 +87,4 @@ func _spawn_enemy() -> bool:
 	return true
 
 func _update_hud() -> void:
-	label.text = "PRUEBA DE ESTRÉS — INMORTAL\nEnemigos: %d / %d   Generados: %d\nFPS: %d   Armas: 6\nPausa: Esc / Start" % [enemies.size(),target_population,total_spawned,Engine.get_frames_per_second()]
+	label.text = "PRUEBA DE ESTRÉS — INMORTAL\nEnemigos: %d / %d   Generados: %d\nFPS: %d   Armas: 6\nAtracción de yemas: %d%%\nPausa: Esc / Start" % [enemies.size(),target_population,total_spawned,Engine.get_frames_per_second(),roundi(yolk_attraction_chance*100)]

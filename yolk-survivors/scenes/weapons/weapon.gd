@@ -3,6 +3,8 @@ class_name Weapon
 
 const VISUAL_SCALE := 0.75
 @export var attack_sound: AudioStream
+@export var impact_sound: AudioStream
+@export var continuous_sound: AudioStream
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = %CollisionShape2D
@@ -62,6 +64,8 @@ func setup_weapon(weapon_data: ItemWeapon) -> void:
 	if damage_record.is_empty():
 		damage_record = {"weapon": weapon_data, "instance_id": get_instance_id(), "wave_damage": 0.0, "last_wave_damage": 0.0, "total_damage": 0.0}
 		damage_records.append(damage_record)
+	damage_record["impact_sound"] = impact_sound
+	damage_record["impact_event"] = "weapon_impact:"+scene_file_path
 	collision.shape = collision.shape.duplicate()
 	_refresh_range()
 	if get_parent() is Unit and not get_parent().stats.stats_changed.is_connected(_refresh_range):
@@ -88,7 +92,7 @@ func use_weapon() -> void:
 	cooldown_timer.start()
 
 func get_effective_cooldown() -> float:
-	return data.get_effective_cooldown(Global.player.stats)
+	return data.get_effective_cooldown(get_parent().stats)
 
 func get_animation_time_scale(animation_duration: float) -> float:
 	# Leave a small margin so animation completion never delays the next attack.
@@ -106,19 +110,19 @@ func get_custom_rotation_to_target() -> float:
 	if not closest_target or not is_instance_valid(closest_target):
 		return rotation
 	
-	var rot := global_position.direction_to(closest_target.global_position).angle()
+	var rot := global_position.direction_to(closest_target.get_aim_position()).angle()
 	return rot + weapon_spread
 
 func get_rotation_to_target() -> float:
 	if not is_instance_valid(closest_target):
 		return get_idle_rotation()
 	
-	var rot := global_position.direction_to(closest_target.global_position).angle()
+	var rot := global_position.direction_to(closest_target.get_aim_position()).angle()
 	return rot
 
 
 func get_idle_rotation() -> float:
-	if Global.player.is_facing_right():
+	if get_parent().is_facing_right():
 		return 0
 	else:
 		return PI
@@ -134,7 +138,7 @@ func get_closest_target() -> Enemy:
 	var world_range := get_effective_range() * absf(collision.global_scale.x)
 	var range_squared := world_range * world_range
 	if targets.is_empty():
-		if EnemyCrowd.clock<spatial_target_deadline and is_instance_valid(spatial_target) and not spatial_target.is_queued_for_deletion() and not spatial_target.is_retiring and spatial_target.health_component.current_health>0 and origin.distance_squared_to(spatial_target.global_position)<=range_squared:
+		if EnemyCrowd.clock<spatial_target_deadline and is_instance_valid(spatial_target) and spatial_target.targetable and not spatial_target.is_queued_for_deletion() and not spatial_target.is_retiring and spatial_target.health_component.current_health>0 and origin.distance_squared_to(spatial_target.global_position)<=range_squared:
 			return spatial_target
 		spatial_target = EnemyCrowd.nearest(origin,world_range) as Enemy
 		spatial_target_deadline = EnemyCrowd.clock+0.06

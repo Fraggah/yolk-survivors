@@ -28,10 +28,10 @@ func _ready() -> void:
 	enemy.movement_override_enabled = true
 
 func _process(delta: float) -> void:
-	if Global.game_paused or enemy.is_retiring or not is_instance_valid(Global.player): return
+	if Global.game_paused or enemy.is_retiring or not is_instance_valid(Global.nearest_player(enemy.global_position)): return
 	if enemy.get_movement_multiplier() <= 0.0 or enemy.launch_left > 0.0: return
-	var direction := enemy.global_position.direction_to(Global.player.global_position)
-	var distance := enemy.global_position.distance_to(Global.player.global_position)
+	var direction := enemy.global_position.direction_to(Global.nearest_player(enemy.global_position).global_position)
+	var distance := enemy.global_position.distance_to(Global.nearest_player(enemy.global_position).global_position)
 	match state:
 		State.MOVING:
 			enemy.can_move = true
@@ -67,9 +67,9 @@ func finish_shot() -> void:
 	enemy.sprite.modulate = Color.WHITE
 
 func shoot() -> void:
-	if not is_instance_valid(Global.player) or enemy.is_retiring or not projectile_scene: return
-	if not in_firing_position(enemy.global_position.distance_to(Global.player.global_position)): return
-	var direction := fire_pos.global_position.direction_to(Global.player.global_position)
+	if not is_instance_valid(Global.nearest_player(enemy.global_position)) or enemy.is_retiring or not projectile_scene: return
+	if not in_firing_position(enemy.global_position.distance_to(Global.nearest_player(enemy.global_position).global_position)): return
+	var direction := fire_pos.global_position.direction_to(Global.nearest_player(enemy.global_position).global_position)
 	var start_angle := -arc_angle / 2.0 if projectile_count > 1 else 0.0
 	var step_angle := arc_angle / float(projectile_count - 1) if projectile_count > 1 else 0.0
 	for i in projectile_count:

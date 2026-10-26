@@ -69,3 +69,16 @@ mouse_filter = 2
 theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 5
 columns = 2
+
+[node name="FullDescription" type="RichTextLabel" parent="MarginContainer/Content"]
+visible = false
+custom_minimum_size = Vector2(560,160)
+bbcode_enabled = true
+scroll_active = true
+mouse_filter = 2
+
+[node name="ScrollHint" type="Label" parent="MarginContainer/Content"]
+visible = false
+text = "Rueda / stick derecho: descripción"
+autowrap_mode = 2
+mouse_filter = 2

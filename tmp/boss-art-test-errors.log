@@ -1,0 +1,2 @@
+SCRIPT ERROR: Assertion failed.
+   at: verify (res://tests/verify_boss_encounter.gd:91)

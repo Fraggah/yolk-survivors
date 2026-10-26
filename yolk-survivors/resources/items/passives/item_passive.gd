@@ -47,13 +47,15 @@ func get_description() -> String:
 		description += "\nOn hit: %s" % ("Fire" if effect.kind == StatusEffect.Kind.FIRE else "Electricity")
 	return description
 
-func apply_stat_values() -> void:
+func apply_stat_values(target: Player = null) -> void:
+	if not target: target=Global.player
 	for change in get_stat_changes():
-		Global.player.stats.apply_stat_change(change.stat_id, change.value)
+		target.stats.apply_stat_change(change.stat_id, change.value)
 
-func apply_passive_values() -> void:
-	Global.player.stats.attack_effects.append_array(on_hit_effects)
-	apply_stat_values()
+func apply_passive_values(target: Player = null) -> void:
+	if not target: target=Global.player
+	target.stats.attack_effects.append_array(on_hit_effects)
+	apply_stat_values(target)
 
 func _format_value(value: float, stat_id: String) -> String:
 	return ItemWeapon.format_number(value) + ("%" if stat_id in ["damage_percent", "attack_speed", "life_steal", "block_chance", "critical_chance", "pickup_range", "area_of_effect", "critical_multiplier", "block_effectiveness", "chili_power", "explosive_damage", "fire_tick_speed", "crowd_control", "experience_gain", "slow_strength"] else "")

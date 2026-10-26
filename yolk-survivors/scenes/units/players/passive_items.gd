@@ -18,6 +18,8 @@ var fire_spread_radius := 80.0
 var yolk_heal_chance := 0.0
 var yolk_heal_amount := 0.1
 var yolk_magnet_chance := 0.0
+## Stress-test override; negative means ordinary item-driven probability.
+var debug_yolk_magnet_chance := -1.0
 var controlled_damage_percent := 0.0
 var airbourne_collision_damage_percent := 0.0
 var airbourne_explosion_damage_percent := 0.0
@@ -31,7 +33,7 @@ var mushroom_runtime: Node
 var last_bite_active := false
 var last_bite_dash_multiplier := 1.0
 var liquidation_data: ItemPassive
-const PRIMARY = ["health", "hp_regen", "life_steal", "damage_percent", "melee_damage", "ranged_damage", "attack_speed", "critical_chance", "armor", "block_chance", "speed", "luck", "harvesting"]
+const PRIMARY = ["health", "hp_regen", "life_steal", "damage_percent", "melee_damage", "ranged_damage", "effects", "weapon_range", "attack_speed", "critical_chance", "armor", "block_chance", "speed", "luck", "harvesting"]
 var slip_left := 0.0
 var _slip_bonus := 0.0
 
@@ -102,7 +104,9 @@ func acquire(item: ItemPassive, previous_gains: Dictionary = {}) -> void:
 					alcohol_fire.chance = 0.0
 					player.stats.attack_effects.append(alcohol_fire)
 				alcohol_fire.chance = minf(1.0, alcohol_fire.chance + config.chance)
-		"chocolate_coin": Global.coins = Global.coins * 2 if randf() < 0.5 else 0
+		"chocolate_coin":
+			var arena = player.get_tree().current_scene
+			if arena is Arena: arena.shop_panel.resolve_chocolate_coin()
 		"energy_shake":
 			player.stats.energy_shakes += 1
 			player.stats.apply_stat_change("speed", 0)
@@ -178,7 +182,8 @@ func on_yolks_collected(amount: int) -> void:
 	if healed > 0.0: Global.on_create_heal_text.emit(player, healed)
 
 func should_attract_spawned_yolk() -> bool:
-	return yolk_magnet_chance > 0.0 and player.health_component.current_health > 0.0 and Global.get_chance_succes(yolk_magnet_chance)
+	var chance := debug_yolk_magnet_chance if debug_yolk_magnet_chance>=0 else yolk_magnet_chance
+	return chance > 0.0 and player.health_component.current_health > 0.0 and Global.get_chance_succes(chance)
 
 func on_block() -> void:
 	if count("slippery_shell") == 0: return

@@ -1,0 +1,12 @@
+ERROR: 4 RID allocations of type 'P12GodotShape2D' were leaked at exit.
+ERROR: 3 RID allocations of type 'N5GLES37TextureE' were leaked at exit.
+ERROR: Texture with GL ID of 100: leaked 213260 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 186: leaked 119680 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 190: leaked 119680 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2378)
+ERROR: 39 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:614)

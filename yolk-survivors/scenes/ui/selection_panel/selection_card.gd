@@ -8,6 +8,18 @@ func _ready() -> void:
 const SILHOUETTE = preload("res://shaders/locked_silhouette.gdshader")
 var portrait: TextureRect
 var locked := false
+var coop_highlights: Array[Color] = []
+
+func set_coop_highlights(colors: Array[Color], force: bool = false) -> void:
+	if not force and colors==coop_highlights: return
+	coop_highlights=colors.duplicate()
+	UITheme.style_slot(self,int(get_meta("ui_tier",0)))
+	if colors.is_empty(): return
+	# Match solo's hover fill, with the owning player's edge and number markers.
+	var style: StyleBoxFlat=get_theme_stylebox("hover").duplicate()
+	style.border_color=colors[0]
+	style.set_border_width_all(maxi(3,UITheme.palette.focus_width))
+	add_theme_stylebox_override("normal",style)
 
 func set_icon(texture: Texture2D, icon_scale: float = 1.0) -> void:
 	# Only the portrait receives the shader, keeping slot and focus colors intact.

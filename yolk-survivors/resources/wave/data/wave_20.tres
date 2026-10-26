@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=13 format=3 uid="uid://d2tq5ik8hr0iq"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=14 format=3 uid="uid://d2tq5ik8hr0iq"]
 
 [ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="9_y0qw8"]
+[ext_resource type="Resource" uid="uid://bw1r3x0c0a2gc" path="res://resources/bosses/salchichon.tres" id="boss_encounter"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/charger.tres" id="charger"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
@@ -62,6 +63,8 @@ script = ExtResource("wave")
 number = 20
 wave_time = 30.0
 wave_type = 3
+boss_encounter = ExtResource("boss_encounter")
+music_tracks = Array[AudioStream]([])
 arena_mode = 0
 scheduled_spawns = Array[ExtResource("9_y0qw8")]([])
 density_multiplier = 0
@@ -70,6 +73,7 @@ events = Array[ExtResource("group")]([])
 common_limit = 65
 hazard_limit = 0
 boss_limit = 1
+reward_limit = 2
 health_multiplier = 1.0
 damage_multiplier = 1.0
 speed_multiplier = 1.0

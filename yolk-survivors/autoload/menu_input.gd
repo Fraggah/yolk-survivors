@@ -9,6 +9,8 @@ var repeat_left := 0.0
 var styled_focus: Button
 var connected_gamepads: Array[int] = []
 var gamepad_active := false
+var last_device := -1
+var last_input_event: InputEvent
 var remembered_focus: Dictionary = {}
 
 func _set_gamepad_active(value: bool) -> void:
@@ -88,7 +90,7 @@ func _collect_controls(node: Node, result: Array[Control]) -> void:
 			child.focus_mode = Control.FOCUS_ALL if gamepad_active else Control.FOCUS_NONE
 			if not child.has_meta("menu_mouse_filter"):
 				child.set_meta("menu_mouse_filter", child.mouse_filter)
-			child.mouse_filter = Control.MOUSE_FILTER_IGNORE if gamepad_active else child.get_meta("menu_mouse_filter")
+			child.mouse_filter = Control.MOUSE_FILTER_STOP if child.get_meta("mouse_always_enabled",false) else Control.MOUSE_FILTER_IGNORE if gamepad_active else child.get_meta("menu_mouse_filter")
 			if not child is BaseButton or not child.disabled: result.append(child)
 		_collect_controls(child, result)
 
@@ -120,6 +122,8 @@ func _initial_focus(controls: Array[Control]) -> void:
 	controls[0].grab_focus()
 
 func _process(delta: float) -> void:
+	if coop_mouse_blocked(): Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
+	if _coop_owns_input(): return
 	var menu := _visible_menu()
 	var controls := _controls(menu)
 	var focused := get_viewport().gui_get_focus_owner()
@@ -176,6 +180,20 @@ func move_focus(direction: Vector2) -> void:
 		_sync_focus_visual()
 
 func _input(event: InputEvent) -> void:
+	if coop_mouse_blocked() and (event is InputEventMouseButton or event is InputEventMouseMotion):
+		Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
+		get_viewport().set_input_as_handled()
+		return
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		last_device=event.device
+		last_input_event=event
+	elif event is InputEventKey or event is InputEventMouseButton:
+		last_device=-1
+		last_input_event=event
+	if _coop_owns_input():
+		# Mouse use must not reassign or clear the players' independent selectors.
+		Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
+		return
 	if event is InputEventJoypadButton and event.pressed:
 		_set_gamepad_active(true)
 	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.45:
@@ -201,3 +219,11 @@ func _input(event: InputEvent) -> void:
 			"OptionsPanel", "CreditsPanel": menu._on_custom_button_pressed()
 			"PausePanel": menu._on_return_button_pressed()
 		get_viewport().set_input_as_handled()
+
+func _coop_owns_input() -> bool:
+	var scene=get_tree().current_scene
+	return scene is Arena and scene.coop != null and scene.coop.handles_input()
+
+func coop_mouse_blocked() -> bool:
+	var scene=get_tree().current_scene
+	return scene is Arena and scene.coop!=null and (scene.coop.active or (scene.coop.selection_flow and scene.coop.selection_flow.enabled))

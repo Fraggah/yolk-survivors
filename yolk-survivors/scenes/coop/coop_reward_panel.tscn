@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="Script" path="res://scenes/coop/coop_reward_panel.gd" id="script"]
+[ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="fit"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_offer_card.tscn" id="card"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk.png" id="yolk"]
+[sub_resource type="StyleBoxEmpty" id="transparent"]
+[node name="PlayerReward" type="PanelContainer"]
+offset_right = 940.0
+offset_bottom = 520.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("transparent")
+script = ExtResource("script")
+[node name="Viewport" type="Container" parent="."]
+script = ExtResource("fit")
+design_size = Vector2(1880,1080)
+[node name="View" type="Control" parent="Viewport"]
+offset_right = 1880.0
+offset_bottom = 1080.0
+[node name="Card" parent="Viewport/View" instance=ExtResource("card")]
+custom_minimum_size = Vector2(0,0)
+offset_left = 720.0
+offset_top = 180.0
+offset_right = 1160.0
+offset_bottom = 832.0
+[node name="PlayerLabel" type="Label" parent="Viewport/View"]
+offset_left = 876.0
+offset_top = 40.0
+offset_right = 1004.0
+offset_bottom = 104.0
+text = "P1"
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="Waiting" type="Label" parent="."]
+visible = false
+text = "LISTO"
+theme_type_variation = &"HudLabel"
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="SellContent" type="CenterContainer" parent="Viewport/View"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+[node name="Row" type="HBoxContainer" parent="Viewport/View/SellContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+[node name="Value" type="Label" parent="Viewport/View/SellContent/Row"]
+layout_mode = 2
+text = "VENDER 3"
+theme_override_font_sizes/font_size = 48
+vertical_alignment = 1
+mouse_filter = 2
+[node name="Yolk" type="TextureRect" parent="Viewport/View/SellContent/Row"]
+custom_minimum_size = Vector2(48,48)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("yolk")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
