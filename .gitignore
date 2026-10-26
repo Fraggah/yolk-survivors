@@ -4,3 +4,7 @@
 
 # Generated Godot cache and local export credentials.
 /yolk-survivors/.godot/
+
+# Generated outputs stay local.
+/output/
+/outputs/
