@@ -2,16 +2,10 @@ extends Panel
 class_name ShopCard
 
 signal on_item_purchased(item: ItemBase)
-@export var text_scale := 1.0
-@export var body_text_scale := 1.0
-@export var action_buy_height := 70.0
-@export var action_lock_height := 44.0
-@export var price_icon_size := 40.0
-@export var price_text_scale := 1.0
-@export var price_icon_right := false
 var preview_stats: UnitStats
 var purchase_handler: Callable
 var shop_wave := 1
+var title_maximum := 20
 var locked := false
 var lock_button: Button
 var purchase_in_progress := false
@@ -35,17 +29,8 @@ func _refresh_sale() -> void:
 	if not is_node_ready() or shop_item == null: return
 	item_cost.text = str(get_effective_price())
 	if sale_badge == null and has_sale():
-		sale_badge = load("res://scenes/ui/shop/sale_badge.gd").new()
-		sale_badge.name = "SaleBadge"
+		sale_badge = preload("res://scenes/ui/shop/sale_badge.tscn").instantiate()
 		add_child(sale_badge)
-		sale_badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-		sale_badge.offset_left = -94
-		sale_badge.offset_right = 14
-		sale_badge.offset_top = -18
-		sale_badge.offset_bottom = 66
-		sale_badge.pivot_offset = Vector2(54, 42)
-		sale_badge.rotation = deg_to_rad(-8)
-		sale_badge.z_index = 5
 	if sale_badge:
 		sale_badge.visible = has_sale()
 		sale_badge.set_caption("2×1" if sale_two_for_one else "−%d%%" % sale_discount_percent)
@@ -59,39 +44,11 @@ func _refresh_sale() -> void:
 @onready var item_cost: Label = %ItemCost
 
 func _ready() -> void:
+	title_maximum=item_name.get_theme_font_size("font_size")
 	item_name.resized.connect(_fit_item_title)
-	item_type.add_theme_font_size_override("font_size",roundi(20*text_scale*body_text_scale))
-	item_cost.add_theme_font_size_override("font_size",roundi(40*text_scale*price_text_scale))
-	for key in ["normal_font_size","bold_font_size","italics_font_size","bold_italics_font_size","mono_font_size"]:
-		item_description.add_theme_font_size_override(key,roundi(20*text_scale*body_text_scale))
-	$MarginContainer/Control/CustomButton/HBoxContainer/TextureRect.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	$MarginContainer/Control/CustomButton/HBoxContainer/TextureRect.custom_minimum_size=Vector2.ONE*price_icon_size
-	if price_icon_right:
-		var row=$MarginContainer/Control/CustomButton/HBoxContainer
-		row.move_child(row.get_node("TextureRect"),row.get_child_count()-1)
 	UITheme.palette_changed.connect(_refresh_palette)
-	lock_button = Button.new()
-	lock_button.name = "LockButton"
-	lock_button.toggle_mode = true
-	lock_button.text = "LOCK"
-	lock_button.add_theme_font_size_override("font_size", roundi(24*text_scale))
-	var actions := VBoxContainer.new()
-	actions.name = "Actions"
-	$MarginContainer/Control.add_child(actions)
-	actions.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	actions.offset_top = -(action_buy_height+action_lock_height+8.0)
-	actions.add_theme_constant_override("separation", 8)
-	var buy_button: Button = $MarginContainer/Control/CustomButton
-	buy_button.reparent(actions)
-	buy_button.custom_minimum_size = Vector2(0, action_buy_height)
-	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	actions.add_child(lock_button)
-	lock_button.custom_minimum_size = Vector2(0, action_lock_height)
-	lock_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-	lock_button.tooltip_text = "Keep this item through refreshes and waves. Sales survive refreshes while locked, but end when leaving the shop."
+	lock_button=$MarginContainer/Control/Actions/LockButton
 	lock_button.toggled.connect(_on_lock_toggled)
-
 
 func _on_lock_toggled(value: bool) -> void:
 	locked = value
@@ -127,7 +84,10 @@ func _set_shop_item(value: ItemBase) -> void:
 		item_description.text = UITheme.rich_text(shop_item.get_description())
 	item_cost.text = str(shop_item.get_shop_price(shop_wave))
 	
-	var style := Global.get_tier_style(shop_item.item_tier)
+	var colors := Global.get_tier_style(shop_item.item_tier)
+	var style := get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	style.bg_color=colors.bg_color
+	style.border_color=colors.border_color
 	set_meta("ui_tier", int(shop_item.item_tier))
 	add_theme_stylebox_override("panel", style)
 	load("res://scenes/ui/rarity_marker.gd").apply(self, int(shop_item.item_tier))
@@ -138,7 +98,7 @@ func _fit_item_title() -> void:
 	if not is_instance_valid(item_name) or item_name.size.x<=0: return
 	var font: Font=item_name.get_theme_font("font")
 	var text: String=item_name.text.to_upper() if item_name.uppercase else item_name.text
-	var maximum: int=roundi(20*text_scale)
+	var maximum: int=title_maximum
 	var measured: float=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,maximum).x
 	var fitted: int=maximum if measured<=item_name.size.x else maxi(1,floori(maximum*item_name.size.x/measured))
 	while fitted>1 and font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,fitted).x>item_name.size.x:

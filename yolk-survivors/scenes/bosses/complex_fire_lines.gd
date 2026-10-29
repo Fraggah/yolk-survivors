@@ -65,8 +65,8 @@ func _begin_attack(index: int) -> void:
 	else:
 		var directions: Array[Vector2] = []
 		for value in config.moving_line_directions:
-			var direction: Vector2 = value.normalized()
-			if not direction.is_zero_approx() and not directions.has(direction): directions.append(direction)
+			var candidate_direction: Vector2 = value.normalized()
+			if not candidate_direction.is_zero_approx() and not directions.has(candidate_direction): directions.append(candidate_direction)
 		var direction := directions[random.randi_range(0,directions.size()-1)] if not directions.is_empty() else Vector2.UP
 		settings.moving_line_directions = PackedVector2Array([direction])
 		settings.moving_line_interval = config.complex_line_interval

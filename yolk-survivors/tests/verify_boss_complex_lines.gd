@@ -129,8 +129,11 @@ func check_damage(section,player):
 	await physics_frame
 	await create_timer(0.2).timeout
 	assert(player.health_component.current_health<hp)
-	assert(player.get_active_statuses().is_empty())
+	assert(player.has_status(player.State.BURNING))
 	player.is_dashing=true
+	# Isolate dash contact immunity from the Burning already applied by the laser.
+	player.status_controller.clear()
+	await process_frame
 	player.hit_invulnerability_left=0
 	hp=player.health_component.current_health
 	await create_timer(0.6).timeout

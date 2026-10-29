@@ -17,6 +17,8 @@ func configure(config: SpicyPatternSettings, radius: float, lifetime: float) -> 
 	coverage_radius = radius
 	fire_settings = config.trail_fire_visuals
 	if not fire_settings: fire_settings = load("res://resources/statuses/fire_visual_default.tres")
+	if GroundFire.enabled: return
+	if GroundFire.enabled: return
 	var floor_surface := ColorRect.new()
 	floor_surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	floor_surface.z_as_relative = true
@@ -82,6 +84,8 @@ func _material(texture: Texture2D, opacity: float) -> ShaderMaterial:
 	return shader_material
 
 func update_visual(elapsed: float) -> void:
+	if not ground_material: return
+	if not ground_material: return
 	_update_coverage(elapsed)
 	var fade := minf(clampf(elapsed/maxf(0.01,settings.trail_fade_in),0.0,1.0),clampf((duration-elapsed)/maxf(0.01,settings.trail_fade_out),0.0,1.0))
 	for shader_material in [ground_material,flame_material,background_material]:
@@ -90,6 +94,8 @@ func update_visual(elapsed: float) -> void:
 
 func set_coverage(entries: Array[Dictionary]) -> void:
 	coverage_entries = entries
+	if not ground_material: return
+	if not ground_material: return
 	ground_material.set_shader_parameter("coverage_enabled", true)
 
 func _coverage_at(point: Vector2, elapsed: float) -> float:

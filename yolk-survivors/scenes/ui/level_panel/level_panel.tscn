@@ -149,38 +149,39 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(700, 70)
 layout_mode = 2
 tooltip_text = "Objetivo de rendimiento: 500 enemigos. Inmortal y 6 armas. Sin progreso ni mejoras."
-text = "PRUEBA DE ESTRÉS — 500 ENEMIGOS"
+text = "PRUEBA DE ESTRÃ‰S â€” 500 ENEMIGOS"
 
 [node name="StressTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(700, 70)
 layout_mode = 2
 tooltip_text = "Inmortal. 6 copias del arma elegida. Tandas de 100 enemigos hasta mantener 1000. Sin progreso ni mejoras."
-text = "PRUEBA DE ESTRÉS — 1000 ENEMIGOS"
+text = "PRUEBA DE ESTRÃ‰S â€” 1000 ENEMIGOS"
 
 [node name="StressTestDescription" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Inmortal · 6 armas · tandas de enemigos · contador de FPS"
+text = "Inmortal Â· 6 armas Â· tandas de enemigos Â· contador de FPS"
 horizontal_alignment = 1
 
 [node name="BossTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(700, 60)
 layout_mode = 2
-tooltip_text = "Boss en desarrollo: 1000 HP, secciones de 30 s. Las tres fases y sus nueve secciones son jugables. Personaje elegido: 85 HP, 15 armadura, 20% bloqueo, 0 regeneración y 20% robo de vida, 15 daño a distancia y +40% daño. No otorga progreso."
+tooltip_text = "Boss en desarrollo: 1000 HP, secciones de 30 s. Las tres fases y sus nueve secciones son jugables. Personaje elegido: 85 HP, 15 armadura, 20% bloqueo, 0 regeneraciÃ³n y 20% robo de vida, 15 daÃ±o a distancia y +40% daÃ±o. No otorga progreso."
 theme_override_font_sizes/font_size = 26
-text = "Probar boss — Salchichón del Infierno"
+text = "Probar boss â€” SalchichÃ³n del Infierno"
 
 [node name="CustomButton" parent="." instance=ExtResource("4_801sb")]
+custom_minimum_size = Vector2(220, 60)
 layout_mode = 1
 anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 46.0
-offset_top = 46.0
-offset_right = 306.0
-offset_bottom = 116.0
+offset_left = 48.0
+offset_top = 30.0
+offset_right = 268.0
+offset_bottom = 90.0
 grow_horizontal = 1
 grow_vertical = 1
 text = "Back"

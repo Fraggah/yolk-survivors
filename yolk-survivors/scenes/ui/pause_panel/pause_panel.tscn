@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmcklq2cvmlyg"]
+[gd_scene load_steps=3 format=3 uid="uid://bmcklq2cvmlyg"]
 
 [ext_resource type="Script" uid="uid://816bmo144xkw" path="res://scenes/ui/pause_panel/pause_panel.gd" id="1_t84es"]
+[ext_resource type="PackedScene" uid="uid://cj80og0famryw" path="res://scenes/ui/stats/stats_container.tscn" id="stats"]
 
 [node name="PausePanel" type="Panel"]
 anchors_preset = 15
@@ -12,17 +13,17 @@ theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_t84es")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(600, 1000)
+custom_minimum_size = Vector2(1100, 750)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -550.0
+offset_top = -375.0
+offset_right = 550.0
+offset_bottom = 375.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
@@ -37,13 +38,38 @@ horizontal_alignment = 1
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="ReturnButton" type="Button" parent="VBoxContainer"]
+[node name="Row" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Stats" parent="VBoxContainer/Row" instance=ExtResource("stats")]
+layout_mode = 2
+
+[node name="Equipment" type="VBoxContainer" parent="VBoxContainer/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="VBoxContainer/Row/Equipment"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "WEAPONS"
+horizontal_alignment = 1
+
+[node name="Weapons" type="GridContainer" parent="VBoxContainer/Row/Equipment"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 3
+
+[node name="ReturnButton" type="Button" parent="VBoxContainer/Row/Equipment"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="VBoxContainer/ReturnButton"]
+[node name="Label" type="Label" parent="VBoxContainer/Row/Equipment/ReturnButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -61,14 +87,14 @@ text = "Return"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitButton" type="Button" parent="VBoxContainer"]
+[node name="ExitButton" type="Button" parent="VBoxContainer/Row/Equipment"]
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"DangerButton"
 
-[node name="Label" type="Label" parent="VBoxContainer/ExitButton"]
+[node name="Label" type="Label" parent="VBoxContainer/Row/Equipment/ExitButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -88,6 +114,7 @@ vertical_alignment = 1
 
 [node name="Instructions" type="Label" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -104,5 +131,5 @@ WASD - Movement
 Space - dash
 Pause - Esc"
 
-[connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Row/Equipment/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Row/Equipment/ExitButton" to="." method="_on_exit_button_pressed"]

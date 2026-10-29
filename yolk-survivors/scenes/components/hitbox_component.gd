@@ -31,6 +31,9 @@ var launch_damage := 0.0
 var cancel_knockback_on_hit := false
 @export var status_effects: Array[StatusEffect] = []
 var is_status_damage := false
+var impact_feedback := true
+var electric_targets: Dictionary = {}
+var electric_frame := -1
 var breading_suppressed := false
 var can_be_blocked := true
 var explosive_bonus_applied := false
@@ -38,6 +41,8 @@ var explosive_bonus_applied := false
 
 func enable() -> void:
 	_hit_hurtboxes.clear()
+	electric_targets.clear()
+	electric_frame = -1
 	set_deferred("monitoring", true)
 	if is_instance_valid(bb): bb.set_deferred("disabled", false)
 

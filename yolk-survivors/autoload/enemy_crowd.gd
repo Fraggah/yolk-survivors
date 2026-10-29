@@ -5,6 +5,7 @@ const GRID_INTERVAL := 0.05
 const MAX_NEIGHBORS := 16
 const MAX_CANDIDATES := 64
 const UPDATES_PER_FRAME := 32
+@export_range(4,64,4) var updates_per_frame := 12
 class Entry extends RefCounted:
 	var ref: WeakRef
 	var position: Vector2
@@ -66,6 +67,11 @@ func unregister_enemy(id: int) -> void:
 		set_process(false)
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_crowd(delta)
+	FireContacts.finish_profile("crowd",started)
+
+func _advance_crowd(delta: float) -> void:
 	if Global.game_paused: return
 	clock += delta
 	grid_left -= delta
@@ -75,7 +81,7 @@ func _process(delta: float) -> void:
 	# Fixed work budget avoids every cache expiring together after a slow frame.
 	var ids := member_ids
 	if ids.is_empty(): return
-	for i in mini(UPDATES_PER_FRAME,ids.size()):
+	for i in mini(updates_per_frame,ids.size()):
 		cursor %= ids.size()
 		var id: int = ids[cursor]
 		cursor += 1

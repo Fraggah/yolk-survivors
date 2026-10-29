@@ -1,6 +1,9 @@
 extends Node2D
 ## Shared bounded instanced glow segments for all electrical status/burst effects.
 const CAPACITY := 8192
+@export var shared_batches := true
+@export_range(16,512,16) var aura_capacity := 192
+@export_range(8,256,8) var burst_capacity := 64
 var instances: MultiMesh
 var count := 0
 var submitted_frame := -1
@@ -51,18 +54,20 @@ func _get_bolt_batch(rays: int, burst: bool):
 	var key := Vector2i(rays,1 if burst else 0)
 	if not bolt_batches.has(key):
 		var batch = preload("res://effects/electric_bolt_batch.gd").new()
-		batch.configure(rays,burst)
+		batch.configure(rays,burst,burst_capacity if burst else aura_capacity)
 		add_child(batch)
 		bolt_batches[key] = batch
 	return bolt_batches[key]
 
 func submit_aura(context: Node2D, center: Vector2, extent: Vector2, elapsed: float, left: float, tint: Color, glow: float, rays: int) -> void:
 	if rays<=0: return
-	_depth_batch(context,rays,false).submit_data(context,center,Color(tint,minf(1.0,left/0.25)),Color(extent.x,extent.y,elapsed,glow))
+	var batch = _get_bolt_batch(rays,false) if shared_batches else _depth_batch(context,rays,false)
+	batch.submit_data(context,center,Color(tint,minf(1.0,left/0.25)),Color(extent.x,extent.y,elapsed,glow))
 
 func submit_burst(context: Node2D, radius: float, progress: float, elapsed: float, tint: Color, glow: float, rays: int) -> void:
 	if rays<=0: return
-	_depth_batch(context,rays,true).submit_data(context,Vector2.ZERO,Color(tint,(1.0-progress)*(1.0-progress)),Color(radius,progress,elapsed,glow))
+	var batch = _get_bolt_batch(rays,true) if shared_batches else _depth_batch(context,rays,true)
+	batch.submit_data(context,Vector2.ZERO,Color(tint,(1.0-progress)*(1.0-progress)),Color(radius,progress,elapsed,glow))
 
 func active_segment_count() -> int:
 	var total := instances.visible_instance_count

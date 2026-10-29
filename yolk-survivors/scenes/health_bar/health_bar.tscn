@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7s61o2yewfch"]
+[gd_scene load_steps=7 format=3 uid="uid://b7s61o2yewfch"]
 
 [ext_resource type="Script" uid="uid://dsdy8t0ufmf7s" path="res://scenes/health_bar/health_bar.gd" id="1_qy603"]
+
+[ext_resource type="Shader" path="res://scenes/health_bar/rounded_fill.gdshader" id="fill_shader"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gela"]
 bg_color = Color(0.137255, 0.0196078, 0.027451, 1)
@@ -20,6 +22,24 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="ShaderMaterial" id="fill_material"]
+resource_local_to_scene = true
+shader = ExtResource("fill_shader")
+shader_parameter/fill_color = Color(0.91,0.34,0.39,1)
+shader_parameter/bar_size = Vector2(96,20)
+shader_parameter/ratio = 0.5
+[sub_resource type="StyleBoxFlat" id="outline_style"]
+bg_color = Color(0,0,0,0)
+border_width_left = 5
+border_width_right = 5
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(1,0.968627,0.901961,1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_left = 24
+corner_radius_bottom_right = 24
 
 [node name="HealthBar" type="Control"]
 z_index = 5
@@ -46,6 +66,7 @@ value = 0.5
 show_percentage = false
 
 [node name="HealthValue" type="Label" parent="ProgressBar"]
+z_index = 1
 theme_type_variation = &"HudLabel"
 unique_name_in_owner = true
 layout_mode = 1
@@ -59,3 +80,18 @@ theme_override_font_sizes/font_size = 34
 vertical_alignment = 1
 text = "10"
 horizontal_alignment = 1
+
+[node name="ClippedFill" type="ColorRect" parent="ProgressBar"]
+visible = false
+material = SubResource("fill_material")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+[node name="Outline" type="Panel" parent="ProgressBar"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("outline_style")

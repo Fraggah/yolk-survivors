@@ -76,9 +76,12 @@ func live_players() -> Array[Player]:
 	return result
 
 func nearest_player(origin: Vector2) -> Player:
+	if coop_players.is_empty():
+		return player if is_instance_valid(player) and not player.is_queued_for_deletion() and player.health_component.current_health>0.0 else null
 	var best: Player
 	var distance := INF
-	for actor in live_players():
+	for actor in coop_players:
+		if not is_instance_valid(actor) or actor.is_queued_for_deletion() or actor.health_component.current_health<=0.0: continue
 		var squared := origin.distance_squared_to(actor.global_position)
 		if squared < distance:
 			best=actor

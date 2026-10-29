@@ -44,6 +44,15 @@ func execute_attack() -> void:
 			return
 		if source.global_position.distance_to(last_trail_position) < settings.trail_spacing * Global.GAME_ENTITY_SCALE: return
 		last_trail_position = source.global_position
+		if GroundFire.enabled:
+			var capacity := settings.maximum_active
+			for equipped in trail_contributors(): capacity=maxi(capacity,equipped.data.stats.spicy_pattern.maximum_active)
+			for index in settings.count:
+				if owned.size()>=capacity:
+					var oldest = owned.pop_front().get_ref()
+					if is_instance_valid(oldest): oldest.queue_free()
+				owned.append(weakref(GroundFire.spawn_trail(weapon,settings,source.global_position)))
+			return
 	var maximum_active := settings.maximum_active
 	if settings.mode == SpicyPatternSettings.Mode.TRAIL:
 		for equipped in trail_contributors():

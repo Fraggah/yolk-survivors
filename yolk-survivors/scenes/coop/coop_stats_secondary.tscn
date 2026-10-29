@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_stats_primary.tscn" id="base"]
+[node name="CoopStats" instance=ExtResource("base")]
+initial_secondary = true
+[node name="health" parent="MarginContainer/VBoxContainer" index="1"]
+visible = false
+[node name="hp_regen" parent="MarginContainer/VBoxContainer" index="2"]
+visible = false
+[node name="life_steal" parent="MarginContainer/VBoxContainer" index="3"]
+visible = false
+[node name="damage_percent" parent="MarginContainer/VBoxContainer" index="4"]
+visible = false
+[node name="melee_damage" parent="MarginContainer/VBoxContainer" index="5"]
+visible = false
+[node name="ranged_damage" parent="MarginContainer/VBoxContainer" index="6"]
+visible = false
+[node name="effects" parent="MarginContainer/VBoxContainer" index="7"]
+visible = false
+[node name="weapon_range" parent="MarginContainer/VBoxContainer" index="8"]
+visible = false
+[node name="attack_speed" parent="MarginContainer/VBoxContainer" index="9"]
+visible = false
+[node name="critical_chance" parent="MarginContainer/VBoxContainer" index="10"]
+visible = false
+[node name="armor" parent="MarginContainer/VBoxContainer" index="11"]
+visible = false
+[node name="block_chance" parent="MarginContainer/VBoxContainer" index="12"]
+visible = false
+[node name="speed" parent="MarginContainer/VBoxContainer" index="13"]
+visible = false
+[node name="luck" parent="MarginContainer/VBoxContainer" index="14"]
+visible = false
+[node name="harvesting" parent="MarginContainer/VBoxContainer" index="15"]
+visible = false
+[node name="slow_strength" parent="MarginContainer/VBoxContainer" index="16"]
+visible = true
+[node name="knockback" parent="MarginContainer/VBoxContainer" index="17"]
+visible = true
+[node name="experience_gain" parent="MarginContainer/VBoxContainer" index="18"]
+visible = true
+[node name="critical_multiplier" parent="MarginContainer/VBoxContainer" index="19"]
+visible = true
+[node name="area_of_effect" parent="MarginContainer/VBoxContainer" index="20"]
+visible = true
+[node name="chili_power" parent="MarginContainer/VBoxContainer" index="21"]
+visible = true
+[node name="explosive_damage" parent="MarginContainer/VBoxContainer" index="22"]
+visible = true
+[node name="crowd_control" parent="MarginContainer/VBoxContainer" index="23"]
+visible = true
+[node name="fire_tick_speed" parent="MarginContainer/VBoxContainer" index="24"]
+visible = true
+[node name="block_effectiveness" parent="MarginContainer/VBoxContainer" index="25"]
+visible = true
+[node name="pickup_range" parent="MarginContainer/VBoxContainer" index="26"]
+visible = true
+[node name="piercing" parent="MarginContainer/VBoxContainer" index="27"]
+visible = true
+[node name="bounces" parent="MarginContainer/VBoxContainer" index="28"]
+visible = true
+[node name="dash_cooldown" parent="MarginContainer/VBoxContainer" index="29"]
+visible = true

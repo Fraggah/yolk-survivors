@@ -19,6 +19,7 @@ var burning_sources: Dictionary = {}
 var control_label: Label
 
 func register_burning(burn: Node) -> void:
+	if burning_sources.has(burn.get_instance_id()): return
 	burning_sources[burn.get_instance_id()] = weakref(burn)
 	# Exit cleanup also handles wave changes and externally removed burns.
 	if not burn.tree_exiting.is_connected(_remove_burning.bind(burn.get_instance_id())):
@@ -62,17 +63,10 @@ func refresh_control_text() -> void:
 	if has_status(Unit.State.ROOTED): names.append("Root")
 	if has_status(Unit.State.AIRBOURNE): names.append("Air")
 	if not names.is_empty() and not is_instance_valid(control_label):
-		control_label = Label.new()
-		control_label.name = "ControlStates"
-		control_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		control_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		control_label.add_theme_font_size_override("font_size", 32)
-		control_label.add_theme_color_override("font_color", Color("a4c6d8"))
-		control_label.add_theme_color_override("font_outline_color", Color("292421"))
-		control_label.add_theme_constant_override("outline_size", 4)
+		control_label = load("res://scenes/ui/control_state_label.tscn").instantiate()
 		add_child(control_label)
 	if is_instance_valid(control_label):
-		control_label.text = " · ".join(names)
+		control_label.text = " Â· ".join(names)
 		control_label.visible = not names.is_empty()
 		var unit := get_parent() as Unit
 		var rect := unit.sprite.get_rect()
@@ -102,6 +96,16 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		elif not template.weapon_damage_record.is_empty(): effect_id += "_weapon_%s" % template.weapon_damage_record.get("instance_id", 0)
 		load("res://effects/fire_status.gd").apply(target, "Fire_%s_%s" % [source_id, effect_id.hash()], template, effect)
 		return
+	var electric_claims: Dictionary = {}
+	if FireContacts.deduplicate_electric_attacks:
+		var frame := Engine.get_process_frames()
+		if not template.hit_once_per_activation and template.electric_frame!=frame: template.electric_targets.clear()
+		template.electric_frame = frame
+		var effect_id := effect.get_instance_id()
+		if not template.electric_targets.has(effect_id): template.electric_targets[effect_id] = {}
+		electric_claims = template.electric_targets[effect_id]
+		if electric_claims.has(target.get_instance_id()): return
+		electric_claims[target.get_instance_id()] = true
 	# Snapshot the primary's neighbors once; secondary applications never propagate.
 	var neighbors: Array[Unit] = []
 	var source_stats: UnitStats = template.source.stats if is_instance_valid(template.source) and template.source is Unit else null
@@ -117,6 +121,7 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 			candidates = target.get_tree().get_nodes_in_group(group)
 		for candidate in candidates:
 			if candidate == target or not is_instance_valid(candidate) or candidate.is_queued_for_deletion() or candidate.health_component.current_health <= 0.0: continue
+			if electric_claims.has(candidate.get_instance_id()): continue
 			if candidate is Enemy and candidate.is_retiring: continue
 			var offset: Vector2 = candidate.global_position - target.global_position
 			offset.y /= 0.6
@@ -164,7 +169,6 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		var items = template.source.passive_items
 		if items.electric_slow_strength > 0.0 and items.electric_slow_duration > 0.0:
 			controller.add_slow(source_stats.effective_slow(1.0 - items.electric_slow_strength), items.electric_slow_duration * source_stats.get_crowd_control_multiplier())
-	controller.queue_redraw()
 	for neighbor in neighbors: apply_effect(neighbor, effect, template, false)
 
 func add_slow(factor: float, duration: float) -> void:
@@ -197,10 +201,8 @@ func clear() -> void:
 	arcs.clear()
 	for child in get_parent().get_children():
 		if child.get_script() == load("res://effects/fire_status.gd"):
-			child.hide()
 			child.queue_free()
 	_sync_player_burning_regen()
-	queue_redraw()
 
 func _process(delta: float) -> void:
 	if Global.game_paused: return
@@ -212,7 +214,6 @@ func _process(delta: float) -> void:
 	lightning_left = maxf(0.0, lightning_left - delta)
 	if lightning_left > 0.0: electric_elapsed += delta
 	if lightning_left > 0.0: _submit_rays()
-	queue_redraw()
 	refresh_control_text()
 	if slows.is_empty() and lightning_left<=0.0 and impact_cooldown<=0.0 and not (is_instance_valid(control_label) and control_label.visible): set_process(false)
 

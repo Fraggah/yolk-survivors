@@ -97,7 +97,7 @@ func verify():
 	await process_frame
 	await process_frame
 	var menu_input=root.get_node("MenuInput")
-	assert(root.gui_get_focus_owner()==arena.level_panel.buttons[1],"Difficulty 1 is selected initially")
+	assert(root.gui_get_focus_owner()==arena.level_panel.buttons[0],"Difficulty 0 is selected initially")
 	assert(menu_input.coop_mouse_blocked())
 	var mouse=InputEventMouseButton.new()
 	mouse.button_index=MOUSE_BUTTON_LEFT
@@ -111,7 +111,7 @@ func verify():
 	flow._input(other)
 	assert(flow.mode=="difficulty" and not arena.coop.active,"P2 cannot confirm difficulty")
 	# Every visible action is reachable geometrically from difficulty 1.
-	var reachable: Array=[arena.level_panel.buttons[1]]
+	var reachable: Array=[arena.level_panel.buttons[0]]
 	var pending: Array=reachable.duplicate()
 	while not pending.is_empty():
 		var origin=pending.pop_front()
@@ -131,6 +131,16 @@ func verify():
 	flow.back_to_characters()
 	assert(flow.mode=="characters" and arena.selection_panel.visible)
 	assert(not arena.selection_panel.transitioning)
+	# Hover signals may still arrive when the pointer crosses an ignored GUI.
+	var keyboard_session=arena.coop.sessions[0]
+	var original_character=keyboard_session.character
+	var original_ready=keyboard_session.ready
+	for card in flow._roster_cards(false):
+		assert(card.mouse_filter==Control.MOUSE_FILTER_IGNORE)
+		card.mouse_entered.emit()
+	assert(keyboard_session.character==original_character and keyboard_session.ready==original_ready)
+	flow._mouse_confirm(0)
+	assert(keyboard_session.ready==original_ready)
 	# The existing difficulty choice applies to all four participants.
 	for session in arena.coop.sessions: flow.confirm(session)
 	await create_timer(.7).timeout
@@ -145,6 +155,12 @@ func verify():
 	arena.selection_panel._on_player_selected(arena.selection_panel.player_list[0])
 	await create_timer(.7).timeout
 	assert(arena.weapon_selection_panel.visible and not flow.enabled)
+	var notice_flow=arena.coop_selection
+	notice_flow.solo_notice_text="Aviso configurable desde el Inspector"
+	notice_flow.refresh()
+	for rows in [notice_flow.character_rows,notice_flow.weapon_character_rows,notice_flow.weapon_rows]:
+		for card in rows.get_node("Rows").get_children():
+			assert(card.get_node("Margin/Content/SoloNotice/Margin/Message").text==notice_flow.solo_notice_text)
 	arena.queue_free()
 	await process_frame; await process_frame
 	print("PASS integrated co-op selection: normal entry/switch, activating device, four slots, held join/cancel/limit, independent selection, shared animation, paired weapon rows, one difficulty and solo restoration")

@@ -10,21 +10,9 @@ var perfect_glints: Node2D
 
 func _ready() -> void:
 	super._ready()
-	name = "GoldenYolkReveal"
 	remove_from_group("coin_balance_reveal")
-	yolk = TextureRect.new()
-	yolk.texture = load("res://assets/sprites/Items/Catalogue/078.png")
-	yolk.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	yolk.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	yolk.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	yolk.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	card.add_child(yolk)
-	flash = ColorRect.new()
-	flash.color = Color.WHITE
-	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	card.add_child(flash)
-	flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	flash.hide()
+	flash=get_node("Panel1/ColorRect4")
+	yolk=get_node("Panel1/TextureRect3")
 
 var impact_announced := false
 
@@ -67,8 +55,6 @@ func _process(delta: float) -> void:
 		impact_announced=true
 		SoundManager.play_event("golden_impact")
 	_layout()
-	yolk.size = coin.size
-	yolk.pivot_offset = yolk.size * 0.5
 	var center := coin.position
 	var distance := minf(280, card.size.x * 0.25)
 	veil.modulate.a = minf(1, elapsed / 0.16)

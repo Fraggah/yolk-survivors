@@ -1,0 +1,159 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/unlock_notice.gd" id="1_6rcvl"]
+
+[ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="fit"]
+[sub_resource type="Gradient" id="Gradient_jnk2s"]
+offsets = PackedFloat32Array(0, 1, 0)
+colors = PackedColorArray(1, 0.968627, 0.901961, 1, 0.964706, 0.74902, 0.282353, 1, 0.96, 0.7, 0.2, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td18a"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="@CanvasLayer@397" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_6rcvl")
+
+[node name="UnlockScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect0" type="ColorRect" parent="UnlockScreen"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.06, 0.04, 0.03, 0.86)
+
+[node name="Viewport" type="Container" parent="UnlockScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("fit")
+design_size = Vector2(1920,1080)
+mouse_filter = 2
+[node name="Stage" type="Control" parent="UnlockScreen/Viewport"]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Label0" type="Label" parent="UnlockScreen/Viewport/Stage"]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 95.0
+offset_right = 1510.0
+offset_bottom = 185.0
+theme_override_colors/font_color = Color(1, 0.968627, 0.901961, 1)
+theme_override_font_sizes/font_size = 62
+text = "UNLOCKED!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUParticles2D1" type="CPUParticles2D" parent="UnlockScreen/Viewport/Stage"]
+emitting = false
+amount = 48
+lifetime = 0.65
+one_shot = true
+explosiveness = 1.0
+emission_shape = 5
+emission_points = PackedVector2Array(210, 0, 208.203, 27.4105, 202.844, 54.352, 194.015, 80.3635, 181.865, 105, 166.604, 127.84, 148.492, 148.492, 127.84, 166.604, 105, 181.865, 80.3635, 194.015, 54.352, 202.844, 27.4105, 208.203, -9.17939e-06, 210, -27.4105, 208.203, -54.352, 202.844, -80.3635, 194.015, -105, 181.865, -127.84, 166.604, -148.492, 148.492, -166.604, 127.84, -181.865, 105, -194.015, 80.3635, -202.844, 54.352, -208.203, 27.4105, -210, -1.83588e-05, -208.203, -27.4105, -202.844, -54.352, -194.015, -80.3635, -181.865, -105, -166.604, -127.84, -148.492, -148.492, -127.84, -166.604, -105, -181.865, -80.3635, -194.015, -54.352, -202.844, -27.4105, -208.203, 2.50422e-06, -210, 27.4105, -208.203, 54.352, -202.844, 80.3636, -194.015, 105, -181.865, 127.84, -166.604, 148.492, -148.492, 166.604, -127.84, 181.865, -105, 194.015, -80.3635, 202.844, -54.352, 208.203, -27.4105)
+emission_normals = PackedVector2Array(1, 0, 0.991445, 0.130526, 0.965926, 0.258819, 0.92388, 0.382683, 0.866025, 0.5, 0.793353, 0.608761, 0.707107, 0.707107, 0.608761, 0.793353, 0.5, 0.866025, 0.382683, 0.92388, 0.258819, 0.965926, 0.130526, 0.991445, -4.37114e-08, 1, -0.130526, 0.991445, -0.258819, 0.965926, -0.382683, 0.92388, -0.5, 0.866025, -0.608761, 0.793353, -0.707107, 0.707107, -0.793353, 0.608761, -0.866025, 0.5, -0.92388, 0.382683, -0.965926, 0.258819, -0.991445, 0.130526, -1, -8.74228e-08, -0.991445, -0.130526, -0.965926, -0.258819, -0.92388, -0.382683, -0.866025, -0.5, -0.793353, -0.608761, -0.707107, -0.707107, -0.608761, -0.793353, -0.5, -0.866025, -0.382684, -0.92388, -0.258819, -0.965926, -0.130526, -0.991445, 1.19249e-08, -1, 0.130526, -0.991445, 0.258819, -0.965926, 0.382684, -0.923879, 0.5, -0.866025, 0.608762, -0.793353, 0.707107, -0.707107, 0.793353, -0.608761, 0.866025, -0.5, 0.92388, -0.382683, 0.965926, -0.258819, 0.991445, -0.130526)
+emission_colors = PackedColorArray()
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 180.0
+initial_velocity_max = 450.0
+scale_amount_min = 4.0
+scale_amount_max = 9.0
+color_ramp = SubResource("Gradient_jnk2s")
+
+[node name="TextureRect2" type="TextureRect" parent="UnlockScreen/Viewport/Stage"]
+texture_filter = 4
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 320.0
+pivot_offset = Vector2(160, 160)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+offset_left = 800.0
+offset_top = 260.0
+offset_right = 1120.0
+offset_bottom = 580.0
+
+[node name="Label3" type="Label" parent="UnlockScreen/Viewport/Stage"]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 650.0
+offset_right = 1360.0
+offset_bottom = 725.0
+theme_override_colors/font_color = Color(1, 0.968627, 0.901961, 1)
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="UnlockScreen/Viewport/Stage"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 740.0
+offset_right = 1420.0
+offset_bottom = 845.0
+theme_override_colors/font_color = Color(1, 0.968627, 0.901961, 1)
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Panel5" type="Panel" parent="UnlockScreen/Viewport/Stage"]
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 245.0
+offset_right = 1640.0
+offset_bottom = 765.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_td18a")
+
+[node name="RichTextLabel0" type="RichTextLabel" parent="UnlockScreen/Viewport/Stage/Panel5"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 24.0
+offset_right = 614.0
+offset_bottom = 496.0
+theme_override_colors/default_color = Color(0.266667, 0.207843, 0.156863, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+
+[node name="Button6" type="Button" parent="UnlockScreen/Viewport/Stage"]
+layout_mode = 0
+offset_left = 710.0
+offset_top = 885.0
+offset_right = 1210.0
+offset_bottom = 975.0
+theme_override_font_sizes/font_size = 40
+text = "CONTINUE"
+
+[node name="IconEnd" type="Marker2D" parent="UnlockScreen/Viewport/Stage"]
+position = Vector2(360,285)
+[node name="NameEnd" type="Marker2D" parent="UnlockScreen/Viewport/Stage"]
+position = Vector2(120,650)
+[node name="RequirementEnd" type="Marker2D" parent="UnlockScreen/Viewport/Stage"]
+position = Vector2(60,740)

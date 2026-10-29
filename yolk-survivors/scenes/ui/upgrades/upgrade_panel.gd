@@ -19,27 +19,8 @@ func _ready() -> void:
 	# This stat is explicitly item-only, even if a resource is accidentally added in the editor.
 	upgrades = upgrades.filter(func(item): return item.stat_id != "fire_tick_speed")
 	$HBoxContainer/VBoxContainer/Label.add_theme_color_override("font_color", UITheme.palette.hud_text)
-	reroll_button = Button.new()
-	reroll_button.name = "UpgradeRerollButton"
-	reroll_button.custom_minimum_size = Vector2(350, 60)
-	reroll_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	$HBoxContainer/VBoxContainer.add_child(reroll_button)
-	var content := HBoxContainer.new()
-	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content.alignment = BoxContainer.ALIGNMENT_CENTER
-	reroll_button.add_child(content)
-	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	reroll_label = Label.new()
-	reroll_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	reroll_label.add_theme_font_size_override("font_size", 40)
-	content.add_child(reroll_label)
-	var icon := TextureRect.new()
-	icon.texture = preload("res://assets/sprites/Yolk/yolk.png")
-	icon.custom_minimum_size = Vector2(40, 40)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content.add_child(icon)
+	reroll_button=$HBoxContainer/VBoxContainer/UpgradeRerollButton
+	reroll_label=reroll_button.get_node("Content/Cost")
 	reroll_button.pressed.connect(_on_reroll_pressed)
 
 func begin_wave_rewards(wave: int) -> void:
@@ -74,10 +55,10 @@ func load_upgrades(character_level: int) -> void:
 		for child in item_container.get_children():
 			item_container.remove_child(child)
 			child.queue_free()
-	
+
 	var config := Global.UPGRADE_PROBABILITY_CONFIG
 	var selected_upgrades := Global.select_items_for_offer(upgrades, offer_level, config)
-	
+
 	for upgrade: ItemUpgrade in selected_upgrades:
 		var upgraded_instance := UPGRADE_CARD_SCENE.instantiate()
 		item_container.add_child(upgraded_instance)

@@ -4,7 +4,8 @@ signal finished
 const SHEET := "res://assets/sprites/UI/chocolate_coin/coin-turn.png"
 const REGIONS := [Rect2(52,81,526,533), Rect2(699,77,310,536), Rect2(1265,77,123,537), Rect2(1592,80,525,534)]
 const TURN := [0, 1, 2, 4, 3, 4, 2, 1]
-var frames: Array[Texture2D] = []
+@export var frames: Array[Texture2D] = []
+var authored_coin_offsets: Vector4
 var coin: TextureRect
 var veil: ColorRect
 var card_style: StyleBoxFlat
@@ -22,49 +23,18 @@ var particles: Array[Dictionary] = []
 var pending_results: Array[Dictionary] = []
 
 func _ready() -> void:
-	name = "ChocolateCoinReveal"
 	add_to_group("coin_balance_reveal")
-	z_index = 200
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	var sheet := load(SHEET) as Texture2D
-	for region in REGIONS:
-		var atlas := AtlasTexture.new()
-		atlas.atlas = sheet
-		atlas.region = region
-		atlas.filter_clip = true
-		frames.append(atlas)
-	veil = ColorRect.new()
-	veil.color = Color(0.035, 0.025, 0.02, 0.76)
-	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(veil)
-	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	card = Panel.new()
-	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	card_style = UITheme.box(Color("342b25"), Color("b88a46"), 24, 2)
-	card.add_theme_stylebox_override("panel", card_style)
-	add_child(card)
-	coin = TextureRect.new()
-	coin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	coin.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	coin.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	coin.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	card.add_child(coin)
-	result_label = Label.new()
-	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	result_label.add_theme_color_override("font_color", Color("fff1ce"))
-	result_label.add_theme_font_size_override("font_size", 54)
-	card.add_child(result_label)
-	continue_button = Button.new()
-	continue_button.text = "CONTINUE"
-	continue_button.add_theme_font_size_override("font_size", 30)
+	card=get_node("Panel1")
+	coin=get_node("Panel1/TextureRect0")
+	continue_button=get_node("Panel1/Button2")
+	particle_layer=get_node("Node2D2")
+	result_label=get_node("Panel1/Label1")
+	veil=get_node("ColorRect0")
+	card_style=card.get_theme_stylebox("panel").duplicate()
+	card.add_theme_stylebox_override("panel",card_style)
+	authored_coin_offsets=Vector4(coin.offset_left,coin.offset_top,coin.offset_right,coin.offset_bottom)
 	continue_button.pressed.connect(close)
-	card.add_child(continue_button)
-	particle_layer = Node2D.new()
-	add_child(particle_layer)
 	particle_layer.draw.connect(_draw_particles)
-	hide()
 	set_process(false)
 
 func play(success: bool, final_balance: int, starting_balance: int = -1) -> void:
@@ -90,15 +60,11 @@ func play(success: bool, final_balance: int, starting_balance: int = -1) -> void
 	set_process(true)
 
 func _layout() -> void:
-	card.size = size * Vector2(0.82, 0.76)
-	card.position = (size - card.size) * 0.5
-	coin.size = Vector2(300, 300)
-	coin.pivot_offset = coin.size * 0.5
-	coin.position = card.size * 0.5 - coin.size * 0.5 - Vector2(0, 35)
-	result_label.position = Vector2(0, card.size.y * 0.5 + 185)
-	result_label.size = Vector2(card.size.x, 72)
-	continue_button.size = Vector2(240, 52)
-	continue_button.position = Vector2((card.size.x - 240) * 0.5, card.size.y - 78)
+	# Reset the moving sprite to the scene-authored animation origin.
+	coin.offset_left=authored_coin_offsets.x
+	coin.offset_top=authored_coin_offsets.y
+	coin.offset_right=authored_coin_offsets.z
+	coin.offset_bottom=authored_coin_offsets.w
 
 func _set_frame(index: int) -> void:
 	coin.texture = frames[1 if index == 4 else index]
@@ -159,7 +125,7 @@ func _celebrate() -> void:
 	var colors := [Color("fff2cb"), Color("ffc536"), Color("ed9131"), Color("e9c388")]
 	for index in 220:
 		var left := index % 2 == 0
-		var point := card.position + Vector2(8 if left else card.size.x - 8, card.size.y * randf_range(0.25, 0.75))
+		var point := card.position + Vector2(8.0 if left else card.size.x - 8.0, card.size.y * randf_range(0.25, 0.75))
 		var velocity := Vector2(randf_range(180, 520) * (1 if left else -1), randf_range(-330, -80))
 		particles.append({"point":point, "velocity":velocity, "age":0.0, "life":randf_range(0.9, 1.6), "angle":randf()*TAU, "spin":randf_range(-10,10), "size":Vector2(randf_range(4,9),randf_range(2,6)), "color":colors[index % colors.size()], "spark":false})
 	for index in 75:

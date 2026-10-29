@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://autoload/electric_rays.gd" id="1"]
+[node name="ElectricRays" type="Node2D"]
+process_priority = 1000
+z_index = 3
+script = ExtResource("1")
+shared_batches = true
+aura_capacity = 192
+burst_capacity = 64

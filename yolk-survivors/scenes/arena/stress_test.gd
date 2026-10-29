@@ -16,18 +16,7 @@ var label: Label
 var profile: EnemyProfile = preload("res://resources/wave/enemies/chaser_mid.tres")
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	var layer := CanvasLayer.new()
-	layer.layer = 2
-	add_child(layer)
-	label = Label.new()
-	label.position = Vector2(22,190)
-	label.add_theme_font_size_override("font_size",22)
-	label.add_theme_color_override("font_color",Color.WHITE)
-	label.add_theme_color_override("font_outline_color",Color.BLACK)
-	label.add_theme_constant_override("outline_size",5)
-	layer.add_child(label)
-	label.hide()
+	label=$UI/Status
 
 func start(context: Arena) -> void:
 	arena = context

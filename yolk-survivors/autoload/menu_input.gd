@@ -9,18 +9,21 @@ var repeat_left := 0.0
 var styled_focus: Button
 var connected_gamepads: Array[int] = []
 var gamepad_active := false
+var keyboard_navigation := false
 var last_device := -1
 var last_input_event: InputEvent
 var remembered_focus: Dictionary = {}
+var coop_mouse_lock_active := false
 
 func _set_gamepad_active(value: bool) -> void:
-	if value and connected_gamepads.is_empty(): return
+	if value and connected_gamepads.is_empty() and not keyboard_navigation: return
 	if gamepad_active == value: return
 	var menu := _visible_menu()
 	var focused := get_viewport().gui_get_focus_owner()
 	if menu and focused and menu.is_ancestor_of(focused):
 		remembered_focus[menu.get_instance_id()] = weakref(focused)
 	gamepad_active = value
+	if not value: keyboard_navigation=false
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN if value else Input.MOUSE_MODE_VISIBLE
 	if focused: focused.release_focus()
 	var controls := _controls(menu)
@@ -58,6 +61,7 @@ func _sync_focus_visual() -> void:
 		UITheme._bind_button_focus(styled_focus)
 
 func _ready() -> void:
+	get_tree().node_added.connect(_coop_node_added)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	connected_gamepads = Input.get_connected_joypads()
 	gamepad_active = not connected_gamepads.is_empty()
@@ -90,7 +94,7 @@ func _collect_controls(node: Node, result: Array[Control]) -> void:
 			child.focus_mode = Control.FOCUS_ALL if gamepad_active else Control.FOCUS_NONE
 			if not child.has_meta("menu_mouse_filter"):
 				child.set_meta("menu_mouse_filter", child.mouse_filter)
-			child.mouse_filter = Control.MOUSE_FILTER_STOP if child.get_meta("mouse_always_enabled",false) else Control.MOUSE_FILTER_IGNORE if gamepad_active else child.get_meta("menu_mouse_filter")
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE if coop_mouse_blocked() else Control.MOUSE_FILTER_STOP if child.get_meta("mouse_always_enabled",false) else Control.MOUSE_FILTER_IGNORE if gamepad_active else child.get_meta("menu_mouse_filter")
 			if not child is BaseButton or not child.disabled: result.append(child)
 		_collect_controls(child, result)
 
@@ -122,6 +126,7 @@ func _initial_focus(controls: Array[Control]) -> void:
 	controls[0].grab_focus()
 
 func _process(delta: float) -> void:
+	_sync_coop_mouse_lock()
 	if coop_mouse_blocked(): Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
 	if _coop_owns_input(): return
 	var menu := _visible_menu()
@@ -181,6 +186,7 @@ func move_focus(direction: Vector2) -> void:
 
 func _input(event: InputEvent) -> void:
 	if coop_mouse_blocked() and (event is InputEventMouseButton or event is InputEventMouseMotion):
+		_set_tree_mouse_lock(get_tree().current_scene,true)
 		Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
 		get_viewport().set_input_as_handled()
 		return
@@ -194,7 +200,11 @@ func _input(event: InputEvent) -> void:
 		# Mouse use must not reassign or clear the players' independent selectors.
 		Input.mouse_mode=Input.MOUSE_MODE_HIDDEN
 		return
-	if event is InputEventJoypadButton and event.pressed:
+	if event is InputEventKey and event.pressed and not event.echo and (event.is_action("ui_left") or event.is_action("ui_right") or event.is_action("ui_up") or event.is_action("ui_down") or event.is_action("ui_accept")):
+		keyboard_navigation=true
+		_set_gamepad_active(true)
+	elif event is InputEventJoypadButton and event.pressed:
+		keyboard_navigation=false
 		_set_gamepad_active(true)
 	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.45:
 		_set_gamepad_active(true)
@@ -227,3 +237,29 @@ func _coop_owns_input() -> bool:
 func coop_mouse_blocked() -> bool:
 	var scene=get_tree().current_scene
 	return scene is Arena and scene.coop!=null and (scene.coop.active or (scene.coop.selection_flow and scene.coop.selection_flow.enabled))
+
+func _sync_coop_mouse_lock() -> void:
+	var blocked:=coop_mouse_blocked()
+	if blocked==coop_mouse_lock_active: return
+	coop_mouse_lock_active=blocked
+	var scene=get_tree().current_scene
+	if is_instance_valid(scene): _set_tree_mouse_lock(scene,blocked)
+
+func _set_tree_mouse_lock(node: Node, blocked: bool) -> void:
+	if node is Control:
+		if blocked:
+			if not node.has_meta("coop_saved_mouse_filter"):
+				node.set_meta("coop_saved_mouse_filter",node.mouse_filter)
+			node.mouse_filter=Control.MOUSE_FILTER_IGNORE
+		elif node.has_meta("coop_saved_mouse_filter"):
+			node.mouse_filter=node.get_meta("coop_saved_mouse_filter")
+			node.remove_meta("coop_saved_mouse_filter")
+	for child in node.get_children(): _set_tree_mouse_lock(child,blocked)
+
+func _coop_node_added(node: Node) -> void:
+	if node is Control and coop_mouse_blocked():
+		_lock_new_coop_control.call_deferred(node.get_instance_id())
+
+func _lock_new_coop_control(id: int) -> void:
+	var node=instance_from_id(id)
+	if is_instance_valid(node) and coop_mouse_blocked(): _set_tree_mouse_lock(node,true)

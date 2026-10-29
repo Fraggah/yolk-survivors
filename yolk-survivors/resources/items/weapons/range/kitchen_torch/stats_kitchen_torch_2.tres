@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3 uid="uid://dbqut7sxnmjkn"]
 
-[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="2_sd1md"]
-[ext_resource type="Script" path="res://resources/items/weapons/ranged_settings.gd" id="stream_script"]
+[ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="2_sd1md"]
+[ext_resource type="Script" uid="uid://d2qcdgll7iume" path="res://resources/items/weapons/ranged_settings.gd" id="stream_script"]
 
 [sub_resource type="Resource" id="stream_settings"]
 script = ExtResource("stream_script")
@@ -10,6 +10,10 @@ spread_degrees = 0.0
 burst_count = 1
 burst_interval = 0.1
 lock_burst_aim = false
+applies_airbourne = false
+airbourne_speed = 520.0
+airbourne_duration = 0.45
+airbourne_damage_multiplier = 0.35
 explodes = false
 explode_on_impact = true
 fuse = 0.8

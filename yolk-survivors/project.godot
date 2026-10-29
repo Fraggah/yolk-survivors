@@ -24,9 +24,11 @@ Global="*res://autoload/global.gd"
 SoundManager="*res://autoload/sound_manager.tscn"
 DataManager="*res://autoload/data_manager.gd"
 EnemyHitFeedback="*res://effects/enemy_hit_feedback.gd"
-EnemyCrowd="*res://autoload/enemy_crowd.gd"
-CombatTexts="*res://autoload/combat_texts.gd"
-ElectricRays="*res://autoload/electric_rays.gd"
+EnemyCrowd="*res://autoload/enemy_crowd.tscn"
+FireContacts="*res://effects/fire_contacts.tscn"
+GroundFire="*res://effects/ground_fire.tscn"
+CombatTexts="*res://autoload/combat_texts.tscn"
+ElectricRays="*res://autoload/electric_rays.tscn"
 
 [display]
 

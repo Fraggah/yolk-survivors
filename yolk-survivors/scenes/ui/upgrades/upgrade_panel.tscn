@@ -1,9 +1,9 @@
-[gd_scene load_steps=71 format=3 uid="uid://b7hhtxfn6wpfg"]
+[gd_scene load_steps=72 format=3 uid="uid://b7hhtxfn6wpfg"]
 
 [ext_resource type="PackedScene" uid="uid://cw0dx3phrq4iu" path="res://scenes/ui/upgrades/upgrade_card.tscn" id="1_3qk7x"]
 [ext_resource type="Script" uid="uid://84nl0bn5o0in" path="res://scenes/ui/upgrades/upgrade_panel.gd" id="1_8r26f"]
 [ext_resource type="Script" uid="uid://c3edxjqx8opr3" path="res://resources/items/upgrades/item_upgrades.gd" id="2_2l80c"]
-[ext_resource type="PackedScene" uid="uid://lsucb07nv2yt" path="res://scenes/ui/stats/stats_container.tscn" id="2_8r26f"]
+[ext_resource type="PackedScene" uid="uid://cj80og0famryw" path="res://scenes/ui/stats/stats_container.tscn" id="2_8r26f"]
 [ext_resource type="Resource" uid="uid://chfx34trkjpk7" path="res://resources/items/upgrades/data/block/upgrade_block_1.tres" id="3_2l80c"]
 [ext_resource type="Resource" uid="uid://coth3bmqwlujl" path="res://resources/items/upgrades/data/block/upgrade_block_2.tres" id="4_l1k2b"]
 [ext_resource type="Resource" uid="uid://d02b0hc72ib3d" path="res://resources/items/upgrades/data/damage/upgrade_damage_1.tres" id="4_pcnae"]
@@ -58,6 +58,7 @@
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/critical_chance/upgrade_critical_chance_2.tres" id="new_critical_chance_1"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/critical_chance/upgrade_critical_chance_3.tres" id="new_critical_chance_2"]
 [ext_resource type="Resource" path="res://resources/items/upgrades/data/critical_chance/upgrade_critical_chance_4.tres" id="new_critical_chance_3"]
+[ext_resource type="Texture2D" uid="uid://dmpftpbmwokai" path="res://assets/sprites/Yolk/yolk.png" id="reroll_yolk"]
 [ext_resource type="Resource" uid="uid://dyau42d8i8k07" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_1.tres" id="rework_attack_speed_0"]
 [ext_resource type="Resource" uid="uid://dcfmyw4cxaiy5" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_2.tres" id="rework_attack_speed_1"]
 [ext_resource type="Resource" uid="uid://c4swgurdlpq5i" path="res://resources/items/upgrades/data/attack_speed/upgrade_attack_speed_3.tres" id="rework_attack_speed_2"]
@@ -119,6 +120,31 @@ layout_mode = 2
 
 [node name="UpgradeCard4" parent="HBoxContainer/VBoxContainer/ItemContainer" instance=ExtResource("1_3qk7x")]
 layout_mode = 2
+
+[node name="UpgradeRerollButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(350, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Content" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/UpgradeRerollButton"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+alignment = 1
+
+[node name="Cost" type="Label" parent="HBoxContainer/VBoxContainer/UpgradeRerollButton/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "REFRESH 1"
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/UpgradeRerollButton/Content"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("reroll_yolk")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StatsContainer" parent="HBoxContainer" instance=ExtResource("2_8r26f")]
 layout_mode = 2

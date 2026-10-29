@@ -1,8 +1,6 @@
 extends PanelContainer
 class_name WeaponTooltip
 
-@export var text_scale := 1.0
-@export var body_text_scale := 1.0
 @export var manual_selection := false
 @export var show_full_description := false
 var preview_stats: UnitStats
@@ -24,47 +22,11 @@ var displayed_weapon: ItemWeapon
 var value_labels: Array[RichTextLabel] = []
 
 func _ready() -> void:
-	scroll_hint.add_theme_font_size_override("font_size",roundi(18*text_scale))
-	weapon_name.add_theme_font_size_override("font_size",roundi(26*text_scale))
-	weapon_type.add_theme_font_size_override("font_size",roundi(22*text_scale*body_text_scale))
-	full_description.add_theme_font_size_override("normal_font_size",roundi(22*text_scale*body_text_scale))
-	full_description.add_theme_font_size_override("bold_font_size",roundi(22*text_scale*body_text_scale))
-	passive_description = Label.new()
-	passive_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	passive_description.custom_minimum_size.x = 390
-	passive_description.add_theme_font_size_override("font_size", roundi(22*text_scale*body_text_scale))
-	$MarginContainer/Content.add_child(passive_description)
-	passive_description.hide()
-	_ignore_mouse(self)
-	for stat_name: String in ["Damage", "Cooldown", "Range", "Critical chance", "Life steal", "Piercing", "Bounces", "Sell price", "Critical multiplier"]:
-		var caption := Label.new()
-		caption.text = stat_name
-		caption.add_theme_font_size_override("font_size", roundi(22*text_scale*body_text_scale))
-		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_add_stat_cell(caption, stat_name == "Sell price")
-		var value := RichTextLabel.new()
-		value.bbcode_enabled = true
-		value.fit_content = true
-		value.scroll_active = false
-		value.custom_minimum_size = Vector2(220, 30)
-		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		value.add_theme_font_size_override("normal_font_size", roundi(22*text_scale*body_text_scale))
-		value.set_meta("ui_color", "positive")
-		_add_stat_cell(value, stat_name == "Sell price")
-		value_labels.append(value)
-	hide()
+	passive_description=$MarginContainer/Content/PassiveDescription
+	for i in 9:
+		var cell=stats_grid.get_node("Value%d" % i) if i!=7 else stats_grid.get_node("ValueSaleMargin/Value7")
+		value_labels.append(cell)
 	set_process(false)
-
-func _add_stat_cell(control: Control, sale_price: bool) -> void:
-	if not sale_price:
-		stats_grid.add_child(control)
-		return
-	var spacing := MarginContainer.new()
-	spacing.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	spacing.add_theme_constant_override("margin_top", 18)
-	stats_grid.add_child(spacing)
-	spacing.add_child(control)
 
 func _ignore_mouse(control: Control) -> void:
 	control.mouse_filter = Control.MOUSE_FILTER_IGNORE

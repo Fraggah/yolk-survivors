@@ -13,6 +13,7 @@ var background_flame: MultiMeshInstance2D
 var background_material: ShaderMaterial
 var layout_extent := Vector2.ZERO
 var layout_count := -1
+var applied_tint := Color.TRANSPARENT
 
 static func attach(unit: Unit, burn: Node, config: Resource, tint: Color) -> void:
 	var visual = unit.get_node_or_null("FireVisual")
@@ -24,8 +25,21 @@ static func attach(unit: Unit, burn: Node, config: Resource, tint: Color) -> voi
 		visual.name = "FireVisual"
 		visual.target = unit
 		unit.add_child(visual)
-	visual.settings = config if config else load("res://resources/statuses/fire_visual_default.tres")
+	var next_settings: Resource = config if config else load("res://resources/statuses/fire_visual_default.tres")
 	visual.sources[burn.get_instance_id()] = weakref(burn)
+	if GroundFire.batch_burning:
+		visual.settings = next_settings
+		visual.applied_tint = tint
+		visual.layout_count = next_settings.flame_count
+		return
+	# Refreshing the same burn must not rebuild its MultiMesh and shader settings.
+	if visual.settings == next_settings:
+		if visual.applied_tint != tint:
+			visual.applied_tint = tint
+			visual.fire_material.set_shader_parameter("heat_color",tint)
+		return
+	visual.settings = next_settings
+	visual.applied_tint = tint
 	visual.fire_material.set_shader_parameter("heat_color",tint)
 	for property in ["flicker_speed","core_color","ember_count","ember_size","ember_opacity","heat_opacity"]:
 		visual.fire_material.set_shader_parameter(property,visual.settings.get(property))
@@ -38,6 +52,11 @@ static func attach(unit: Unit, burn: Node, config: Resource, tint: Color) -> voi
 	visual.layout_count = -1
 
 func _ready() -> void:
+	if GroundFire.batch_burning:
+		add_to_group("projectiles")
+		GroundFire.register_burning(self)
+		set_process(false)
+		return
 	# Stay inside the owner draw group.
 	global_scale = Vector2.ONE
 	add_to_group("projectiles")
@@ -83,6 +102,11 @@ func _ready() -> void:
 	tree_exiting.connect(_remove_flames)
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_visual(delta)
+	FireContacts.finish_profile("burn_visuals",started)
+
+func _advance_visual(delta: float) -> void:
 	if Global.game_paused or not settings: return
 	if not is_instance_valid(target) or target.is_queued_for_deletion() or target.health_component.current_health <= 0 or (target is Enemy and target.is_retiring):
 		queue_free()
@@ -99,6 +123,7 @@ func _process(delta: float) -> void:
 	else:
 		fade = minf(1.0,fade+delta*10.0)
 	elapsed += delta
+	if GroundFire.batch_burning: return
 	var rect := target.sprite.get_rect()
 	var sprite_extent := rect.size * target.sprite.global_scale.abs()
 	var extent: Vector2 = Vector2(maxf(12.0,sprite_extent.x*1.65),maxf(20.0,sprite_extent.y*1.7))*settings.coverage

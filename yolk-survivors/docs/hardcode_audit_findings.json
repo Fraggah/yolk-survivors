@@ -1,0 +1,983 @@
+[
+  {
+    "group": "Base",
+    "id": "BASE-01",
+    "path": "autoload/global.gd",
+    "line": 20,
+    "description": "25 yemas iniciales; CoopPlayerSession también declara 25, aunque start_run usa Global.",
+    "destination": "Reglas de run compartidas.",
+    "state": "Código"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-02",
+    "path": "autoload/global.gd",
+    "line": 21,
+    "description": "Capacidad base 6; otras ramas y layouts también presuponen seis armas.",
+    "destination": "Capacidad base configurable con límites de UI explícitos.",
+    "state": "Código"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-03",
+    "path": "resources/run_experience.gd",
+    "line": 13,
+    "description": "XP requerida = (nivel + 3)²; nivel inicial 1.",
+    "destination": "Curva o recurso de experiencia.",
+    "state": "Código"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-04",
+    "path": "scenes/arena/arena.gd",
+    "line": 203,
+    "description": "+1 HP por nivel y cura del aumento de máximo; repetido en LocalCoop.",
+    "destination": "Regla única de recompensa por nivel.",
+    "state": "Código"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-05",
+    "path": "autoload/progression.gd",
+    "line": 7,
+    "description": "Listas iniciales de personajes/armas y registro de logros en constantes; metas de logros sí son recursos.",
+    "destination": "Catálogo de desbloqueos iniciales.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-06",
+    "path": "autoload/global.gd",
+    "line": 51,
+    "description": "Mapa nombre visible → escena de personaje; un cambio de nombre puede afectar búsquedas.",
+    "destination": "Catálogo con ID estable y referencias a escenas.",
+    "state": "Código"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-07",
+    "path": "resources/items/passives/catalogue.gd",
+    "line": 4,
+    "description": "Lista fija de pasivos activos: ready_for_shop es editable, pero no incluye IDs nuevos automáticamente.",
+    "destination": "Catálogo explícito de recursos.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Base",
+    "id": "BASE-08",
+    "path": "resources/items/weapons/ranged_catalogue.gd",
+    "line": 4,
+    "description": "Listas de familias ranged/melee/spicy/pet y rutas construidas por tier; stats individuales sí configurables.",
+    "destination": "Catálogo de familias y recursos por tier.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-01",
+    "path": "resources/economy_rules.gd",
+    "line": 3,
+    "description": "Inflación 10% por wave, suma directa de wave y mínimo 1.",
+    "destination": "Recurso de economía con fórmula documentada.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-02",
+    "path": "resources/economy_rules.gd",
+    "line": 4,
+    "description": "Venta al 25% del precio de tienda, redondeada hacia abajo.",
+    "destination": "Ratio y política de redondeo.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-03",
+    "path": "resources/economy_rules.gd",
+    "line": 19,
+    "description": "Reroll usa factores 0,4 y 0,75 de wave, incremento mínimo 1 y contador.",
+    "destination": "Parámetros compartidos para tienda/mejoras.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-04",
+    "path": "resources/shop_rarity.gd",
+    "line": 4,
+    "description": "Curva tienda: horizonte 20, desbloqueos 2/9/15, caps acumulados 60/20/5%, crecimiento lineal y clamp después de 20. Sin Suerte deliberadamente.",
+    "destination": "Recurso de progresión; no activar Suerte sin calibración autorizada.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-05",
+    "path": "resources/upgrade_rarity.gd",
+    "line": 5,
+    "description": "Curva mejoras: horizonte 20, desbloqueos 3/10/15, caps 60/20/5%, lineal y sin Suerte.",
+    "destination": "Recurso separado de progresión de niveles.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-06",
+    "path": "resources/shop_weapon_bias.gd",
+    "line": 3,
+    "description": "40% familia equipada; peso base 1 y +1 por tag compartida.",
+    "destination": "Recurso de afinidad de ofertas.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-07",
+    "path": "scenes/ui/shop/shop_panel.gd",
+    "line": 242,
+    "description": "Garantía con menos de 3 armas, una por visita; exclusión de familias anteriores y excepción de bloqueados.",
+    "destination": "Política compartida solo/coop con umbral y flags.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-08",
+    "path": "scenes/ui/shop/shop_panel.gd",
+    "line": 6,
+    "description": "Máximo 2 armas por tirada y cuatro ofertas; LocalCoop repite constantes y arrays de cuatro.",
+    "destination": "Una fuente de reglas; cambiar cantidad requiere adaptar escenas.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-09",
+    "path": "resources/economy_rules.gd",
+    "line": 5,
+    "description": "Garantía asequible de primera tienda, límite 12 y condiciones extra en ShopPanel.",
+    "destination": "Política configurable de inicio de tienda.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-10",
+    "path": "resources/shop_weapon_bias.gd",
+    "line": 65,
+    "description": "Regla de utilidad por familia al llenar slots; IV y como máximo una copia incompleta, presupone cuatro tiers.",
+    "destination": "Política de ofertas; conservar enum estructural de tiers.",
+    "state": "Código"
+  },
+  {
+    "group": "Economía y rarezas",
+    "id": "ECO-11",
+    "path": "scenes/ui/shop/shop_card.gd",
+    "line": 25,
+    "description": "Descuento máximo 90%; GoldenEnhancement repite topes. Pesos de Liquidación sí editables.",
+    "destination": "Límite compartido de ventas.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-01",
+    "path": "resources/unit_stats.gd",
+    "line": 248,
+    "description": "Armadura: coeficiente 0,06, rendimientos decrecientes y fórmula distinta con armadura negativa.",
+    "destination": "Coeficiente y política de daño entrante.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-02",
+    "path": "resources/unit_stats.gd",
+    "line": 251,
+    "description": "Cap de bloqueo 70%; poder de bloqueo sí es stat editable.",
+    "destination": "Cap global de bloqueo.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-03",
+    "path": "scenes/units/players/player.gd",
+    "line": 24,
+    "description": "Invulnerabilidad tras impacto de 0,5 s.",
+    "destination": "Reglas de combate del jugador.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-04",
+    "path": "scenes/units/players/player.gd",
+    "line": 25,
+    "description": "Lifesteal: 0,1 s entre activaciones; recuperación 0,1 HP por activación.",
+    "destination": "Recurso de curación, conservando la semántica acordada.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-05",
+    "path": "scenes/units/players/player.gd",
+    "line": 27,
+    "description": "Regeneración: cada punto da 0,1 HP/s en pasos de hasta 0,1 HP.",
+    "destination": "Recurso de recuperación; no recalibrar incidentalmente.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-06",
+    "path": "resources/unit_stats.gd",
+    "line": 268,
+    "description": "Burning genérico: mínimo 0,1 y Effects ×0,25; las armas pueden tener daño/coefficient propios configurados.",
+    "destination": "Separar regla genérica y recursos de Burning específico.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-07",
+    "path": "resources/status_effect.gd",
+    "line": 6,
+    "description": "Tick global de fuego 0,5 y suelos 0,05 en UnitStats; tick_interval exportado no es la única fuente.",
+    "destination": "Definir precedencia y base/mínimo editables.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-08",
+    "path": "resources/items/weapons/item_weapon.gd",
+    "line": 103,
+    "description": "Cooldown mínimo 0,05 repetido en mejora dorada; daño mínimo 1 y alcance mínimo 1 en el mismo recurso.",
+    "destination": "Límites compartidos de diseño, separados de epsilons técnicos.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-09",
+    "path": "resources/items/weapons/item_weapon.gd",
+    "line": 106,
+    "description": "Chili no crita sin Pimienta y Burning no hace crítico: reglas mecánicas en código.",
+    "destination": "Flags de política solo si se autoriza experimentar.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-10",
+    "path": "resources/unit_stats.gd",
+    "line": 257,
+    "description": "AoE convierte área a radio con raíz; ataque negativo y modificadores finales tienen fórmulas propias.",
+    "destination": "Documentar modelos; no exponer operaciones matemáticas como sliders.",
+    "state": "Código"
+  },
+  {
+    "group": "Combate",
+    "id": "COM-11",
+    "path": "resources/unit_stats.gd",
+    "line": 215,
+    "description": "Batido energético convierte exceso de velocidad a ataque con factor 2.",
+    "destination": "Coeficiente del ítem.",
+    "state": "Código"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-01",
+    "path": "scenes/units/players/passive_items.gd",
+    "line": 119,
+    "description": "Delantal fija armadura→HP en 2; Grocery usa redistribute(50,40).",
+    "destination": "Campos de conversión/redistribución en sus recursos.",
+    "state": "Código"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-02",
+    "path": "scenes/units/players/passive_items.gd",
+    "line": 191,
+    "description": "Cáscara resbaladiza: 20% velocidad y 3 s por poder.",
+    "destination": "Coeficiente y duración en el pasivo.",
+    "state": "Código"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-03",
+    "path": "scenes/components/health_component.gd",
+    "line": 23,
+    "description": "Prevención de letal deja 1 HP; duración/usos de protección se completan en PassiveItems.",
+    "destination": "Vida residual/protección de Cáscara extra.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-04",
+    "path": "scenes/units/players/player.gd",
+    "line": 56,
+    "description": "Wasabi usa 10% para beneficios y penalizaciones de Chili.",
+    "destination": "Coeficientes del pasivo.",
+    "state": "Código"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-05",
+    "path": "resources/items/golden_enhancement.gd",
+    "line": 8,
+    "description": "Yema dorada: resultados -1/10/25/50/100%, fallback de pesos 25/40/23/10/2, condición de perfecto y lista de magnitudes escalables. Pesos normales sí vienen del ítem.",
+    "destination": "Resultados/política de mejora configurables.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-06",
+    "path": "resources/items/ayahuasca.gd",
+    "line": 27,
+    "description": "Ayahuasca fija retroceso 1/2 y reducción a mitad; pesos y niveles ganados sí configurables.",
+    "destination": "Recurso de outcomes y política de retroceso.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-07",
+    "path": "resources/items/unknown_mushroom.gd",
+    "line": 51,
+    "description": "Hongo: nueve outcomes uniformes, fallback 5 s; explosión visual 0,22 y color fijo. Muchas magnitudes sí exportadas.",
+    "destination": "Pesos/lista de outcomes y perfil visual.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-08",
+    "path": "resources/items/breading.gd",
+    "line": 33,
+    "description": "Rebozado: efecto asignado por tag y herencia al combinar en código; potencias/probabilidades en item_081.tres.",
+    "destination": "Tabla de efectos por tag solo si se necesita cambiar composición.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-09",
+    "path": "resources/rewards/incognito_loot_settings.gd",
+    "line": 24,
+    "description": "Incógnito exporta base e hitos; distribuciones objetivo 25% cada una → 0/⅓/⅓/⅓ → 0/0/½/½ → legendario, interpolación y fallback descendente son fijos.",
+    "destination": "Hitos con probabilidades objetivo y política de fallback.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Ítems y recompensas",
+    "id": "ITEM-10",
+    "path": "scenes/ui/shop/shop_panel.gd",
+    "line": 727,
+    "description": "Moneda/Gambler: fórmula de apuesta, duplicación/pérdida y elegibilidad de uso definidas por código.",
+    "destination": "Reglas de apuesta/resultados separadas de la descripción visual.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-01",
+    "path": "scenes/weapons/weapon.gd",
+    "line": 4,
+    "description": "Armas aplican escala visual global 0,75 por código.",
+    "destination": "Escala final en escena o multiplicador explícito con base preservada.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-02",
+    "path": "scenes/units/players/weapons_container.gd",
+    "line": 4,
+    "description": "Marcadores de armas se multiplican ×0,75 en _ready: posiciones editadas no son las finales.",
+    "destination": "Guardar las posiciones finales en la escena.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-03",
+    "path": "scenes/units/players/weapons_container.gd",
+    "line": 21,
+    "description": "Más de 6 armas usa elipse dinámica con radio base 60 y compresión Y=0,65.",
+    "destination": "Perfil de disposición dinámica de armas extra.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-04",
+    "path": "resources/items/weapons/item_weapon.gd",
+    "line": 11,
+    "description": "Labels de tags, categorías y plantillas de descripción están en script.",
+    "destination": "Metadatos de tags/textos; mantener IDs estables.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-05",
+    "path": "scenes/weapons/spicy/aura_behaviour.gd",
+    "line": 37,
+    "description": "Capacidad visual de aura combinada limita contribuyentes a 6.",
+    "destination": "Capacidad técnica coordinada con shader.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-06",
+    "path": "scenes/weapons/spicy/pattern_behaviour.gd",
+    "line": 122,
+    "description": "Colocación de patrones con umbrales 12 unidades y 10% del alcance.",
+    "destination": "Settings de colocación si se quiere afinar sensación de uso.",
+    "state": "Código"
+  },
+  {
+    "group": "Armas y escenas",
+    "id": "ARM-07",
+    "path": "scenes/weapons/melee/catalogue_melee_behaviour.gd",
+    "line": 31,
+    "description": "Secuencias/modalidades melee elegidas por ramas; muchas duraciones/offsets/animation_speed ya son MeleeSettings.",
+    "destination": "Conservar lógica de comportamientos; extraer magnitudes/curvas residuales.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-01",
+    "path": "autoload/global.gd",
+    "line": 19,
+    "description": "Escala global 1,5: Unit._ready multiplica raíz; distancias/VFX también la usan.",
+    "destination": "Convención global explícita o escala final de escenas, migración coordinada.",
+    "state": "Código"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-02",
+    "path": "scenes/units/enemies/enemy.gd",
+    "line": 198,
+    "description": "Enemy impone escala visual 0,5×visual_scale, no parte de la escala base de Visuals.",
+    "destination": "Base de escena más multiplicador respetado.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-03",
+    "path": "scenes/units/enemies/reward_roamer.gd",
+    "line": 32,
+    "description": "Roamers normalizan altura de arte a 176 y reajustan offset/posición; modifican parte de la base visual.",
+    "destination": "Altura de referencia/pivote/base editables.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-04",
+    "path": "scenes/units/enemies/reward_roamer.gd",
+    "line": 54,
+    "description": "Fallback de límites (-1000,-500,2000,985), 48 intentos, probe mínimo 60. Recompensa 10–25 y bounce principales ya exportados.",
+    "destination": "Geometría de entorno + perfil de movimiento.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-05",
+    "path": "scenes/units/enemies/reward_roamer.gd",
+    "line": 93,
+    "description": "Incógnito: squash 0,12, potencia 14 y sombra 0,3. Yolker: pulso 6, tilt 0,025, squash 0,035.",
+    "destination": "Perfil de animación/curvas.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-06",
+    "path": "scenes/units/unit.gd",
+    "line": 45,
+    "description": "Z se impone al iniciar: sprite 0/sombra -1; cadáver -3 y pickups -1 en otros scripts.",
+    "destination": "Política de render o base nativa editable.",
+    "state": "Código"
+  },
+  {
+    "group": "Unidades",
+    "id": "UNIT-07",
+    "path": "scenes/components/hurtbox_component.gd",
+    "line": 10,
+    "description": "Puntos de apuntado/impacto calculados por componente; shapes y anchors sí existen en escena.",
+    "destination": "Convención documentada y desvíos de diseño exportables.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-01",
+    "path": "scenes/arena/spawner.gd",
+    "line": 250,
+    "description": "128 intentos de spawn, fallback margen 80 y muestreo de 16 direcciones. Perfiles/grupos exportan pesos/zonas/distancias.",
+    "destination": "Perfil técnico de spawn y fallback explícito.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-02",
+    "path": "scenes/arena/spawner.gd",
+    "line": 22,
+    "description": "Flags temporales de multitud/recompensa activos por defecto; multiplicadores especiales conviven con progresión normal.",
+    "destination": "Perfil de desarrollo independiente.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-03",
+    "path": "scenes/arena/environment_controller.gd",
+    "line": 26,
+    "description": "Fondo de mundo creado por código y extendido según cámara; arenas sí son Resources. No es un panel UI.",
+    "destination": "Nodo base de mundo editable conservando cobertura dinámica.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-04",
+    "path": "scenes/arena/camera_2d.gd",
+    "line": 28,
+    "description": "Cámara ligada a clic derecho/R1, excluida en coop; shake frecuencias 80/1,37 y cobertura extra 32. Padding sí exportado.",
+    "destination": "InputMap + política de cámara y perfil de shake.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-05",
+    "path": "scenes/arena/arena.gd",
+    "line": 367,
+    "description": "Fin de wave espera 1 s, repetido en coop; umbrales de últimos segundos y avisos fijos.",
+    "destination": "Tiempos/avisos compartidos de transición.",
+    "state": "Código"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-06",
+    "path": "scenes/arena/arena.gd",
+    "line": 240,
+    "description": "Yemas: altura de burst 40–85, duración ×0,85–1,15, ángulo ±0,1; radio/duración principal del roamer editables.",
+    "destination": "Perfil de dispersión visual.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Oleadas y escenarios",
+    "id": "WORLD-07",
+    "path": "scenes/arena/mechanics/stage_mechanics_controller.gd",
+    "line": 15,
+    "description": "Asignación escenario→tipo de mecánica en código; parámetros de Stage y waves sí exportados.",
+    "destination": "Referencia de mecánica por Stage para agregar sin editar controlador.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-01",
+    "path": "scenes/bosses/boss_encounter.gd",
+    "line": 4,
+    "description": "3 fases de 3 secciones; mapa a scripts, orden aleatorio y excepción final en código.",
+    "destination": "Recurso de fases, secciones y restricciones.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-02",
+    "path": "scenes/bosses/boss_health_component.gd",
+    "line": 7,
+    "description": "HP por tercios y apertura/cierre de ventanas como regla fija. Vida/tiempos principales editables.",
+    "destination": "Umbrales de fase en configuración del encuentro.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-03",
+    "path": "scenes/bosses/complex_fire_lines.gd",
+    "line": 32,
+    "description": "Compleja: 50/50 estáticas/móviles, sin desplazamientos consecutivos.",
+    "destination": "Pesos y restricciones en EncounterSettings.",
+    "state": "Código"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-04",
+    "path": "scenes/bosses/mobile_rotating_turrets.gd",
+    "line": 11,
+    "description": "Torretas: 50/50 mover o girar excluyentes.",
+    "destination": "Pesos/modos configurables.",
+    "state": "Código"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-05",
+    "path": "scenes/bosses/mixed_mechanics.gd",
+    "line": 35,
+    "description": "Mezcla final: cuatro mecánicas uniformes, restricciones tras tipos [1,3], labels fijos.",
+    "destination": "Tabla de mecánicas/pesos/restricciones.",
+    "state": "Código"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-06",
+    "path": "scenes/bosses/sausage_turret.gd",
+    "line": 22,
+    "description": "Escalas/duraciones exportadas pero cortes 0,6/0,84/0,22 y respiración 0,025×sin(age×4) fijos.",
+    "destination": "Curvas de animación.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-07",
+    "path": "scenes/bosses/boss_encounter.gd",
+    "line": 269,
+    "description": "Impacto shake 5/0,15 y remanentes de stretch/textos fijos; caída y squash principal exportados.",
+    "destination": "Perfil visual/timeline de boss.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Boss",
+    "id": "BOSS-08",
+    "path": "scenes/bosses/moving_line_arrows.gd",
+    "line": 6,
+    "description": "Flechas, cues de trayectoria/giro e indicadores offscreen tienen medidas/márgenes/dibujo en scripts.",
+    "destination": "Recursos de avisos visuales; mantener posicionamiento contextual.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-01",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 12,
+    "description": "Paleta de jugadores, máximo 4, arrays/loops de cuatro repetidos en selección/tienda/sesiones.",
+    "destination": "Recurso de identidad; máximo ligado a escenas de cuatro cuadrantes.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-02",
+    "path": "resources/coop_player_session.gd",
+    "line": 34,
+    "description": "WASD, D-pad/ejes, botones y deadzones se consultan directamente por dispositivo.",
+    "destination": "Perfiles/InputMap conservando control independiente.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-03",
+    "path": "scenes/coop/coop_selection.gd",
+    "line": 165,
+    "description": "Mínimo 2 para avanzar, aceptación/cancelación y defaults de personaje/arma. Hold y aviso de solo ya exportados.",
+    "destination": "Reglas de lobby/selección.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-04",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 364,
+    "description": "Spawn en fila centrada, separación 120.",
+    "destination": "Marcadores o patrón de spawn de equipo.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-05",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 377,
+    "description": "Yemas completas a todos incluidos caídos; reserva/pasivas personales; XP base a todos con modificador propio.",
+    "destination": "Política por modo si se quieren alternativas a la acordada.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-06",
+    "path": "scenes/coins/coins.gd",
+    "line": 36,
+    "description": "Imán: uniforme entre activados, destino retenido y reasignación al cercano si muere. Distancias/velocidad exportadas.",
+    "destination": "Política de destinatario.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-07",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 390,
+    "description": "Incógnito sortea recompensa entre sesiones uniformemente, sin excluir caídos por esa condición.",
+    "destination": "Política de elegibilidad/pesos del reparto.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-08",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 330,
+    "description": "Coop no registra victorias solo; todos listos para avanzar, fases de rewards/upgrades y recuperación de caídos fijas.",
+    "destination": "Política de progreso/flujo de modo previa decisión de diseño.",
+    "state": "Código"
+  },
+  {
+    "group": "Cooperativo",
+    "id": "COOP-09",
+    "path": "scenes/coop/coop_shop_panel.gd",
+    "line": 51,
+    "description": "Índices mágicos 200+ locks, 300/301 páginas y 9+ inventario; repetición/scroll por código.",
+    "destination": "Acciones/enum semántico para mantenimiento, parámetros aparte.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-01",
+    "path": "autoload/ui_theme.gd",
+    "line": 10,
+    "description": "Fuente Bake Soda, lista de paletas y regeneración de Theme en script; puede sustituir Theme del editor.",
+    "destination": "Theme nativo y tipografías/paletas con precedencia definida.",
+    "state": "Parcial"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-02",
+    "path": "autoload/ui_theme.gd",
+    "line": 152,
+    "description": "Estilos derivados con mezclas/radios/bordes y overlay 0,65; colores principales sí en paletas.",
+    "destination": "Theme/StyleBox y tokens visuales.",
+    "state": "Parcial"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-03",
+    "path": "scenes/ui/stats/stats_container.gd",
+    "line": 8,
+    "description": "Orden/grupos de stats, labels, formato % y ayuda genérica en constantes; duplicación en PassiveItems/CharacterPassive.",
+    "destination": "Definiciones de stats y textos compartidos.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-04",
+    "path": "scenes/ui/rarity_marker.gd",
+    "line": 13,
+    "description": "Nombres de rareza y números romanos fijos; etiquetas de estados/armas similares.",
+    "destination": "Metadatos/localización sin alterar IDs de enum.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-05",
+    "path": "scenes/ui/selection_panel/selection_panel.gd",
+    "line": 74,
+    "description": "Select Player/Weapon, Player/Locked, descripciones/pasivas generadas sobrescriben textos de escena.",
+    "destination": "Textos exportados o claves de localización.",
+    "state": "Parcial"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-06",
+    "path": "scenes/ui/incognito_rewards.gd",
+    "line": 42,
+    "description": "KEEP/SELL/LIMIT REACHED, pendientes y rareza fijados en script.",
+    "destination": "Textos con placeholders en recurso/localización.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-07",
+    "path": "scenes/ui/shop/shop_panel.gd",
+    "line": 68,
+    "description": "Avisos de eventos/compra/Ayahuasca, LOCK/LOCKED y Listo/No conectado repartidos entre scripts.",
+    "destination": "Textos compartidos con parámetros; escena mantiene Labels.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-08",
+    "path": "scenes/ui/shop/weapon_tooltip.gd",
+    "line": 11,
+    "description": "Tooltip margen 12 y gap 10; popup de armas/ayuda de stats repiten distancias similares.",
+    "destination": "Márgenes contextuales exportados; ubicación sigue dinámica.",
+    "state": "Código"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-09",
+    "path": "scenes/coop/shop_quadrants.gd",
+    "line": 7,
+    "description": "Composición 2×2 fija; separación y design_size de CanvasFit exportados, adaptación visible en editor.",
+    "destination": "Ya válido como layout adaptable; columnas solo para otros diseños.",
+    "state": "Parcial"
+  },
+  {
+    "group": "UI y textos",
+    "id": "UI-10",
+    "path": "scenes/ui/shop/shop_card.gd",
+    "line": 8,
+    "description": "Título ajusta fuente al contenido partiendo de escena; defaults de respaldo 20/30 y suelo técnico 1.",
+    "destination": "Mantener ajuste automático; distinguir tamaño base y política de límite.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-01",
+    "path": "scenes/ui/shop/chocolate_coin_reveal.gd",
+    "line": 6,
+    "description": "Moneda: orden de frames, timeline, aceleración, respiración, tamaño de resultado, colores y partículas en código; frames/base nativos.",
+    "destination": "AnimationPlayer/curvas y perfil de reveal.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-02",
+    "path": "scenes/ui/shop/golden_yolk_reveal.gd",
+    "line": 54,
+    "description": "Yema: choque a 1,12, anticipación, distancias, squash, flash y colores de resultado en script.",
+    "destination": "Timeline y perfil de efectos.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-03",
+    "path": "scenes/ui/unlock_notice.gd",
+    "line": 103,
+    "description": "Desbloqueo 1,25 s, shake 65/0,045, escala 0,8→1,15, partículas; posiciones inicio/fin sí nativas.",
+    "destination": "Curvas/timeline y presentación.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-04",
+    "path": "scenes/ui/player_damage_feedback.gd",
+    "line": 31,
+    "description": "Viñeta por HP 50/35/20/10%, intensidades 0/0,16/0,28/0,42/0,58; cadáver 90. Duraciones principales exportadas.",
+    "destination": "Curva HP→intensidad y perfil de derrota.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-05",
+    "path": "scenes/ui/floating_text/floating_text.gd",
+    "line": 9,
+    "description": "Texto: 1,3 s, rotación ±10°, escala 0,8–1,6, recorrido 15 y segmentos 0,4.",
+    "destination": "Perfil de texto flotante/animación.",
+    "state": "Código"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-06",
+    "path": "effects/incognito_confetti.gd",
+    "line": 3,
+    "description": "Confeti: paleta, 72 piezas, velocidad 90–260, impulso -110 y rangos de giro/tamaño; multipliers exportados.",
+    "destination": "Perfil de partículas.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-07",
+    "path": "effects/enemy_hit_feedback.gd",
+    "line": 5,
+    "description": "Feedback: emisión 0,08, paleta/rangos internos. Chispas doradas y electricidad tienen otros literales.",
+    "destination": "Recursos de feedback de impacto/electricidad/mejora.",
+    "state": "Código"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-08",
+    "path": "effects/status_controller.gd",
+    "line": 5,
+    "description": "Tintes eléctricos, labels Slow/Root/Air, margen 4 y límites geométricos de rayos en código.",
+    "destination": "Presentación de estados configurable; mantener ubicación contextual.",
+    "state": "Código"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-09",
+    "path": "effects/scotch_mine_visual.gd",
+    "line": 47,
+    "description": "Uniforms sobreescritos con opacidad 0,95 y flame_strength 1,35 además de settings exportados de fuego.",
+    "destination": "Definir precedencia; magnitudes residuales al perfil visual.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Animaciones/VFX",
+    "id": "FX-10",
+    "path": "scenes/projectiles/ranged_area_effect.gd",
+    "line": 80,
+    "description": "Crecimiento visual 0,8+progreso×0,5 y ruido/curvas residuales; daño/radios/tiempos principales editables.",
+    "destination": "Curvas visuales separadas del radio de daño.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Audio y controles",
+    "id": "INPUT-01",
+    "path": "autoload/menu_input.gd",
+    "line": 3,
+    "description": "Repetición 0,35/0,12, deadzone 0,2/0,45, umbral mouse 4; bindings de mando agregados al iniciar.",
+    "destination": "Perfil de navegación e InputMap como fuente.",
+    "state": "Código"
+  },
+  {
+    "group": "Audio y controles",
+    "id": "INPUT-02",
+    "path": "scenes/coop/local_coop.gd",
+    "line": 240,
+    "description": "Coop/pausa repiten umbral 0,5 y timings propios, separados de MenuInput/CoopSelection.",
+    "destination": "Perfil compartido con overrides por contexto.",
+    "state": "Código"
+  },
+  {
+    "group": "Audio y controles",
+    "id": "AUDIO-01",
+    "path": "autoload/sound_manager.gd",
+    "line": 159,
+    "description": "Cooldown global 40 ms y pitch 0,95–1,05 salvo UI/selection. Clips/ganancias/voces ya exportados.",
+    "destination": "Cooldown/pitch por evento.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Audio y controles",
+    "id": "AUDIO-02",
+    "path": "autoload/sound_manager.gd",
+    "line": 230,
+    "description": "SFX inferido del nombre del botón y fallback de arma por tags; lista de eventos fija.",
+    "destination": "Acción/SFX semántico por escena/recurso.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Audio y controles",
+    "id": "AUDIO-03",
+    "path": "scenes/arena/music_player.gd",
+    "line": 25,
+    "description": "Prioridad wave→stage→biblioteca, sorteo uniforme y loop sin transición; tracks exportados.",
+    "destination": "Política de selección/repetición/fades.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "DEV-01",
+    "path": "scenes/arena/arena.gd",
+    "line": 10,
+    "description": "Tiny Egg comienza con 2 Yemas de oro/2 Rebozados en fixture; flag exportado activo por defecto.",
+    "destination": "Perfil de prueba independiente.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "DEV-02",
+    "path": "scenes/ui/shop/shop_panel.gd",
+    "line": 12,
+    "description": "Fixtures Hoarder moneda y Glass Egg yema: flags activos por defecto, personajes por ID fijo.",
+    "destination": "Perfil explícito de pruebas de tienda.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "DEV-03",
+    "path": "scenes/arena/stress_test.gd",
+    "line": 16,
+    "description": "Stress exporta cadencia/población/atracción; perfil chaser_mid, inmortalidad y equipo definidos en código.",
+    "destination": "Perfil completo de stress.",
+    "state": "Parcial"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "PERF-01",
+    "path": "autoload/enemy_crowd.gd",
+    "line": 3,
+    "description": "Grid96, intervalo0,05, vecinos16, candidatos64, actualizaciones/frame32 y límites de búsqueda.",
+    "destination": "Perfil técnico por plataforma, con límites seguros.",
+    "state": "Código"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "PERF-02",
+    "path": "autoload/combat_texts.gd",
+    "line": 3,
+    "description": "Pools: texto384/prewarm64; proyectiles256/64; rayos8192, batches1024; partículas128/1800/4096.",
+    "destination": "Perfil técnico, no sliders de balance.",
+    "state": "Código"
+  },
+  {
+    "group": "Pruebas y rendimiento",
+    "id": "PERF-03",
+    "path": "resources/arena_environment.gd",
+    "line": 56,
+    "description": "Muestreo/refinamiento de geometría, epsilons, capacidades e iteraciones de seguridad.",
+    "destination": "Conservar constantes técnicas; calidad editable solo con necesidad medida.",
+    "state": "Técnico"
+  }
+]

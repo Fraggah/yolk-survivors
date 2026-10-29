@@ -6,6 +6,8 @@ class_name Arena
 @export var block_color: Color
 @export var critical_color: Color
 @export var hp_reg_color: Color
+## Temporary solo UI fixture; disable after testing consumable placement.
+@export var test_tiny_egg_consumables := true
 
 @onready var wave_index_label: Label = %WaveIndexLabel
 @onready var wave_timer_label: Label = %WaveTimerLabel
@@ -20,7 +22,7 @@ class_name Arena
 @onready var final_screen: Control = $GameUI/FinalScreen
 @onready var selection_panel: SelectionPanel = $GameUI/SelectionPanel
 @onready var weapon_selection_panel: SelectionPanel = $GameUI/WeaponSelectionPanel
-@onready var final_label: Label = %FinalLabel
+@onready var final_label: Label = $GameUI/FinalScreen/Panel/FinalLabel
 @onready var level_panel: LevelPanel = $GameUI/LevelPanel
 @onready var start_panel: StartPanel = $GameUI/StartPanel
 @onready var options_panel: OptionsPanel = $GameUI/OptionsPanel
@@ -58,20 +60,20 @@ func _ready() -> void:
 	coop_selection.setup(self)
 	projectile_pool = load("res://scenes/projectiles/projectile_pool.gd").new()
 	add_child(projectile_pool)
-	stress_test = load("res://scenes/arena/stress_test.gd").new()
+	stress_test = load("res://scenes/arena/stress_test.tscn").instantiate()
 	add_child(stress_test)
 	level_panel.on_stress_test_selected.connect(_on_stress_test_selected)
 	boss_encounter = load("res://scenes/bosses/boss_encounter.gd").new()
 	add_child(boss_encounter)
 	boss_encounter.defeated.connect(_on_boss_test_defeated, CONNECT_DEFERRED)
 	level_panel.on_boss_test_selected.connect(_on_boss_test_selected)
-	damage_feedback = load("res://scenes/ui/player_damage_feedback.gd").new()
+	damage_feedback = load("res://scenes/ui/player_damage_feedback.tscn").instantiate()
 	add_child(damage_feedback)
 	damage_feedback.defeat_finished.connect(_finish_defeat)
 	run_experience.level_gained.connect(_on_experience_level_gained)
 	run_experience.changed.connect(_update_experience_bar)
 	_update_experience_bar()
-	incognito_rewards = load("res://scenes/ui/incognito_rewards.gd").new()
+	incognito_rewards = load("res://scenes/ui/incognito_rewards.tscn").instantiate()
 	incognito_rewards.arena = self
 	$GameUI.add_child(incognito_rewards)
 	incognito_rewards.resolved.connect(_continue_wave_rewards)
@@ -83,7 +85,7 @@ func _ready() -> void:
 	Global.on_level_selected.connect(_on_level_selected)
 	Global.on_enemy_died.connect(_on_enemy_died)
 	Global.on_player_died.connect(_on_player_died)
-	var unlock_notice = load("res://scenes/ui/unlock_notice.gd").new()
+	var unlock_notice = load("res://scenes/ui/unlock_notice.tscn").instantiate()
 	unlock_notice.name = "UnlockPresentation"
 	add_child(unlock_notice)
 	coocking_player.stream_paused = true
@@ -119,10 +121,11 @@ func _process(_delta: float) -> void:
 		wave_index_label.text = "STRESS TEST"
 		wave_timer_label.text = ""
 		return
-	player_health_bar.visible = in_arena and is_instance_valid(Global.player) and not final_screen.visible and not defeat_in_progress and not (coop and coop.active)
+	toggle_pause()
+	var intermission_ui: bool = shop_panel.is_visible_in_tree() or upgrade_panel.is_visible_in_tree() or incognito_rewards.is_visible_in_tree()
+	player_health_bar.visible = not intermission_ui and not pause_panel.visible and in_arena and is_instance_valid(Global.player) and not final_screen.visible and not defeat_in_progress and not (coop and coop.active)
 	experience_bar.visible = player_health_bar.visible
 	if coop and coop.active: coins_bag.hide()
-	toggle_pause()
 	if Global.game_paused: return
 	if boss_test_mode or boss_wave_active:
 		wave_index_label.hide()
@@ -204,7 +207,6 @@ func _on_experience_level_gained(_level: int) -> void:
 func _update_experience_bar() -> void:
 	experience_bar.progress_bar.value = float(run_experience.experience) / run_experience.required_experience()
 	experience_bar.health_value.text = "LV %d  %d / %d" % [run_experience.level, run_experience.experience, run_experience.required_experience()]
-	experience_bar.health_value.add_theme_font_size_override("font_size", 22)
 	shop_panel.set_pending_level_rewards(run_experience.pending_levels.size())
 
 
@@ -264,7 +266,7 @@ func clear_arena(bank_yolks: bool = false, jar_target: Control = null) -> void:
 	# Player projectiles live under the root, enemy projectiles under Arena.
 	# A shared group clears both when the wave/run ends, including while paused.
 	for projectile in get_tree().get_nodes_in_group("projectiles"):
-		projectile.hide()
+		if projectile is CanvasItem: projectile.hide()
 		projectile.queue_free()
 	# Replace (never accumulate) the old unused bonus with this wave's base drops.
 	Global.yolk_reserve = 0
@@ -295,7 +297,7 @@ func _on_create_damage_text(unit: Node2D, hitbox: HitboxComponent) -> void:
 
 func _on_create_heal_text(unit: Node2D, value: float) -> void:
 	var text := create_floating_text(unit)
-	text.setup_text("+ %s" % ItemWeapon.format_number(value), hp_reg_color)
+	text.setup_text("+ %d" % ceili(value), hp_reg_color)
 
 func toggle_pause() -> void:
 	if coop and coop.active: return
@@ -489,6 +491,9 @@ func _on_level_selected(level: int, stress_mode: bool = false, boss_mode: bool =
 	incognito_rewards.reset()
 	spawner.reset_run(level)
 	add_child(player)
+	if test_tiny_egg_consumables and player.stats.name=="Tiny Egg" and not stress_mode and not boss_mode:
+		player.passive_items.golden_yolks=2
+		player.passive_items.breading_charges=2
 	if boss_mode:
 		player.stats.apply_stat_change("ranged_damage", boss_encounter.settings.test_ranged_damage - player.stats.ranged_damage)
 		var damage_adjustment: float = boss_encounter.settings.test_damage_percent - player.stats.damage_percent
@@ -559,14 +564,11 @@ func _finish_defeat() -> void:
 	if not defeat_in_progress: return
 	_play_menu_music()
 	clear_arena()
+	final_screen.set_defeat(true)
+	final_label=final_screen.get_node("Defeat/Label")
 	final_label.text = "YOU LOSE!"
 	final_label.add_theme_color_override("font_color", UITheme.palette.hud_text)
 	$GameUI.layer = 3
-	final_screen.get_node("Panel").add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-	final_label.offset_top = -235
-	final_label.offset_bottom = -112
-	final_screen.get_node("Panel/FinalButton").offset_top = 112
-	final_screen.get_node("Panel/FinalButton").offset_bottom = 232
 	final_screen.show()
 
 func _reset_damage_feedback() -> void:
@@ -574,12 +576,9 @@ func _reset_damage_feedback() -> void:
 	damage_feedback.reset()
 	stage_mechanics.process_mode = Node.PROCESS_MODE_INHERIT
 	$GameUI.layer = 1
-	final_screen.get_node("Panel").remove_theme_stylebox_override("panel")
+	final_screen.set_defeat(false)
+	final_label=final_screen.get_node("Panel/FinalLabel")
 	final_label.remove_theme_color_override("font_color")
-	final_label.offset_top = -140
-	final_label.offset_bottom = -16.75
-	final_screen.get_node("Panel/FinalButton").offset_top = 10
-	final_screen.get_node("Panel/FinalButton").offset_bottom = 130
 	wave_index_label.show()
 	wave_timer_label.show()
 	coins_bag.show()
@@ -644,6 +643,9 @@ func _on_selection_panel_on_level_select_exited() -> void:
 
 
 func _on_pause_panel_on_exit_pressed() -> void:
+	if coop and coop.active:
+		coop.stop()
+		return
 	boss_test_mode = false
 	incognito_rewards.reset()
 	paused_intermission_panel = null
@@ -677,6 +679,9 @@ func _on_pause_panel_on_exit_pressed() -> void:
 
 
 func _on_pause_panel_on_return_pressed() -> void:
+	if coop and coop.active:
+		coop._set_paused(false)
+		return
 	set_wave_paused(false)
 
 

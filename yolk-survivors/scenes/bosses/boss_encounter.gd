@@ -37,7 +37,7 @@ func start(context) -> void:
 	arena.spawner.clear_fueguito()
 	if is_instance_valid(arena.environment_controller.debug_stage_selector): arena.environment_controller.debug_stage_selector.hide()
 	if not is_instance_valid(hud):
-		hud = load("res://scenes/bosses/boss_health_bar.gd").new()
+		hud = load("res://scenes/bosses/boss_health_bar.tscn").instantiate()
 		arena.get_node("GameUI").add_child(hud)
 	hud.show()
 	hud.hide_boss()

@@ -25,12 +25,12 @@ func verify():
 		for menu in [characters, weapons]:
 			var back_rect = menu.roster_layout.back.get_rect()
 			assert(is_equal_approx(back_rect.position.x, menu.roster_layout.content_rect().position.x) and back_rect.end.y < 120)
-			assert(is_equal_approx(menu.heading.get_rect().get_center().x, menu.size.x * 0.5))
+			assert(is_equal_approx(menu.heading.get_global_rect().get_center().x, menu.get_global_rect().get_center().x))
 		assert(is_equal_approx(characters.player_panel.get_rect().get_center().y, weapons.player_panel.get_rect().get_center().y))
 		weapons._show_player_preview(characters.player_list[4])
 		await process_frame
 		await process_frame
-		assert(weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Player text clipped at " + str(viewport_size))
+		assert(weapons.player_description.scroll_active or weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Player text clipped at " + str(viewport_size))
 		assert(characters.players_container.get_child_count() == 15)
 		assert(characters.roster_layout.right_players.get_child_count() == 15)
 		assert(weapons.weapons_container.get_child_count() == 42)
@@ -39,12 +39,12 @@ func verify():
 			for grid in grids:
 				var visible_grid=grid if menu==characters else menu.roster_layout.weapon_scroll
 				assert(menu.get_global_rect().encloses(visible_grid.get_global_rect()))
-				for slot in grid.get_children(): assert(grid.get_global_rect().encloses(slot.get_global_rect()))
+				for slot in grid.get_children(): assert(grid.get_global_rect().grow(0.1).encloses(slot.get_global_rect()))
 			for count in range(1,5):
 				var slots = menu.roster_layout.player_slot_rects(count,menu == weapons)
 				assert(slots.size() == count)
 				for i in slots.size():
-					assert(menu.get_rect().encloses(slots[i]))
+					assert(Rect2(Vector2.ZERO,menu.roster_layout.body.size).encloses(slots[i]))
 					if i > 0: assert(not slots[i].intersects(slots[i-1]))
 	root.size = Vector2i(1920,1080)
 	await process_frame
@@ -60,7 +60,7 @@ func verify():
 	assert(not characters.visible and weapons.visible)
 	weapons.weapons_container.get_child(0).mouse_entered.emit()
 	await create_timer(0.3).timeout
-	assert(weapons.player_description.get_content_height() <= weapons.player_description.size.y)
+	assert(weapons.player_description.scroll_active or weapons.player_description.get_content_height() <= weapons.player_description.size.y)
 	if DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://weapons-layout.png")

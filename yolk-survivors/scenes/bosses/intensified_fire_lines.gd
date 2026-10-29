@@ -22,6 +22,6 @@ func _thin_positions(positions: PackedFloat32Array, density: float) -> PackedFlo
 	var count := clampi(roundi(positions.size()*density),1,positions.size())
 	var result := PackedFloat32Array()
 	for index in count:
-		var sample: int = roundi(index*float(positions.size()-1)/float(count-1)) if count>1 else int(positions.size()/2)
+		var sample: int = roundi(index*float(positions.size()-1)/float(count-1)) if count>1 else floori(positions.size()/2.0)
 		result.append(positions[sample])
 	return result

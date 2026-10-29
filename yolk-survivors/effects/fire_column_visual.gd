@@ -22,6 +22,7 @@ var ring_material: ShaderMaterial
 var base_material: ShaderMaterial
 var flame_material: ShaderMaterial
 var ember_seeds: Array[Vector4] = []
+var last_visual_time := -1.0
 
 func configure(config: SpicyPatternSettings, reach: float, lifetime: float) -> void:
 	settings = config
@@ -141,6 +142,8 @@ func _configured_height() -> float:
 	return settings.column_height*Global.GAME_ENTITY_SCALE
 
 func update_visual(time: float) -> void:
+	if settings.column_visual_update_rate>0.0 and time>=last_visual_time and time-last_visual_time<1.0/settings.column_visual_update_rate: return
+	last_visual_time = time
 	elapsed = time
 	column_height = _configured_height()
 	var fill_height := column_height + radius*settings.area_y_ratio
@@ -197,12 +200,12 @@ func update_visual(time: float) -> void:
 		rings.multimesh.set_instance_custom_data(index, Color(phase,center_height,sprite_size.x,sprite_size.y))
 	_update_contact_sparks(fade)
 	for index in ember_seeds.size():
-		var seed := ember_seeds[index]
-		var age := fposmod(elapsed*(0.35+seed.z*0.3)+seed.x,1.0)
+		var particle_seed := ember_seeds[index]
+		var age := fposmod(elapsed*(0.35+particle_seed.z*0.3)+particle_seed.x,1.0)
 		var height := age*column_height
-		var angle := seed.y*TAU+elapsed*(1.2+seed.w)
-		var point := Vector2(cos(angle)*radius*_width_at_height(height)*(0.8+seed.z*0.5), -height+sin(angle)*radius*settings.area_y_ratio)
-		var size := settings.column_ember_size*Global.GAME_ENTITY_SCALE*(0.5+seed.w)
+		var angle := particle_seed.y*TAU+elapsed*(1.2+particle_seed.w)
+		var point := Vector2(cos(angle)*radius*_width_at_height(height)*(0.8+particle_seed.z*0.5), -height+sin(angle)*radius*settings.area_y_ratio)
+		var size := settings.column_ember_size*Global.GAME_ENTITY_SCALE*(0.5+particle_seed.w)
 		embers.multimesh.set_instance_transform_2d(index, Transform2D(angle, Vector2(size,size*1.8),0.0,point))
 		var tint := settings.column_core_color
 		tint.a = sin(age*PI)*fade*0.8
@@ -210,18 +213,18 @@ func update_visual(time: float) -> void:
 
 func _update_contact_sparks(fade: float) -> void:
 	for index in contact_spark_seeds.size():
-		var seed := contact_spark_seeds[index]
-		var lifetime := maxf(0.1, settings.column_contact_spark_lifetime*(0.65+seed.w*0.7))
-		var age := fposmod(elapsed/lifetime+seed.x,1.0)
-		var angle := lerpf(0.05, PI-0.05, seed.y)
+		var particle_seed := contact_spark_seeds[index]
+		var lifetime := maxf(0.1, settings.column_contact_spark_lifetime*(0.65+particle_seed.w*0.7))
+		var age := fposmod(elapsed/lifetime+particle_seed.x,1.0)
+		var angle := lerpf(0.05, PI-0.05, particle_seed.y)
 		var direction := Vector2(cos(angle), sin(angle)*settings.area_y_ratio)
-		var travel := radius*settings.column_contact_spark_travel*(0.35+seed.z*0.65)
+		var travel := radius*settings.column_contact_spark_travel*(0.35+particle_seed.z*0.65)
 		var ground := direction*(radius*0.88+travel*age)
-		var leap := radius*settings.column_contact_spark_height*(0.25+seed.w*0.75)
+		var leap := radius*settings.column_contact_spark_height*(0.25+particle_seed.w*0.75)
 		var point := ground-Vector2(0,4.0*leap*age*(1.0-age))
 		var velocity := direction*travel-Vector2(0,4.0*leap*(1.0-2.0*age))
-		var size := settings.column_contact_spark_size*Global.GAME_ENTITY_SCALE*(0.55+seed.z*0.9)*(1.0-age*0.5)
-		var streak := 1.0+seed.w*2.6
+		var size := settings.column_contact_spark_size*Global.GAME_ENTITY_SCALE*(0.55+particle_seed.z*0.9)*(1.0-age*0.5)
+		var streak := 1.0+particle_seed.w*2.6
 		contact_sparks.multimesh.set_instance_transform_2d(index,Transform2D(velocity.angle(),Vector2(size*streak,size),0.0,point))
 		var tint := settings.column_core_color.lerp(settings.color,age*0.75)
 		tint.a = smoothstep(0.0,0.07,age)*(1.0-smoothstep(0.5,1.0,age))*settings.column_contact_spark_opacity*fade

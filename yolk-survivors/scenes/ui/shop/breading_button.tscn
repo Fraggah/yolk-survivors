@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/consumable_button.tscn" id="base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/081.png" id="breading"]
+[node name="BreadingButton" instance=ExtResource("base")]
+kind = "breading"
+display_name = "Rebozado"
+[node name="Icon" parent="." index="0"]
+texture = ExtResource("breading")
+[node name="Confirmation" parent="." index="3"]
+title = "Rebozado"
+dialog_text = "¿Usar un Rebozado?
+Después, elegí un arma de tu inventario.
+Recibirá una tag aleatoria que todavía no tenga."
+ok_button_text = "Elegir arma"

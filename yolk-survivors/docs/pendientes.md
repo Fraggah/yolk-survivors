@@ -29,3 +29,25 @@ Sugerencias de revisión, todavía sin diseño o alcance acordados:
 - Consistencia de foco/hover, tooltips, confirmaciones y tamaños de texto en los distintos paneles.
 
 La moneda de chocolate y la Yema de oro ya tienen secuencias propias; quedarían para retoques posteriores. La derrota del jugador ya tiene una presentación y no se considera una animación totalmente ausente.
+
+## Pendientes para completar la demo — 26/10/2026
+
+Lista de cierre de la versión demo acordada con el usuario. Esta es la referencia vigente para su alcance; las notas anteriores conservan contexto histórico. El orden no implica prioridad. Los detalles se definirán al trabajar cada punto.
+
+- [x] Pausa en multijugador: pantalla de single player con armas y estadísticas del jugador que pausa, disponible en combate, tienda, mejoras y recompensas. Implementado el 27/10/2026.
+- [x] Reparto de yemas en multijugador: cada recogida suma el valor completo a todos los jugadores (27/10/2026). Imán revisado: sorteo entre activaciones y destino fijo.
+- [ ] Moneda de chocolate y Yema de oro en multijugador.
+- [ ] Animación de muerte del boss.
+- [ ] Pantalla final.
+- [ ] Personajes restantes.
+- [ ] Balance general.
+- [ ] SFX.
+- [ ] Música.
+- [ ] Prioridad de renderizado de las armas.
+- [ ] Multiplicadores de dificultad según la cantidad de jugadores.
+- [ ] Configurar las oleadas para conseguir una run balanceada.
+- [ ] Balancear las armas para conseguir una run balanceada con cada una.
+- [ ] Mejorar la interacción con Ayahuasca y Rebozado.
+- [ ] Menú completo de opciones.
+- [ ] Opción de tema oscuro.
+- [ ] Opción para deshabilitar las animaciones de desbloqueos, uso de ítems y otras presentaciones similares.

@@ -1,6 +1,7 @@
 extends Node
 ## Selection only. Uses the normal rosters, their transition, and one difficulty menu.
 @export_range(0.2, 2.0, 0.05) var join_hold_seconds := 0.65
+@export_multiline var solo_notice_text: String = "Para jugar solo, desactivá Coop Game.\nO esperá a que se una otro jugador."
 const Rows = preload("res://scenes/coop/selection_player_rows.tscn")
 const Markers = preload("res://scenes/coop/selection_roster_markers.tscn")
 var arena
@@ -29,8 +30,7 @@ func setup(context) -> void:
 		panel.visibility_changed.connect(refresh)
 		panel.resized.connect(refresh)
 	for card in _roster_cards(false)+_roster_cards(true):
-		var markers=Markers.instantiate()
-		card.add_child(markers)
+		var markers=card.get_node("CoopMarkers")
 		for i in 4: markers.get_child(i).add_theme_color_override("font_color",coop.COLORS[i])
 		card.mouse_entered.connect(_mouse_preview.bind(card))
 	Input.joy_connection_changed.connect(_device_changed)
@@ -38,8 +38,7 @@ func setup(context) -> void:
 	refresh()
 
 func _install_rows(panel: Control) -> Control:
-	var rows=Rows.instantiate()
-	panel.add_child(rows)
+	var rows=panel.get_node("CoopRows")
 	rows.hide()
 	for i in 4: rows.get_node("Rows").get_child(i).get_node("Margin/Content/Header/Confirm").pressed.connect(_mouse_confirm.bind(i))
 	return rows
@@ -62,6 +61,7 @@ func enable(device: int) -> void:
 		switch.sync_state()
 	var focus=get_viewport().gui_get_focus_owner()
 	if focus: focus.release_focus()
+	MenuInput._sync_coop_mouse_lock()
 	_join_device(device)
 	var event: InputEvent=MenuInput.last_input_event
 	if _is_accept(event) and event.is_pressed(): accept_latches[device]=true
@@ -70,6 +70,7 @@ func enable(device: int) -> void:
 func disable() -> void:
 	if coop and coop.active: return
 	enabled=false
+	MenuInput._sync_coop_mouse_lock()
 	MenuInput._set_gamepad_active(not MenuInput.connected_gamepads.is_empty())
 	Input.mouse_mode=Input.MOUSE_MODE_HIDDEN if MenuInput.gamepad_active else Input.MOUSE_MODE_VISIBLE
 	transitioning=false
@@ -121,6 +122,10 @@ func _choices(weapons: bool) -> Array:
 	return result
 
 func _set_default_weapon(session) -> void:
+	var spatula=preload("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
+	if _choices(true).has(spatula) and session.character.can_use_weapon(spatula):
+		session.weapon=spatula
+		return
 	if Global.is_valid_starting_weapon(session.weapon) and session.character.can_use_weapon(session.weapon) and Progression.is_weapon_unlocked(session.weapon): return
 	for weapon in _choices(true):
 		if session.character.can_use_weapon(weapon): session.weapon=weapon; return
@@ -146,6 +151,7 @@ func choose_weapon(weapon: ItemWeapon, commit: bool = false) -> void:
 	if commit: confirm(session)
 
 func _mouse_confirm(slot: int) -> void:
+	if enabled: return
 	if slot<coop.sessions.size() and coop.sessions[slot].device<0: confirm(coop.sessions[slot])
 
 func confirm(session) -> void:
@@ -226,9 +232,11 @@ func refresh() -> void:
 			markers.visible=enabled
 			if enabled:
 				card.focus_mode=Control.FOCUS_NONE
-				card.mouse_filter=Control.MOUSE_FILTER_STOP
+				card.mouse_filter=Control.MOUSE_FILTER_IGNORE
 				card.set_pressed_no_signal(false)
 				card.modulate.a=1.0
+			else:
+				card.mouse_filter=Control.MOUSE_FILTER_STOP
 			for i in 4:
 				var selected: bool=enabled and i<coop.sessions.size() and card.get_meta("selection_data")== (coop.sessions[i].weapon if weapons else coop.sessions[i].character)
 				markers.get_child(i).visible=selected
@@ -244,6 +252,7 @@ func _refresh_palette() -> void:
 	refresh()
 
 func _mouse_preview(card: Control) -> void:
+	if enabled: return
 	if not handles_input() or transitioning: return
 	var item=card.get_meta("selection_data")
 	if mode=="characters" and item is UnitStats: choose_character(item)
@@ -259,6 +268,7 @@ func _render_card(card: Control, slot: int, weapons: bool, character_in_weapons:
 	progress.add_theme_stylebox_override("background",UITheme.box(UITheme.palette.surface.lerp(coop.COLORS[slot],0.2),coop.COLORS[slot],8,1))
 	progress.add_theme_stylebox_override("fill",UITheme.box(coop.COLORS[slot],Color.TRANSPARENT,8,0))
 	var solo_notice: PanelContainer=content.get_node("SoloNotice")
+	solo_notice.get_node("Margin/Message").text=solo_notice_text
 	var joined: bool=slot<coop.sessions.size()
 	solo_notice.visible=enabled and mode=="characters" and coop.sessions.size()==1 and joined and coop.sessions[slot].ready
 	if solo_notice.visible: solo_notice.add_theme_stylebox_override("panel",UITheme.box(UITheme.palette.inset,UITheme.palette.accent,10,2))
@@ -395,8 +405,8 @@ func move_cursor(session, step: int) -> void:
 	var selected: Control=null
 	var best_score:=INF
 	for card in cards:
-		var item=card.get_meta("selection_data")
-		if card==origin or not choices.has(item): continue
+		var candidate_data=card.get_meta("selection_data")
+		if card==origin or not choices.has(candidate_data): continue
 		var offset: Vector2=card.get_global_rect().get_center()-origin.get_global_rect().get_center()
 		var forward:=offset.dot(direction)
 		if forward<=1: continue
@@ -444,6 +454,6 @@ func _focus_difficulty() -> void:
 	if not enabled or mode!="difficulty": return
 	MenuInput.gamepad_active=true
 	MenuInput._controls(arena.level_panel)
-	arena.level_panel.buttons[1].grab_focus()
-	arena.level_panel._show_difficulty(1)
+	arena.level_panel.buttons[0].grab_focus()
+	arena.level_panel._show_difficulty(0)
 	MenuInput._sync_focus_visual()

@@ -1,39 +1,2122 @@
-[gd_scene load_steps=35 format=3 uid="uid://85rf32ecc04m"]
+[gd_scene load_steps=201 format=3 uid="uid://cnnnbrv4c08c3"]
 
-[ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="1_3miu1"]
-[ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="2_dh0xd"]
-[ext_resource type="Texture2D" uid="uid://nh3ybvr0gbvm" path="res://assets/sprites/Players/Redesign/hardboiled.png" id="3_a22ni"]
-[ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_un15a"]
-[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="8_4mw87"]
-[ext_resource type="Resource" uid="uid://7penwi2bugth" path="res://resources/items/weapons/melee/spatula/item_spatula_1.tres" id="9_hu73q"]
-[ext_resource type="Resource" uid="uid://cvd3sekdhe5pu" path="res://resources/items/weapons/melee/blender/item_blender_1.tres" id="10_3scu4"]
-[ext_resource type="Resource" uid="uid://ddcny6ktfyvwq" path="res://resources/items/weapons/melee/mace/item_mace_1.tres" id="11_10geq"]
-[ext_resource type="Resource" uid="uid://d1oatokrjcwf3" path="res://resources/items/weapons/melee/mitten/item_mitten_1.tres" id="12_0pu13"]
-[ext_resource type="Resource" uid="uid://5l4o05fw88vi" path="res://resources/items/weapons/melee/butcher_knife/item_knife_1.tres" id="13_ie7rk"]
-[ext_resource type="Resource" uid="uid://b3kx53x3jy4l3" path="res://resources/items/weapons/range/the_bloody/item_bloody_1.tres" id="14_y6xu8"]
-[ext_resource type="Resource" uid="uid://ni8fkxcyso6t" path="res://resources/items/weapons/range/knifer/item_knifer_1.tres" id="15_q3p5q"]
-[ext_resource type="Resource" uid="uid://btond2h0jjbga" path="res://resources/items/weapons/range/corpse_l/item_corpse_l_1.tres" id="16_4wjk5"]
-[ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="17_tx3iw"]
-[ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="18_lur41"]
-[ext_resource type="PackedScene" path="res://scenes/coop/coop_game_toggle.tscn" id="coop_toggle"]
-[ext_resource type="Resource" uid="uid://bty3cy6s1frh7" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_1.tres" id="new_carving_fork_1"]
-[ext_resource type="Resource" uid="uid://1f0en3f43328" path="res://resources/items/weapons/melee/electric_knife/item_electric_knife_1.tres" id="new_electric_knife_1"]
-[ext_resource type="Resource" uid="uid://ccenn175akxu4" path="res://resources/items/weapons/melee/frying_pan/item_frying_pan_1.tres" id="new_frying_pan_1"]
-[ext_resource type="Resource" uid="uid://byyywh4vvbobo" path="res://resources/items/weapons/melee/grater/item_grater_1.tres" id="new_grater_1"]
-[ext_resource type="Resource" uid="uid://bcqk6i7mkjwd8" path="res://resources/items/weapons/melee/immersion_blender/item_immersion_blender_1.tres" id="new_immersion_blender_1"]
-[ext_resource type="Resource" uid="uid://cbar48v4tq8tb" path="res://resources/items/weapons/melee/ladle/item_ladle_1.tres" id="new_ladle_1"]
-[ext_resource type="Resource" uid="uid://cb5glkeqbv2dc" path="res://resources/items/weapons/melee/pizza_cutter/item_pizza_cutter_1.tres" id="new_pizza_cutter_1"]
-[ext_resource type="Resource" uid="uid://bkr3sqels8i6g" path="res://resources/items/weapons/melee/tenderizer/item_tenderizer_1.tres" id="new_tenderizer_1"]
-[ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="player_0"]
-[ext_resource type="Resource" uid="uid://b6ou105sk78bh" path="res://resources/units/players/player_tiny_egg.tres" id="player_1"]
-[ext_resource type="Resource" uid="uid://5wlhiqpb88pl" path="res://resources/units/players/player_hardboiled.tres" id="player_2"]
-[ext_resource type="Resource" uid="uid://bronbs1p23ac3" path="res://resources/units/players/player_mutant.tres" id="player_3"]
-[ext_resource type="Resource" uid="uid://c0dorswx1cp7q" path="res://resources/units/players/player_vampire.tres" id="player_4"]
-[ext_resource type="Resource" uid="uid://ce1jxaj23plwg" path="res://resources/units/players/player_gambler.tres" id="player_5"]
-[ext_resource type="Resource" uid="uid://dc0bl6oscl8ga" path="res://resources/units/players/player_scrapper.tres" id="player_6"]
-[ext_resource type="Resource" uid="uid://b1kxw36pjggnt" path="res://resources/units/players/player_glass_egg.tres" id="player_7"]
-[ext_resource type="Resource" uid="uid://buhp7v7l4xuuy" path="res://resources/units/players/player_hoarder.tres" id="player_8"]
-[ext_resource type="Resource" uid="uid://25lh6j4ym3rr" path="res://resources/units/players/player_berserker.tres" id="player_9"]
+[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_t4teq"]
+[ext_resource type="Script" uid="uid://dacajakl8hqvh" path="res://scenes/ui/selection_panel/selection_panel.gd" id="2_ps155"]
+[ext_resource type="Resource" uid="uid://5s3l3xi4abyg" path="res://resources/units/players/player_well_rounded.tres" id="3_gkhbu"]
+[ext_resource type="Script" uid="uid://dorowl68r3yv4" path="res://resources/unit_stats.gd" id="4_yc2uf"]
+[ext_resource type="Resource" uid="uid://b6ou105sk78bh" path="res://resources/units/players/player_tiny_egg.tres" id="5_87vug"]
+[ext_resource type="Resource" uid="uid://5wlhiqpb88pl" path="res://resources/units/players/player_hardboiled.tres" id="6_4ogf4"]
+[ext_resource type="Resource" uid="uid://bronbs1p23ac3" path="res://resources/units/players/player_mutant.tres" id="7_gqs0u"]
+[ext_resource type="Resource" uid="uid://c0dorswx1cp7q" path="res://resources/units/players/player_vampire.tres" id="8_0ok28"]
+[ext_resource type="Resource" uid="uid://ce1jxaj23plwg" path="res://resources/units/players/player_gambler.tres" id="9_jwjtb"]
+[ext_resource type="Resource" uid="uid://dc0bl6oscl8ga" path="res://resources/units/players/player_scrapper.tres" id="10_nv2u4"]
+[ext_resource type="Resource" uid="uid://b1kxw36pjggnt" path="res://resources/units/players/player_glass_egg.tres" id="11_tqjh3"]
+[ext_resource type="Resource" uid="uid://buhp7v7l4xuuy" path="res://resources/units/players/player_hoarder.tres" id="12_c84kp"]
+[ext_resource type="Resource" uid="uid://25lh6j4ym3rr" path="res://resources/units/players/player_berserker.tres" id="13_8v0m6"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="14_po2qq"]
+[ext_resource type="Resource" uid="uid://7penwi2bugth" path="res://resources/items/weapons/melee/spatula/item_spatula_1.tres" id="15_3acci"]
+[ext_resource type="Resource" uid="uid://cvd3sekdhe5pu" path="res://resources/items/weapons/melee/blender/item_blender_1.tres" id="16_hfarx"]
+[ext_resource type="Resource" uid="uid://ddcny6ktfyvwq" path="res://resources/items/weapons/melee/mace/item_mace_1.tres" id="17_pdunb"]
+[ext_resource type="Resource" uid="uid://d1oatokrjcwf3" path="res://resources/items/weapons/melee/mitten/item_mitten_1.tres" id="18_o02tk"]
+[ext_resource type="Resource" uid="uid://5l4o05fw88vi" path="res://resources/items/weapons/melee/butcher_knife/item_knife_1.tres" id="19_ttwrm"]
+[ext_resource type="Resource" uid="uid://b3kx53x3jy4l3" path="res://resources/items/weapons/range/the_bloody/item_bloody_1.tres" id="20_73f83"]
+[ext_resource type="Resource" uid="uid://ni8fkxcyso6t" path="res://resources/items/weapons/range/knifer/item_knifer_1.tres" id="21_0ribc"]
+[ext_resource type="Resource" uid="uid://btond2h0jjbga" path="res://resources/items/weapons/range/corpse_l/item_corpse_l_1.tres" id="22_843fv"]
+[ext_resource type="Resource" uid="uid://naxhceers3bm" path="res://resources/items/weapons/range/smasher/item_smasher_1.tres" id="23_wbh3n"]
+[ext_resource type="Resource" uid="uid://36ul8hrlc0ms" path="res://resources/items/weapons/range/hydrant/item_hydrant_1.tres" id="24_k63k4"]
+[ext_resource type="Resource" uid="uid://bkr3sqels8i6g" path="res://resources/items/weapons/melee/tenderizer/item_tenderizer_1.tres" id="25_n44ax"]
+[ext_resource type="Resource" uid="uid://byyywh4vvbobo" path="res://resources/items/weapons/melee/grater/item_grater_1.tres" id="26_mqox4"]
+[ext_resource type="Resource" uid="uid://bty3cy6s1frh7" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_1.tres" id="27_xodk7"]
+[ext_resource type="Resource" uid="uid://cbar48v4tq8tb" path="res://resources/items/weapons/melee/ladle/item_ladle_1.tres" id="28_5qx5u"]
+[ext_resource type="Resource" uid="uid://ccenn175akxu4" path="res://resources/items/weapons/melee/frying_pan/item_frying_pan_1.tres" id="29_5ecrt"]
+[ext_resource type="Resource" uid="uid://cb5glkeqbv2dc" path="res://resources/items/weapons/melee/pizza_cutter/item_pizza_cutter_1.tres" id="30_i33rk"]
+[ext_resource type="Resource" uid="uid://1f0en3f43328" path="res://resources/items/weapons/melee/electric_knife/item_electric_knife_1.tres" id="31_xpoin"]
+[ext_resource type="Resource" uid="uid://bcqk6i7mkjwd8" path="res://resources/items/weapons/melee/immersion_blender/item_immersion_blender_1.tres" id="32_emtkn"]
+[ext_resource type="Resource" uid="uid://ey6iavtjw6mv" path="res://resources/items/weapons/melee/spark_lighter/item_spark_lighter_1.tres" id="33_sw3sw"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/bomb_corn/item_bomb_corn_1.tres" id="34_28ssu"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/toothpick_shotgun/item_toothpick_shotgun_1.tres" id="35_nahud"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/pressure_cooker/item_pressure_cooker_1.tres" id="36_nims1"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/meatball_machinegun/item_meatball_machinegun_1.tres" id="37_3o44w"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/pepper_bazooka/item_pepper_bazooka_1.tres" id="38_j1cdq"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/anchovy_doublebarrel/item_anchovy_doublebarrel_1.tres" id="39_mtra3"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/baguette_harpoon/item_baguette_harpoon_1.tres" id="40_fqqtv"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/plate_launcher/item_plate_launcher_1.tres" id="41_pbtde"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/olive_launcher/item_olive_launcher_1.tres" id="42_36sl1"]
+[ext_resource type="Resource" path="res://resources/items/weapons/range/fusilli_launcher/item_fusilli_launcher_1.tres" id="43_66lem"]
+[ext_resource type="Resource" uid="uid://bwcneb2o3qsdn" path="res://resources/items/weapons/range/kitchen_torch/item_kitchen_torch_1.tres" id="44_6e4ms"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_bell_pepper.tres" id="45_4gbyu"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_jalapeno.tres" id="46_ai32a"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_habanero.tres" id="47_8ha0c"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_cayenne.tres" id="48_j3ldd"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_poblano.tres" id="49_ysft7"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_carolina_reaper.tres" id="50_fmht2"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_ghost_pepper.tres" id="51_ryqou"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_aji_amarillo.tres" id="52_5iq52"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_scotch_bonnet.tres" id="53_mcaa0"]
+[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_rocoto.tres" id="54_qfm6a"]
+[ext_resource type="Resource" path="res://resources/items/weapons/pets/item_sausage_dog.tres" id="55_7xc4v"]
+[ext_resource type="Resource" path="res://resources/items/weapons/pets/item_toaster_cat.tres" id="56_v5psm"]
+[ext_resource type="Script" uid="uid://cmgsf6h45rajx" path="res://scenes/coop/coop_game_toggle.gd" id="57_yyfqk"]
+[ext_resource type="Texture2D" uid="uid://nh3ybvr0gbvm" path="res://assets/sprites/Players/Redesign/hardboiled.png" id="58_eydsu"]
+[ext_resource type="Script" uid="uid://c7333x0bp6nth" path="res://scenes/ui/selection_panel/selection_card.gd" id="59_y53x5"]
+[ext_resource type="Texture2D" uid="uid://kwg8r5b1taht" path="res://assets/sprites/Players/Redesign/well_rounded.png" id="60_n2puy"]
+[ext_resource type="Texture2D" uid="uid://d0r1sryiih8ny" path="res://assets/sprites/Players/Redesign/tiny_egg.png" id="61_1cfd4"]
+[ext_resource type="Texture2D" uid="uid://blxi2x1t80ic4" path="res://assets/sprites/Players/Redesign/mutant.png" id="62_r61nm"]
+[ext_resource type="Texture2D" uid="uid://w0qt3ab0nrai" path="res://assets/sprites/Players/Redesign/vampire.png" id="63_i0ku0"]
+[ext_resource type="Texture2D" uid="uid://dhcoufhvujdck" path="res://assets/sprites/Players/Redesign/gambler.png" id="64_5wfyf"]
+[ext_resource type="Texture2D" uid="uid://bib8n8nufxk8q" path="res://assets/sprites/Players/Redesign/scrapper.png" id="65_7t6v5"]
+[ext_resource type="Texture2D" uid="uid://bdudnxchwqr51" path="res://assets/sprites/Players/Redesign/glass_egg.png" id="66_7pwos"]
+[ext_resource type="Texture2D" uid="uid://b6pny53jgnuc5" path="res://assets/sprites/Players/Redesign/hoarder.png" id="67_i8qgp"]
+[ext_resource type="Texture2D" uid="uid://djthvdwamlhu8" path="res://assets/sprites/Players/Redesign/berserker.png" id="68_qije3"]
+[ext_resource type="Script" uid="uid://pomp6as33voj" path="res://scenes/coop/shop_canvas_fit.gd" id="99_native_fit"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kssjo"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35sui"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxfme"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_er2lj"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aahcp"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkq2p"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.805177, 0.724392, 0.589334, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nhl4e"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_in0hl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8m5f7"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2gbs6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j0oke"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.545098, 0.470588, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhu1v"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.818981, 0.517333, 0.440941, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hc3gy"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37wl0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fhvvo"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4chs4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.905882, 0.835294, 0.705882, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Image" id="Image_6oh08"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 105, 79, 57, 58, 105, 79, 56, 90, 103, 79, 57, 116, 104, 80, 55, 115, 105, 79, 56, 90, 103, 80, 53, 57, 128, 64, 64, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 55, 51, 105, 79, 55, 165, 104, 80, 56, 239, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 105, 79, 55, 165, 104, 78, 57, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 109, 73, 48, 21, 105, 79, 55, 165, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 254, 104, 79, 57, 161, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 126, 96, 60, 255, 155, 119, 65, 255, 168, 129, 67, 255, 168, 129, 66, 255, 155, 118, 64, 255, 124, 95, 60, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 221, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 244, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 56, 255, 155, 118, 64, 255, 221, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 219, 169, 74, 255, 152, 116, 64, 255, 105, 80, 56, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 242, 107, 77, 53, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 22, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 115, 88, 57, 255, 209, 161, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 207, 159, 72, 255, 113, 86, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 220, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 57, 166, 105, 80, 57, 255, 105, 80, 57, 255, 115, 88, 57, 255, 223, 172, 74, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 220, 170, 75, 255, 113, 86, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 157, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 106, 77, 57, 53, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 56, 255, 209, 161, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 205, 157, 72, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 253, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 168, 105, 80, 57, 255, 105, 80, 57, 255, 155, 118, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 150, 115, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 158, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 104, 80, 56, 240, 105, 80, 57, 255, 105, 80, 57, 255, 220, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 217, 167, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 234, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 57, 58, 105, 80, 57, 255, 105, 80, 57, 255, 125, 96, 59, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 124, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 106, 77, 57, 53, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 156, 119, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 155, 118, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 79, 57, 116, 105, 80, 57, 255, 105, 80, 57, 255, 168, 129, 67, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 168, 128, 66, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 113, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 55, 115, 105, 80, 57, 255, 105, 80, 57, 255, 168, 129, 67, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 168, 129, 66, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 78, 56, 114, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 156, 119, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 155, 118, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 80, 53, 57, 105, 80, 57, 255, 105, 80, 57, 255, 125, 95, 59, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 122, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 103, 78, 54, 52, 0, 0, 0, 0, 0, 0, 0, 0, 85, 85, 0, 3, 104, 79, 56, 237, 105, 80, 57, 255, 105, 80, 57, 255, 219, 169, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 216, 165, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 163, 105, 80, 57, 255, 105, 80, 57, 255, 152, 117, 63, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 147, 112, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 155, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 103, 81, 54, 47, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 56, 255, 207, 159, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 202, 155, 71, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 160, 105, 80, 57, 255, 105, 80, 57, 255, 113, 86, 57, 255, 220, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 218, 167, 74, 255, 112, 85, 58, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 105, 79, 56, 221, 105, 80, 57, 255, 105, 80, 57, 255, 113, 86, 57, 255, 205, 157, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 202, 155, 71, 255, 112, 85, 58, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 104, 79, 57, 242, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 150, 115, 63, 255, 217, 167, 74, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 216, 165, 74, 255, 147, 112, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 77, 53, 43, 104, 80, 57, 220, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 124, 94, 59, 255, 155, 118, 64, 255, 168, 128, 66, 255, 168, 129, 66, 255, 155, 118, 64, 255, 122, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 104, 79, 57, 157, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 104, 79, 57, 152, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 105, 79, 56, 158, 105, 79, 56, 234, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 104, 79, 56, 155, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 2, 106, 77, 57, 53, 104, 80, 56, 86, 104, 79, 56, 113, 105, 78, 56, 114, 104, 80, 56, 86, 103, 78, 54, 52, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 28,
+"mipmaps": false,
+"width": 28
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_nut8j"]
+image = SubResource("Image_6oh08")
+
+[sub_resource type="Image" id="Image_g1ss7"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 105, 79, 57, 58, 105, 79, 56, 90, 103, 79, 57, 116, 104, 80, 55, 115, 105, 79, 56, 90, 103, 80, 53, 57, 128, 64, 64, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 55, 51, 105, 79, 55, 165, 104, 80, 56, 239, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 105, 79, 55, 165, 104, 78, 57, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 109, 73, 48, 21, 105, 79, 55, 165, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 254, 104, 79, 57, 161, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 122, 100, 78, 255, 147, 129, 109, 255, 158, 141, 122, 255, 158, 141, 122, 255, 147, 128, 108, 255, 121, 99, 77, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 221, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 244, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 147, 128, 108, 255, 203, 193, 177, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 201, 191, 174, 255, 144, 125, 105, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 242, 107, 77, 53, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 22, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 113, 90, 66, 255, 193, 181, 163, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 191, 178, 161, 255, 111, 88, 65, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 220, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 57, 166, 105, 80, 57, 255, 105, 80, 57, 255, 113, 90, 66, 255, 205, 195, 178, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 202, 192, 176, 255, 111, 88, 65, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 157, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 106, 77, 57, 53, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 57, 255, 193, 181, 163, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 189, 177, 160, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 253, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 168, 105, 80, 57, 255, 105, 80, 57, 255, 147, 127, 107, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 143, 124, 103, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 158, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 104, 80, 56, 240, 105, 80, 57, 255, 105, 80, 57, 255, 202, 192, 176, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 199, 188, 172, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 234, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 57, 58, 105, 80, 57, 255, 105, 80, 57, 255, 122, 100, 77, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 121, 98, 76, 255, 105, 80, 57, 255, 105, 80, 57, 255, 106, 77, 57, 53, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 148, 129, 109, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 147, 128, 108, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 79, 57, 116, 105, 80, 57, 255, 105, 80, 57, 255, 158, 141, 122, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 158, 141, 121, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 113, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 55, 115, 105, 80, 57, 255, 105, 80, 57, 255, 158, 141, 122, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 158, 141, 122, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 78, 56, 114, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 148, 129, 109, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 147, 127, 107, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 80, 53, 57, 105, 80, 57, 255, 105, 80, 57, 255, 122, 99, 77, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 119, 97, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 103, 78, 54, 52, 0, 0, 0, 0, 0, 0, 0, 0, 85, 85, 0, 3, 104, 79, 56, 237, 105, 80, 57, 255, 105, 80, 57, 255, 201, 192, 175, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 198, 187, 171, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 163, 105, 80, 57, 255, 105, 80, 57, 255, 144, 126, 105, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 140, 120, 100, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 155, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 103, 81, 54, 47, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 57, 255, 191, 178, 161, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 187, 174, 156, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 160, 105, 80, 57, 255, 105, 80, 57, 255, 111, 88, 65, 255, 202, 192, 176, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 200, 189, 173, 255, 111, 86, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 105, 79, 56, 221, 105, 80, 57, 255, 105, 80, 57, 255, 111, 88, 65, 255, 189, 177, 160, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 187, 174, 156, 255, 111, 86, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 104, 79, 57, 242, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 143, 124, 103, 255, 199, 188, 172, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 223, 216, 201, 255, 198, 187, 171, 255, 140, 120, 100, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 77, 53, 43, 104, 80, 57, 220, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 121, 98, 76, 255, 147, 128, 108, 255, 158, 141, 121, 255, 158, 141, 122, 255, 147, 127, 107, 255, 119, 97, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 104, 79, 57, 157, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 104, 79, 57, 152, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 105, 79, 56, 158, 105, 79, 56, 234, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 104, 79, 56, 155, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 2, 106, 77, 57, 53, 104, 80, 56, 86, 104, 79, 56, 113, 105, 78, 56, 114, 104, 80, 56, 86, 103, 78, 54, 52, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 28,
+"mipmaps": false,
+"width": 28
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_pcnls"]
+image = SubResource("Image_g1ss7")
+
+[sub_resource type="Image" id="Image_rvhgy"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 105, 79, 57, 58, 105, 79, 56, 90, 103, 79, 57, 116, 104, 80, 55, 115, 105, 79, 56, 90, 103, 80, 53, 57, 128, 64, 64, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 55, 51, 105, 79, 55, 165, 104, 80, 56, 239, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 105, 79, 55, 165, 104, 78, 57, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 109, 73, 48, 21, 105, 79, 55, 165, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 254, 104, 79, 57, 161, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 126, 96, 60, 255, 155, 119, 65, 255, 168, 129, 67, 255, 168, 129, 66, 255, 155, 118, 64, 255, 124, 95, 60, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 221, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 78, 57, 49, 104, 79, 56, 244, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 56, 255, 155, 118, 64, 255, 221, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 219, 169, 74, 255, 152, 116, 64, 255, 105, 80, 56, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 242, 107, 77, 53, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 22, 104, 79, 56, 225, 105, 80, 57, 255, 105, 80, 57, 255, 115, 88, 57, 255, 209, 161, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 207, 159, 72, 255, 113, 86, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 220, 99, 71, 56, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 57, 166, 105, 80, 57, 255, 105, 80, 57, 255, 115, 88, 57, 255, 223, 172, 74, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 220, 170, 75, 255, 113, 86, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 157, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 106, 77, 57, 53, 104, 79, 56, 254, 105, 80, 57, 255, 105, 80, 56, 255, 209, 161, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 205, 157, 72, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 253, 104, 81, 58, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 168, 105, 80, 57, 255, 105, 80, 57, 255, 155, 118, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 150, 115, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 158, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 64, 4, 104, 80, 56, 240, 105, 80, 57, 255, 105, 80, 57, 255, 220, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 217, 167, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 234, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 57, 58, 105, 80, 57, 255, 105, 80, 57, 255, 125, 96, 59, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 124, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 106, 77, 57, 53, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 156, 119, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 155, 118, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 79, 57, 116, 105, 80, 57, 255, 105, 80, 57, 255, 168, 129, 67, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 168, 128, 66, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 113, 0, 0, 0, 0, 0, 0, 0, 0, 104, 80, 55, 115, 105, 80, 57, 255, 105, 80, 57, 255, 168, 129, 67, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 168, 129, 66, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 78, 56, 114, 0, 0, 0, 0, 0, 0, 0, 0, 105, 79, 56, 90, 105, 80, 57, 255, 105, 80, 57, 255, 156, 119, 64, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 155, 118, 64, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 86, 0, 0, 0, 0, 0, 0, 0, 0, 103, 80, 53, 57, 105, 80, 57, 255, 105, 80, 57, 255, 125, 95, 59, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 122, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 103, 78, 54, 52, 0, 0, 0, 0, 0, 0, 0, 0, 85, 85, 0, 3, 104, 79, 56, 237, 105, 80, 57, 255, 105, 80, 57, 255, 219, 169, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 216, 165, 74, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 163, 105, 80, 57, 255, 105, 80, 57, 255, 152, 117, 63, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 147, 112, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 56, 155, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 103, 81, 54, 47, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 56, 255, 207, 159, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 202, 155, 71, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 80, 56, 160, 105, 80, 57, 255, 105, 80, 57, 255, 113, 86, 57, 255, 220, 170, 75, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 218, 167, 74, 255, 112, 85, 58, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 79, 57, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 105, 79, 56, 221, 105, 80, 57, 255, 105, 80, 57, 255, 113, 86, 57, 255, 205, 157, 72, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 202, 155, 71, 255, 112, 85, 58, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 104, 79, 57, 242, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 150, 115, 63, 255, 217, 167, 74, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 245, 189, 79, 255, 216, 165, 74, 255, 147, 112, 63, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 57, 238, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 77, 53, 43, 104, 80, 57, 220, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 124, 94, 59, 255, 155, 118, 64, 255, 168, 128, 66, 255, 168, 129, 66, 255, 155, 118, 64, 255, 122, 94, 59, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 79, 56, 216, 101, 80, 53, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 71, 56, 18, 104, 79, 57, 157, 105, 79, 56, 253, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 56, 252, 104, 79, 57, 152, 102, 85, 51, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 81, 58, 44, 105, 79, 56, 158, 105, 79, 56, 234, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 105, 80, 57, 255, 104, 80, 57, 233, 104, 79, 56, 155, 106, 81, 56, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 2, 106, 77, 57, 53, 104, 80, 56, 86, 104, 79, 56, 113, 105, 78, 56, 114, 104, 80, 56, 86, 103, 78, 54, 52, 128, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 28,
+"mipmaps": false,
+"width": 28
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_ysrt2"]
+image = SubResource("Image_rvhgy")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cg5fy"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5hb1"]
+content_margin_left = 0.0
+content_margin_top = 6.0
+content_margin_right = 0.0
+content_margin_bottom = 6.0
+bg_color = Color(0.960784, 0.741176, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qn6u"]
+content_margin_left = 0.0
+content_margin_top = 6.0
+content_margin_right = 0.0
+content_margin_bottom = 6.0
+bg_color = Color(0.960784, 0.741176, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b67nv"]
+content_margin_left = 0.0
+content_margin_top = 6.0
+content_margin_right = 0.0
+content_margin_bottom = 6.0
+bg_color = Color(0.905882, 0.835294, 0.705882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ctkf"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.337726, 0.276549, 0.214745, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.858824, 0.780392, 0.639216, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ys5bx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.337726, 0.276549, 0.214745, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.858824, 0.780392, 0.639216, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qr7q0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.266667, 0.207843, 0.156863, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.858824, 0.780392, 0.639216, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqb7l"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.266667, 0.207843, 0.156863, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.858824, 0.780392, 0.639216, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tf7f3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.905882, 0.835294, 0.705882, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bpcds"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.05, 0.04, 0.03, 0.65)
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucx6g"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vsvjt"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgyjl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnnqq"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alh44"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rehky"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ymgl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.960784, 0.741176, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ylvd3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.894902, 0.689882, 0.299451, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7mo5"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.94902, 0.894118, 0.796078, 1)
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1ctx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wq67"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xnnq6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mkou2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.905882, 0.835294, 0.705882, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Theme" id="Theme_uhdrd"]
+default_font = ExtResource("1_t4teq")
+default_font_size = 24
+Button/colors/default_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/colors/font_disabled_color = Color(0.501961, 0.47451, 0.431373, 1)
+Button/colors/font_focus_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/colors/font_hover_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/colors/font_hover_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 0)
+Button/colors/font_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+Button/styles/disabled = SubResource("StyleBoxFlat_kssjo")
+Button/styles/focus = SubResource("StyleBoxFlat_35sui")
+Button/styles/hover = SubResource("StyleBoxFlat_xxfme")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_er2lj")
+Button/styles/normal = SubResource("StyleBoxFlat_aahcp")
+Button/styles/pressed = SubResource("StyleBoxFlat_jkq2p")
+CheckButton/colors/default_color = Color(0.266667, 0.207843, 0.156863, 1)
+CheckButton/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+CheckButton/colors/font_outline_color = Color(1, 1, 1, 0)
+DangerButton/base_type = &"Button"
+DangerButton/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+DangerButton/colors/font_disabled_color = Color(0.501961, 0.47451, 0.431373, 1)
+DangerButton/colors/font_focus_color = Color(0.266667, 0.207843, 0.156863, 1)
+DangerButton/colors/font_hover_color = Color(0.266667, 0.207843, 0.156863, 1)
+DangerButton/colors/font_hover_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+DangerButton/colors/font_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+DangerButton/styles/disabled = SubResource("StyleBoxFlat_nhl4e")
+DangerButton/styles/focus = SubResource("StyleBoxFlat_in0hl")
+DangerButton/styles/hover = SubResource("StyleBoxFlat_8m5f7")
+DangerButton/styles/hover_pressed = SubResource("StyleBoxFlat_2gbs6")
+DangerButton/styles/normal = SubResource("StyleBoxFlat_j0oke")
+DangerButton/styles/pressed = SubResource("StyleBoxFlat_xhu1v")
+HScrollBar/styles/grabber = SubResource("StyleBoxFlat_hc3gy")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_37wl0")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_fhvvo")
+HScrollBar/styles/scroll = SubResource("StyleBoxFlat_4chs4")
+HSlider/icons/grabber = SubResource("ImageTexture_nut8j")
+HSlider/icons/grabber_disabled = SubResource("ImageTexture_pcnls")
+HSlider/icons/grabber_highlight = SubResource("ImageTexture_ysrt2")
+HSlider/styles/focus = SubResource("StyleBoxFlat_cg5fy")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_o5hb1")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_7qn6u")
+HSlider/styles/slider = SubResource("StyleBoxFlat_b67nv")
+HeldButton/base_type = &"Button"
+HeldButton/colors/font_color = Color(0.858824, 0.780392, 0.639216, 1)
+HeldButton/colors/font_focus_color = Color(0.858824, 0.780392, 0.639216, 1)
+HeldButton/colors/font_hover_color = Color(0.858824, 0.780392, 0.639216, 1)
+HeldButton/colors/font_hover_pressed_color = Color(0.858824, 0.780392, 0.639216, 1)
+HeldButton/colors/font_pressed_color = Color(0.858824, 0.780392, 0.639216, 1)
+HeldButton/styles/hover = SubResource("StyleBoxFlat_5ctkf")
+HeldButton/styles/hover_pressed = SubResource("StyleBoxFlat_ys5bx")
+HeldButton/styles/normal = SubResource("StyleBoxFlat_qr7q0")
+HeldButton/styles/pressed = SubResource("StyleBoxFlat_pqb7l")
+HudLabel/base_type = &"Label"
+HudLabel/colors/font_color = Color(1, 0.968627, 0.901961, 1)
+HudLabel/colors/font_outline_color = Color(0.411765, 0.313726, 0.223529, 1)
+HudLabel/constants/outline_size = 4
+InsetPanel/base_type = &"Panel"
+InsetPanel/styles/panel = SubResource("StyleBoxFlat_tf7f3")
+Label/colors/default_color = Color(0.266667, 0.207843, 0.156863, 1)
+Label/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 0)
+OverlayPanel/base_type = &"Panel"
+OverlayPanel/styles/panel = SubResource("StyleBoxFlat_bpcds")
+Panel/styles/panel = SubResource("StyleBoxFlat_ucx6g")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_vsvjt")
+PrimaryButton/base_type = &"Button"
+PrimaryButton/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+PrimaryButton/colors/font_disabled_color = Color(0.501961, 0.47451, 0.431373, 1)
+PrimaryButton/colors/font_focus_color = Color(0.266667, 0.207843, 0.156863, 1)
+PrimaryButton/colors/font_hover_color = Color(0.266667, 0.207843, 0.156863, 1)
+PrimaryButton/colors/font_hover_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+PrimaryButton/colors/font_pressed_color = Color(0.266667, 0.207843, 0.156863, 1)
+PrimaryButton/styles/disabled = SubResource("StyleBoxFlat_lgyjl")
+PrimaryButton/styles/focus = SubResource("StyleBoxFlat_qnnqq")
+PrimaryButton/styles/hover = SubResource("StyleBoxFlat_alh44")
+PrimaryButton/styles/hover_pressed = SubResource("StyleBoxFlat_rehky")
+PrimaryButton/styles/normal = SubResource("StyleBoxFlat_5ymgl")
+PrimaryButton/styles/pressed = SubResource("StyleBoxFlat_ylvd3")
+RichTextLabel/colors/default_color = Color(0.266667, 0.207843, 0.156863, 1)
+RichTextLabel/colors/font_color = Color(0.266667, 0.207843, 0.156863, 1)
+RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 0)
+ScreenPanel/base_type = &"Panel"
+ScreenPanel/styles/panel = SubResource("StyleBoxFlat_g7mo5")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_k1ctx")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_7wq67")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_xnnq6")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_mkou2")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_587yo"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.905882, 0.835294, 0.705882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq0bb"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.462745, 0.392157, 0.313726, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xo8q0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlbrq"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.817255, 0.868235, 0.830588, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0862745, 0.466667, 0.545098, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v58d0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0862745, 0.466667, 0.545098, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6e87a"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vwd42"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.936471, 0.835294, 0.786667, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.682353, 0.301961, 0.32549, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcjk2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.682353, 0.301961, 0.32549, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fkvao"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xl8lx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.857255, 0.855686, 0.850196, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.286275, 0.403922, 0.643137, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nf74y"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.286275, 0.403922, 0.643137, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w53fg"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.313726, 0.223529, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_at00k"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.915294, 0.855686, 0.741177, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.576471, 0.403922, 0.0980392, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akhf3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.576471, 0.403922, 0.0980392, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apy60"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4yfl8"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj2kb"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0dk6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yl3st"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_tkmuq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gqbwc"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bt2c"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lg8sn"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wnk6f"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26r0s"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6j50e"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ef8ci"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xcjwu"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eep03"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gkqbn"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kaw6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awiju"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s152u"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu3ns"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uvet4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyf5d"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gx6sd"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7r1j"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbw6h"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ymm71"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n14l3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0pgme"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oku60"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eh0mg"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d015a"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6lfo"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medxh"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eeksn"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqvg7"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dnj5y"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5u8sj"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blcdu"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mevv7"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uacti"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8aq7d"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgwdt"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k870g"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gw8f3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cw822"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gg20e"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uggb"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.87451, 0.847059, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72549, 0.698039, 0.64549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cvoe4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.541176, 0.772549, 0.803922, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p6now"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.72549, 0.87451, 0.886275, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ir7xe"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.929412, 0.890039, 0.820549, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.0901961, 0.435294, 0.501961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w30u5"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.462745, 0.32549, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhpki"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3mid"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfvwt"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epmyu"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2gnqf"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lr51b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwyp7"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqwf1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwtlk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfsn2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8wqvf"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wktta"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6e2qq"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74c7b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3afl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jh7k"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2mf4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85u28"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bd0u1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yw4bi"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.858824, 0.780392, 0.639216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.462745, 0.392157, 0.313726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="SelectionPanel" type="Panel"]
 anchors_preset = 15
@@ -41,19 +2124,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
 theme_type_variation = &"ScreenPanel"
-script = ExtResource("1_3miu1")
-base_player_stats = ExtResource("player_0")
-player_list = Array[ExtResource("2_dh0xd")]([ExtResource("player_0"), ExtResource("player_1"), ExtResource("player_2"), ExtResource("player_3"), ExtResource("player_4"), ExtResource("player_5"), ExtResource("player_6"), ExtResource("player_7"), ExtResource("player_8"), ExtResource("player_9")])
-weapons_list = Array[ExtResource("8_4mw87")]([ExtResource("9_hu73q"), ExtResource("10_3scu4"), ExtResource("11_10geq"), ExtResource("12_0pu13"), ExtResource("13_ie7rk"), ExtResource("14_y6xu8"), ExtResource("15_q3p5q"), ExtResource("16_4wjk5"), ExtResource("17_tx3iw"), ExtResource("18_lur41"), ExtResource("new_tenderizer_1"), ExtResource("new_grater_1"), ExtResource("new_carving_fork_1"), ExtResource("new_ladle_1"), ExtResource("new_frying_pan_1"), ExtResource("new_pizza_cutter_1"), ExtResource("new_electric_knife_1"), ExtResource("new_immersion_blender_1")])
+script = ExtResource("2_ps155")
+base_player_stats = ExtResource("3_gkhbu")
+player_list = Array[ExtResource("4_yc2uf")]([ExtResource("3_gkhbu"), ExtResource("5_87vug"), ExtResource("6_4ogf4"), ExtResource("7_gqs0u"), ExtResource("8_0ok28"), ExtResource("9_jwjtb"), ExtResource("10_nv2u4"), ExtResource("11_tqjh3"), ExtResource("12_c84kp"), ExtResource("13_8v0m6")])
+weapons_list = Array[ExtResource("14_po2qq")]([ExtResource("15_3acci"), ExtResource("16_hfarx"), ExtResource("17_pdunb"), ExtResource("18_o02tk"), ExtResource("19_ttwrm"), ExtResource("20_73f83"), ExtResource("21_0ribc"), ExtResource("22_843fv"), ExtResource("23_wbh3n"), ExtResource("24_k63k4"), ExtResource("25_n44ax"), ExtResource("26_mqox4"), ExtResource("27_xodk7"), ExtResource("28_5qx5u"), ExtResource("29_5ecrt"), ExtResource("30_i33rk"), ExtResource("31_xpoin"), ExtResource("32_emtkn"), ExtResource("33_sw3sw"), ExtResource("34_28ssu"), ExtResource("35_nahud"), ExtResource("36_nims1"), ExtResource("37_3o44w"), ExtResource("38_j1cdq"), ExtResource("39_mtra3"), ExtResource("40_fqqtv"), ExtResource("41_pbtde"), ExtResource("42_36sl1"), ExtResource("43_66lem"), ExtResource("44_6e4ms"), ExtResource("45_4gbyu"), ExtResource("46_ai32a"), ExtResource("47_8ha0c"), ExtResource("48_j3ldd"), ExtResource("49_ysft7"), ExtResource("50_fmht2"), ExtResource("51_ryqou"), ExtResource("52_5iq52"), ExtResource("53_mcaa0"), ExtResource("54_qfm6a"), ExtResource("55_7xc4v"), ExtResource("56_v5psm")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
 theme_override_constants/margin_left = 46
 theme_override_constants/margin_top = 46
 theme_override_constants/margin_right = 46
@@ -61,229 +2147,25 @@ theme_override_constants/margin_bottom = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme = SubResource("Theme_uhdrd")
 theme_override_constants/separation = 24
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 2
-theme_override_font_sizes/font_size = 46
-text = "Select Player"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CustomButtonExit" parent="MarginContainer/VBoxContainer/Label" instance=ExtResource("4_un15a")]
-z_index = 3
-layout_mode = 1
-anchors_preset = 4
-anchor_left = 0.0
-anchor_top = 0.5
-anchor_right = 0.0
-anchor_bottom = 0.5
-offset_left = 0.0
-offset_top = -35.0
-offset_right = 260.0
-offset_bottom = 35.0
-grow_horizontal = 1
-grow_vertical = 2
-text = "Back"
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 550)
 layout_mode = 2
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Control"]
-custom_minimum_size = Vector2(380, 550)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -275.0
-offset_right = -20.0
-offset_bottom = 275.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer"]
-layout_mode = 2
-
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("3_a22ni")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PlayerName" type="Label" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 128.0
-offset_top = 5.0
-offset_right = 292.0
-offset_bottom = 34.0
-theme_override_font_sizes/font_size = 20
-text = "player name"
-
-[node name="PlayerTitle" type="Label" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 128.0
-offset_top = 55.0
-offset_right = 292.0
-offset_bottom = 84.0
-theme_override_font_sizes/font_size = 20
-text = "player"
-metadata/ui_color = "accent"
-
-[node name="PlayerDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/Panel/MarginContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(332, 353)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -166.0
-offset_top = -353.0
-offset_right = 166.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/line_separation = 3
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 20
-bbcode_enabled = true
-text = "description"
-
-[node name="WeaponPanel" type="Panel" parent="MarginContainer/VBoxContainer/Control"]
-custom_minimum_size = Vector2(380, 550)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -275.0
-offset_right = 400.0
-offset_bottom = 275.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/WeaponPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer"]
-layout_mode = 2
-
-[node name="WeaponIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-expand_mode = 1
-stretch_mode = 5
-
-[node name="WeaponName" type="Label" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 128.0
-offset_top = 5.0
-offset_right = 332.0
-offset_bottom = 78.0
-theme_override_font_sizes/font_size = 20
-text = "weapon name"
-autowrap_mode = 2
-
-[node name="WeaponTitle" type="Label" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 128.0
-offset_top = 55.0
-offset_right = 332.0
-offset_bottom = 84.0
-theme_override_font_sizes/font_size = 20
-text = "weapon"
-metadata/ui_color = "accent"
-
-[node name="WeaponDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/WeaponPanel/MarginContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(332, 353)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -166.0
-offset_top = -353.0
-offset_right = 166.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/line_separation = 3
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 20
-bbcode_enabled = true
-text = "description"
+theme = SubResource("Theme_uhdrd")
 
 [node name="Items" type="Control" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 320)
 layout_mode = 2
+theme = SubResource("Theme_uhdrd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Items"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
 theme_override_constants/separation = 32
 alignment = 1
-
-[node name="PlayersContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 24
-columns = 5
-
-[node name="WeaponsContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Items/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 24
-columns = 5
 
 [node name="WeaponLabel" type="Label" parent="."]
 visible = false
@@ -299,6 +2181,7 @@ offset_right = 188.0
 offset_bottom = -89.4167
 grow_horizontal = 2
 grow_vertical = 0
+theme = SubResource("Theme_uhdrd")
 theme_override_font_sizes/font_size = 46
 text = "Select Weapon"
 
@@ -316,18 +2199,1878 @@ offset_right = 188.0
 offset_bottom = -247.417
 grow_horizontal = 2
 grow_vertical = 0
+theme = SubResource("Theme_uhdrd")
 theme_override_font_sizes/font_size = 46
 text = "Select Player"
 
-[node name="CoopGame" parent="." instance=ExtResource("coop_toggle")]
+[node name="CoopGame" type="Button" parent="."]
 z_index = 3
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -260.0
+offset_left = -268.0
 offset_top = 30.0
-offset_right = -40.0
+offset_right = -48.0
 offset_bottom = 90.0
 grow_horizontal = 0
+tooltip_text = "Y / Tab Ãƒâ€šÃ‚Â· Coop Game"
+theme = SubResource("Theme_uhdrd")
+toggle_mode = true
+script = ExtResource("57_yyfqk")
+metadata/mouse_always_enabled = true
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Label/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]
+[node name="Margin" type="MarginContainer" parent="CoopGame"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 0
+
+[node name="Row" type="HBoxContainer" parent="CoopGame/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="CoopGame/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 48
+text = "Coop"
+
+[node name="Track" type="Control" parent="CoopGame/Margin/Row"]
+custom_minimum_size = Vector2(26, 44)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Background" type="Panel" parent="CoopGame/Margin/Row/Track"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_587yo")
+
+[node name="Knob" type="Panel" parent="CoopGame/Margin/Row/Track"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 21.0
+offset_right = 23.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_fq0bb")
+
+[node name="Viewport" type="Container" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("99_native_fit")
+design_size = Vector2(1920, 1080)
+
+[node name="RosterLayout" type="Control" parent="Viewport"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Label" type="Label" parent="Viewport/RosterLayout"]
+layout_mode = 2
+offset_left = 284.0
+offset_top = 25.0
+offset_right = 1636.0
+offset_bottom = 95.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 48
+text = "Select Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CustomButtonExit" type="Button" parent="Viewport/RosterLayout"]
+z_index = 3
+layout_mode = 1
+offset_left = 48.0
+offset_top = 30.0
+offset_right = 268.0
+offset_bottom = 90.0
+grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 48
+text = "Back"
+
+[node name="Panel" type="Panel" parent="Viewport/RosterLayout"]
+layout_mode = 1
+offset_left = 704.64
+offset_top = 120.0
+offset_right = 1215.36
+offset_bottom = 950.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="MarginContainer" type="MarginContainer" parent="Viewport/RosterLayout/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Control" type="Control" parent="Viewport/RosterLayout/Panel/MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="PlayerIcon" type="TextureRect" parent="Viewport/RosterLayout/Panel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 147.36
+offset_right = 327.36
+offset_bottom = 180.0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("58_eydsu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerName" type="Label" parent="Viewport/RosterLayout/Panel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 192.0
+offset_right = 474.72
+offset_bottom = 257.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 32
+text = "player name"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayerTitle" type="Label" parent="Viewport/RosterLayout/Panel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 260.0
+offset_right = 474.72
+offset_bottom = 310.0
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.627451, 0.415686, 0.0941176, 1)
+theme_override_font_sizes/font_size = 20
+text = "player"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayerDescription" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_top = 320.0
+offset_right = 474.72
+offset_bottom = 794.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/line_separation = 3
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+text = "description"
+
+[node name="CoopRows" type="MarginContainer" parent="Viewport/RosterLayout/Panel"]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Rows" type="VBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 8
+
+[node name="Player1" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_xo8q0")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 22
+text = "P1"
+autowrap_mode = 2
+
+[node name="Confirm" type="Button" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Ready"
+
+[node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Hold A / X or Enter to join"
+
+[node name="SoloNotice" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/SoloNotice"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/SoloNotice/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Para jugar solo, desactivá Coop Game.
+O esperá a que se una otro jugador."
+autowrap_mode = 2
+
+[node name="Hold" type="ProgressBar" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/background = SubResource("StyleBoxFlat_qlbrq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_v58d0")
+max_value = 1.0
+show_percentage = false
+
+[node name="Player2" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6e87a")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 22
+text = "P2"
+autowrap_mode = 2
+
+[node name="Confirm" type="Button" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Ready"
+
+[node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Hold A / X or Enter to join"
+
+[node name="SoloNotice" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/SoloNotice"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/SoloNotice/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Para jugar solo, desactivá Coop Game.
+O esperá a que se una otro jugador."
+autowrap_mode = 2
+
+[node name="Hold" type="ProgressBar" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/background = SubResource("StyleBoxFlat_vwd42")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dcjk2")
+max_value = 1.0
+show_percentage = false
+
+[node name="Player3" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_fkvao")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 22
+text = "P3"
+autowrap_mode = 2
+
+[node name="Confirm" type="Button" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Ready"
+
+[node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Hold A / X or Enter to join"
+
+[node name="SoloNotice" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/SoloNotice"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/SoloNotice/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Para jugar solo, desactivá Coop Game.
+O esperá a que se una otro jugador."
+autowrap_mode = 2
+
+[node name="Hold" type="ProgressBar" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/background = SubResource("StyleBoxFlat_xl8lx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_nf74y")
+max_value = 1.0
+show_percentage = false
+
+[node name="Player4" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_w53fg")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 22
+text = "P4"
+autowrap_mode = 2
+
+[node name="Confirm" type="Button" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/Header"]
+visible = false
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Ready"
+
+[node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Hold A / X or Enter to join"
+
+[node name="SoloNotice" type="PanelContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="Margin" type="MarginContainer" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/SoloNotice"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/SoloNotice/Margin"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 18
+text = "Para jugar solo, desactivá Coop Game.
+O esperá a que se una otro jugador."
+autowrap_mode = 2
+
+[node name="Hold" type="ProgressBar" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/background = SubResource("StyleBoxFlat_at00k")
+theme_override_styles/fill = SubResource("StyleBoxFlat_akhf3")
+max_value = 1.0
+show_percentage = false
+
+[node name="WeaponPanel" type="Panel" parent="Viewport/RosterLayout"]
+visible = false
+layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="MarginContainer" type="MarginContainer" parent="Viewport/RosterLayout/WeaponPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Control" type="Control" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+
+[node name="WeaponIcon" type="TextureRect" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1.2
+offset_right = 2.2
+offset_bottom = 322.417
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 22
+text = "weapon name"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="WeaponTitle" type="Label" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1.2
+offset_top = 62.0
+offset_right = 2.2
+offset_bottom = 193.0
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.627451, 0.415686, 0.0941176, 1)
+theme_override_font_sizes/font_size = 16
+text = "weapon"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="WeaponDescription" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_top = 120.0
+offset_right = 1.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/line_separation = 3
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+text = "description"
+
+[node name="PlayersContainer" type="GridContainer" parent="Viewport/RosterLayout"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 103.68
+offset_top = 120.44
+offset_right = 594.24
+offset_bottom = 949.56
+size_flags_horizontal = 4
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 17
+theme_override_constants/v_separation = 17
+columns = 3
+
+[node name="SelectionCard" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_apy60")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4yfl8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rj2kb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0dk6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yl3st")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("3_gkhbu")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("60_n2puy")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/SelectionCard/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button1" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gqbwc")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3bt2c")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lg8sn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wnk6f")
+theme_override_styles/normal = SubResource("StyleBoxFlat_26r0s")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("5_87vug")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button1"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("61_1cfd4")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button1"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button1/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button1/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button1/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button1/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button2" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6j50e")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_ef8ci")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xcjwu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eep03")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gkqbn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("6_4ogf4")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button2"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("58_eydsu")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button2"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button2/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button2/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button2/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button2/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button3" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6kaw6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_awiju")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s152u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lu3ns")
+theme_override_styles/normal = SubResource("StyleBoxFlat_uvet4")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("7_gqs0u")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button3"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("62_r61nm")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button3"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button3/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button3/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button3/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button3/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button4" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_pyf5d")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gx6sd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s7r1j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lbw6h")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ymm71")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("8_0ok28")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button4"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("63_i0ku0")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button4"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button4/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button4/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button4/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button4/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button5" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_n14l3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_0pgme")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oku60")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eh0mg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d015a")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("9_jwjtb")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button5"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("64_5wfyf")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button5"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button5/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button5/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button5/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button5/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button6" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g6lfo")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_medxh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eeksn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sqvg7")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dnj5y")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("10_nv2u4")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button6"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("65_7t6v5")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button6"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button6/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button6/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button6/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button6/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button7" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5u8sj")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_blcdu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mevv7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_uacti")
+theme_override_styles/normal = SubResource("StyleBoxFlat_8aq7d")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("11_tqjh3")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button7"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("66_7pwos")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button7"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button7/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button7/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button7/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button7/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button8" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_vgwdt")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_k870g")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gw8f3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cw822")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gg20e")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("12_c84kp")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button8"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("67_i8qgp")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button8"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button8/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button8/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button8/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button8/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Button9" type="Button" parent="Viewport/RosterLayout/PlayersContainer"]
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5uggb")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_cvoe4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p6now")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ir7xe")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w30u5")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tkmuq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("59_y53x5")
+metadata/selection_data = ExtResource("13_8v0m6")
+
+[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/PlayersContainer/Button9"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+pivot_offset = Vector2(68, 68)
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+texture = ExtResource("68_qije3")
+expand_mode = 1
+stretch_mode = 5
+metadata/item_icon_scale = 1.0
+
+[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/PlayersContainer/Button9"]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="P1" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button9/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
+theme_override_font_sizes/font_size = 14
+text = "P1"
+
+[node name="P2" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button9/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
+theme_override_font_sizes/font_size = 14
+text = "P2"
+
+[node name="P3" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button9/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
+theme_override_font_sizes/font_size = 14
+text = "P3"
+
+[node name="P4" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Button9/CoopMarkers"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "P4"
+
+[node name="Panel10" type="Panel" parent="Viewport/RosterLayout/PlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_bhpki")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Panel10"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel11" type="Panel" parent="Viewport/RosterLayout/PlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_c3mid")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Panel11"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel12" type="Panel" parent="Viewport/RosterLayout/PlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hfvwt")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Panel12"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel13" type="Panel" parent="Viewport/RosterLayout/PlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_epmyu")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Panel13"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel14" type="Panel" parent="Viewport/RosterLayout/PlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2gnqf")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/PlayersContainer/Panel14"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponsContainer" type="GridContainer" parent="Viewport/RosterLayout"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 8
+
+[node name="RightPlayersContainer" type="GridContainer" parent="Viewport/RosterLayout"]
+layout_mode = 0
+offset_left = 1325.76
+offset_top = 120.44
+offset_right = 1816.32
+offset_bottom = 949.56
+theme = SubResource("Theme_uhdrd")
+theme_override_constants/h_separation = 17
+theme_override_constants/v_separation = 17
+columns = 3
+
+[node name="Panel0" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_lr51b")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel0"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel1" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_cwyp7")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel1"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel2" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_cqwf1")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel2"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel3" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_uwtlk")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel3"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel4" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yfsn2")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel4"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel5" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wqvf")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel5"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel6" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wktta")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel6"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel7" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6e2qq")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel7"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel8" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_74c7b")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel8"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel9" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_o3afl")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel9"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel10" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4jh7k")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel10"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel11" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_e2mf4")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel11"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel12" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_85u28")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel12"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel13" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_bd0u1")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel13"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel14" type="Panel" parent="Viewport/RosterLayout/RightPlayersContainer"]
+modulate = Color(1, 1, 1, 0.45)
+custom_minimum_size = Vector2(152, 152)
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_uhdrd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yw4bi")
+
+[node name="Label0" type="Label" parent="Viewport/RosterLayout/RightPlayersContainer/Panel14"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Theme_uhdrd")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Viewport/RosterLayout/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]

@@ -30,9 +30,9 @@ var transitioning := false
 @onready var weapon_description: RichTextLabel = %WeaponDescription
 @onready var weapon_label: Label = $WeaponLabel
 @onready var player_label: Label = $PlayerLabel
-@onready var heading: Label = $MarginContainer/VBoxContainer/Label
-@onready var player_panel: Panel = $MarginContainer/VBoxContainer/Control/Panel
-@onready var weapon_panel: Panel = $MarginContainer/VBoxContainer/Control/WeaponPanel
+@onready var heading: Label = $Viewport/RosterLayout/Label
+@onready var player_panel: Panel = $Viewport/RosterLayout/Panel
+@onready var weapon_panel: Panel = $Viewport/RosterLayout/WeaponPanel
 
 const DISPLAY_STATS := [
 	["health", "Health", false], ["damage_percent", "Damage", true],
@@ -63,13 +63,7 @@ func _ready() -> void:
 		if not weapons_list.has(item): weapons_list.append(item)
 	for item in load("res://resources/items/weapons/pet_catalogue.gd").items():
 		if not weapons_list.has(item): weapons_list.append(item)
-	for child in players_container.get_children():
-		players_container.remove_child(child)
-		child.queue_free()
-	for child in weapons_container.get_children():
-		weapons_container.remove_child(child)
-		child.queue_free()
-	
+	roster_layout.setup(self)
 	if selection_mode == SelectionMode.CHARACTER:
 		load_players()
 	else:
@@ -78,7 +72,6 @@ func _ready() -> void:
 	weapons_container.visible = selection_mode == SelectionMode.WEAPON
 	weapon_panel.visible = selection_mode == SelectionMode.WEAPON
 	heading.text = "Select Player" if selection_mode == SelectionMode.CHARACTER else "Select Weapon"
-	roster_layout.setup(self)
 	show_player_info(false)
 	show_weapon_info(false)
 	Progression.progress_changed.connect(_on_progress_changed)
@@ -108,34 +101,29 @@ func show_weapon_info(value: bool) -> void:
 	weapon_description.visible = value
 
 func load_players() -> void:
-	if player_list.is_empty(): return
-	
-	for player: UnitStats in player_list:
-		var card := SELECTION_CARD.instantiate() as SelectionCard
-		card.pressed.connect(_on_player_selected.bind(player))
-		card.mouse_entered.connect(_show_player_preview.bind(player))
-		card.focus_entered.connect(_show_player_preview.bind(player))
-		card.focus_exited.connect(_restore_selected_player_preview)
-		card.mouse_exited.connect(_restore_selected_player_preview)
-		card.button_group = player_group
-		card.set_meta("selection_data", player)
-		players_container.add_child(card)
-		card.set_icon(player.icon)
+	for grid in [players_container,roster_layout.right_players]:
+		for card in grid.get_children():
+			if not card is SelectionCard or not card.has_meta("selection_data"): continue
+			var player=card.get_meta("selection_data") as UnitStats
+			card.pressed.connect(_on_player_selected.bind(player))
+			card.mouse_entered.connect(_show_player_preview.bind(player))
+			card.focus_entered.connect(_show_player_preview.bind(player))
+			card.focus_exited.connect(_restore_selected_player_preview)
+			card.mouse_exited.connect(_restore_selected_player_preview)
+			card.button_group=player_group
+			card.set_icon(player.icon)
 
 func load_weapons() -> void:
-	if weapons_list.is_empty(): return
-	
-	for weapon: ItemWeapon in weapons_list:
-		var card := SELECTION_CARD.instantiate() as SelectionCard
+	for card in weapons_container.get_children():
+		if not card is SelectionCard or not card.has_meta("selection_data"): continue
+		var weapon=card.get_meta("selection_data") as ItemWeapon
 		card.pressed.connect(_on_weapon_selected.bind(weapon))
 		card.mouse_entered.connect(_show_weapon_preview.bind(weapon))
 		card.mouse_exited.connect(_restore_selected_weapon_preview)
 		card.focus_entered.connect(_show_weapon_preview.bind(weapon))
 		card.focus_exited.connect(_restore_selected_weapon_preview)
-		card.button_group = weapon_group
-		card.set_meta("selection_data", weapon)
-		weapons_container.add_child(card)
-		card.set_icon(weapon.item_icon, weapon.icon_scale)
+		card.button_group=weapon_group
+		card.set_icon(weapon.item_icon,weapon.icon_scale)
 
 func show_player_info(value: bool) -> void:
 	player_icon.visible = value
@@ -296,6 +284,7 @@ func get_player_cards() -> Array[Node]:
 
 func animate_character_to_weapons() -> void:
 	transitioning = true
+	player_panel.set_meta("selection_transition_active",true)
 	var tween := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.set_parallel(true)
 	tween.tween_property(players_container, "modulate:a", 0.0, 0.18)

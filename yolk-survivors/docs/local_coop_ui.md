@@ -82,4 +82,19 @@ La investigación de Brotato sirvió como referencia para la separación por jug
 
 - Incógnito: la muerte usa el mismo confeti y evento de audio que solo. Cada baja sortea un único destinatario entre los participantes (también los caídos), con igual probabilidad. El pasivo se sortea con la Suerte y disponibilidad del destinatario, contando sus recompensas pendientes para límites de copias. Se revela al finalizar la oleada.
 
-- Con cooperativo habilitado, el mouse queda oculto y sus eventos se descartan en selección, gameplay y menús cooperativos. Al salir del modo se restaura según el dispositivo de navegación. La dificultad es exclusiva de P1, abre enfocando el nivel 1 y permite recorrer niveles y acciones con stick/cruceta o WASD y confirmar con A/Enter/Espacio.
+- Con cooperativo habilitado, el mouse queda oculto y sus eventos se descartan en selección, gameplay y menús cooperativos. Al salir del modo se restaura según el dispositivo de navegación. La dificultad es exclusiva de P1, abre enfocando el nivel 0 y permite recorrer niveles y acciones con stick/cruceta o WASD y confirmar con A/Enter/Espacio.
+
+### Pausa cooperativa — 27/10/2026
+- Reutiliza PausePanel y sus estadísticas/armas vinculadas al jugador que pausa, sin cambiar Global.player.
+- Esc/Start abre durante combate, tienda, mejoras o recompensas; quien pausa controla la navegación, el cambio de estadísticas y Continuar/Salir.
+- Congela los temporizadores de oleada/spawn y el gameplay. Al continuar desde una intermisión restaura sus paneles, cursores y ofertas, manteniendo el combate detenido.
+- El diseño base de la pausa está guardado en pause_panel.tscn y es editable en Godot.
+
+### Yemas compartidas — 27/10/2026
+- Cada yema recogida acredita su valor completo a todas las billeteras personales, también a jugadores caídos. Las compras siguen siendo personales.
+- El bonus de reserva y los pasivos de recogida se aplican individualmente, sin multiplicar pagos por repetir el evento de la misma yema.
+- Imán: cada jugador vivo tira su probabilidad una vez por yema; se elige al azar entre los que tuvieron éxito, con igual probabilidad. El destino permanece fijo aunque otro jugador se acerque. Si el destinatario cae o desaparece, se elige al vivo más cercano sin nuevas tiradas. Las yemas del Yolker tiran al aterrizar. Todos reciben el valor al recogerse, independientemente del destinatario visual.
+
+- Bloqueo persistente del mouse en Coop: todos los controles existentes y creados posteriormente ignoran el mouse; los callbacks de hover/clic de tienda, mejoras y recompensas también se bloquean. Se restauran los filtros originales únicamente al deshabilitar Coop o regresar al menú principal. Regresión: verify_coop_mouse_lock.gd.
+
+- Selección inicial en Coop: Espátula I cuando el personaje la permite; si tiene restricciones incompatibles, se mantiene un arma válida. Dificultad inicial: nivel 0.

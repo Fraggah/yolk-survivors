@@ -31,7 +31,9 @@ func verify():
 	assert(reward_panel.card.item_cost.text=="CONSERVAR")
 	assert(not reward_panel.controls[0].get_node("HBoxContainer/TextureRect").visible)
 	assert(reward_panel.sell_value.text.begins_with("VENDER ") and reward_panel.controls[1].has_node("SellContent/Row/Yolk"))
-	for panel in coop.panels: assert(panel.get_theme_stylebox("panel") is StyleBoxEmpty)
+	for panel in coop.panels:
+		assert(panel.get_theme_stylebox("panel").bg_color.a==0)
+		assert(panel.get_theme_stylebox("panel").border_width_left==2)
 	reward_panel.move_selector(Vector2.DOWN)
 	assert(coop.sessions[1].cursor==1)
 	if OS.get_cmdline_user_args().has("--capture"):

@@ -127,7 +127,13 @@ enum Sound {
 	SPATULA_IMPACT
 }
 
+var sound_event_keys := PackedStringArray()
+
 func _ready() -> void:
+	for key in Sound.keys(): sound_event_keys.append(key.to_lower())
+	sound_event_keys[Sound.UI_CLICK] = "ui_accept"
+	sound_event_keys[Sound.FIRE] = "default_ranged_attack"
+	sound_event_keys[Sound.PUNCH] = "default_melee_attack"
 	# Menu clicks must remain audible while the gameplay tree is paused.
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	sfx_bus = AudioServer.get_bus_index("SFX")
@@ -147,10 +153,7 @@ func set_music_volume(value: float) -> void:
 	AudioServer.set_bus_volume_db(music_bus, linear_to_db(value))
 
 func play_sound(type: int) -> void:
-	var key: String = Sound.keys()[type].to_lower()
-	if type == Sound.UI_CLICK: key = "ui_accept"
-	if type == Sound.FIRE: key = "default_ranged_attack"
-	if type == Sound.PUNCH: key = "default_melee_attack"
+	var key: String = sound_event_keys[type]
 	play_stream(get(key) as AudioStream, key)
 
 func play_stream(audio: AudioStream, event: String = "weapon_attack") -> void:

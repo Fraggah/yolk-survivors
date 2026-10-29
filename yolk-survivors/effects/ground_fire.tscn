@@ -1,0 +1,52 @@
+[gd_scene load_steps=11 format=3]
+[ext_resource type="Script" path="res://effects/ground_fire.gd" id="1"]
+[ext_resource type="Shader" path="res://shaders/ground_fire_batch.gdshader" id="2"]
+[ext_resource type="Shader" path="res://shaders/ground_flame_batch.gdshader" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Effects/small_fire.png" id="4"]
+[sub_resource type="QuadMesh" id="Quad"]
+size = Vector2(1,1)
+[sub_resource type="MultiMesh" id="FloorMesh"]
+resource_local_to_scene = true
+use_colors = true
+use_custom_data = true
+mesh = SubResource("Quad")
+custom_aabb = AABB(-16384,-16384,-1,32768,32768,2)
+[sub_resource type="MultiMesh" id="FlameMesh"]
+resource_local_to_scene = true
+use_colors = true
+use_custom_data = true
+mesh = SubResource("Quad")
+custom_aabb = AABB(-16384,-16384,-1,32768,32768,2)
+[sub_resource type="ShaderMaterial" id="FloorMaterial"]
+shader = ExtResource("2")
+shader_parameter/tint = Color(1,0.32,0.03,1)
+[sub_resource type="ShaderMaterial" id="FlameMaterial"]
+shader = ExtResource("3")
+shader_parameter/flame_texture = ExtResource("4")
+[sub_resource type="MultiMesh" id="BurnedMesh"]
+resource_local_to_scene = true
+use_colors = true
+use_custom_data = true
+mesh = SubResource("Quad")
+custom_aabb = AABB(-16384,-16384,-1,32768,32768,2)
+[node name="GroundFire" type="Node2D"]
+process_priority = 3
+z_index = -1
+script = ExtResource("1")
+enabled = true
+flames_per_patch = 4
+cell_size = 96.0
+contact_updates_per_frame = 32
+batch_burning = true
+burned_flames_per_unit = 4
+[node name="Floor" type="MultiMeshInstance2D" parent="."]
+material = SubResource("FloorMaterial")
+multimesh = SubResource("FloorMesh")
+[node name="Flames" type="MultiMeshInstance2D" parent="."]
+material = SubResource("FlameMaterial")
+multimesh = SubResource("FlameMesh")
+[node name="BurnedFlames" type="MultiMeshInstance2D" parent="."]
+z_as_relative = false
+z_index = 2
+material = SubResource("FlameMaterial")
+multimesh = SubResource("BurnedMesh")

@@ -3,37 +3,12 @@ extends RefCounted
 static func apply(control: Control, tier: int, compact: bool = false) -> void:
 	var band := control.get_node_or_null("RarityMarker") as Panel
 	if not band:
-		band = Panel.new()
-		band.name = "RarityMarker"
-		band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		band=load("res://scenes/ui/rarity_compact.tscn" if compact else "res://scenes/ui/rarity_band.tscn").instantiate()
 		control.add_child(band)
-		var new_label := Label.new()
-		new_label.name = "Text"
-		new_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		new_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		band.add_child(new_label)
-		new_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var style := StyleBoxFlat.new()
+	var style := band.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	style.bg_color = UITheme.palette.rarity(tier)
-	if compact:
-		style.bg_color = Color.TRANSPARENT
-		band.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-		band.offset_left = -34
-		band.offset_top = -25
-		band.offset_right = -3
-		band.offset_bottom = -3
-		style.set_corner_radius_all(5)
-	else:
-		band.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-		band.offset_left = 3
-		band.offset_right = -3
-		band.offset_top = 3
-		band.offset_bottom = 39
-		style.corner_radius_top_left = maxi(0, UITheme.palette.radius - 3)
-		style.corner_radius_top_right = style.corner_radius_top_left
+	if compact: style.bg_color=Color.TRANSPARENT
 	band.add_theme_stylebox_override("panel", style)
 	var label := band.get_node("Text") as Label
 	label.text = ["I", "II", "III", "IV"][clampi(tier, 0, 3)] if compact else ["COMMON", "RARE", "EPIC", "LEGENDARY"][clampi(tier, 0, 3)]
-	label.add_theme_font_size_override("font_size", 18 if compact else 22)
 	label.add_theme_color_override("font_color", UITheme.palette.rarity(tier) if compact else UITheme.palette.hud_text)

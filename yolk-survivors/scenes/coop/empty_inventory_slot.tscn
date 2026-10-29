@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+[sub_resource type="StyleBoxFlat" id="slot"]
+bg_color = Color(1,0.968627,0.901961,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42,0.32,0.24,1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+[node name="EmptySlot" type="Panel"]
+custom_minimum_size = Vector2(100,100)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("slot")

@@ -1,6 +1,6 @@
 extends PanelContainer
 ## Solo shop components, with independent ownership and a shared ready barrier.
-const InventorySlot=preload("res://scenes/ui/shop/item_card.tscn")
+const InventorySlot=preload("res://scenes/coop/coop_inventory_slot.tscn")
 var session
 var owner_coop
 var controls: Array[Button]=[]
@@ -51,7 +51,7 @@ func setup(player_session, controller, slot: int) -> void:
 		card.lock_button.mouse_entered.connect(_hover.bind(200+i))
 		card.lock_button.mouse_exited.connect(_unhover.bind(200+i))
 		card.lock_button.toggled.connect(func(_value):
-			if session.device<0: owner_coop.toggle_lock(session,i)
+			if session.device<0 and not MenuInput.coop_mouse_blocked(): owner_coop.toggle_lock(session,i)
 			else: card.set_locked(session.locked[i]))
 	_register(view.get_node("Refresh"),4)
 	_register(view.get_node("WeaponActions/Margin/Content/Combine"),5)
@@ -60,7 +60,7 @@ func setup(player_session, controller, slot: int) -> void:
 	var close: Button=view.get_node("WeaponActions/Margin/Content/Close")
 	close.set_meta("sfx_manual",true)
 	close.pressed.connect(func():
-		if session.device<0: close_weapon_actions())
+		if session.device<0 and not MenuInput.coop_mouse_blocked(): close_weapon_actions())
 	close.mouse_entered.connect(_hover.bind(100))
 	close.mouse_exited.connect(_unhover.bind(100))
 	_register(view.get_node("StatsButton"),8)
@@ -69,7 +69,7 @@ func setup(player_session, controller, slot: int) -> void:
 	items.mouse_entered.connect(_hover.bind(300))
 	items.mouse_exited.connect(_unhover.bind(300))
 	items.pressed.connect(func():
-		if session.device<0 and context_target()==null:
+		if session.device<0 and not MenuInput.coop_mouse_blocked() and context_target()==null:
 			select(300)
 			owner_coop.activate(session,300))
 	var shop: Button=view.get_node("ShopButton")
@@ -77,7 +77,7 @@ func setup(player_session, controller, slot: int) -> void:
 	shop.mouse_entered.connect(_hover.bind(301))
 	shop.mouse_exited.connect(_unhover.bind(301))
 	shop.pressed.connect(func():
-		if session.device<0 and context_target()==null:
+		if session.device<0 and not MenuInput.coop_mouse_blocked() and context_target()==null:
 			select(301)
 			owner_coop.activate(session,301))
 	for sheet in [stats,stats_secondary]:
@@ -106,18 +106,20 @@ func _register(button: Button,index: int) -> void:
 	button.mouse_entered.connect(_hover.bind(index))
 	button.mouse_exited.connect(_unhover.bind(index))
 	button.pressed.connect(func():
-		if session.device<0:
+		if session.device<0 and not MenuInput.coop_mouse_blocked():
 			if context_target()!=null and index not in [5,6]: return
 			select(index)
 			owner_coop.activate(session,index))
 
 func _hover(index: int) -> void:
-	if session.device<0:
+	if MenuInput.coop_mouse_blocked(): return
+	if session.device<0 and not MenuInput.coop_mouse_blocked():
 		mouse_navigation=true
 		hovered_control=index
 		select(index)
 
 func _unhover(index: int) -> void:
+	if MenuInput.coop_mouse_blocked(): return
 	if session.device<0 and hovered_control==index:
 		hovered_control=-1
 		owner_coop._render_panel(session)
@@ -217,17 +219,13 @@ func _inventory() -> void:
 		var entry=inventory[i]
 		var button=InventorySlot.instantiate()
 		button.independent_selection=true
-		button.custom_minimum_size=Vector2(100,100)
 		button.quantity=entry.count
 		view.get_node("Inventory/WeaponsPanel/Scroll/Weapons" if entry.weapon else "Inventory/PassivesPanel/Scroll/Passives").add_child(button)
 		button.item=entry.item
 		button.toggle_mode=false # Co-op selection is owned by the player cursor, not a latched mouse press.
 		_register(button,9+i)
 	for i in maxi(0,session.actor.get_weapon_limit()-session.actor.current_weapons.size()):
-		var empty=Panel.new()
-		empty.custom_minimum_size=Vector2(100,100)
-		empty.mouse_filter=Control.MOUSE_FILTER_IGNORE
-		empty.add_theme_stylebox_override("panel",UITheme.box(UITheme.palette.surface,UITheme.palette.outline,12,2))
+		var empty=preload("res://scenes/coop/empty_inventory_slot.tscn").instantiate()
 		view.get_node("Inventory/WeaponsPanel/Scroll/Weapons").add_child(empty)
 	if session.cursor>=9 and session.cursor<100: session.cursor=mini(session.cursor,controls.size()-1)
 
@@ -352,6 +350,7 @@ func _render_weapon_actions() -> void:
 	popup.position=point.clamp(Vector2(12,12),view.size-popup.size-Vector2(12,12))
 
 func _input(event: InputEvent) -> void:
+	if MenuInput.coop_mouse_blocked() and (event is InputEventMouseMotion or event is InputEventMouseButton): return
 	if is_visible_in_tree() and session and session.device<0 and event is InputEventMouseMotion and event.relative.length_squared()>0:
 		initial_style_pending=false
 	if is_visible_in_tree() and session and session.device<0 and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:

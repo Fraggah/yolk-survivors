@@ -1,0 +1,11 @@
+[gd_scene format=3]
+[node name="DebugStageSelector" type="CanvasLayer"]
+layer = 100
+[node name="Stages" type="OptionButton" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -48.0
+offset_right = 370.0
+offset_bottom = -10.0
+tooltip_text = "Se aplica al iniciar la próxima oleada. No se guarda."

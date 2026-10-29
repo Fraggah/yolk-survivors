@@ -34,6 +34,9 @@ var trail_lifetime := 0.0
 var trail_item_effects: Array[StatusEffect] = []
 var trail_contacts: Dictionary = {}
 var trail_previous_positions: Dictionary = {}
+var trail_hit_profiles: Dictionary = {}
+var contacts_sampled := false
+var column_sampled := false
 
 func configure(weapon: Weapon, config: SpicyPatternSettings, point: Vector2, column_trail: bool = false) -> void:
 	settings = config
@@ -49,7 +52,8 @@ func configure(weapon: Weapon, config: SpicyPatternSettings, point: Vector2, col
 	hit.collision_layer = 0
 	hit.collision_mask = 0
 	hit.monitoring = false
-	add_child(hit)
+	hit.impact_feedback = settings.mode!=SpicyPatternSettings.Mode.TRAIL
+	# Scripted area damage has no collision shape; it does not enter physics.
 	hit.setup(weapon.data.get_effective_damage(source.stats),false,weapon.data.stats.knockback,source)
 	weapon.weapon_behaviour.configure_hit_criticals(hit)
 	hit.life_steal_chance = weapon.data.get_effective_life_steal(source.stats)
@@ -113,12 +117,25 @@ func configure(weapon: Weapon, config: SpicyPatternSettings, point: Vector2, col
 		_update_visual()
 
 func _ready() -> void:
+	# Enemy movement runs at priority 0; the contact index samples at 1.
+	process_priority = 2
 	add_to_group("projectiles")
+	if settings.mode==SpicyPatternSettings.Mode.TRAIL and GroundFire.enabled: GroundFire.register_patch(self)
 	if settings.mode == SpicyPatternSettings.Mode.CLOUD: add_to_group("ghost_clouds")
 	# Column depth comes from its ground contact, not its height.
 	z_index = 0
 
+func _exit_tree() -> void:
+	if is_instance_valid(hit): hit.free()
+
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance(delta)
+	if FireContacts.profile_enabled:
+		var key := "spicy_mode_"+str(settings.mode)
+		FireContacts.profile_costs[key] = float(FireContacts.profile_costs.get(key,0.0))+(Time.get_ticks_usec()-started)/1000.0
+
+func _advance(delta: float) -> void:
 	if Global.game_paused or is_queued_for_deletion(): return
 	var weapon = weapon_ref.get_ref()
 	if not is_instance_valid(source) or source.health_component.current_health <= 0.0 or not is_instance_valid(weapon) or weapon.is_queued_for_deletion():
@@ -151,9 +168,10 @@ func _process(delta: float) -> void:
 	elif settings.mode == SpicyPatternSettings.Mode.TORNADO:
 		_update_column_contacts(previous_position)
 	elif settings.mode != SpicyPatternSettings.Mode.ORBIT:
-		if settings.mode == SpicyPatternSettings.Mode.TRAIL: _update_trail_contacts()
+		var batched: bool = settings.mode==SpicyPatternSettings.Mode.TRAIL and GroundFire.enabled and FireContacts.sampled_frame==Engine.get_process_frames()
+		if settings.mode == SpicyPatternSettings.Mode.TRAIL and not batched: _update_trail_contacts()
 		tick_left -= delta
-		if tick_left <= 0.0:
+		if tick_left <= 0.0 and not batched:
 			tick_left = source.stats.get_fire_interval(settings.tick_interval) if settings.fire_ticks else settings.tick_interval
 			_damage(radius)
 	var lifetime := trail_lifetime if settings.mode == SpicyPatternSettings.Mode.TRAIL else settings.lifetime * duration_multiplier
@@ -182,15 +200,17 @@ func _leave_column_trail(previous_position: Vector2, weapon: Weapon) -> void:
 			column_trail_settings.trail_fire_visuals = config.duplicate()
 			column_trail_settings.trail_fire_visuals.flame_count = 10
 			column_trail_settings.trail_fire_visuals.ember_count = 4
-		var patch = load("res://effects/spicy_pattern_effect.gd").new()
-		patch.configure(weapon, column_trail_settings, previous_position.lerp(global_position, cursor / distance), true)
-		get_parent().add_child(patch)
-		patch.add_to_group("reaper_trails")
-		# Ground fire remains below actors and the column, regardless of their Y.
-		for child in patch.trail_visual.get_children():
-			if child is CanvasItem:
-				child.z_as_relative = false
-				child.z_index = -1
+		var point := previous_position.lerp(global_position,cursor/distance)
+		if GroundFire.enabled: GroundFire.spawn_trail(weapon,column_trail_settings,point,true)
+		else:
+			var patch = load("res://effects/spicy_pattern_effect.gd").new()
+			patch.configure(weapon,column_trail_settings,point,true)
+			get_parent().add_child(patch)
+			patch.add_to_group("reaper_trails")
+			for child in patch.trail_visual.get_children():
+				if child is CanvasItem:
+					child.z_as_relative = false
+					child.z_index = -1
 		cursor += spacing
 	column_trail_distance = fposmod(column_trail_distance + distance, spacing)
 
@@ -215,16 +235,23 @@ func _update_column_contacts(previous_position: Vector2) -> void:
 	var positions: Dictionary = {}
 	var cooldowns: Dictionary = {}
 	var reach := radius * settings.column_hit_radius_multiplier
-	for enemy in get_tree().get_nodes_in_group("combat_enemies"):
+	var broad_extent := Vector2(reach,reach*settings.area_y_ratio)+Vector2.ONE*FireContacts.max_hurtbox_padding
+	var query := Rect2(previous_position.min(global_position)-broad_extent,previous_position.abs()*0.0)
+	query.size = previous_position.max(global_position)+broad_extent-query.position
+	for enemy in FireContacts.query(query):
 		if not _valid_enemy(enemy): continue
-		var id := enemy.get_instance_id()
-		var shape := enemy.get_node_or_null("HurtboxComponent/CollisionShape2D") as CollisionShape2D
-		var point: Vector2 = shape.global_position if shape else enemy.global_position
+		var id: int = enemy.get_instance_id()
+		var sample = FireContacts.live_sample(enemy)
+		var point: Vector2 = sample.hurt_point if sample else enemy.global_position
 		var padding := 0.0
-		if shape and shape.shape is CircleShape2D and not shape.disabled:
-			padding = shape.shape.radius * maxf(absf(shape.global_scale.x), absf(shape.global_scale.y))
+		if sample: padding = sample.padding
+		else:
+			var shape := enemy.get_node_or_null("HurtboxComponent/CollisionShape2D") as CollisionShape2D
+			if shape:
+				point = shape.global_position
+				if shape.shape is CircleShape2D and not shape.disabled: padding = shape.shape.radius * maxf(absf(shape.global_scale.x), absf(shape.global_scale.y))
 		var extent := Vector2(reach + padding, reach * settings.area_y_ratio + padding)
-		var start: Vector2 = (column_enemy_positions.get(id, point) - previous_position) / extent
+		var start: Vector2 = (column_enemy_positions.get(id, sample.hurt_previous if sample and column_sampled else point) - previous_position) / extent
 		var end := (point - global_position) / extent
 		positions[id] = point
 		var next_hit: float = column_hit_cooldowns.get(id, 0.0)
@@ -233,8 +260,11 @@ func _update_column_contacts(previous_position: Vector2) -> void:
 			var interval := source.stats.get_fire_interval(settings.tick_interval) if settings.fire_ticks else settings.tick_interval
 			next_hit = elapsed + maxf(0.001, interval)
 		if next_hit > elapsed: cooldowns[id] = next_hit
+	for id in column_hit_cooldowns:
+		if column_hit_cooldowns[id]>elapsed: cooldowns[id] = column_hit_cooldowns[id]
 	column_enemy_positions = positions
 	column_hit_cooldowns = cooldowns
+	column_sampled = true
 
 func _distance(point: Vector2) -> float:
 	var offset := point-global_position
@@ -245,22 +275,35 @@ func _valid_enemy(enemy: Enemy) -> bool:
 	return is_instance_valid(enemy) and not enemy.is_queued_for_deletion() and not enemy.is_retiring and enemy.health_component.current_health > 0.0
 
 func _damage(outer: float, inner: float = 0.0, once: bool = false) -> void:
-	for enemy in get_tree().get_nodes_in_group("combat_enemies"):
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_damage_impl(outer,inner,once)
+	FireContacts.finish_profile("area_damage",started)
+
+func _damage_impl(outer: float, inner: float, once: bool) -> void:
+	var extent := Vector2(outer,outer*settings.area_y_ratio)
+	for enemy in FireContacts.query(Rect2(global_position-extent,extent*2.0)):
 		if not _valid_enemy(enemy): continue
 		if settings.mode == SpicyPatternSettings.Mode.TRAIL:
 			var entries := _trail_at(enemy.global_position)
+			var interval := source.stats.get_fire_interval(settings.tick_interval) if settings.fire_ticks else settings.tick_interval
+			entries = entries.filter(func(entry): return FireContacts.claim_ground(enemy.get_instance_id(),entry.id,interval))
 			if entries.is_empty(): continue
 			_set_trail_hit(entries)
 			enemy._on_hurtbox_component_on_damage(hit)
 			continue
 		var distance := _distance(enemy.global_position)
 		if distance > outer or distance < inner: continue
-		var id := enemy.get_instance_id()
+		var id: int = enemy.get_instance_id()
 		if once and hit_targets.has(id): continue
 		if once: hit_targets[id] = true
 		enemy._on_hurtbox_component_on_damage(hit)
 
 func _update_visual() -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_update_visual_impl()
+	FireContacts.finish_profile("area_visual",started)
+
+func _update_visual_impl() -> void:
 	if is_instance_valid(wave_visual): wave_visual.update_visual(elapsed)
 	if is_instance_valid(mine_visual): mine_visual.update_visual(elapsed,detonated,elapsed-detonation_time)
 	if is_instance_valid(cloud_visual): cloud_visual.update_visual(elapsed)
@@ -283,26 +326,41 @@ func _trail_at(point: Vector2, previous: Vector2 = Vector2.INF) -> Array[Diction
 		if previous != Vector2.INF:
 			start = previous - global_position
 			start.y /= entry.ratio
+		# Reject distant segments before doing the oval intersection calculation.
+		if minf(start.x,end.x)>entry.radius or maxf(start.x,end.x)<-entry.radius or minf(start.y,end.y)>entry.radius or maxf(start.y,end.y)<-entry.radius: continue
 		if Geometry2D.get_closest_point_to_segment(Vector2.ZERO, start, end).length_squared() <= entry.radius * entry.radius:
 			result.append(entry)
 	return result
 
 func _update_trail_contacts() -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_update_trail_contacts_impl()
+	FireContacts.finish_profile("trail_contacts",started)
+
+func _update_trail_contacts_impl() -> void:
 	var positions: Dictionary = {}
 	var contacts: Dictionary = {}
-	for enemy in get_tree().get_nodes_in_group("combat_enemies"):
+	var extent := Vector2.ZERO
+	for entry in trail_entries:
+		if elapsed < entry.lifetime:
+			extent.x = maxf(extent.x,entry.radius)
+			extent.y = maxf(extent.y,entry.radius*entry.ratio)
+	for enemy in FireContacts.query(Rect2(global_position-extent,extent*2.0)):
 		if not _valid_enemy(enemy): continue
-		var id := enemy.get_instance_id()
+		var id: int = enemy.get_instance_id()
 		var point: Vector2 = enemy.global_position
 		positions[id] = point
-		var previous: Vector2 = trail_previous_positions.get(id, point)
+		var previous: Vector2 = trail_previous_positions.get(id, FireContacts.previous_position(enemy) if contacts_sampled else point)
+		var local_point := point-global_position
+		var local_previous := previous-global_position
+		if minf(local_point.x,local_previous.x)>extent.x or maxf(local_point.x,local_previous.x)<-extent.x or minf(local_point.y,local_previous.y)>extent.y or maxf(local_point.y,local_previous.y)<-extent.y: continue
 		var present: Array = []
 		for entry in _trail_at(point): present.append(entry.id)
 		contacts[id] = present
 		var entries: Array[Dictionary] = []
 		var old_contacts: Array = trail_contacts.get(id, [])
 		for entry in _trail_at(point, previous):
-			if not old_contacts.has(entry.id): entries.append(entry)
+			if not old_contacts.has(entry.id) and FireContacts.claim_ground(id,entry.id,FireContacts.ground_ignition_refresh,true): entries.append(entry)
 		if entries.is_empty(): continue
 		# Refresh only contributors actually crossed; the shared burn retains its clock.
 		_set_trail_hit(entries)
@@ -311,6 +369,7 @@ func _update_trail_contacts() -> void:
 				load("res://effects/status_controller.gd").apply_effect(enemy, effect, hit)
 	trail_contacts = contacts
 	trail_previous_positions = positions
+	contacts_sampled = true
 
 func _configure_shared_trail(weapon: Weapon) -> void:
 	for effect in hit.status_effects:
@@ -328,36 +387,23 @@ func _configure_shared_trail(weapon: Weapon) -> void:
 	_set_trail_hit(trail_entries)
 
 func _set_trail_hit(entries: Array[Dictionary]) -> void:
-	var total := 0.0
-	var shares: Array[Dictionary] = []
-	for entry in entries:
-		total += entry.damage
-		shares.append({"record": entry.record, "weight": entry.damage})
-	for share in shares: share.weight /= maxf(0.00001, total)
-	hit.base_damage = total
-	hit.damage = total
-	hit.weapon_damage_record = {"wave_damage": 0.0, "total_damage": 0.0, "contributors": shares}
-	hit.status_effects.assign(trail_item_effects)
-	var fires: Dictionary = {}
-	for entry in entries:
-		for effect in entry.effects:
-			if not effect: continue
-			if effect.kind != StatusEffect.Kind.FIRE:
-				if not hit.status_effects.has(effect): hit.status_effects.append(effect)
-				continue
-			var key: String = effect.resource_path if not effect.resource_path.is_empty() else str(effect.get_instance_id())
-			key = str(effect.get_meta("stack_id", key))
-			if not fires.has(key):
-				var merged: StatusEffect = effect.duplicate()
-				merged.damage = 0.0
-				merged.set_meta("stack_id", "SharedCayenne_" + key)
-				merged.set_meta("fire_contributions", [])
-				fires[key] = merged
-			var merged: StatusEffect = fires[key]
-			merged.damage += effect.damage
-			merged.get_meta("fire_contributions").append({"id": entry.id, "record": entry.record,
-				"damage": effect.damage, "duration": effect.duration})
-	for effect in fires.values(): hit.status_effects.append(effect)
+	# Contributors are immutable for a patch. Reuse each active subset instead of
+	# duplicating StatusEffect resources again for every enemy and damage tick.
+	var profile_key := PackedInt64Array()
+	for entry in entries: profile_key.append(entry.id)
+	if trail_hit_profiles.has(profile_key):
+		var cached_profile: Dictionary = trail_hit_profiles[profile_key]
+		hit.base_damage = cached_profile.damage
+		hit.damage = cached_profile.damage
+		hit.weapon_damage_record = cached_profile.record
+		hit.status_effects.assign(cached_profile.effects)
+		return
+	var profile: Dictionary = load("res://effects/trail_hit_profile.gd").build(entries,trail_item_effects)
+	trail_hit_profiles[profile_key] = profile
+	hit.base_damage = profile.damage
+	hit.damage = profile.damage
+	hit.weapon_damage_record = profile.record
+	hit.status_effects.assign(profile.effects)
 
 func _orbit_point(center: Vector2, angle: float) -> Vector2:
 	return center + Vector2(cos(angle), sin(angle) * settings.area_y_ratio) * orbit_radius
@@ -377,7 +423,7 @@ func _process_orbit(delta: float, weapon: Weapon) -> void:
 	var cooldowns: Dictionary = {}
 	for enemy in get_tree().get_nodes_in_group("combat_enemies"):
 		if not _valid_enemy(enemy): continue
-		var id := enemy.get_instance_id()
+		var id: int = enemy.get_instance_id()
 		var shape := enemy.get_node_or_null("HurtboxComponent/CollisionShape2D") as CollisionShape2D
 		var point: Vector2 = shape.global_position if shape else enemy.global_position
 		positions[id] = point

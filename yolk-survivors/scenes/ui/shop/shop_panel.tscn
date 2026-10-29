@@ -1,9 +1,9 @@
-[gd_scene load_steps=84 format=3 uid="uid://c4xdsqfy0uqgj"]
+[gd_scene load_steps=92 format=3 uid="uid://c4xdsqfy0uqgj"]
 
 [ext_resource type="PackedScene" uid="uid://dpqx5cjywg1wo" path="res://scenes/ui/shop/shop_card.tscn" id="1_g5vmb"]
 [ext_resource type="Script" uid="uid://tawhd5hlgqhi" path="res://scenes/ui/shop/shop_panel.gd" id="1_ir0lx"]
 [ext_resource type="Script" uid="uid://cyxhvg2wsk5t3" path="res://resources/items/item_base.gd" id="2_2rpxx"]
-[ext_resource type="PackedScene" uid="uid://lsucb07nv2yt" path="res://scenes/ui/stats/stats_container.tscn" id="2_pt5se"]
+[ext_resource type="PackedScene" uid="uid://cj80og0famryw" path="res://scenes/ui/stats/stats_container.tscn" id="2_pt5se"]
 [ext_resource type="Resource" uid="uid://7penwi2bugth" path="res://resources/items/weapons/melee/spatula/item_spatula_1.tres" id="3_xnehm"]
 [ext_resource type="Resource" uid="uid://t3qxtl5ixph" path="res://resources/items/weapons/melee/spatula/item_spatula_2.tres" id="4_e8kvv"]
 [ext_resource type="Resource" uid="uid://dkraxdw1aanmh" path="res://resources/items/weapons/melee/spatula/item_spatula_3.tres" id="5_xg118"]
@@ -47,10 +47,15 @@
 [ext_resource type="Resource" uid="uid://btyn753ktmvya" path="res://resources/items/passives/data/passive_item_ball.tres" id="43_auh5d"]
 [ext_resource type="Resource" uid="uid://doeyhvpueysyu" path="res://resources/items/passives/data/passive_item_cape.tres" id="44_fltqq"]
 [ext_resource type="Resource" uid="uid://baulcq7h7qjgk" path="res://resources/items/passives/data/passive_item_rage.tres" id="45_ykntx"]
-[ext_resource type="PackedScene" uid="uid://5iyy26qoqtgp" path="res://scenes/ui/shop/item_card.tscn" id="46_e8kvv"]
 [ext_resource type="Resource" uid="uid://copo21438tdpp" path="res://resources/items/passives/data/passive_item_sword.tres" id="46_rq155"]
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="46_xnehm"]
 [ext_resource type="Texture2D" uid="uid://dmpftpbmwokai" path="res://assets/sprites/Yolk/yolk.png" id="47_yolk"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/breading_button.tscn" id="breading_button"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/consumable_button.tscn" id="consumable_button"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/empty_weapon_slot.tscn" id="empty_weapon_slot"]
+[ext_resource type="Texture2D" uid="uid://dl1ec63yxa3e6" path="res://assets/sprites/Items/Catalogue/034.png" id="gamble_coin"]
+[ext_resource type="Shader" uid="uid://2d1a1s3p5q41" path="res://effects/golden_item.gdshader" id="gamble_shader"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/weapon_tooltip.tscn" id="native_tooltip"]
 [ext_resource type="Resource" uid="uid://bty3cy6s1frh7" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_1.tres" id="new_carving_fork_1"]
 [ext_resource type="Resource" uid="uid://85nty775ovfa" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_2.tres" id="new_carving_fork_2"]
 [ext_resource type="Resource" uid="uid://c0m0jmgvdxrn1" path="res://resources/items/weapons/melee/carving_fork/item_carving_fork_3.tres" id="new_carving_fork_3"]
@@ -83,6 +88,44 @@
 [ext_resource type="Resource" uid="uid://bfdudt4h6dogv" path="res://resources/items/weapons/melee/tenderizer/item_tenderizer_2.tres" id="new_tenderizer_2"]
 [ext_resource type="Resource" uid="uid://2euxov04pbl0" path="res://resources/items/weapons/melee/tenderizer/item_tenderizer_3.tres" id="new_tenderizer_3"]
 [ext_resource type="Resource" uid="uid://crnw6408sgr2j" path="res://resources/items/weapons/melee/tenderizer/item_tenderizer_4.tres" id="new_tenderizer_4"]
+
+[sub_resource type="StyleBoxFlat" id="next_stage_style"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.32, 0.24, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="ShaderMaterial" id="gamble_material"]
+shader = ExtResource("gamble_shader")
+shader_parameter/strength = 0.65
+shader_parameter/perfect = false
+shader_parameter/overlay = false
+
+[sub_resource type="StyleBoxFlat" id="weapon_actions_style"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.968627, 0.901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.32, 0.24, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="ShopPanel" type="Panel"]
 anchors_preset = 15
@@ -186,79 +229,21 @@ theme_override_font_sizes/font_size = 32
 text = "items"
 horizontal_alignment = 1
 
-[node name="PassiveContainer" type="GridContainer" parent="MarginContainer/Control/PassivePanel"]
+[node name="InventoryScroll" type="ScrollContainer" parent="MarginContainer/Control/PassivePanel"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="PassiveContainer" type="GridContainer" parent="MarginContainer/Control/PassivePanel/InventoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 8
 
-[node name="ItemCard" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard2" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard3" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard4" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard5" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard6" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard7" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard8" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard9" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard10" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard11" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard12" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard13" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard14" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard15" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="ItemCard16" type="Button" parent="MarginContainer/Control/PassivePanel/PassiveContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-
-[node name="WeaponPanel" type="VBoxContainer" parent="MarginContainer/Control"]
-custom_minimum_size = Vector2(350, 250)
+[node name="EquipmentArea" type="Control" parent="MarginContainer/Control"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -268,44 +253,75 @@ offset_top = -272.0
 offset_right = 1348.0
 offset_bottom = -22.0
 grow_vertical = 0
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="MarginContainer/Control/WeaponPanel"]
+[node name="WeaponPanel" type="VBoxContainer" parent="MarginContainer/Control/EquipmentArea"]
+custom_minimum_size = Vector2(350, 250)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MarginContainer/Control/EquipmentArea/WeaponPanel"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "weapons"
 horizontal_alignment = 1
 
-[node name="WeaponContainer" type="GridContainer" parent="MarginContainer/Control/WeaponPanel"]
-unique_name_in_owner = true
+[node name="InventoryScroll" type="ScrollContainer" parent="MarginContainer/Control/EquipmentArea/WeaponPanel"]
+custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Center" type="CenterContainer" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="WeaponContainer" type="GridContainer" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(272, 176)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 3
 
-[node name="ItemCard" parent="MarginContainer/Control/WeaponPanel/WeaponContainer" instance=ExtResource("46_e8kvv")]
+[node name="Slot1" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
 
-[node name="ItemCard2" type="Button" parent="MarginContainer/Control/WeaponPanel/WeaponContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot2" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
 
-[node name="ItemCard3" type="Button" parent="MarginContainer/Control/WeaponPanel/WeaponContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot3" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
 
-[node name="ItemCard4" type="Button" parent="MarginContainer/Control/WeaponPanel/WeaponContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot4" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
 
-[node name="ItemCard5" type="Button" parent="MarginContainer/Control/WeaponPanel/WeaponContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot5" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
 
-[node name="ItemCard6" type="Button" parent="MarginContainer/Control/WeaponPanel/WeaponContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot6" parent="MarginContainer/Control/EquipmentArea/WeaponPanel/InventoryScroll/Center/WeaponContainer" instance=ExtResource("empty_weapon_slot")]
 layout_mode = 2
+
+[node name="GoldenControl" parent="MarginContainer/Control/EquipmentArea" instance=ExtResource("consumable_button")]
+offset_left = -104.0
+offset_top = 54.0
+offset_right = -40.0
+offset_bottom = 118.0
+
+[node name="BreadingControl" parent="MarginContainer/Control/EquipmentArea" instance=ExtResource("breading_button")]
+offset_left = -104.0
+offset_top = 150.0
+offset_right = -40.0
+offset_bottom = 214.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control"]
 custom_minimum_size = Vector2(440, 0)
@@ -325,38 +341,66 @@ theme_override_constants/separation = 12
 [node name="NewWaveButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 38
 text = "new wave"
 
-[node name="CombineButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
-unique_name_in_owner = true
+[node name="NextStagePreview" type="PanelContainer" parent="MarginContainer/Control/VBoxContainer"]
+visible = false
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "combine"
+theme_type_variation = &"InsetPanel"
+theme_override_styles/panel = SubResource("next_stage_style")
 
-[node name="SellWeaponButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
+[node name="Row" type="HBoxContainer" parent="MarginContainer/Control/VBoxContainer/NextStagePreview"]
 layout_mode = 2
-theme_type_variation = &"DangerButton"
-theme_override_font_sizes/font_size = 48
-text = "sell"
+theme_override_constants/separation = 12
 
-[node name="RerollButton" type="Button" parent="MarginContainer/Control"]
-unique_name_in_owner = true
+[node name="Icon" type="TextureRect" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row"]
+custom_minimum_size = Vector2(48, 42)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row/Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "NEXT EVENT"
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row/Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Event details"
+autowrap_mode = 3
+
+[node name="RefreshHeader" type="CenterContainer" parent="MarginContainer/Control"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -440.0
+offset_left = -500.0
 offset_top = -426.0
-offset_right = -90.0
+offset_right = -20.0
 offset_bottom = -366.0
 grow_horizontal = 0
 grow_vertical = 2
-tooltip_text = "Refresh all offers for yolks. Each refresh costs more until the next shop."
 
-[node name="Content" type="HBoxContainer" parent="MarginContainer/Control/RerollButton"]
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/Control/RefreshHeader"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="RerollButton" type="Button" parent="MarginContainer/Control/RefreshHeader/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 60)
+layout_mode = 2
+
+[node name="Content" type="HBoxContainer" parent="MarginContainer/Control/RefreshHeader/Buttons/RerollButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -367,18 +411,42 @@ mouse_filter = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="CostLabel" type="Label" parent="MarginContainer/Control/RerollButton/Content"]
+[node name="CostLabel" type="Label" parent="MarginContainer/Control/RefreshHeader/Buttons/RerollButton/Content"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "refresh 1"
 vertical_alignment = 1
 
-[node name="YolkIcon" type="TextureRect" parent="MarginContainer/Control/RerollButton/Content"]
+[node name="YolkIcon" type="TextureRect" parent="MarginContainer/Control/RefreshHeader/Buttons/RerollButton/Content"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 texture = ExtResource("47_yolk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GamblerCoinButton" type="Button" parent="MarginContainer/Control/RefreshHeader/Buttons"]
+visible = false
+custom_minimum_size = Vector2(64, 60)
+layout_mode = 2
+tooltip_text = "Apostar gratis Â· Requiere al menos 1 yema"
+
+[node name="CoinIcon" type="TextureRect" parent="MarginContainer/Control/RefreshHeader/Buttons/GamblerCoinButton"]
+texture_filter = 4
+material = SubResource("gamble_material")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("gamble_coin")
 expand_mode = 1
 stretch_mode = 5
 
@@ -389,7 +457,44 @@ offset_top = 0.0
 offset_right = 149.0
 offset_bottom = 77.0
 
+[node name="WeaponActions" type="PanelContainer" parent="."]
+visible = false
+z_index = 20
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 180.0
+theme_type_variation = &"InsetPanel"
+theme_override_styles/panel = SubResource("weapon_actions_style")
+
+[node name="Content" type="VBoxContainer" parent="WeaponActions"]
+layout_mode = 2
+
+[node name="CombineButton" type="Button" parent="WeaponActions/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "combine"
+
+[node name="SellWeaponButton" type="Button" parent="WeaponActions/Content"]
+custom_minimum_size = Vector2(240, 52)
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+theme_override_font_sizes/font_size = 30
+text = "sell"
+
+[node name="Close" type="Button" parent="WeaponActions/Content"]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+text = "BACK"
+
+[node name="WeaponTooltip" parent="." instance=ExtResource("native_tooltip")]
+layout_mode = 0
+
+[node name="GoldenResult" type="AcceptDialog" parent="."]
+title = "Yema de oro"
+
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/NewWaveButton" to="." method="_on_new_wave_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Control/VBoxContainer/CombineButton" to="." method="_on_combine_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Control/VBoxContainer/SellWeaponButton" to="." method="_on_sell_weapon_button_pressed"]
-[connection signal="pressed" from="MarginContainer/Control/RerollButton" to="." method="_on_reroll_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/RefreshHeader/Buttons/RerollButton" to="." method="_on_reroll_button_pressed"]
+[connection signal="pressed" from="WeaponActions/Content/CombineButton" to="." method="_on_combine_button_pressed"]
+[connection signal="pressed" from="WeaponActions/Content/SellWeaponButton" to="." method="_on_sell_weapon_button_pressed"]

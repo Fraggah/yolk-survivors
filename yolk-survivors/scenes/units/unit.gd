@@ -70,6 +70,12 @@ func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 	receive_hit(hitbox)
 
 func receive_hit(hitbox: HitboxComponent) -> bool:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	var result := _receive_hit_impl(hitbox)
+	FireContacts.finish_profile("receive_hits",started)
+	return result
+
+func _receive_hit_impl(hitbox: HitboxComponent) -> bool:
 	if Global.game_paused or is_queued_for_deletion() or health_component.current_health <= 0.0:
 		return false
 	if not is_instance_valid(hitbox) or hitbox.damage <= 0.0: return false
@@ -86,11 +92,11 @@ func receive_hit(hitbox: HitboxComponent) -> bool:
 		hitbox.roll_target_critical()
 	var before := health_component.current_health
 	last_hit_grants_rewards = hitbox.grants_enemy_rewards
-	set_flash_material()
+	if not hitbox.is_status_damage and hitbox.impact_feedback: set_flash_material()
 	var incoming_damage := hitbox.damage * (stats.get_incoming_damage_multiplier() if self is Player else 1.0)
 	if self is Enemy and hitbox.source is Player:
 		var items = hitbox.source.passive_items
-		if has_status(State.SLOW) or has_status(State.ROOTED) or has_status(State.AIRBOURNE):
+		if not is_zero_approx(items.controlled_damage_percent) and (has_status(State.SLOW) or has_status(State.ROOTED) or has_status(State.AIRBOURNE)):
 			incoming_damage *= 1.0 + items.controlled_damage_percent / 100.0
 		if hitbox.critical and has_status(State.SHOKED): incoming_damage *= 1.0 + 0.5 * items.power("electric_stove")
 		if hitbox.launch_on_hit and items.power("table_slam") > 0: incoming_damage *= 1.0 + hitbox.source.stats.block_effectiveness / 100.0 * items.power("table_slam")

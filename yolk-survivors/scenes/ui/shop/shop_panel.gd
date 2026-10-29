@@ -41,47 +41,10 @@ var next_stage_label: Label
 var next_stage_description: Label
 
 func _build_next_stage_preview() -> void:
-	next_stage_panel = PanelContainer.new()
-	next_stage_panel.name = "NextStagePreview"
-	next_stage_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	$MarginContainer/Control.add_child(next_stage_panel)
-	var actions := $MarginContainer/Control/VBoxContainer
-	next_stage_panel.reparent(actions)
-	actions.move_child(next_stage_panel, 1)
-	next_stage_panel.custom_minimum_size = Vector2.ZERO
-	var style := UITheme.box(UITheme.palette.surface, UITheme.palette.outline)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 6
-	style.content_margin_bottom = 6
-	next_stage_panel.add_theme_stylebox_override("panel", style)
-	UITheme.palette_changed.connect(func():
-		style.bg_color = UITheme.palette.surface
-		style.border_color = UITheme.palette.outline
-	)
-	var row := HBoxContainer.new()
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_theme_constant_override("separation", 12)
-	next_stage_panel.add_child(row)
-	next_stage_icon = TextureRect.new()
-	next_stage_icon.custom_minimum_size = Vector2(48, 42)
-	next_stage_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	next_stage_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	next_stage_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_child(next_stage_icon)
-	var text := VBoxContainer.new()
-	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_child(text)
-	next_stage_label = Label.new()
-	next_stage_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	next_stage_label.add_theme_font_size_override("font_size", 20)
-	text.add_child(next_stage_label)
-	next_stage_description = Label.new()
-	next_stage_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	next_stage_description.add_theme_font_size_override("font_size", 18)
-	text.add_child(next_stage_description)
-	next_stage_panel.hide()
+	next_stage_panel=$MarginContainer/Control/VBoxContainer/NextStagePreview
+	next_stage_icon=next_stage_panel.get_node("Row/Icon")
+	next_stage_label=next_stage_panel.get_node("Row/Text/Title")
+	next_stage_description=next_stage_panel.get_node("Row/Text/Description")
 
 func set_next_stage(stage: ArenaStage, wave: int) -> void:
 	next_stage = stage
@@ -118,34 +81,8 @@ func set_next_stage(stage: ArenaStage, wave: int) -> void:
 	next_stage_description.visible = not notices.is_empty()
 
 func _build_weapon_actions() -> void:
-	weapon_actions = PanelContainer.new()
-	weapon_actions.name = "WeaponActions"
-	weapon_actions.z_index = 20
-	var style := UITheme.box(UITheme.palette.surface, UITheme.palette.outline, 16, 2)
-	style.content_margin_left = 10
-	style.content_margin_right = 10
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	weapon_actions.add_theme_stylebox_override("panel", style)
-	add_child(weapon_actions)
-	var actions := VBoxContainer.new()
-	weapon_actions.add_child(actions)
-	combine_button.reparent(actions)
-	var sell := get_node("MarginContainer/Control/VBoxContainer/SellWeaponButton") as Button
-	sell.reparent(actions)
-	for button in [combine_button, sell]:
-		button.custom_minimum_size = Vector2(240, 52)
-		button.add_theme_font_size_override("font_size", 30)
-	var close := Button.new()
-	close.text = "BACK"
-	close.custom_minimum_size = Vector2(240, 48)
-	close.pressed.connect(close_weapon_actions)
-	actions.add_child(close)
-	weapon_actions.hide()
-	UITheme.palette_changed.connect(func():
-		style.bg_color = UITheme.palette.surface
-		style.border_color = UITheme.palette.outline
-	)
+	weapon_actions=$WeaponActions
+	$WeaponActions/Content/Close.pressed.connect(close_weapon_actions)
 
 func _input(event: InputEvent) -> void:
 	if weapon_actions and weapon_actions.visible and event is InputEventMouseButton and event.pressed:
@@ -164,7 +101,7 @@ func _position_weapon_actions() -> void:
 	weapon_actions.global_position = desired.clamp(bounds.position + Vector2(12, 12), bounds.end - weapon_actions.size - Vector2(12, 12))
 
 func _ready() -> void:
-	shop_items = shop_items.filter(func(item): return not item is ItemPassive)
+	shop_items = shop_items.filter(func(candidate_item): return not candidate_item is ItemPassive)
 	shop_items.append_array(load("res://resources/items/passives/catalogue.gd").items())
 	for item in load("res://resources/items/weapons/melee_catalogue.gd").items(true):
 		if not shop_items.has(item): shop_items.append(item)
@@ -172,48 +109,23 @@ func _ready() -> void:
 		if not shop_items.has(item): shop_items.append(item)
 	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items(true):
 		if not item.selection_only and not shop_items.has(item): shop_items.append(item)
-	weapon_tooltip = WEAPON_TOOLTIP_SCENE.instantiate() as WeaponTooltip
-	add_child(weapon_tooltip)
+	weapon_tooltip = $WeaponTooltip
 	visibility_changed.connect(_on_visibility_changed)
 	_build_weapon_actions()
 	_build_next_stage_preview()
 	_build_golden_yolk_control()
 	_build_breading_control()
-	coin_animation = load("res://scenes/ui/shop/chocolate_coin_reveal.gd").new()
+	coin_animation = load("res://scenes/ui/shop/chocolate_coin_reveal.tscn").instantiate()
 	get_parent().add_child.call_deferred(coin_animation)
-	golden_animation = load("res://scenes/ui/shop/golden_yolk_reveal.gd").new()
+	golden_animation = load("res://scenes/ui/shop/golden_yolk_reveal.tscn").instantiate()
 	get_parent().add_child.call_deferred(golden_animation)
-	gamble_button = Button.new()
-	gamble_button.name = "GamblerCoinButton"
-	gamble_button.text = ""
-	gamble_button.flat = false
-	gamble_button.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	gamble_button.custom_minimum_size = Vector2(64, 64)
-	gamble_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var gamble_icon := TextureRect.new()
-	gamble_icon.name = "CoinIcon"
-	gamble_icon.texture = load("res://assets/sprites/Items/Catalogue/034.png")
-	gamble_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	gamble_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	gamble_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	gamble_button.add_child(gamble_icon)
-	gamble_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	gamble_icon.offset_left = 7
-	gamble_icon.offset_top = 7
-	gamble_icon.offset_right = -7
-	gamble_icon.offset_bottom = -7
-	var shimmer := ShaderMaterial.new()
-	shimmer.shader = load("res://effects/golden_item.gdshader")
-	shimmer.set_shader_parameter("strength", 0.65)
-	gamble_icon.material = shimmer
-	gamble_button.tooltip_text = "Apostar gratis · Requiere al menos 1 yema"
+	gamble_button = $MarginContainer/Control/RefreshHeader/Buttons/GamblerCoinButton
 	gamble_button.pressed.connect(func():
 		if Global.coins < 1: return
 		resolve_chocolate_coin()
 		gamble_button.hide()
 		_update_reroll_button()
 	)
-	$MarginContainer/Control.add_child(gamble_button)
 	gamble_button.hide()
 	clear_items()
 
@@ -233,7 +145,6 @@ func _on_item_card_hovered(card: ItemCard) -> void:
 func load_shop(current_wave: int) -> void:
 	cancel_consumable_selection()
 	_clear_liquidation_sales()
-	$MarginContainer/Control/VBoxContainer/NewWaveButton.add_theme_font_size_override("font_size", 38)
 	shop_wave = maxi(1, current_wave)
 	set_pending_level_rewards(pending_level_rewards)
 	gamble_button.visible = is_instance_valid(Global.player) and Global.player.stats.unlock_id == "gambler"
@@ -304,10 +215,10 @@ func _draw_shop_items(pool: Array, wave: int, amount: int, keys: Array, weapon_b
 	var excluded := keys.duplicate()
 	var remaining_weapons := maxi(0, weapon_budget)
 	for slot in maxi(0, amount):
-		var allowed := pool.filter(func(item): return remaining_weapons > 0 or not item is ItemWeapon)
-		var draw := Global.select_items_for_offer(allowed, wave, Global.SHOP_PROBABILITY_CONFIG, 1, excluded, _choose_shop_candidate)
-		if draw.is_empty(): break
-		var item: ItemBase = draw[0]
+		var allowed := pool.filter(func(candidate_item): return remaining_weapons > 0 or not candidate_item is ItemWeapon)
+		var drawn_items := Global.select_items_for_offer(allowed, wave, Global.SHOP_PROBABILITY_CONFIG, 1, excluded, _choose_shop_candidate)
+		if drawn_items.is_empty(): break
+		var item: ItemBase = drawn_items[0]
 		result.append(item)
 		excluded.append(item.get_offer_key())
 		if item is ItemWeapon: remaining_weapons -= 1
@@ -317,7 +228,7 @@ func select_shop_offers(completed_wave: int, excluded_keys: Array = [], previous
 	var blocked := excluded_keys.duplicate()
 	for key in previous_keys:
 		if not blocked.has(key): blocked.append(key)
-	var catalog := _eligible_shop_items().filter(func(item): return not blocked.has(item.get_offer_key()))
+	var catalog := _eligible_shop_items().filter(func(candidate_item): return not blocked.has(candidate_item.get_offer_key()))
 	var offers: Array = []
 	var keys: Array = blocked.duplicate()
 	var slots := 4 - excluded_keys.size()
@@ -329,18 +240,18 @@ func select_shop_offers(completed_wave: int, excluded_keys: Array = [], previous
 	var owned: Array[String] = policy.families(held)
 	var locked_match := excluded_keys.any(func(key): return owned.has(key))
 	if weapon_slots > 0 and held.size() > 0 and held.size() < 3 and not equipped_guarantee_shown and not locked_match:
-		var matches := catalog.filter(func(item): return item is ItemWeapon and owned.has(item.get_offer_key()))
+		var matches := catalog.filter(func(candidate_item): return candidate_item is ItemWeapon and owned.has(candidate_item.get_offer_key()))
 		if not matches.is_empty():
 			# Draw the tier through the normal rarity policy, without forcing a tier.
 			var guaranteed := _draw_shop_items(matches, completed_wave, 1, keys)
 			offers.append_array(guaranteed)
 			for item in guaranteed: keys.append(item.get_offer_key())
 	if completed_wave <= 2:
-		var weapons := catalog.filter(func(item): return item is ItemWeapon)
+		var weapons := catalog.filter(func(candidate_item): return candidate_item is ItemWeapon)
 		if completed_wave == 1 and offers.size() < mini(slots, weapon_slots):
-			var affordable := weapons.filter(func(item):
-				return not keys.has(item.get_offer_key()) and item.item_tier == Global.UpgradeTier.COMMON and item.get_shop_price(completed_wave) <= ItemBase.ECONOMY_RULES.FIRST_SHOP_AFFORDABLE_PRICE)
-			var already_affordable := offers.any(func(item): return item.item_tier == Global.UpgradeTier.COMMON and item.get_shop_price(completed_wave) <= ItemBase.ECONOMY_RULES.FIRST_SHOP_AFFORDABLE_PRICE)
+			var affordable := weapons.filter(func(candidate_item):
+				return not keys.has(candidate_item.get_offer_key()) and candidate_item.item_tier == Global.UpgradeTier.COMMON and candidate_item.get_shop_price(completed_wave) <= ItemBase.ECONOMY_RULES.FIRST_SHOP_AFFORDABLE_PRICE)
+			var already_affordable := offers.any(func(candidate_item): return candidate_item.item_tier == Global.UpgradeTier.COMMON and candidate_item.get_shop_price(completed_wave) <= ItemBase.ECONOMY_RULES.FIRST_SHOP_AFFORDABLE_PRICE)
 			if not already_affordable and not affordable.is_empty():
 				var first: ItemBase = _choose_shop_candidate(affordable)
 				offers.append(first)
@@ -401,9 +312,9 @@ func _on_reroll_button_pressed() -> void:
 	if try_reroll(): SoundManager.play_sound(SoundManager.Sound.SHOP_REROLL)
 
 func _process(_delta: float) -> void:
+	_sync_weapon_slots()
 	_update_reroll_button()
 	if is_instance_valid(gamble_button): gamble_button.disabled = Global.coins <= 0
-	_position_refresh_buttons()
 	_position_weapon_actions()
 
 func _update_reroll_button() -> void:
@@ -653,35 +564,34 @@ func _ensure_liquidation_offer() -> void:
 	selected.set_sale(data.roll_sale_discount(), doubled)
 
 func _build_golden_yolk_control() -> void:
-	golden_control = load("res://scenes/ui/shop/golden_yolk_control.gd").new()
+	golden_control = $MarginContainer/Control/EquipmentArea/GoldenControl
 	golden_control.shop = self
-	$MarginContainer/Control.add_child(golden_control)
-	golden_control.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
-	golden_control.offset_left = 785
-	golden_control.offset_right = 925
-	golden_control.offset_top = -205
-	golden_control.offset_bottom = -145
 	golden_control.target_selected.connect(func(card): apply_golden_yolk(card))
-	golden_result = AcceptDialog.new()
-	golden_result.title = "Yema de oro"
-	add_child(golden_result)
-	weapon_container.columns = 3
-	for grid in [passive_container, weapon_container]:
-		var scroll := ScrollContainer.new()
-		scroll.name = "InventoryScroll"
-		scroll.custom_minimum_size = Vector2(0, 180)
-		scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-		scroll.follow_focus = true
-		grid.get_parent().add_child(scroll)
-		if grid == weapon_container:
-			var center := CenterContainer.new()
-			center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			center.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-			scroll.add_child(center)
-			grid.reparent(center)
-		else:
-			grid.reparent(scroll)
+	golden_result = $GoldenResult
+
+func _sync_weapon_slots() -> void:
+	if not is_instance_valid(Global.player): return
+	var occupied: Array[Node]=[]
+	var empty: Array[Node]=[]
+	for child in weapon_container.get_children():
+		if child.is_queued_for_deletion(): continue
+		if child.get_meta("empty_weapon_slot",false): empty.append(child)
+		else: occupied.append(child)
+	var needed:=maxi(0,Global.player.get_weapon_limit()-occupied.size())
+	while empty.size()>needed:
+		var slot=empty.pop_back()
+		weapon_container.remove_child(slot)
+		slot.queue_free()
+	while empty.size()<needed:
+		var slot=preload("res://scenes/ui/shop/empty_weapon_slot.tscn").instantiate()
+		weapon_container.add_child(slot)
+		UITheme.style_slot(slot,0)
+		empty.append(slot)
+	for i in occupied.size():
+		if occupied[i].get_index()!=i: weapon_container.move_child(occupied[i],i)
+	for i in empty.size():
+		var index=occupied.size()+i
+		if empty[i].get_index()!=index: weapon_container.move_child(empty[i],index)
 
 func apply_golden_yolk(card: ItemCard, test_roll: float = -1.0) -> bool:
 	if not is_instance_valid(Global.player) or not is_instance_valid(card) or card.is_queued_for_deletion(): return false
@@ -759,16 +669,8 @@ func _inherit_golden_upgrade(base: ItemWeapon, donors: Array) -> ItemWeapon:
 	return load("res://resources/items/breading.gd").inherit_tags(result, donors)
 
 func _build_breading_control() -> void:
-	breading_control = load("res://scenes/ui/shop/golden_yolk_control.gd").new()
+	breading_control = $MarginContainer/Control/EquipmentArea/BreadingControl
 	breading_control.shop = self
-	breading_control.kind = "breading"
-	breading_control.display_name = "Rebozado"
-	$MarginContainer/Control.add_child(breading_control)
-	breading_control.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
-	breading_control.offset_left = 785
-	breading_control.offset_right = 925
-	breading_control.offset_top = -100
-	breading_control.offset_bottom = -40
 	breading_control.target_selected.connect(func(card): apply_breading(card))
 
 func cancel_consumable_selection(except_control: Button = null) -> void:
@@ -837,19 +739,9 @@ func _ensure_test_consumable() -> void:
 	elif test_glass_egg_golden_yolk and character == "glass_egg": path = "res://resources/items/passives/catalogue/item_078.tres"
 	if path.is_empty(): return
 	var test_item: ItemBase = load(path)
-	var replacement: ShopCard
+	var replacement: ShopCard = null
 	for card: ShopCard in items_container.get_children():
 		if card.shop_item.get_offer_key() == test_item.get_offer_key(): return
 		if not card.locked and (not replacement or card.shop_item is ItemPassive): replacement = card
 	# Preserve locked offers, including a fully locked shop.
 	if replacement: replacement.shop_item = test_item
-
-func _position_refresh_buttons() -> void:
-	if not is_instance_valid(gamble_button): return
-	var stats_panel := $MarginContainer/Control/StatsContainer as Control
-	var gap := 12.0
-	var coin_width := 64.0
-	var group_width := reroll_button.size.x + (gap + coin_width if gamble_button.visible else 0.0)
-	reroll_button.position.x = stats_panel.position.x + (stats_panel.size.x - group_width) * 0.5
-	gamble_button.size = Vector2(coin_width, reroll_button.size.y)
-	gamble_button.position = Vector2(reroll_button.position.x + reroll_button.size.x + gap, reroll_button.position.y + (reroll_button.size.y - gamble_button.size.y) * 0.5)

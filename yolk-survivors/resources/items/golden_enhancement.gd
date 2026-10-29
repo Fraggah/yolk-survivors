@@ -79,7 +79,8 @@ static func _scale_magnitudes(resource: Resource, factor: float, penalty: float)
 		elif key in BOOST_FIELDS and (value is float or value is int):
 			var scaled := float(value) * factor
 			if key in CHANCES: scaled = minf(1.0, scaled)
-			resource.set(key, floori(scaled + 0.00001) if value is int else scaled)
+			if value is int: resource.set(key, floori(scaled + 0.00001))
+			else: resource.set(key, scaled)
 		elif key == "landing_slow_factor" or key == "slow_factor":
 			resource.set(key, maxf(0.0, 1.0 - (1.0 - float(value)) * factor))
 		elif key in ["relaunch_speed_multiplier", "relaunch_duration_multiplier"]:

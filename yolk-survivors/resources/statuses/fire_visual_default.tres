@@ -3,12 +3,12 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/Effects/small_fire.png" id="flame"]
 [resource]
 script = ExtResource("script")
-flame_count = 12
+flame_count = 6
 flame_opacity = 0.85
 coverage = 1.1
 flicker_speed = 1.0
 core_color = Color(1, 0.82, 0.416, 1)
-ember_count = 16
+ember_count = 8
 ember_size = 0.008
 ember_opacity = 0.65
 heat_opacity = 0.16

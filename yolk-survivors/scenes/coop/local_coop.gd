@@ -18,12 +18,14 @@ var sessions: Array = []
 var active := false
 var mode := ""
 var paused := false
+var pause_owner
+var pause_repeat := 0.0
 var repeat_times: Dictionary = {}
 var panels: Array[Control] = []
 var reward_queues: Array = []
-var distribution_cursor := 0
 var transitioning := false
 var corpses: Array[Node2D] = []
+var hud_values: Dictionary = {}
 @onready var screen: Panel = $UI/Screen
 @onready var content: VBoxContainer = $UI/Screen/Margin/Content
 @onready var lobby: HBoxContainer = $UI/Screen/Margin/Content/Lobby
@@ -179,7 +181,24 @@ func _input(event: InputEvent) -> void:
 		join(device)
 		get_viewport().set_input_as_handled()
 		return
-	if not session: return
+	if not session:
+		if paused: get_viewport().set_input_as_handled()
+		return
+	if paused:
+		get_viewport().set_input_as_handled()
+		if session!=pause_owner: return
+		if (pause or (event is InputEventKey and event.is_pressed() and event.physical_keycode==KEY_ESCAPE) or cancel) and not sessions.any(func(s): return s.disconnected):
+			_set_paused(false)
+		elif accept or (event is InputEventKey and event.is_pressed() and event.physical_keycode==KEY_SPACE):
+			var focused=get_viewport().gui_get_focus_owner()
+			if focused is Button and arena.pause_panel.is_ancestor_of(focused): focused.pressed.emit()
+		elif (event is InputEventJoypadButton and event.is_pressed() and event.button_index==JOY_BUTTON_Y) or (event is InputEventKey and event.is_pressed() and event.physical_keycode==KEY_TAB):
+			arena.pause_panel.stats.show_secondary(not arena.pause_panel.stats.secondary_visible)
+		return
+	if active and not transitioning and mode in ["combat","shop","upgrades","rewards"] and (pause or (event is InputEventKey and event.is_pressed() and event.physical_keycode==KEY_ESCAPE)):
+		_set_paused(true,session)
+		get_viewport().set_input_as_handled()
+		return
 	if mode in ["shop","upgrades","rewards"] and (event is InputEventKey or event is InputEventJoypadButton): panels[session.slot].mouse_navigation=false
 	if mode=="shop" and cancel and panels[session.slot].context_target()!=null:
 		panels[session.slot].close_weapon_actions()
@@ -190,12 +209,9 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if active and mode=="combat":
-		if paused and ((event is InputEventKey and event.pressed and event.physical_keycode==KEY_Q) or (event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_BACK)):
-			stop()
-			return
 		if pause or cancel:
 			if not sessions.any(func(s): return s.disconnected):
-				_set_paused(not paused)
+				_set_paused(not paused,session)
 		elif not paused and ((event is InputEventKey and event.pressed and event.physical_keycode==KEY_SPACE) or (event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_A)): session.dash_requested=true
 		return
 	if cancel and mode in ["characters","weapons"]:
@@ -218,6 +234,16 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	hud.visible=active and mode=="combat" and not paused
+	if paused:
+		if pause_owner and not pause_owner.disconnected:
+			var movement: Vector2=pause_owner.poll_movement()
+			pause_repeat=maxf(0,pause_repeat-delta)
+			if movement.length()<0.5: pause_repeat=0
+			elif pause_repeat<=0:
+				pause_repeat=0.18
+				MenuInput.move_focus(Vector2(signf(movement.x),0) if absf(movement.x)>absf(movement.y) else Vector2(0,signf(movement.y)))
+		MenuInput._sync_focus_visual()
+		return
 	if active:
 		arena.player_health_bar.hide()
 		arena.experience_bar.hide()
@@ -227,17 +253,29 @@ func _process(delta: float) -> void:
 			if i>=sessions.size(): continue
 			var session=sessions[i]
 			var health=session.actor.health_component
-			widget.get_node("PlayerLabel").text="P%d" % (i+1)
-			widget.get_node("Wallet/Balance/Value").text=str(session.coins)
-			widget.get_node("Wallet/Balance/Value").add_theme_color_override("font_color",UITheme.palette.hud_text)
-			widget.get_node("Wallet/Reserve/Value").text=str(sessions.reduce(func(total,s): return total+s.reserve,0))
-			widget.get_node("Wallet/Reserve/Value").add_theme_color_override("font_color",UITheme.palette.hud_text)
-			widget.get_node("Health").update_bar(health.current_health/maxf(1.0,health.max_health),health.current_health)
+			var state: Dictionary = hud_values.get(i,{})
+			if state.is_empty(): widget.get_node("PlayerLabel").text="P%d" % (i+1)
+			var wallet: Label = widget.get_node("Wallet/Balance/Value")
+			if state.get("coins",-1)!=session.coins: wallet.text=str(session.coins)
+			if wallet.get_theme_color("font_color")!=UITheme.palette.hud_text: wallet.add_theme_color_override("font_color",UITheme.palette.hud_text)
+			if i==0:
+				var reserve: int = sessions.reduce(func(total,s): return total+s.reserve,0)
+				var reserve_label: Label = widget.get_node("Wallet/Reserve/Value")
+				if state.get("reserve",-1)!=reserve: reserve_label.text=str(reserve)
+				if reserve_label.get_theme_color("font_color")!=UITheme.palette.hud_text: reserve_label.add_theme_color_override("font_color",UITheme.palette.hud_text)
+				state.reserve=reserve
+			var hp := Vector2(health.current_health,health.max_health)
+			if state.get("hp",Vector2.INF)!=hp: widget.get_node("Health").update_bar(health.current_health/maxf(1.0,health.max_health),health.current_health)
 			var xp=session.experience
 			var bar=widget.get_node("Experience")
-			bar.update_bar(float(xp.experience)/xp.required_experience(),xp.experience)
-			bar.health_value.text="LV %d  %d / %d" % [xp.level,xp.experience,xp.required_experience()]
-			bar.health_value.add_theme_font_size_override("font_size",22)
+			var xp_state := Vector3i(xp.level,xp.experience,xp.required_experience())
+			if state.get("xp",Vector3i(-1,-1,-1))!=xp_state:
+				bar.update_bar(float(xp.experience)/xp.required_experience(),xp.experience)
+				bar.health_value.text="LV %d  %d / %d" % [xp.level,xp.experience,xp.required_experience()]
+			state.hp=hp
+			state.xp=xp_state
+			state.coins=session.coins
+			hud_values[i]=state
 	if not screen.visible or not mode in ["characters","weapons","shop","upgrades","rewards"]: return
 	for session in sessions:
 		if session.disconnected or (mode=="upgrades" and session.experience.pending_levels.is_empty()) or (mode=="rewards" and session.rewards.is_empty()): continue
@@ -258,27 +296,40 @@ func _connection_changed(device: int, connected: bool) -> void:
 	for session in sessions:
 		if session.device!=device: continue
 		session.disconnected=not connected
-		if active:
-			_set_paused(true)
+		if active and not connected and not paused:
+			_set_paused(true,session)
 
-func _set_paused(value: bool) -> void:
+func _set_paused(value: bool, owner_session = null) -> void:
+	if value and (transitioning or not active or not mode in ["combat","shop","upgrades","rewards"]): return
+	if not value and sessions.any(func(s): return s.disconnected): return
 	paused=value
-	Global.game_paused=value
+	Global.game_paused=value or mode!="combat"
 	arena.music_player.stream_paused=value
-	arena.coocking_player.stream_paused=value
-	if mode=="combat":
-		screen.visible=value
-		lobby.hide(); grids.hide()
-		title.text="PAUSA DEL EQUIPO"
-		hint.text="Reconectá el mando y presioná Start / Esc para continuar." if sessions.any(func(s): return s.disconnected) else "Start / Esc: continuar · Select / Q: volver al menú"
+	arena.coocking_player.stream_paused=value or mode!="combat"
+	arena.spawner.wave_timer.paused=value
+	arena.spawner.spawn_timer.paused=value
+	if value:
+		pause_owner=owner_session if owner_session else sessions[0]
+		screen.hide()
+		arena.pause_panel.bind_player(pause_owner.actor,pause_owner.slot)
+		arena.pause_panel.show()
+		MenuInput.gamepad_active=true
+		MenuInput._controls(arena.pause_panel)
+		arena.pause_panel.return_button.grab_focus()
+		MenuInput._sync_focus_visual()
+	else:
+		arena.pause_panel.hide()
+		arena.pause_panel.bind_player()
+		pause_owner=null
+		screen.visible=mode!="combat"
 
 func start_run(difficulty: int = 0) -> void:
 	if active or sessions.is_empty(): return
 	active=true
+	hud_values.clear()
 	mode="combat"
 	paused=false
 	transitioning=false
-	distribution_cursor=0
 	Global.coop_players.clear()
 	arena.in_arena=true
 	arena.defeat_in_progress=false
@@ -337,14 +388,10 @@ func _level_gained(_level: int, session) -> void:
 	actor.health_component.heal(maxf(0,actor.stats.health-before))
 
 func collect_yolk(amount: int) -> int:
-	if sessions.is_empty(): return 0
-	var amounts: Array[int]=[]
-	amounts.resize(sessions.size()); amounts.fill(maxi(0,amount)/sessions.size())
-	for i in maxi(0,amount)%sessions.size():
-		amounts[distribution_cursor]+=1
-		distribution_cursor=(distribution_cursor+1)%sessions.size()
 	var bonus:=0
-	for i in sessions.size(): bonus+=sessions[i].collect(amounts[i])
+	# Every participant receives the whole pickup, including downed players.
+	# Reserve and collection passives remain personal; display one pickup bonus.
+	for session in sessions: bonus=maxi(bonus,session.collect(maxi(0,amount)))
 	return bonus
 
 func enemy_died(enemy: Enemy) -> void:
@@ -356,7 +403,7 @@ func enemy_died(enemy: Enemy) -> void:
 		arena.play_incognito_death(enemy)
 		if sessions.is_empty(): return
 		var recipient=sessions.pick_random()
-		var reserved=recipient.rewards.map(func(item): return {"item":item})
+		var reserved=recipient.rewards.map(func(candidate_item): return {"candidate_item":candidate_item})
 		var item=arena.incognito_rewards.loot.select_item(recipient.actor,reserved)
 		if item: recipient.rewards.append(item)
 	else: arena.spawn_coins(enemy)
@@ -368,7 +415,8 @@ func player_down(actor: Player) -> void:
 	corpses.append(corpse)
 	SoundManager.play_sound(SoundManager.Sound.RUN_DEFEAT)
 	actor.hide()
-	actor.process_mode=Node.PROCESS_MODE_DISABLED
+	# Death can originate in area_entered while collision changes are locked.
+	actor.set_deferred("process_mode",Node.PROCESS_MODE_DISABLED)
 	for weapon in actor.current_weapons: weapon.weapon_behaviour.reset_attack()
 	if not Global.live_players().is_empty(): return
 	arena.wave_active=false
@@ -389,7 +437,7 @@ func wave_completed() -> void:
 	var bank:=0
 	for pickup in arena.gold_list:
 		if is_instance_valid(pickup) and not pickup.awarded: bank+=maxi(0,pickup.value)
-	for i in sessions.size(): sessions[i].reserve=bank/sessions.size()+(1 if i<bank%sessions.size() else 0)
+	for i in sessions.size(): sessions[i].reserve=floori(float(bank)/sessions.size())+(1 if i<bank%sessions.size() else 0)
 	SoundManager.play_sound(SoundManager.Sound.WAVE_COMPLETE)
 	arena.clear_arena(true,hud.get_node("P1/Wallet/Reserve/Icon"))
 	arena.coocking_player.stream_paused=true
@@ -519,11 +567,11 @@ func roll_offers(session) -> void:
 	for i in 4:
 		if not upgrade and session.locked[i] and i<old.size() and old[i]: continue
 		var tier: int=UpgradeRarity.roll_tier(session.experience.pending_levels[0]) if upgrade else ShopRarity.roll_tier(arena.spawner.wave_index)
-		var candidates=pool.filter(func(item): return item.item_tier==tier and not keys.has(item.get_offer_key()) and (upgrade or weapons<2 or not item is ItemWeapon))
+		var candidates=pool.filter(func(candidate_item): return candidate_item.item_tier==tier and not keys.has(candidate_item.get_offer_key()) and (upgrade or weapons<2 or not candidate_item is ItemWeapon))
 		if guarantee and weapons<2:
-			var matching=candidates.filter(func(item): return item is ItemWeapon and Bias.families(held).has(item.get_offer_key()))
+			var matching=candidates.filter(func(candidate_item): return candidate_item is ItemWeapon and Bias.families(held).has(candidate_item.get_offer_key()))
 			if not matching.is_empty(): candidates=matching; guarantee=false
-		if candidates.is_empty(): candidates=pool.filter(func(item): return item.item_tier<=tier and not keys.has(item.get_offer_key()) and (upgrade or weapons<2 or not item is ItemWeapon))
+		if candidates.is_empty(): candidates=pool.filter(func(candidate_item): return candidate_item.item_tier<=tier and not keys.has(candidate_item.get_offer_key()) and (upgrade or weapons<2 or not candidate_item is ItemWeapon))
 		var item: ItemBase=null if candidates.is_empty() else candidates.pick_random() if upgrade else Bias.choose(candidates,held)
 		session.offers[i]=item
 		if item:
@@ -537,12 +585,12 @@ func _refill_purchased_offer(session,index: int,purchased: ItemBase) -> void:
 		if i==index or not session.offers[i]: continue
 		excluded.append(session.offers[i].get_offer_key())
 		if session.offers[i] is ItemWeapon: weapons+=1
-	var pool: Array=_pool(session).filter(func(item): return not excluded.has(item.get_offer_key()) and (weapons<MAX_SHOP_WEAPONS or not item is ItemWeapon))
-	var different: Array=pool.filter(func(item): return item.get_offer_key()!=purchased.get_offer_key())
+	var pool: Array=_pool(session).filter(func(candidate_item): return not excluded.has(candidate_item.get_offer_key()) and (weapons<MAX_SHOP_WEAPONS or not candidate_item is ItemWeapon))
+	var different: Array=pool.filter(func(candidate_item): return candidate_item.get_offer_key()!=purchased.get_offer_key())
 	if not different.is_empty(): pool=different
 	var tier: int=ShopRarity.roll_tier(arena.spawner.wave_index)
-	var candidates: Array=pool.filter(func(item): return item.item_tier==tier)
-	if candidates.is_empty(): candidates=pool.filter(func(item): return item.item_tier<=tier)
+	var candidates: Array=pool.filter(func(candidate_item): return candidate_item.item_tier==tier)
+	if candidates.is_empty(): candidates=pool.filter(func(candidate_item): return candidate_item.item_tier<=tier)
 	if candidates.is_empty(): candidates=pool
 	# Never reroll the other three cards or their locks when replacing a purchase.
 	session.offers[index]=Bias.choose(candidates,Bias.equipped(session.actor)) if not candidates.is_empty() else purchased
@@ -694,7 +742,7 @@ func next_wave() -> void:
 		session.saved_shop_offers.clear()
 		for i in 4:
 			session.saved_shop_offers.append(session.offers[i] if i<session.offers.size() and session.locked[i] else null)
-		if session.saved_shop_offers.all(func(item): return item==null): session.saved_shop_offers.clear()
+		if session.saved_shop_offers.all(func(candidate_item): return candidate_item==null): session.saved_shop_offers.clear()
 		session.actor.process_mode=Node.PROCESS_MODE_INHERIT
 		session.actor.show()
 		session.actor.prepare_for_new_wave()
@@ -709,6 +757,11 @@ func next_wave() -> void:
 	transitioning=false
 
 func stop() -> void:
+	arena.pause_panel.hide()
+	arena.pause_panel.bind_player()
+	pause_owner=null
+	arena.spawner.wave_timer.paused=false
+	arena.spawner.spawn_timer.paused=false
 	_clear_corpses()
 	if active:
 		arena.wave_active=false
@@ -718,6 +771,7 @@ func stop() -> void:
 	Global.coop_players.clear()
 	if active: Global.player=null
 	active=false
+	MenuInput._sync_coop_mouse_lock()
 	if selection_flow: selection_flow.disable()
 	mode=""
 	paused=false

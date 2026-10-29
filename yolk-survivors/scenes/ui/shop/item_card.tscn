@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://5iyy26qoqtgp"]
+[gd_scene load_steps=4 format=3 uid="uid://5iyy26qoqtgp"]
 
 [ext_resource type="Script" uid="uid://c6r2vt1aath3n" path="res://scenes/ui/shop/item_card.gd" id="2_3b58y"]
 [ext_resource type="Texture2D" uid="uid://cyh23wqn8vcac" path="res://assets/sprites/Weapons/Icons/weapon_punch_icon.png" id="2_oh5ef"]
+[ext_resource type="PackedScene" path="res://scenes/ui/rarity_compact.tscn" id="native_rarity"]
 
 [node name="ItemCard" type="Button"]
 custom_minimum_size = Vector2(80, 80)
@@ -19,5 +20,7 @@ grow_vertical = 2
 texture = ExtResource("2_oh5ef")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="RarityMarker" parent="." instance=ExtResource("native_rarity")]
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

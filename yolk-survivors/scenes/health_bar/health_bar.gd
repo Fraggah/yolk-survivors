@@ -9,11 +9,17 @@ class_name HealthBar
 var flash_left := 0.0
 var clipped_fill: ColorRect
 var displayed_health := 0.0
+var displayed_ratio := 0.0
 
 @onready var progress_bar: ProgressBar = $ProgressBar
 @onready var health_value: Label = %HealthValue
 
 func _ready() -> void:
+	clipped_fill=$ProgressBar/ClippedFill
+	clipped_fill.visible=use_ui_palette
+	$ProgressBar/Outline.visible=use_ui_palette
+	progress_bar.resized.connect(_sync_clipped_fill)
+	progress_bar.value_changed.connect(func(_value): _sync_clipped_fill())
 	set_process(false)
 	visibility_changed.connect(_refresh_health_label)
 	if use_ui_palette:
@@ -30,35 +36,19 @@ func _ready() -> void:
 	progress_bar.add_theme_stylebox_override("fill", fill_style)
 
 func _apply_ui_palette() -> void:
-	var palette = UITheme.palette
-	progress_bar.add_theme_stylebox_override("background", UITheme.box(palette.text, palette.hud_text, 24, 5))
-	var fill_style := UITheme.box(Color.TRANSPARENT, Color.TRANSPARENT, 24, 0)
-	progress_bar.add_theme_stylebox_override("fill", fill_style)
-	if not clipped_fill:
-		clipped_fill = ColorRect.new()
-		clipped_fill.name = "ClippedFill"
-		clipped_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var fill_material := ShaderMaterial.new()
-		fill_material.shader = preload("res://scenes/health_bar/rounded_fill.gdshader")
-		clipped_fill.material = fill_material
-		progress_bar.add_child(clipped_fill)
-		clipped_fill.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		progress_bar.resized.connect(_sync_clipped_fill)
-		progress_bar.value_changed.connect(func(_value): _sync_clipped_fill())
-	clipped_fill.material.set_shader_parameter("fill_color", palette.experience_fill if experience_bar else palette.health_fill)
+	var palette=UITheme.palette
+	var background=progress_bar.get_theme_stylebox("background").duplicate()
+	background.bg_color=palette.text
+	progress_bar.add_theme_stylebox_override("background",background)
+	var fill=progress_bar.get_theme_stylebox("fill").duplicate()
+	fill.bg_color=Color.TRANSPARENT
+	progress_bar.add_theme_stylebox_override("fill",fill)
+	clipped_fill.material.set_shader_parameter("fill_color",palette.experience_fill if experience_bar else palette.health_fill)
+	var outline=$ProgressBar/Outline.get_theme_stylebox("panel").duplicate()
+	outline.border_color=palette.hud_text
+	$ProgressBar/Outline.add_theme_stylebox_override("panel",outline)
 	_sync_clipped_fill()
-	var outline_panel := progress_bar.get_node_or_null("Outline") as Panel
-	if not outline_panel:
-		outline_panel = Panel.new()
-		outline_panel.name = "Outline"
-		outline_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		progress_bar.add_child(outline_panel)
-		outline_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		progress_bar.move_child(outline_panel, 0)
-	outline_panel.add_theme_stylebox_override("panel", UITheme.box(Color.TRANSPARENT, palette.hud_text, 24, 5))
-	progress_bar.move_child(clipped_fill, 0)
-	health_value.add_theme_color_override("font_color", palette.hud_text)
-	health_value.add_theme_constant_override("outline_size", 0)
+	health_value.add_theme_color_override("font_color",palette.hud_text)
 
 func _sync_clipped_fill() -> void:
 	if not clipped_fill: return
@@ -66,13 +56,17 @@ func _sync_clipped_fill() -> void:
 	clipped_fill.material.set_shader_parameter("ratio", progress_bar.ratio)
 
 func update_bar(value: float, health: float) -> void:
-	progress_bar.value = value
+	displayed_ratio = value
 	displayed_health = health
+	if not is_visible_in_tree(): return
+	progress_bar.value = value
 	_refresh_health_label()
 
 func _refresh_health_label() -> void:
+	if is_visible_in_tree() and is_instance_valid(progress_bar): progress_bar.value = displayed_ratio
+	if experience_bar: return # Experience text is supplied by its owning HUD.
 	if is_visible_in_tree() and is_instance_valid(health_value):
-		health_value.text = ItemWeapon.format_number(displayed_health)
+		health_value.text = str(ceili(displayed_health))
 
 func flash_damage() -> void:
 	if experience_bar: return

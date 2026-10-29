@@ -38,9 +38,17 @@ func _bolt(points: PackedVector2Array, alpha: float) -> void:
 func _submit_rays() -> void:
 	var progress := clampf(elapsed / duration, 0.0, 1.0)
 	ElectricRays.submit_burst(self,radius,progress,elapsed,tint,glow,ray_count)
-	queue_redraw()
+	if ElectricRays.shared_batches:
+		var alpha := (1.0-progress)*(1.0-progress)
+		var seed_frame := floorf(elapsed*35.0)
+		for endpoint in endpoints:
+			var normal := endpoint.orthogonal().normalized()
+			var wobble := sin(seed_frame*3.7)*7.0
+			ElectricRays.submit(self,PackedVector2Array([Vector2.ZERO,endpoint*0.25+normal*wobble,endpoint*0.5-normal*wobble,endpoint*0.75+normal*wobble,endpoint]),Color(tint,alpha),1.5,glow)
+	else: queue_redraw()
 
 func _draw() -> void:
+	if ElectricRays.shared_batches: return
 	var progress := clampf(elapsed / duration, 0.0, 1.0)
 	var alpha := (1.0 - progress) * (1.0 - progress)
 	var seed_frame := floorf(elapsed * 35.0)

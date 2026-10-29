@@ -1,0 +1,184 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/stats/stats_container.tscn" id="base"]
+[node name="CoopStats" instance=ExtResource("base")]
+custom_minimum_size = Vector2(900,830)
+[node name="VBoxContainer" parent="MarginContainer" index="0"]
+theme_override_constants/separation = 2
+[node name="Tabs" parent="MarginContainer/VBoxContainer" index="0"]
+visible = false
+[node name="Hint" parent="MarginContainer/VBoxContainer" index="29"]
+visible = false
+[node name="health" parent="MarginContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/health/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/health/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="hp_regen" parent="MarginContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/hp_regen/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/hp_regen/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="life_steal" parent="MarginContainer/VBoxContainer" index="3"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/life_steal/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/life_steal/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="damage_percent" parent="MarginContainer/VBoxContainer" index="4"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/damage_percent/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/damage_percent/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="melee_damage" parent="MarginContainer/VBoxContainer" index="5"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/melee_damage/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/melee_damage/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="ranged_damage" parent="MarginContainer/VBoxContainer" index="6"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/ranged_damage/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/ranged_damage/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="effects" parent="MarginContainer/VBoxContainer" index="7"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/effects/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/effects/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="weapon_range" parent="MarginContainer/VBoxContainer" index="8"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/weapon_range/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/weapon_range/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="attack_speed" parent="MarginContainer/VBoxContainer" index="9"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/attack_speed/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/attack_speed/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="critical_chance" parent="MarginContainer/VBoxContainer" index="10"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/critical_chance/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/critical_chance/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="armor" parent="MarginContainer/VBoxContainer" index="11"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/armor/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/armor/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="block_chance" parent="MarginContainer/VBoxContainer" index="12"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/block_chance/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/block_chance/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="speed" parent="MarginContainer/VBoxContainer" index="13"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/speed/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/speed/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="luck" parent="MarginContainer/VBoxContainer" index="14"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/luck/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/luck/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="harvesting" parent="MarginContainer/VBoxContainer" index="15"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/harvesting/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/harvesting/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="slow_strength" parent="MarginContainer/VBoxContainer" index="16"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/slow_strength/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/slow_strength/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="knockback" parent="MarginContainer/VBoxContainer" index="17"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/knockback/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/knockback/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="experience_gain" parent="MarginContainer/VBoxContainer" index="18"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/experience_gain/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/experience_gain/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="critical_multiplier" parent="MarginContainer/VBoxContainer" index="19"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/critical_multiplier/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/critical_multiplier/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="area_of_effect" parent="MarginContainer/VBoxContainer" index="20"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/area_of_effect/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/area_of_effect/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="chili_power" parent="MarginContainer/VBoxContainer" index="21"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/chili_power/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/chili_power/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="explosive_damage" parent="MarginContainer/VBoxContainer" index="22"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/explosive_damage/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/explosive_damage/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="crowd_control" parent="MarginContainer/VBoxContainer" index="23"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/crowd_control/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/crowd_control/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="fire_tick_speed" parent="MarginContainer/VBoxContainer" index="24"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/fire_tick_speed/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/fire_tick_speed/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="block_effectiveness" parent="MarginContainer/VBoxContainer" index="25"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/block_effectiveness/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/block_effectiveness/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="pickup_range" parent="MarginContainer/VBoxContainer" index="26"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/pickup_range/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/pickup_range/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="piercing" parent="MarginContainer/VBoxContainer" index="27"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/piercing/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/piercing/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="bounces" parent="MarginContainer/VBoxContainer" index="28"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/bounces/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/bounces/Line" index="1"]
+theme_override_font_sizes/font_size = 43
+[node name="dash_cooldown" parent="MarginContainer/VBoxContainer" index="29"]
+custom_minimum_size = Vector2(0,51)
+[node name="Title" parent="MarginContainer/VBoxContainer/dash_cooldown/Line" index="0"]
+theme_override_font_sizes/font_size = 43
+[node name="Value" parent="MarginContainer/VBoxContainer/dash_cooldown/Line" index="1"]
+theme_override_font_sizes/font_size = 43

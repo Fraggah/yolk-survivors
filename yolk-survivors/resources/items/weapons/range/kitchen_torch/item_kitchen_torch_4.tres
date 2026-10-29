@@ -1,33 +1,56 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3]
-[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/Icons/kitchen_torch.png" id="icon"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://k37shunv2585"]
+
+[ext_resource type="Texture2D" uid="uid://lwoq0h3vpn65" path="res://assets/sprites/Weapons/Redesign/Icons/kitchen_torch.png" id="icon"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/range/weapon_kitchen_torch.tscn" id="scene"]
-[ext_resource type="Resource" path="res://resources/items/weapons/range/kitchen_torch/stats_kitchen_torch_4.tres" id="stats"]
-[ext_resource type="Script" path="res://resources/status_effect.gd" id="status"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Resource" uid="uid://dpjljexigjfnh" path="res://resources/items/weapons/range/kitchen_torch/stats_kitchen_torch_4.tres" id="stats"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="status"]
 
 [sub_resource type="Resource" id="fire"]
 script = ExtResource("status")
 kind = 0
-configured_fire_damage = true
 damage = 5.0
+damage_scaling = 1.0
+configured_fire_damage = true
 duration = 2.5
 tick_interval = 0.5
-chance = 1.0
+chain_radius = 65.0
+maximum_chain_targets = 3
 color = Color(0.85, 0.29, 0.21, 1)
+chance = 1.0
+electric_impact_duration = 0.38
+electric_ray_count = 7
+electric_glow_strength = 1.0
+electric_visual_scale = 1.0
 
 [resource]
 script = ExtResource("script")
 tags = Array[int]([3])
-damage_scaling_stat = 4
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("status")]([])
 scales_with_effects = false
-type = 1
+effects_damage_scaling = 1.0
+damage_scaling_stat = 4
+unlock_id = ""
 selection_only = false
+type = 1
 scene = ExtResource("scene")
 stats = ExtResource("stats")
+attack_description = "A continuous flame at very short range. Burns enemies on contact."
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
 on_hit_effects = Array[ExtResource("status")]([SubResource("fire")])
 item_name = "Kitchen Torch IV"
 item_icon = ExtResource("icon")
+icon_scale = 1.0
 item_tier = 3
 item_type = 0
 item_cost = 80
-attack_description = "A continuous flame at very short range. Burns enemies on contact."

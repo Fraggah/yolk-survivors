@@ -39,6 +39,7 @@ func _on_pressed() -> void:
 	on_item_card_selected.emit(self)
 
 func _refresh_marker() -> void:
+	if has_node("RarityMarker"): $RarityMarker.show()
 	load("res://scenes/ui/rarity_marker.gd").apply(self, int(item.item_tier), true)
 	if item.item_type == ItemBase.ItemType.PASSIVE:
 		var marker := get_node("RarityMarker") as Panel

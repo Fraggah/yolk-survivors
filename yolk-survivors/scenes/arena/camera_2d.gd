@@ -64,8 +64,10 @@ func _process(delta: float) -> void:
 	if Global.game_paused: return
 	if overview:
 		var available := (get_viewport_rect().size-overview_padding).max(Vector2.ONE)
-		zoom = Vector2.ONE * minf(available.x/overview_bounds.size.x,available.y/overview_bounds.size.y)
-		global_position = overview_bounds.get_center()
+		var desired_zoom := Vector2.ONE * minf(available.x/overview_bounds.size.x,available.y/overview_bounds.size.y)
+		if zoom!=desired_zoom: zoom=desired_zoom
+		var center := overview_bounds.get_center()
+		if global_position!=center: global_position=center
 	elif is_instance_valid(Global.player):
 		global_position = Global.player.global_position
 	if world_bounds.has_area() and not overview:

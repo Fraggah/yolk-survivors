@@ -206,6 +206,7 @@ func _update_regeneration(delta: float) -> void:
 	passive_items.refresh_burning_regen()
 	if is_queued_for_deletion() or health_component.current_health <= 0.0 or health_component.current_health >= health_component.max_health or stats.hp_regen <= 0.0:
 		_regen_credit = 0.0
+		if health_component.current_health<=0.0 or health_component.current_health>=health_component.max_health: health_component.healing_credit=0.0
 		return
 	# One point = 0.1 HP/s. Accrue fractions without banking healing while full/dead.
 	_regen_credit += maxf(0.0, delta) * stats.hp_regen * REGEN_PER_POINT_PER_SECOND
@@ -246,5 +247,6 @@ func try_life_steal(chance: float) -> bool:
 	var before := health_component.current_health
 	health_component.heal(RECOVERY_STEP)
 	life_steal_cooldown = LIFE_STEAL_INTERVAL
-	Global.on_create_heal_text.emit(self, health_component.current_health - before)
+	var healed := health_component.current_health-before
+	if healed>0.0: Global.on_create_heal_text.emit(self, healed)
 	return true

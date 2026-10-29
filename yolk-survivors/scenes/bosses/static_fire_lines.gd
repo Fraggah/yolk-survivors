@@ -144,10 +144,10 @@ func _add_segment(start: Vector2, end: Vector2) -> void:
 	var image := Image.create(1,1,false,Image.FORMAT_RGBA8)
 	image.fill(Color.WHITE)
 	fire.texture = ImageTexture.create_from_image(image)
-	var material := ShaderMaterial.new()
-	material.shader = preload("res://shaders/boss_fire_line.gdshader")
-	material.set_shader_parameter("world_length",length)
-	fire.material = material
+	var line_material := ShaderMaterial.new()
+	line_material.shader = preload("res://shaders/boss_fire_line.gdshader")
+	line_material.set_shader_parameter("world_length",length)
+	fire.material = line_material
 	fire.hide()
 	visual.add_child(fire)
 	var hit := HitboxComponent.new()
@@ -163,7 +163,7 @@ func _add_segment(start: Vector2, end: Vector2) -> void:
 	shape.shape.size = Vector2(length,config.line_width)
 	shape.disabled = true
 	hit.add_child(shape)
-	lines.append({"visual":visual,"fire":fire,"warning":warning,"glow":glow,"hit":hit,"shape":shape,"material":material,"start":start,"end":end})
+	lines.append({"visual":visual,"fire":fire,"warning":warning,"glow":glow,"hit":hit,"shape":shape,"material":line_material,"start":start,"end":end})
 
 func _clear_lines() -> void:
 	for line in lines:

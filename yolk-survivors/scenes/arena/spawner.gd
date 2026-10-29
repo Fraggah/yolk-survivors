@@ -58,16 +58,9 @@ func _ready() -> void:
 			if arg.begins_with("--speed="): debug_time_scale = clampf(float(arg.get_slice("=", 1)), 0.1, 8.0); debug_enabled = true
 			if arg == "--invulnerable": debug_invulnerable = true; debug_enabled = true
 		if debug_enabled:
-			var layer := CanvasLayer.new()
-			layer.layer = 100
+			var layer=load("res://scenes/arena/spawner_debug_ui.tscn").instantiate()
 			add_child(layer)
-			debug_label = Label.new()
-			debug_label.position = Vector2(20, 160)
-			debug_label.add_theme_font_size_override("font_size", 18)
-			debug_label.add_theme_color_override("font_color", Color.WHITE)
-			debug_label.add_theme_color_override("font_outline_color", Color.BLACK)
-			debug_label.add_theme_constant_override("outline_size", 4)
-			layer.add_child(debug_label)
+			debug_label=layer.get_node("Status")
 
 func _process(_delta: float) -> void:
 	if debug_label:

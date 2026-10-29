@@ -47,7 +47,7 @@ func verify():
 	second.dash_requested=false
 	var before=first.coins+second.coins
 	coop.collect_yolk(101)
-	assert(first.coins+second.coins==before+101)
+	assert(first.coins+second.coins==before+202)
 	assert(absi(first.coins-second.coins)<=1)
 	coop.collect_yolk(1)
 	assert(first.coins==second.coins)

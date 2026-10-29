@@ -30,16 +30,9 @@ func _ready() -> void:
 	add_child(flat_background)
 	background.hide()
 	if OS.is_debug_build():
-		var debug_layer := CanvasLayer.new()
-		debug_layer.layer = 100
+		var debug_layer=preload("res://scenes/arena/debug_stage_selector.tscn").instantiate()
 		add_child(debug_layer)
-		debug_stage_selector = OptionButton.new()
-		debug_layer.add_child(debug_stage_selector)
-		debug_stage_selector.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
-		debug_stage_selector.offset_left = 16
-		debug_stage_selector.offset_top = -48
-		debug_stage_selector.offset_right = 370
-		debug_stage_selector.offset_bottom = -10
+		debug_stage_selector=debug_layer.get_node("Stages")
 		debug_stage_selector.add_item("TEST: usar configuración de oleada")
 		for stage in stages: debug_stage_selector.add_item("TEST: " + stage.display_name)
 		debug_stage_selector.select(clampi(debug_forced_stage, 0, stages.size()))
@@ -58,6 +51,7 @@ func _bind_debug_shop_visibility() -> void:
 func _sync_debug_shop_visibility() -> void:
 	if not is_instance_valid(debug_stage_selector): return
 	var arena=get_parent()
+	if not arena is Arena or arena.is_queued_for_deletion(): return
 	var coop_shop: bool=arena.coop!=null and arena.coop.mode in ["shop","upgrades","rewards"] and arena.coop.screen.is_visible_in_tree()
 	debug_stage_selector.visible=not arena.in_arena and not arena.wave_active and not (arena.coop and arena.coop.active) and not arena.shop_panel.is_visible_in_tree() and not coop_shop
 

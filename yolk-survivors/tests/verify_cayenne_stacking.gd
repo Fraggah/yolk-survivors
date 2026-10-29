@@ -63,6 +63,10 @@ func verify():
 	assert(burns.size()==1, "One burn combines both cayennes")
 	var burn=burns[0]
 	burn.set_process(false)
+	var fire_visual=target.get_node("FireVisual")
+	fire_visual._process(0.0)
+	var flame_count=fire_visual.layout_count
+	assert(flame_count>0)
 	var expected_fire=first_damage+second_damage
 	assert(is_equal_approx(burn.hit.base_damage,expected_fire))
 	burn.hit.critical_chance=0
@@ -78,6 +82,10 @@ func verify():
 	next._process(0.01)
 	assert(target.get_children().filter(func(node): return node.get_script()==load("res://effects/fire_status.gd")).size()==1)
 	assert(target.get_node("FireVisual").sources.size()==1)
+	assert(fire_visual.layout_count==flame_count,"Refreshing unchanged fire does not invalidate its flame mesh")
+	var cached_effect=patch.hit.status_effects[0]
+	patch._set_trail_hit(patch.trail_entries)
+	assert(patch.hit.status_effects[0]==cached_effect,"Unchanged contributors reuse the effect profile")
 	# Each patch keeps all radii and lifetimes, independent of the first copy.
 	assert(second.data.stats.spicy_pattern.lifetime>first.data.stats.spicy_pattern.lifetime)
 	var scale=global.GAME_ENTITY_SCALE*player.stats.get_area_radius_multiplier()

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://autoload/enemy_crowd.gd" id="1"]
+[node name="EnemyCrowd" type="Node"]
+process_priority = -100
+script = ExtResource("1")
+updates_per_frame = 12

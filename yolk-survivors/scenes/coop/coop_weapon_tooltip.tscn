@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop/weapon_tooltip.tscn" id="base"]
+[node name="CoopWeaponTooltip" instance=ExtResource("base")]
+manual_selection = true
+show_full_description = true
+[node name="WeaponName" parent="MarginContainer/Content/Header/Title" index="0"]
+theme_override_font_sizes/font_size = 47
+[node name="WeaponType" parent="MarginContainer/Content/Header/Title" index="1"]
+theme_override_font_sizes/font_size = 20
+[node name="ScrollHint" parent="MarginContainer/Content" index="4"]
+theme_override_font_sizes/font_size = 32
+[node name="FullDescription" parent="MarginContainer/Content" index="3"]
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+[node name="PassiveDescription" parent="MarginContainer/Content" index="5"]
+theme_override_font_sizes/font_size = 20
+[node name="Caption0" parent="MarginContainer/Content/StatsGrid" index="0"]
+theme_override_font_sizes/font_size = 20
+[node name="Value0" parent="MarginContainer/Content/StatsGrid" index="1"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption1" parent="MarginContainer/Content/StatsGrid" index="2"]
+theme_override_font_sizes/font_size = 20
+[node name="Value1" parent="MarginContainer/Content/StatsGrid" index="3"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption2" parent="MarginContainer/Content/StatsGrid" index="4"]
+theme_override_font_sizes/font_size = 20
+[node name="Value2" parent="MarginContainer/Content/StatsGrid" index="5"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption3" parent="MarginContainer/Content/StatsGrid" index="6"]
+theme_override_font_sizes/font_size = 20
+[node name="Value3" parent="MarginContainer/Content/StatsGrid" index="7"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption4" parent="MarginContainer/Content/StatsGrid" index="8"]
+theme_override_font_sizes/font_size = 20
+[node name="Value4" parent="MarginContainer/Content/StatsGrid" index="9"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption5" parent="MarginContainer/Content/StatsGrid" index="10"]
+theme_override_font_sizes/font_size = 20
+[node name="Value5" parent="MarginContainer/Content/StatsGrid" index="11"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption6" parent="MarginContainer/Content/StatsGrid" index="12"]
+theme_override_font_sizes/font_size = 20
+[node name="Value6" parent="MarginContainer/Content/StatsGrid" index="13"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption7" parent="MarginContainer/Content/StatsGrid/CaptionSaleMargin" index="0"]
+theme_override_font_sizes/font_size = 20
+[node name="Value7" parent="MarginContainer/Content/StatsGrid/ValueSaleMargin" index="0"]
+theme_override_font_sizes/normal_font_size = 20
+[node name="Caption8" parent="MarginContainer/Content/StatsGrid" index="16"]
+theme_override_font_sizes/font_size = 20
+[node name="Value8" parent="MarginContainer/Content/StatsGrid" index="17"]
+theme_override_font_sizes/normal_font_size = 20

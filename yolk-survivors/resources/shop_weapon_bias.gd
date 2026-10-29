@@ -56,7 +56,7 @@ static func choose(candidates: Array, held: Array[ItemWeapon]) -> ItemBase:
 static func useful_tier(item: ItemWeapon, held: Array[ItemWeapon], capacity: int) -> bool:
 	if capacity <= 0 or held.size() < capacity or held.is_empty(): return true
 	var family := held[0].get_offer_key()
-	var lowest := held[0].item_tier
+	var lowest: int = held[0].item_tier
 	var unfinished := 0
 	for weapon in held:
 		if weapon.get_offer_key() != family: return true

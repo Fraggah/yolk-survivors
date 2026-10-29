@@ -9,7 +9,10 @@ var hovered_control:=-1
 func setup(player_session,owner_coop,slot: int) -> void:
 	session=player_session
 	controller=owner_coop
-	add_theme_stylebox_override("panel",UITheme.box(Color.TRANSPARENT,controller.COLORS[slot] if session else Color.TRANSPARENT,12,2))
+	$HeaderOverlay/PlayerLabel.text="P%d" % (slot+1)
+	$HeaderOverlay/PlayerLabel.add_theme_color_override("font_color",UITheme.palette.hud_text)
+	$HeaderOverlay/PlayerLabel.add_theme_stylebox_override("normal",UITheme.box(controller.COLORS[slot],Color.TRANSPARENT,12,0))
+	add_theme_stylebox_override("panel",UITheme.box(Color.TRANSPARENT,controller.COLORS[slot],12,2))
 	$Waiting.add_theme_color_override("font_color",UITheme.palette.hud_text)
 	$Margin/Content/Header.add_theme_color_override("font_color",UITheme.palette.hud_text)
 	if not session:
@@ -31,13 +34,15 @@ func _register(button: Button,index: int) -> void:
 	button.mouse_entered.connect(_hover.bind(index))
 	button.mouse_exited.connect(_unhover.bind(index))
 	button.pressed.connect(func():
-		if session.device<0: controller.activate(session,index))
+		if session.device<0 and not MenuInput.coop_mouse_blocked(): controller.activate(session,index))
 func _hover(index: int) -> void:
-	if session.device<0:
+	if MenuInput.coop_mouse_blocked(): return
+	if session.device<0 and not MenuInput.coop_mouse_blocked():
 		mouse_navigation=true
 		hovered_control=index
 		select(index)
 func _unhover(index: int) -> void:
+	if MenuInput.coop_mouse_blocked(): return
 	if session.device<0 and hovered_control==index:
 		hovered_control=-1
 		present()
@@ -67,7 +72,7 @@ func present() -> void:
 	$Margin.visible=not waiting
 	$Waiting.visible=waiting
 	if waiting: return
-	$Margin/Content/Header.text="P%d · %s · NIVEL %d"%[session.slot+1,session.character.name,session.experience.pending_levels[0]]
+
 	for i in 4:
 		var item=session.offers[i] if i<session.offers.size() else null
 		cards[i].visible=item is ItemUpgrade

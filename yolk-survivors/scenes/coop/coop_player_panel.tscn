@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 [ext_resource type="Script" path="res://scenes/coop/coop_shop_panel.gd" id="script"]
 [ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="fit"]
 [ext_resource type="PackedScene" path="res://scenes/coop/coop_offer_card.tscn" id="offer"]
-[ext_resource type="PackedScene" path="res://scenes/ui/stats/stats_container.tscn" id="stats"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_stats_primary.tscn" id="stats"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk.png" id="yolk"]
 
-[ext_resource type="PackedScene" path="res://scenes/ui/shop/weapon_tooltip.tscn" id="tooltip"]
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_weapon_tooltip.tscn" id="tooltip"]
 
+[ext_resource type="PackedScene" path="res://scenes/coop/coop_stats_secondary.tscn" id="stats_secondary"]
 [sub_resource type="StyleBoxFlat" id="inner_surface"]
 bg_color = Color(1,0.968627,0.901961,1)
 corner_radius_top_left = 12
@@ -83,24 +84,19 @@ theme_override_constants/separation = 16
 
 [node name="Offer0" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
 layout_mode = 2
-text_scale = 2.0
 
 [node name="Offer1" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
 layout_mode = 2
-text_scale = 2.0
 
 [node name="Offer2" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
 layout_mode = 2
-text_scale = 2.0
 
 [node name="Offer3" parent="Margin/Content/ShopViewport/ShopView/Cards" instance=ExtResource("offer")]
 layout_mode = 2
 
-text_scale = 2.0
 
 [node name="Stats" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("stats")]
 visible = false
-text_scale = 1.85
 offset_left = 0
 offset_top = 120
 offset_right = 900
@@ -164,6 +160,7 @@ theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 
 [node name="WeaponsPanel" type="VBoxContainer" parent="Margin/Content/ShopViewport/ShopView/Inventory"]
+offset_left = 1200.0
 offset_top = 792.0
 offset_right = 1880.0
 offset_bottom = 950.0
@@ -228,8 +225,6 @@ focus_mode = 0
 [node name="Inspect" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("tooltip")]
 manual_selection = true
 show_full_description = true
-text_scale = 1.8
-body_text_scale = 0.5
 
 [node name="Empty" type="Label" parent="."]
 visible = false
@@ -255,9 +250,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 32
 mouse_filter = 2
 
-[node name="StatsSecondary" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("stats")]
+[node name="StatsSecondary" parent="Margin/Content/ShopViewport/ShopView" instance=ExtResource("stats_secondary")]
 visible = false
-text_scale = 1.85
 offset_left = 960.0
 offset_top = 120.0
 offset_right = 1860.0

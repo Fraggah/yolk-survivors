@@ -9,9 +9,10 @@ var sell_value: Label
 func setup(player_session,owner_coop,slot: int) -> void:
 	session=player_session
 	controller=owner_coop
-	$Viewport/View/PlayerLabel.text="P%d" % (slot+1)
-	$Viewport/View/PlayerLabel.add_theme_color_override("font_color",UITheme.palette.hud_text)
-	$Viewport/View/PlayerLabel.add_theme_stylebox_override("normal",UITheme.box(controller.COLORS[slot],Color.TRANSPARENT,12,0))
+	add_theme_stylebox_override("panel",UITheme.box(Color.TRANSPARENT,controller.COLORS[slot],12,2))
+	$HeaderOverlay/PlayerLabel.text="P%d" % (slot+1)
+	$HeaderOverlay/PlayerLabel.add_theme_color_override("font_color",UITheme.palette.hud_text)
+	$HeaderOverlay/PlayerLabel.add_theme_stylebox_override("normal",UITheme.box(controller.COLORS[slot],Color.TRANSPARENT,12,0))
 	$Waiting.add_theme_color_override("font_color",UITheme.palette.hud_text)
 	var keep: Button=card.get_node("MarginContainer/Control/Actions").get_child(0)
 	keep.pressed.disconnect(card._on_custom_button_pressed)
@@ -26,21 +27,22 @@ func setup(player_session,owner_coop,slot: int) -> void:
 		button.mouse_entered.connect(_hover.bind(i))
 		button.mouse_exited.connect(_unhover.bind(i))
 		button.pressed.connect(func():
-			if session and session.device<0: controller.activate(session,i))
+			if session and session.device<0 and not MenuInput.coop_mouse_blocked(): controller.activate(session,i))
 	card.get_node("MarginContainer/Control/Actions").get_child(0).get_node("HBoxContainer/TextureRect").hide()
-	var sell_content=$Viewport/View/SellContent
+	var sell_content=sell.get_node("SellContent")
 	sell_value=sell_content.get_node("Row/Value")
-	sell_content.reparent(sell,false)
 	sell_value.add_theme_color_override("font_color",UITheme.palette.text)
 	present()
 func _hover(index: int) -> void:
-	if session and session.device<0:
+	if MenuInput.coop_mouse_blocked(): return
+	if session and session.device<0 and not MenuInput.coop_mouse_blocked():
 		mouse_navigation=true
 		hovered_control=index
 		if session.cursor!=index: SoundManager.play_sound(SoundManager.Sound.SELECTION_HOVER)
 		session.cursor=index
 		present()
 func _unhover(index: int) -> void:
+	if MenuInput.coop_mouse_blocked(): return
 	if hovered_control==index:
 		hovered_control=-1
 		present()
@@ -70,6 +72,7 @@ func present() -> void:
 			controls[i].add_theme_stylebox_override("normal",controls[i].get_theme_stylebox("hover").duplicate())
 func show_waiting() -> void:
 	$Viewport.hide()
+	$Waiting.text="LISTO" if session else "JUGADOR NO CONECTADO"
 	$Waiting.show()
 func scroll_detail(amount: float) -> void:
 	card.item_description.get_v_scroll_bar().value+=amount*2

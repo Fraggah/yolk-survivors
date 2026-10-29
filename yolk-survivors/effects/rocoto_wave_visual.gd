@@ -52,11 +52,11 @@ func update_visual(time: float) -> void:
 	var progress := clampf(elapsed/maxf(0.01,settings.wave_duration),0,1)
 	var tail := clampf((elapsed-settings.wave_duration)/maxf(0.01,settings.shockwave_visual_tail),0,1)
 	for index in seeds.size():
-		var seed := seeds[index]
-		var direction := Vector2(cos(seed.x),sin(seed.x)*settings.area_y_ratio)
-		var point := direction*radius*(progress+tail*0.1)*seed.y
-		point.y -= radius*0.08*sin(progress*PI)*seed.z
-		var size := settings.shockwave_spark_size*Global.GAME_ENTITY_SCALE*seed.z
+		var particle_seed := seeds[index]
+		var direction := Vector2(cos(particle_seed.x),sin(particle_seed.x)*settings.area_y_ratio)
+		var point := direction*radius*(progress+tail*0.1)*particle_seed.y
+		point.y -= radius*0.08*sin(progress*PI)*particle_seed.z
+		var size := settings.shockwave_spark_size*Global.GAME_ENTITY_SCALE*particle_seed.z
 		sparks.multimesh.set_instance_transform_2d(index,Transform2D(direction.angle(),Vector2(size*(1.4+progress),size),0.0,point))
 		var tint := settings.shockwave_core_color.lerp(settings.color,progress*0.55)
 		tint.a = smoothstep(0.0,0.12,progress)*(1.0-tail)*(1.0-tail)*0.6

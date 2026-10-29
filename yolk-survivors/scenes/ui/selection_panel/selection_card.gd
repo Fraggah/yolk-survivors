@@ -2,6 +2,12 @@ extends Button
 class_name SelectionCard
 
 func _ready() -> void:
+	portrait=get_node_or_null("Portrait")
+	if not portrait:
+		for child in get_children():
+			if child is TextureRect: portrait=child; break
+	if not mouse_entered.is_connected(_on_mouse_entered):
+		mouse_entered.connect(_on_mouse_entered)
 	toggle_mode = true
 	UITheme.style_slot(self)
 
@@ -22,18 +28,7 @@ func set_coop_highlights(colors: Array[Color], force: bool = false) -> void:
 	add_theme_stylebox_override("normal",style)
 
 func set_icon(texture: Texture2D, icon_scale: float = 1.0) -> void:
-	# Only the portrait receives the shader, keeping slot and focus colors intact.
-	if portrait == null:
-		portrait = TextureRect.new()
-		portrait.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		portrait.offset_left = 8.0
-		portrait.offset_top = 8.0
-		portrait.offset_right = -8.0
-		portrait.offset_bottom = -8.0
-		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(portrait)
+	if not portrait: return
 	icon = null
 	portrait.texture = texture
 	ItemBase.scale_icon(portrait, icon_scale)
@@ -54,6 +49,7 @@ func set_locked(value: bool) -> void:
 
 
 func _on_mouse_entered() -> void:
+	if disabled or MenuInput.coop_mouse_blocked(): return
 	SoundManager.play_sound(SoundManager.Sound.SELECTION_HOVER)
 
 

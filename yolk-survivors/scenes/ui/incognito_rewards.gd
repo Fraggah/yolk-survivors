@@ -16,74 +16,16 @@ var card: PanelContainer
 var _resolving := false
 
 func _ready() -> void:
-	name = "IncognitoRewards"
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	z_index = 15
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	add_theme_stylebox_override("panel",StyleBoxEmpty.new())
-	var dim := ColorRect.new()
-	dim.color = Color(0.08,0.06,0.04,0.8)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var center := CenterContainer.new()
-	add_child(center)
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	card = PanelContainer.new()
-	card.custom_minimum_size = Vector2(680,800)
-	center.add_child(card)
-	var margin := MarginContainer.new()
-	for edge in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,28)
-	card.add_child(margin)
-	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation",14)
-	margin.add_child(content)
-	heading=_label(content,"INCOGNITO REWARD",40)
-	rarity=_label(content,"",30)
-	icon=TextureRect.new()
-	icon.custom_minimum_size=Vector2(220,220)
-	icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	content.add_child(icon)
-	item_name=_label(content,"",40)
-	description=RichTextLabel.new()
-	description.bbcode_enabled=true
-	description.custom_minimum_size=Vector2(600,170)
-	description.add_theme_font_size_override("normal_font_size",28)
-	description.add_theme_color_override("default_color",UITheme.palette.text)
-	content.add_child(description)
-	var buttons:=HBoxContainer.new()
-	buttons.add_theme_constant_override("separation",16)
-	content.add_child(buttons)
-	keep_button=Button.new()
-	keep_button.name="Keep"
-	keep_button.text="KEEP"
-	keep_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	keep_button.custom_minimum_size=Vector2(0,80)
-	keep_button.add_theme_font_size_override("font_size",32)
-	buttons.add_child(keep_button)
-	sell_button=Button.new()
-	sell_button.name="Sell"
-	sell_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	sell_button.custom_minimum_size=Vector2(0,80)
-	sell_button.add_theme_font_size_override("font_size",30)
-	buttons.add_child(sell_button)
+	card=get_node("CenterContainer1/PanelContainer0")
+	description=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/RichTextLabel4")
+	heading=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/Label0")
+	icon=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/TextureRect2")
+	item_name=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/Label3")
+	keep_button=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/HBoxContainer5/Keep")
+	rarity=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/Label1")
+	sell_button=get_node("CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0/HBoxContainer5/Sell")
 	keep_button.pressed.connect(keep_current)
 	sell_button.pressed.connect(sell_current)
-	hide()
-
-func _label(parent: Node, value: String, font_size: int) -> Label:
-	var label:=Label.new()
-	label.text=value
-	label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size",font_size)
-	label.add_theme_color_override("font_color",UITheme.palette.text)
-	parent.add_child(label)
-	return label
-
 func enqueue_drop(player: Player, wave: int) -> bool:
 	var item: ItemPassive = loot.select_item(player,pending)
 	if item==null: return false

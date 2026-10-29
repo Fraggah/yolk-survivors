@@ -11,5 +11,5 @@ func _notification(what: int) -> void:
 	var index:=0
 	for child in get_children():
 		if child is Control and child.visible:
-			fit_child_in_rect(child,Rect2(Vector2(index%2,index/2)*(cell+Vector2.ONE*separation),cell))
+			fit_child_in_rect(child,Rect2(Vector2(index%2,floori(index/2.0))*(cell+Vector2.ONE*separation),cell))
 			index+=1

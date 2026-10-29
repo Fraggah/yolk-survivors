@@ -26,6 +26,8 @@ enum Mode { TRAIL, ORBIT, TORNADO, CLOUD, SPIRAL, MINE, SHOCKWAVE }
 @export_range(0.0, 1.0, 0.01) var opacity := 0.65
 ## Fixed height in base world units.
 @export var column_height := 288.0
+## Presentation sampling only; damage/contact clocks continue independently.
+@export_range(0.0,120.0,1.0) var column_visual_update_rate := 30.0
 ## Ground hit footprint, independent from the painted column width.
 @export_range(1.0, 3.0, 0.05) var column_hit_radius_multiplier := 1.5
 @export_group("Column short fire trail")

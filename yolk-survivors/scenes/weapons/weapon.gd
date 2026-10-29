@@ -48,6 +48,11 @@ func center_range_on_weapon() -> void:
 	range_area.position = Vector2.ZERO
 
 func _process(_delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_weapon(_delta)
+	FireContacts.finish_profile("weapon_updates",started)
+
+func _advance_weapon(_delta: float) -> void:
 	center_range_on_weapon()
 	if Global.game_paused: return
 	

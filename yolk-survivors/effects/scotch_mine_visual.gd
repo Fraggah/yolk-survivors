@@ -107,10 +107,10 @@ func update_visual(time: float, exploded: bool, blast_time: float) -> void:
 		flame_material.set_shader_parameter("elapsed",blast_time)
 		flame_material.set_shader_parameter("fade",1.0-smoothstep(0.2,1.0,progress))
 		for index in flame_seeds.size():
-			var seed := flame_seeds[index]
+			var particle_seed := flame_seeds[index]
 			var expansion := 0.2+0.8*(1.0-pow(1.0-progress,3.0))
-			var point := Vector2(cos(seed.x),sin(seed.x)*settings.area_y_ratio)*radius*seed.y*expansion
-			var height := radius*seed.z*(0.7+0.3*sin(progress*PI))
+			var point := Vector2(cos(particle_seed.x),sin(particle_seed.x)*settings.area_y_ratio)*radius*particle_seed.y*expansion
+			var height := radius*particle_seed.z*(0.7+0.3*sin(progress*PI))
 			flame_burst.multimesh.set_instance_transform_2d(index,Transform2D(0.0,Vector2(height*0.65,height),0.0,point))
 			flame_burst.multimesh.set_instance_color(index,Color.WHITE)
 		return

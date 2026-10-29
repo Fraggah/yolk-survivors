@@ -157,6 +157,11 @@ func _ready() -> void:
 		contact.set_deferred("collision_mask",0)
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_enemy(delta)
+	FireContacts.finish_profile("enemy_updates",started)
+
+func _advance_enemy(delta: float) -> void:
 	if Global.game_paused: return
 	if is_retiring or health_component.current_health <= 0.0: return
 	_update_airbourne_tilt(delta)
@@ -283,7 +288,7 @@ func _on_hurtbox_component_on_damage(hitbox: HitboxComponent) -> void:
 	if is_instance_valid(hitbox.source):
 		impact_direction = hitbox.source.global_position.direction_to(global_position)
 		if impact_direction.is_zero_approx(): impact_direction = Vector2.RIGHT
-	EnemyHitFeedback.emit_hit(get_instance_id(), sprite.global_position, impact_direction, hitbox.critical)
+	if hitbox.impact_feedback: EnemyHitFeedback.emit_hit(get_instance_id(), sprite.global_position, impact_direction, hitbox.critical)
 	if hitbox.knockback_power > 0 and is_instance_valid(hitbox.source):
 		var dir:= hitbox.source.global_position.direction_to(global_position) #tomo la direccion del player hacia el enemigo
 		apply_knockback(dir, hitbox.knockback_power)

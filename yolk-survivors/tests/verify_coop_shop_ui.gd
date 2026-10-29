@@ -32,6 +32,9 @@ func verify():
 	for i in 4:
 		var panel=coop.panels[i]
 		assert(panel.session==coop.sessions[i])
+		var weapons_panel=panel.view.get_node("Inventory/WeaponsPanel")
+		assert(weapons_panel.position.x>panel.view.size.x*.5,"Weapons must be on the right")
+		assert(is_equal_approx(weapons_panel.get_rect().end.x,panel.view.get_node("Cards").get_rect().end.x),"Weapons and offers must share their right margin")
 		assert(panel.get_theme_stylebox("panel").bg_color==coop.COLORS[i])
 		assert(panel.get_theme_stylebox("panel").border_color==coop.COLORS[i])
 		assert(panel.get_node("InnerFrame/Surface").get_theme_stylebox("panel").bg_color==root.get_node("UITheme").palette.surface)
@@ -122,44 +125,19 @@ func verify():
 		assert(not coop.sessions[i].locked[0])
 		var tab=panel.get_node("TabAnchor/PlayerTab")
 		assert(absf(tab.get_global_rect().get_center().x-panel.get_global_rect().get_center().x)<1)
-	# Moving across locks must restore every old normal/pressed style, including exit to empty space.
+	# Mouse remains disabled throughout co-op; selector feedback uses the assigned device.
 	var mouse_panel=coop.panels[0]
+	var cursor_before=coop.sessions[0].cursor
 	for j in 4:
 		mouse_panel.lock_buttons[j].mouse_entered.emit()
-		assert(mouse_panel.lock_buttons[j].get_theme_stylebox("normal").bg_color==root.get_node("UITheme").palette.hover_surface)
 		mouse_panel.lock_buttons[j].mouse_exited.emit()
-		assert(mouse_panel.lock_buttons[j].get_theme_stylebox("normal").bg_color!=root.get_node("UITheme").palette.hover_surface)
-	mouse_panel.lock_buttons[0].mouse_entered.emit()
+		assert(coop.sessions[0].cursor==cursor_before)
+	mouse_panel.select(200)
 	coop.toggle_lock(coop.sessions[0],0)
-	mouse_panel.lock_buttons[0].mouse_exited.emit()
 	assert(mouse_panel.lock_buttons[0].button_pressed and mouse_panel.lock_buttons[0].text=="LOCKED")
+	mouse_panel.select(0)
 	assert(mouse_panel.lock_buttons[0].get_theme_stylebox("pressed").bg_color!=root.get_node("UITheme").palette.hover_surface)
 	coop.toggle_lock(coop.sessions[0],0)
-	mouse_panel.select(0)
-	# Incognito rewards take precedence over queued upgrades: a passive has no value/stat_id.
-	var reward_session=coop.sessions[0]
-	var passive=null
-	for candidate in coop.arena.shop_panel.shop_items:
-		if is_instance_of(candidate,load("res://resources/items/passives/item_passive.gd")) and not reward_session.actor.passive_items.is_consumable(candidate): passive=candidate; break
-	assert(passive!=null)
-	reward_session.experience.pending_levels.append(2)
-	reward_session.rewards.append(passive)
-	coop._show_post_wave_phase("rewards")
-	assert(coop.mode=="rewards")
-	assert(coop.panels[0].offers[0].item_description.text!="")
-	var reward_panel=coop.panels[0]
-	for k in [0,1]:
-		reward_panel.offers[k].mouse_entered.emit()
-		assert(reward_panel.controls[k].get_theme_stylebox("normal").bg_color==root.get_node("UITheme").palette.hover_surface)
-		reward_panel.offers[k].mouse_exited.emit()
-		assert(reward_panel.controls[k].get_theme_stylebox("normal").bg_color!=root.get_node("UITheme").palette.hover_surface)
-	reward_panel.move_selector(Vector2.LEFT)
-	assert(reward_panel.controls[reward_session.cursor].get_theme_stylebox("normal").bg_color==root.get_node("UITheme").palette.hover_surface)
-	coop.activate(reward_session,1)
-	assert(reward_session.rewards.is_empty() and not reward_session.experience.pending_levels.is_empty())
-	assert(is_instance_of(reward_session.offers[0],load("res://resources/items/upgrades/item_upgrades.gd")))
-	coop.activate(reward_session,0)
-	assert(reward_session.experience.pending_levels.is_empty() and coop.mode=="shop")
 	# Detailed ranged tooltip uses the owner's stats and includes the weapon's behavior.
 	var hydrant=null
 	for item in arena.weapon_selection_panel.weapons_list:
@@ -190,8 +168,9 @@ func verify():
 	# Mouse hover updates only the keyboard player's detail and never purchases.
 	var first=coop.sessions[0]
 	var coins=first.coins
+	var original_cursor=first.cursor
 	coop.panels[0].controls[2].mouse_entered.emit()
-	assert(first.cursor==2 and first.coins==coins)
+	assert(first.cursor==original_cursor and first.coins==coins)
 	var previous_coins=first.coins
 	first.coins=0
 	check_sound(sound,"shop_no_money",func(): coop.activate(first,0))

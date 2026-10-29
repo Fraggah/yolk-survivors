@@ -7,6 +7,10 @@ class_name UpgradeCard
 @onready var item_name: Label = %ItemName
 @onready var item_description: Label = %ItemDescription
 
+var title_maximum := 30
+func _ready() -> void:
+	title_maximum=item_name.get_theme_font_size("font_size")
+
 func _set_data(value: ItemUpgrade) -> void:
 	item = value
 	
@@ -16,8 +20,8 @@ func _set_data(value: ItemUpgrade) -> void:
 	ItemBase.scale_icon(item_icon, item.icon_scale)
 	item_name.text = item.item_name
 	var font := item_name.get_theme_font("font")
-	var text_width := font.get_string_size(item.item_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 30).x
-	item_name.add_theme_font_size_override("font_size", int(clampf(30.0 * 180.0 / maxf(text_width, 180.0), 16.0, 30.0)))
+	var text_width := font.get_string_size(item.item_name, HORIZONTAL_ALIGNMENT_LEFT, -1, title_maximum).x
+	item_name.add_theme_font_size_override("font_size", int(clampf(float(title_maximum) * item_name.size.x / maxf(text_width,item_name.size.x), 1.0, float(title_maximum))))
 	item_description.text = item.description
 	
 	var style := Global.get_tier_style(item.item_tier)

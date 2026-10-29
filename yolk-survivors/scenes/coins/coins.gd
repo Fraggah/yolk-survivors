@@ -21,13 +21,28 @@ var flight_start_screen: Vector2
 var flight_elapsed := 0.0
 var awarded := false
 var spawn_attraction_checked := false
+var magnet_target: Player
+var magnet_attracted := false
 
 func _try_spawn_attraction() -> void:
 	if spawn_attraction_checked: return
 	spawn_attraction_checked = true
-	if flying_to_jar or not is_instance_valid(Global.nearest_player(global_position)): return
-	if is_instance_valid(Global.nearest_player(global_position).passive_items) and Global.nearest_player(global_position).passive_items.should_attract_spawned_yolk():
-		collected = true
+	if flying_to_jar: return
+	var activated: Array[Player]=[]
+	for player in Global.live_players():
+		if is_instance_valid(player.passive_items) and player.passive_items.should_attract_spawned_yolk():
+			activated.append(player)
+	if not activated.is_empty():
+		magnet_target=activated.pick_random()
+		magnet_attracted=true
+		collected=true
+
+func _pickup_target() -> Player:
+	if magnet_attracted:
+		if is_instance_valid(magnet_target) and not magnet_target.is_queued_for_deletion() and magnet_target.health_component.current_health>0: return magnet_target
+		magnet_target=Global.nearest_player(global_position)
+		return magnet_target
+	return Global.nearest_player(global_position)
 
 func _process(delta: float) -> void:
 	if is_queued_for_deletion(): return
@@ -38,10 +53,11 @@ func _process(delta: float) -> void:
 	squash_phase = fmod(squash_phase + delta * TAU / squash_period, TAU)
 	var stretch := 1.0 + sin(squash_phase) * squash_amount
 	sprite.scale = sprite_base_scale * Vector2(stretch, 1.0 / stretch)
-	if not is_instance_valid(Global.nearest_player(global_position)): return
-	if not collected and global_position.distance_squared_to(Global.nearest_player(global_position).global_position) <= pow(Global.nearest_player(global_position).stats.get_pickup_distance(attraction_distance), 2): collected = true
+	var target:=_pickup_target()
+	if not is_instance_valid(target): return
+	if not collected and global_position.distance_squared_to(target.global_position) <= pow(target.stats.get_pickup_distance(attraction_distance), 2): collected = true
 	if not collected: return
-	target_pos = Global.nearest_player(global_position).global_position
+	target_pos = target.global_position
 	global_position = global_position.move_toward(target_pos, move_speed * delta)
 	if global_position.distance_squared_to(target_pos) < collect_distance * collect_distance:
 		add_coins()
@@ -76,7 +92,7 @@ func add_coins() -> void:
 	if awarded or flying_to_jar or Global.game_paused or is_queued_for_deletion(): return
 	awarded = true
 	SoundManager.play_sound(SoundManager.Sound.YOLK_PICKUP)
-	var coop=get_tree().current_scene.get("coop")
+	var coop=get_tree().current_scene.get("coop") if get_tree().current_scene else null
 	var bonus: int = coop.collect_yolk(value) if coop and coop.active else Global.collect_yolk(value)
 	if (not coop or not coop.active) and is_instance_valid(Global.nearest_player(global_position)) and is_instance_valid(Global.nearest_player(global_position).passive_items):
 		Global.nearest_player(global_position).passive_items.on_yolks_collected(maxi(0, value) + bonus)

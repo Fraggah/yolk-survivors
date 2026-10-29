@@ -20,16 +20,26 @@ func verify():
 	assert(coop.panels[1].get_node("Waiting").text=="Listo")
 	assert(not coop.panels[1].get_node("Margin").visible)
 	assert(coop.panels[3].get_node("Waiting").text=="Jugador no conectado")
+	for i in 4:
+		assert(coop.panels[i].get_node("HeaderOverlay/PlayerLabel").text=="P%d" % (i+1))
+		assert(coop.panels[i].get_theme_stylebox("panel").border_color==coop.COLORS[i])
+	var inactive_reward=load("res://scenes/coop/coop_reward_panel.tscn").instantiate()
+	arena.add_child(inactive_reward)
+	inactive_reward.setup(null,coop,3)
+	assert(inactive_reward.get_node("Waiting").text=="JUGADOR NO CONECTADO")
+	assert(inactive_reward.get_node("HeaderOverlay/PlayerLabel").text=="P4")
+	assert(inactive_reward.get_theme_stylebox("panel").border_color==coop.COLORS[3])
+	inactive_reward.queue_free()
 	for i in [0,2]:
 		assert(coop.panels[i].cards[0].get_script()==load("res://scenes/ui/upgrades/upgrade_card.gd"))
 		assert(coop.panels[i].get_node("Margin").visible)
 	var palette=root.get_node("UITheme").palette
 	var mouse_panel=coop.panels[0]
+	var cursor_before=coop.sessions[0].cursor
 	for j in 4:
 		mouse_panel.cards[j].mouse_entered.emit()
-		assert(mouse_panel.controls[j].get_theme_stylebox("normal").bg_color==palette.hover_surface)
 		mouse_panel.cards[j].mouse_exited.emit()
-		assert(mouse_panel.controls[j].get_theme_stylebox("normal").bg_color!=palette.hover_surface)
+		assert(coop.sessions[0].cursor==cursor_before,"Co-op mouse input must stay disabled")
 	mouse_panel.move_selector(Vector2.RIGHT)
 	assert(mouse_panel.controls[coop.sessions[0].cursor].get_theme_stylebox("normal").bg_color==palette.hover_surface)
 	coop.panels[2].move_selector(Vector2.RIGHT)

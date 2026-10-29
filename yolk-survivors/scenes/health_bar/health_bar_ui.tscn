@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/health_bar/health_bar.tscn" id="base"]
+[ext_resource type="Shader" path="res://scenes/health_bar/rounded_fill.gdshader" id="rounded_shader"]
+[sub_resource type="StyleBoxFlat" id="background"]
+bg_color = Color(0.25,0.19,0.14,1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1,0.968627,0.901961,1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_left = 24
+corner_radius_bottom_right = 24
+[sub_resource type="StyleBoxFlat" id="fill"]
+bg_color = Color(0,0,0,0)
+[sub_resource type="ShaderMaterial" id="hud_fill_material"]
+resource_local_to_scene = true
+shader = ExtResource("rounded_shader")
+shader_parameter/bar_size = Vector2(320,48)
+shader_parameter/ratio = 0.5
+shader_parameter/fill_color = Color(0.91,0.34,0.39,1)
+[node name="HealthBar" instance=ExtResource("base")]
+use_ui_palette = true
+offset_right = 320.0
+offset_bottom = 48.0
+[node name="ProgressBar" parent="." index="0"]
+theme_override_styles/background = SubResource("background")
+theme_override_styles/fill = SubResource("fill")
+
+[node name="ClippedFill" parent="ProgressBar" index="1"]
+visible = true
+material = SubResource("hud_fill_material")
+[node name="Outline" parent="ProgressBar" index="2"]
+visible = true
