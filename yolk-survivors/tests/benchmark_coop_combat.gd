@@ -3,6 +3,7 @@ extends SceneTree
 var actors=[]
 var foes=[]
 var frames=[]
+var enemy_counts=[]
 var costs={}
 var peaks={}
 var scenario="reported"
@@ -16,6 +17,7 @@ var mortal=false
 var replacements=0
 var no_status=false
 var capture=false
+var profile=false
 var arena
 var global
 func _initialize(): call_deferred("run")
@@ -34,6 +36,7 @@ func run():
 		if arg=="--mortal": mortal=true
 		if arg=="--no-status": no_status=true
 		if arg=="--capture": capture=true
+		if arg=="--profile": profile=true
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps=0
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
@@ -75,13 +78,15 @@ func run():
 			var item=load("res://resources/items/weapons/"+paths[index]+".tres")
 			if scenario=="catalogue":
 				var catalogue_index=batch*participants*6+session.slot*6+slot_index
-				if catalogue_index>=catalogue.size(): break
-				item=catalogue[catalogue_index]
+				item=catalogue[catalogue_index % catalogue.size()]
 			for upgrade in tier:
 				if item.upgrade_to: item=item.upgrade_to
 			var count=actor.current_weapons.size()
 			actor.add_weapon(item)
-			assert(actor.current_weapons.size()==count+1,"Benchmark weapon must actually be equipped")
+			if actor.current_weapons.size()!=count+1:
+				push_error("Benchmark failed to equip an actual weapon")
+				quit(2)
+				return
 			tested_weapons.append(item.item_name+" "+str(item.item_tier))
 	seed(14102026)
 	for i in population:
@@ -101,7 +106,7 @@ func run():
 		arena.add_child(coin)
 	var began=Time.get_ticks_usec()
 	var fire_contacts=root.get_node("FireContacts")
-	fire_contacts.profile_enabled=true
+	fire_contacts.profile_enabled=profile
 	var last=began
 	var draw_calls=0.0
 	var physics=0.0
@@ -120,6 +125,7 @@ func run():
 		last=now
 		for i in actors.size():
 			actors[i].global_position=Vector2(sin(elapsed*0.5+i*PI)*350,cos(elapsed*0.7+i*PI)*230)
+		var spawn_started=Time.get_ticks_usec()
 		if mortal:
 			# Replace at most one killed enemy per rendered frame, without spawn bursts.
 			for i in foes.size():
@@ -134,6 +140,7 @@ func run():
 				foes[i]=enemy
 				replacements+=1
 				break
+		fire_contacts.finish_profile("benchmark_replacement",spawn_started)
 		# Read last frame's timings without changing the real process order/delta.
 		for key in fire_contacts.profile_costs:
 			costs[key]=costs.get(key,0.0)+fire_contacts.profile_costs[key]
@@ -142,6 +149,7 @@ func run():
 			costs.clear()
 			continue
 		frames.append(dt*1000)
+		enemy_counts.append(fire_contacts.samples.size())
 		draw_calls+=Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)
 		physics+=Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS)*1000
 		gpu+=RenderingServer.viewport_get_measured_render_time_gpu(root.get_viewport_rid())
@@ -153,12 +161,17 @@ func run():
 	var total=0.0
 	for frame in frames: total+=frame
 	for key in costs: costs[key]/=frames.size()
-	var result={"case":scenario,"players":participants,"tier":tier+1,"enemies":population,"seconds":duration,"frames":frames.size(),"fps":1000.0*frames.size()/total,"mean_ms":total/frames.size(),"p95_ms":percentile(frames,0.95),"p99_ms":percentile(frames,0.99),"draw_calls":draw_calls/frames.size(),"physics_ms":physics/frames.size(),"gpu_ms":gpu/frames.size(),"effect_ms_per_frame":costs,"peak_nodes":peaks,"gpu":RenderingServer.get_video_adapter_name(),"viewport":str(root.size)}
+	if scenario in ["all", "reported", "catalogue"] and tested_weapons.size()!=participants*6:
+		push_error("Benchmark requires six weapons for every participant")
+		quit(2)
+		return
+	var result={"case":scenario,"players":participants,"tier":tier+1,"enemies":population,"seconds":duration,"frames":frames.size(),"active_enemies_min":enemy_counts.min(),"active_enemies_max":enemy_counts.max(),"active_enemies_mean":float(enemy_counts.reduce(func(a,b): return a+b,0))/enemy_counts.size(),"fps":1000.0*frames.size()/total,"mean_ms":total/frames.size(),"p95_ms":percentile(frames,0.95),"p99_ms":percentile(frames,0.99),"draw_calls":draw_calls/frames.size(),"physics_ms":physics/frames.size(),"gpu_ms":gpu/frames.size(),"effect_ms_per_frame":costs,"peak_nodes":peaks,"gpu":RenderingServer.get_video_adapter_name(),"viewport":str(root.size)}
 	result["weapons"]=tested_weapons
 	result["catalogue_size"]=catalogue.size()
 	result["batch"]=batch
 	result["mortal"]=mortal
 	result["replacements"]=replacements
+	result["profile_enabled"]=profile
 	result["renderer"]=RenderingServer.get_current_rendering_method()
 	result["build"]="debug" if OS.is_debug_build() else "release"
 	result["cpu"]=OS.get_processor_name()

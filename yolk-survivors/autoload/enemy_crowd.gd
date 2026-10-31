@@ -17,6 +17,7 @@ class Entry extends RefCounted:
 	var hurtbox_id: int
 
 var members: Dictionary = {}
+var pending_members: Dictionary = {}
 var member_ids: Array[int] = []
 var cells: Dictionary = {}
 var offsets: Array[Vector2i] = []
@@ -50,10 +51,12 @@ func register_enemy(enemy: Node2D) -> void:
 	member_ids.append(id)
 	max_body_radius = maxf(max_body_radius,members[id].body)
 	enemy.tree_exiting.connect(unregister_enemy.bind(id),CONNECT_ONE_SHOT)
-	grid_left = 0.0
+	pending_members[id] = true
+	if members.size() == 1: grid_left = 0.0
 	set_process(true)
 
 func unregister_enemy(id: int) -> void:
+	pending_members.erase(id)
 	if not members.has(id): return
 	var slot: int = members[id].slot
 	var last: int = member_ids.back()
@@ -78,6 +81,11 @@ func _advance_crowd(delta: float) -> void:
 	if grid_left <= 0.0:
 		rebuild()
 		grid_left = GRID_INTERVAL
+	elif not pending_members.is_empty():
+		# New enemies enter the current grid without rebuilding all existing cells.
+		# This runs after spawn positioning and before weapon target acquisition.
+		for id in pending_members: _index_member(id)
+		pending_members.clear()
 	# Fixed work budget avoids every cache expiring together after a slow frame.
 	var ids := member_ids
 	if ids.is_empty(): return
@@ -95,14 +103,18 @@ func _advance_crowd(delta: float) -> void:
 
 func rebuild() -> void:
 	cells.clear()
-	for id in members:
-		var entry: Entry = members[id]
-		var enemy = entry.ref.get_ref()
-		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or enemy.is_retiring or enemy.health_component.current_health<=0: continue
-		entry.position = enemy.global_position
-		var cell := Vector2i((entry.position/CELL_SIZE).floor())
-		if not cells.has(cell): cells[cell] = []
-		cells[cell].append(id)
+	for id in members: _index_member(id)
+	pending_members.clear()
+
+func _index_member(id: int) -> void:
+	if not members.has(id): return
+	var entry: Entry = members[id]
+	var enemy = entry.ref.get_ref()
+	if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or enemy.is_retiring or enemy.health_component.current_health <= 0: return
+	entry.position = enemy.global_position
+	var cell := Vector2i((entry.position / CELL_SIZE).floor())
+	if not cells.has(cell): cells[cell] = []
+	cells[cell].append(id)
 
 func separation(enemy: Node2D) -> Vector2:
 	var id := enemy.get_instance_id()
@@ -174,7 +186,7 @@ func nearest(origin: Vector2, radius: float) -> Node2D:
 				best_distance = distance
 	return best
 
-func nearby(origin: Vector2, radius: float, excluded: int, limit: int, y_ratio: float = 0.6) -> Array:
+func nearby(origin: Vector2, radius: float, excluded: int, limit: int, y_ratio: float = 0.6, exclude_electrified: bool = false) -> Array:
 	var center := Vector2i((origin/CELL_SIZE).floor())
 	var reach := ceili(radius/CELL_SIZE)
 	var found: Array = []
@@ -191,8 +203,9 @@ func nearby(origin: Vector2, radius: float, excluded: int, limit: int, y_ratio: 
 			if delta.length_squared()<=radius*radius:
 				var enemy = entry.ref.get_ref()
 				if is_instance_valid(enemy) and not enemy.is_queued_for_deletion() and enemy.targetable and not enemy.is_retiring and enemy.health_component.current_health>0:
-					found.append(enemy)
-					if found.size()>=limit: return found
+					if not exclude_electrified or enemy.status_controller.lightning_left <= 0.0:
+						found.append(enemy)
+						if found.size()>=limit: return found
 			if checked>=128: return found
 	return found
 

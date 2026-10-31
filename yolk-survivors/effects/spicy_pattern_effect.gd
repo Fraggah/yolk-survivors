@@ -230,6 +230,38 @@ func _configure_column_trail(weapon: Weapon) -> void:
 	_set_trail_hit(trail_entries)
 
 func _update_column_contacts(previous_position: Vector2) -> void:
+	if FireContacts.sampled_frame != Engine.get_process_frames():
+		_update_column_contacts_legacy(previous_position)
+		return
+	var reach := radius * settings.column_hit_radius_multiplier
+	var broad_extent := Vector2(reach, reach * settings.area_y_ratio) + Vector2.ONE * FireContacts.max_hurtbox_padding
+	var query := Rect2(previous_position.min(global_position) - broad_extent, Vector2.ZERO)
+	query.size = previous_position.max(global_position) + broad_extent - query.position
+	var interval := source.stats.get_fire_interval(settings.tick_interval) if settings.fire_ticks else settings.tick_interval
+	for enemy in FireContacts.query(query):
+		if not _valid_enemy(enemy): continue
+		var id: int = enemy.get_instance_id()
+		# A target on cooldown cannot take another contact hit. Its swept motion
+		# remains available in the shared index, without per-column position maps.
+		if elapsed < float(column_hit_cooldowns.get(id, 0.0)): continue
+		var sample = FireContacts.live_sample(enemy)
+		if not sample: continue
+		var extent := Vector2(reach + sample.padding, reach * settings.area_y_ratio + sample.padding)
+		var previous: Vector2 = sample.hurt_previous if column_sampled else sample.hurt_point
+		var start: Vector2 = (previous - previous_position) / extent
+		var end: Vector2 = (sample.hurt_point - global_position) / extent
+		var travel := end - start
+		var t := clampf(-start.dot(travel) / maxf(0.000001, travel.length_squared()), 0.0, 1.0)
+		if (start + travel * t).length_squared() <= 1.0:
+			enemy._on_hurtbox_component_on_damage(hit)
+			column_hit_cooldowns[id] = elapsed + maxf(0.001, interval)
+	# IDs of dead units are removed periodically, not rebuilt for every contact.
+	if int(elapsed) != int(elapsed - get_process_delta_time()):
+		for id in column_hit_cooldowns.keys():
+			if not FireContacts.samples.has(id): column_hit_cooldowns.erase(id)
+	column_sampled = true
+
+func _update_column_contacts_legacy(previous_position: Vector2) -> void:
 	# Check every frame, sweeping BOTH bodies between samples. Damage cadence is
 	# per enemy, so walking through between global ticks can no longer miss a hit.
 	var positions: Dictionary = {}

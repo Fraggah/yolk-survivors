@@ -133,3 +133,120 @@ Desde la raíz del repositorio, con la ruta local de Godot:
 Los resultados se guardan en `tmp/coop-benchmark-*.json`.
 
 Ver `coop_combat_performance_results.json` para las mediciones conservadas.
+
+
+## Segunda pasada: ticks agrupados y estelas menos densas
+
+Prueba release con Mobile (la configuración del proyecto), 1920 × 1080,
+i5-9400F y RTX 3070 Ti. Cuatro jugadores, seis armas tier IV por jugador,
+150 enemigos de mucha vida, 20 segundos y cinco de calentamiento excluidos.
+No comparar directamente estos resultados con los primeros ensayos debug/Compatibility.
+
+- Antes de este paso: 40,54 FPS, 24,67 ms por frame; p95 30,71 ms.
+- Después: 42,39 FPS, 23,59 ms por frame; p95 28,71 ms.
+- Máximo de segmentos de estela del Reaper: 142 → 76.
+- Todavía no se alcanza el objetivo de más de 60 FPS.
+
+Burning agrupa dos ticks originales en un evento de daño. La duración y los
+modificadores de velocidad de fuego se conservan. Al expirar se entrega el tick
+original pendiente, si lo hay: cinco ticks de daño D producen 2D, 2D y D.
+Los aportes de armas distintas conservan su atribución y vencimiento independiente.
+Esto cambia la frecuencia de los impactos y, por tanto, de los procs ligados a ellos.
+
+Configuración editable:
+
+- `effects/fire_contacts.tscn`: `burn_tick_batch = 2` (1 restaura la cadencia anterior).
+- `resources/items/weapons/spicy/stats_cayenne*.tres`: separación 48 y radio +15%.
+- `resources/items/weapons/spicy/stats_carolina_reaper*.tres`: separación de estelas
+  36 y multiplicador de radio 1,15. El tornado principal conserva su tamaño.
+
+Las zonas más grandes amplían ligeramente la cobertura; es un ajuste de jugabilidad
+además de una optimización. El daño de impacto directo del suelo no se duplica:
+la agrupación afecta al estado Burning.
+
+Validación: `tests/verify_batched_burning.gd` compara agrupación 1 y 2 con
+varias duraciones, reaplicaciones y contribuciones de duraciones distintas;
+comprueba además la entrega final 6/6/3 para cinco ticks originales de daño 3.
+
+
+## Estados sin reaplicación y tercera pasada visual
+
+Regla autorizada posteriormente: un enemigo con electricidad no recibe otra
+aplicación eléctrica hasta que el estado expire. Burning sigue la misma regla:
+no se acumulan nuevos quemados de otras fuentes ni se renueva la duración.
+Ambos estados pueden coexistir. Los jugadores conservan sus reglas anteriores.
+La primera aplicación de un efecto compartido puede contener los aportes combinados
+que ya forman parte de ese ataque; las aplicaciones posteriores se rechazan.
+La propagación eléctrica evita gastar destinos en enemigos ya electrificados.
+
+Ambas opciones están en `effects/fire_contacts.tscn`:
+`prevent_burning_reapplication` y `prevent_electric_reapplication`.
+Es un cambio de daño y atribución entre jugadores, no una optimización equivalente:
+la fuente que inicia el quemado conserva ese daño hasta que expire.
+
+Ahorros adicionales: limpieza de fuentes visuales por señal al salir del árbol,
+buffers de estelas actualizados solo cuando cambia su composición, una instancia
+por unidad quemada con varias llamas calculadas en el shader, descarte temprano
+de contactos de tornado en cooldown y suspensión de actualizaciones de tienda oculta.
+La escena GroundFire contiene los materiales y la configuración editables.
+
+Resultados (mismo hardware y modo release/Mobile anterior):
+
+| Caso | FPS promedio | p95 ms |
+| --- | ---: | ---: |
+| Cuatro jugadores, seis armas mixtas tier IV, 150 enemigos resistentes | 66,18 | 18,58 |
+| Catálogo, primeras 24 armas, cuatro jugadores | 96,09 | 12,35 |
+| Catálogo restante, completando 24 armas, cuatro jugadores | 70,27 | 17,36 |
+| Mezcla exigente con muertes y reposición | 57,47 | 22,09 |
+
+El objetivo sigue pendiente: el promedio supera 60 en combate sostenido, pero
+hay frames por debajo y la prueba con muertes/reposición aún promedia menos de 60.
+La segunda tanda del catálogo se corrigió para completar siempre seis armas por
+participante y verifica también su equipamiento en release. La medición corregida
+mantuvo exactamente 150 enemigos activos durante toda la muestra.
+
+Evidencia estructurada: `coop_combat_optimization_results.json`.
+Pruebas adicionales: `verify_status_reapplication.gd`, `verify_native_fire_contacts.gd`,
+`verify_batched_burning.gd`, `verify_player_healing.gd` y revisión estricta de scripts.
+
+
+## Cuarta pasada: bajas, apariciones y feedback
+
+- Partículas de impactos: animación de caída, giro, fricción y desaparición en GPU.
+  Los buffers se cargan cuando aparece una partícula, sin actualizar cada transform
+  por frame. El límite visual es 96 y se configura en `effects/enemy_hit_feedback.tscn`.
+- Textos de daño: límite simultáneo 96, agrupación 0,12 s y duración 0,75 s,
+  editables en `autoload/combat_texts.tscn`. El daño calculado no cambia.
+- Nuevas entradas de EnemyCrowd se agregan al índice pendiente sin invalidar
+  toda la cuadrícula al aparecer cada enemigo. La reconstrucción periódica continúa.
+- Se probó una reserva de escenas nuevas fuera del árbol (sin reciclar enemigos
+  muertos), limitada a 24 nodos y con reposición en frames disponibles.
+  Se descartó: la repetición dio 57,26 FPS y p95 22,25 ms, sin beneficio consistente.
+  Spawner conserva su ruta de instanciación original.
+
+Las pruebas de FPS ahora distinguen explícitamente `profile_enabled`:
+por defecto no se habilitan los cronómetros internos de cada efecto (igual que
+el juego). `--profile` los habilita para diagnosticar; las mediciones anteriores
+los tenían activados. El renderer, resolución, población y armas se conservan.
+No atribuir toda la diferencia entre ambos modos a una optimización.
+
+El combate con muertes y reposición llegó a 64,4 FPS promedio con la nueva
+animación de impactos; con escenas preparadas dio también 64,4 FPS y p95 19,6 ms.
+La comparación sin preparación dio 59,95 FPS y p95 20,99 ms. Hay variación entre
+pasadas; consultar las mediciones estructuradas y repetir antes de generalizar.
+Se mantienen hasta 150 enemigos activos, cuatro jugadores y 24 armas tier IV.
+Las recogidas y recompensas se ejecutan normalmente; no se prueba el frasco final.
+
+El objetivo aún no se considera terminado: quedan frames por debajo de 60 FPS.
+Las opciones descartadas fueron el render separado (sin mejora y con error del
+motor al cerrar), el shader de respiración de yemas y el cambio de formas de spawn.
+Sus cambios experimentales se retiraron. Las yemas conservan su animación y lógica.
+
+Validación del código retenido: altas incrementales del índice, geometría real de partículas enviada al renderer,
+reutilización y pausa de textos, imanes cooperativos, contactos rápidos de fuego,
+y revisión estricta de 198 scripts. La captura renderizada conserva los efectos.
+
+La mejor pasada no representa una garantía: la reserva experimental se retiró
+tras la repetición desfavorable. Los resultados de esa variante quedan como
+experimento descartado en el JSON. No están habilitados ni incluidos en el código
+actual el cache de enemigos, el render separado ni el shader de respiración de yemas.

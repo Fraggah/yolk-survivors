@@ -1,8 +1,13 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=13 format=3]
 [ext_resource type="Script" path="res://effects/ground_fire.gd" id="1"]
 [ext_resource type="Shader" path="res://shaders/ground_fire_batch.gdshader" id="2"]
 [ext_resource type="Shader" path="res://shaders/ground_flame_batch.gdshader" id="3"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Effects/small_fire.png" id="4"]
+[ext_resource type="Shader" path="res://shaders/burning_cluster.gdshader" id="5"]
+[sub_resource type="ShaderMaterial" id="BurnedMaterial"]
+shader = ExtResource("5")
+shader_parameter/flame_texture = ExtResource("4")
+shader_parameter/flame_count = 4
 [sub_resource type="QuadMesh" id="Quad"]
 size = Vector2(1,1)
 [sub_resource type="MultiMesh" id="FloorMesh"]
@@ -48,5 +53,5 @@ multimesh = SubResource("FlameMesh")
 [node name="BurnedFlames" type="MultiMeshInstance2D" parent="."]
 z_as_relative = false
 z_index = 2
-material = SubResource("FlameMaterial")
+material = SubResource("BurnedMaterial")
 multimesh = SubResource("BurnedMesh")

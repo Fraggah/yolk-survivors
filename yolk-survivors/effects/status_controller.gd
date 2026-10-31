@@ -87,6 +87,9 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 	if not is_instance_valid(target) or target.is_queued_for_deletion() or target.health_component.current_health <= 0.0: return
 	if target.status_immune: return
 	if target is Enemy and not target.targetable: return
+	if target is Enemy:
+		if effect.kind == StatusEffect.Kind.FIRE and FireContacts.prevent_burning_reapplication and target.has_status(Unit.State.BURNING): return
+		if effect.kind == StatusEffect.Kind.ELECTRICITY and FireContacts.prevent_electric_reapplication and target.status_controller.lightning_left > 0.0: return
 	if target is Player and is_instance_valid(target.passive_items):
 		target.passive_items.on_status_applied(effect.kind, target.has_status(Unit.State.BURNING if effect.kind == StatusEffect.Kind.FIRE else Unit.State.SHOKED))
 	if effect.kind == StatusEffect.Kind.FIRE:
@@ -116,13 +119,13 @@ static func apply_effect(target: Unit, effect: StatusEffect, template: HitboxCom
 		var group := "combat_players" if target is Player else "combat_enemies"
 		var candidates: Array
 		if group == "combat_enemies" and EnemyCrowd.members.size() > 32:
-			candidates = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),chain_limit)
+			candidates = EnemyCrowd.nearby(target.global_position,radius,target.get_instance_id(),chain_limit,0.6,FireContacts.prevent_electric_reapplication)
 		else:
 			candidates = target.get_tree().get_nodes_in_group(group)
 		for candidate in candidates:
 			if candidate == target or not is_instance_valid(candidate) or candidate.is_queued_for_deletion() or candidate.health_component.current_health <= 0.0: continue
 			if electric_claims.has(candidate.get_instance_id()): continue
-			if candidate is Enemy and candidate.is_retiring: continue
+			if candidate is Enemy and (candidate.is_retiring or (FireContacts.prevent_electric_reapplication and candidate.status_controller.lightning_left > 0.0)): continue
 			var offset: Vector2 = candidate.global_position - target.global_position
 			offset.y /= 0.6
 			if offset.length_squared() <= radius * radius: neighbors.append(candidate)
@@ -205,6 +208,11 @@ func clear() -> void:
 	_sync_player_burning_regen()
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_controller(delta)
+	FireContacts.finish_profile("status_updates",started)
+
+func _advance_controller(delta: float) -> void:
 	if Global.game_paused: return
 	impact_cooldown = maxf(0.0,impact_cooldown-delta)
 	for index in range(slows.size()-1, -1, -1):
@@ -214,7 +222,7 @@ func _process(delta: float) -> void:
 	lightning_left = maxf(0.0, lightning_left - delta)
 	if lightning_left > 0.0: electric_elapsed += delta
 	if lightning_left > 0.0: _submit_rays()
-	refresh_control_text()
+	if not slows.is_empty() or (is_instance_valid(control_label) and control_label.visible): refresh_control_text()
 	if slows.is_empty() and lightning_left<=0.0 and impact_cooldown<=0.0 and not (is_instance_valid(control_label) and control_label.visible): set_process(false)
 
 func _submit_rays() -> void:

@@ -45,6 +45,11 @@ func _pickup_target() -> Player:
 	return Global.nearest_player(global_position)
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_pickup(delta)
+	FireContacts.finish_profile("yolk_updates",started)
+
+func _advance_pickup(delta: float) -> void:
 	if is_queued_for_deletion(): return
 	if flying_to_jar:
 		animate_jar_flight(delta)

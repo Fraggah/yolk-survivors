@@ -233,6 +233,11 @@ func _input(event: InputEvent) -> void:
 	if mode in ["characters","weapons","shop","upgrades","rewards"]: get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
+	var started := Time.get_ticks_usec() if FireContacts.profile_enabled else 0
+	_advance_coop(delta)
+	FireContacts.finish_profile("coop_hud",started)
+
+func _advance_coop(delta: float) -> void:
 	hud.visible=active and mode=="combat" and not paused
 	if paused:
 		if pause_owner and not pause_owner.disconnected:

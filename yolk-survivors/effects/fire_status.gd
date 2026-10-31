@@ -5,6 +5,8 @@ var remaining := 0.0
 var tick_left := 0.0
 var interval := 0.5
 var elapsed := 0.0
+var base_interval := 0.5
+var damage_credit := 0.0
 var tint := Color.ORANGE
 var contributions: Dictionary = {}
 var last_update_clock := 0.0
@@ -25,6 +27,7 @@ static func apply(enemy: Unit, key: String, template: HitboxComponent, settings:
 static func _apply_fire_impl(enemy: Unit, key: String, template: HitboxComponent, settings: StatusEffect, damage_scaled: bool) -> void:
 	if enemy.status_immune or settings.duration <= 0.0: return
 	var was_burning := enemy.has_status(Unit.State.BURNING)
+	if enemy is Enemy and FireContacts.prevent_burning_reapplication and was_burning: return
 	var source_stats: UnitStats = template.source.stats if is_instance_valid(template.source) and template.source is Unit else null
 	var prepared: Dictionary = _prepare_fire(template,settings,source_stats,damage_scaled)
 	var duration: float = prepared.duration
@@ -46,10 +49,11 @@ static func _apply_fire_impl(enemy: Unit, key: String, template: HitboxComponent
 		burn.hit.monitoring = false
 		# Logical damage packet: no shape or overlap monitoring is used by burns.
 		# Keep it outside the physics world and release it with the burn.
-		burn.tick_left = source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL
+		burn.tick_left = (source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL) * FireContacts.burn_tick_batch
 	# Refresh the duration, without restarting the tick timer or duplicating the burn.
 	burn.remaining = duration
-	burn.interval = source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL
+	burn.base_interval = source_stats.get_fire_interval() if source_stats else StatusEffect.BASE_FIRE_INTERVAL
+	burn.interval = burn.base_interval * FireContacts.burn_tick_batch
 	burn.tint = settings.color
 	var tick_damage: float = prepared.damage
 	burn.hit.setup(tick_damage, false, 0.0, template.source)
@@ -66,7 +70,9 @@ static func _apply_fire_impl(enemy: Unit, key: String, template: HitboxComponent
 	burn.hit.weapon_damage_record = settings.get_meta("damage_record",template.weapon_damage_record)
 	if not prepared.contributions.is_empty():
 		for entry in prepared.contributions:
+			var pending: float = burn.contributions.get(entry.id, {}).get("pending", 0.0)
 			burn.contributions[entry.id] = entry.values.duplicate()
+			burn.contributions[entry.id]["pending"] = pending
 		burn._refresh_contributions()
 	if FireContacts.scheduled_burns:
 		if not burn.scheduled:
@@ -143,16 +149,28 @@ func _advance_fire(delta: float) -> void:
 		_process_contributions(delta, enemy)
 		return
 	var active_delta := minf(delta, maxf(0.0, remaining))
+	var ticks := _original_ticks(active_delta)
+	damage_credit += ticks * hit.damage
 	remaining -= delta
 	tick_left -= active_delta
 	elapsed += active_delta
-	while tick_left <= 0.00001:
-		tick_left += interval
-		if enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0.0: break
-		enemy.receive_hit(hit)
-	if remaining <= 0.0:
+	if tick_left <= 0.00001 or remaining <= 0.000001:
+		while tick_left <= 0.00001: tick_left += interval
+		if damage_credit > 0.0:
+			var original_damage := hit.damage
+			hit.damage = damage_credit
+			hit.base_damage = damage_credit
+			damage_credit = 0.0
+			enemy.receive_hit(hit)
+			hit.damage = original_damage
+			hit.base_damage = original_damage
+	if remaining <= 0.000001:
 		queue_free()
 		enemy.status_controller.sync_burning_enemy()
+
+## Count original discrete ticks, so an odd final tick is delivered at expiration.
+func _original_ticks(step: float) -> int:
+	return maxi(0, int(floor((elapsed + step + 0.000001) / base_interval)) - int(floor((elapsed + 0.000001) / base_interval)))
 
 
 func _refresh_contributions() -> void:
@@ -169,30 +187,54 @@ func _refresh_contributions() -> void:
 	hit.weapon_damage_record = {"wave_damage": 0.0, "total_damage": 0.0, "contributors": shares}
 
 func _process_contributions(delta: float, enemy: Unit) -> void:
-	var left := delta
+	var left := minf(delta, remaining)
 	while left > 0.000001 and not contributions.is_empty():
 		var step := minf(left, maxf(0.0, tick_left))
 		for entry in contributions.values(): step = minf(step, maxf(0.0, entry.remaining))
+		var ticks := _original_ticks(step)
 		left -= step
 		elapsed += step
 		tick_left -= step
-		for entry in contributions.values(): entry.remaining -= step
-		remaining = maxf(0.0,remaining-step)
-		# A tick on an expiration boundary still belongs to the ending contribution.
-		if tick_left <= 0.00001:
-			tick_left += interval
-			if not enemy.is_queued_for_deletion() and enemy.health_component.current_health > 0.0: enemy.receive_hit(hit)
+		for entry in contributions.values():
+			entry.pending = float(entry.get("pending", 0.0)) + ticks * entry.damage
+			entry.remaining -= step
+		remaining = maxf(0.0, remaining - step)
+		var due := tick_left <= 0.00001
+		if due: tick_left += interval
+		# Expiring contributions flush their own remaining damage without advancing others.
+		_emit_pending_contributions(enemy, due)
 		var expired := false
 		for id in contributions.keys():
 			if contributions[id].remaining <= 0.000001:
 				contributions.erase(id)
 				expired = true
-		# Damage weights only change when a contributor is added/refreshed (apply)
-		# or expires. Do not rebuild their record and arrays on every idle frame.
 		if expired: _refresh_contributions()
+		if enemy.is_queued_for_deletion() or enemy.health_component.current_health <= 0.0: break
 	if contributions.is_empty():
 		queue_free()
 		enemy.status_controller.sync_burning_enemy()
+
+func _emit_pending_contributions(enemy: Unit, all_due: bool) -> void:
+	var total := 0.0
+	var shares: Array[Dictionary] = []
+	for entry in contributions.values():
+		if not all_due and entry.remaining > 0.000001: continue
+		var pending: float = entry.get("pending", 0.0)
+		if pending <= 0.0: continue
+		total += pending
+		shares.append({"record": entry.record, "weight": pending})
+		entry.pending = 0.0
+	if total <= 0.0: return
+	for share in shares: share.weight /= total
+	var original_damage := hit.damage
+	var original_record := hit.weapon_damage_record
+	hit.damage = total
+	hit.base_damage = total
+	hit.weapon_damage_record = {"wave_damage": 0.0, "total_damage": 0.0, "contributors": shares}
+	if not enemy.is_queued_for_deletion() and enemy.health_component.current_health > 0.0: enemy.receive_hit(hit)
+	hit.damage = original_damage
+	hit.base_damage = original_damage
+	hit.weapon_damage_record = original_record
 
 static func _native_breading_damage(base_damage: float, record: Dictionary, stats: UnitStats) -> float:
 	var item = record.get("weapon")

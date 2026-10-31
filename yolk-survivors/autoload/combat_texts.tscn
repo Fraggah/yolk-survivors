@@ -2,6 +2,6 @@
 [ext_resource type="Script" path="res://autoload/combat_texts.gd" id="1"]
 [node name="CombatTexts" type="Node"]
 script = ExtResource("1")
-active_limit = 128
-damage_group_interval = 0.08
-damage_lifetime = 0.85
+active_limit = 96
+damage_group_interval = 0.12
+damage_lifetime = 0.75

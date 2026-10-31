@@ -3,9 +3,14 @@ extends Node
 @export_range(32.0,256.0,8.0) var cell_size := 96.0
 @export var merge_ground_damage := true
 @export_range(0.0,0.25,0.01) var ground_ignition_refresh := 0.1
+## Combine this many original Burning ticks into one damage event.
+@export_range(1, 8, 1) var burn_tick_batch := 2
 @export var scheduled_burns := true
 @export var cache_status_profiles := true
 @export var deduplicate_electric_attacks := true
+## Enemies must finish the active status before another source can apply it.
+@export var prevent_burning_reapplication := true
+@export var prevent_electric_reapplication := true
 class Sample extends RefCounted:
 	var enemy: Node2D
 	var previous: Vector2

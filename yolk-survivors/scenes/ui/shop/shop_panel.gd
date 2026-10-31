@@ -312,6 +312,7 @@ func _on_reroll_button_pressed() -> void:
 	if try_reroll(): SoundManager.play_sound(SoundManager.Sound.SHOP_REROLL)
 
 func _process(_delta: float) -> void:
+	if not is_visible_in_tree(): return
 	_sync_weapon_slots()
 	_update_reroll_button()
 	if is_instance_valid(gamble_button): gamble_button.disabled = Global.coins <= 0

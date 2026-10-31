@@ -191,10 +191,14 @@ func get_status_damage_description(player_stats: UnitStats = null) -> String:
 		if effect.kind == StatusEffect.Kind.FIRE: amount = maxf(0.1, amount)
 		if player_stats: amount *= status_damage_multiplier({"weapon": self}, player_stats)
 		var formula := "%s + %s%% Effects" % [format_number(effect.damage), format_number(effect.damage_scaling * 100.0)]
+		if effect.kind == StatusEffect.Kind.FIRE:
+			amount *= FireContacts.burn_tick_batch
+			formula = "(%s) x %s" % [formula, FireContacts.burn_tick_batch]
 		var label := "Burning / tick" if effect.kind == StatusEffect.Kind.FIRE else "Electricity"
 		result += "\n%s: [color=green]%s[/color] (%s)" % [label, format_number(amount), formula]
 		if effect.kind == StatusEffect.Kind.FIRE:
 			var interval: float = player_stats.get_fire_interval() if player_stats else StatusEffect.BASE_FIRE_INTERVAL
+			interval *= FireContacts.burn_tick_batch
 			var duration: float = player_stats.get_fire_duration(effect.duration) if player_stats else effect.duration
 			result += " — every %s s, for %s s" % [format_number(interval), format_number(duration)]
 		if effect.chance < 1.0: result += " — %s%% chance" % format_number(effect.chance * 100.0)

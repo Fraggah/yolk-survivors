@@ -49,11 +49,14 @@ var cells: Dictionary = {}
 @onready var floor_material: ShaderMaterial = $Floor.material
 @onready var flame_material: ShaderMaterial = $Flames.material
 var visual_capacity := 0
+var visual_dirty := false
+var configured_flames := -1
 var contact_cursor := 0
 var enemy_previous: Dictionary = {}
 var floor_buffer := PackedFloat32Array()
 var flame_buffer := PackedFloat32Array()
 @onready var burned_batch: MultiMeshInstance2D = $BurnedFlames
+@onready var burned_material: ShaderMaterial = $BurnedFlames.material
 var burned_visuals: Array[WeakRef] = []
 var burned_buffer := PackedFloat32Array()
 var burned_capacity := 0
@@ -175,6 +178,7 @@ func register_burning(visual: Node2D) -> void:
 	set_process(true)
 
 func _index_patch(patch: FieldPatch) -> void:
+	visual_dirty = true
 	var first := Vector2i(((patch.point-patch.extent)/cell_size).floor())
 	var last := Vector2i(((patch.point+patch.extent)/cell_size).floor())
 	var rows: Array[FieldRow] = []
@@ -195,6 +199,7 @@ func _index_patch(patch: FieldPatch) -> void:
 				bucket[row.entry.id].append(row)
 
 func _unindex_patch(patch: FieldPatch) -> void:
+	visual_dirty = true
 	for key in patch.cell_keys:
 		var bucket: Dictionary = cells.get(key,{})
 		for entry in patch.entries:
@@ -224,8 +229,8 @@ func _process(_delta: float) -> void:
 		if not is_instance_valid(node) or node.is_queued_for_deletion():
 			_unindex_patch(patch)
 			continue
-		var owner = patch.owner_ref.get_ref()
-		if FireContacts.clock>=patch.born+patch.lifetime or not is_instance_valid(owner) or owner.is_queued_for_deletion() or not is_instance_valid(patch.source) or patch.source.health_component.current_health<=0.0:
+		var patch_owner = patch.owner_ref.get_ref()
+		if FireContacts.clock>=patch.born+patch.lifetime or not is_instance_valid(patch_owner) or patch_owner.is_queued_for_deletion() or not is_instance_valid(patch.source) or patch.source.health_component.current_health<=0.0:
 			node.queue_free()
 			_unindex_patch(patch)
 			continue
@@ -314,7 +319,7 @@ func _update_burning(delta: float) -> void:
 		visual._process(delta)
 		if not visual.is_queued_for_deletion(): alive.append(reference)
 	burned_visuals = alive
-	var total := alive.size()*burned_flames_per_unit
+	var total := alive.size()
 	if total>burned_capacity:
 		burned_capacity = maxi(128,total*2)
 		burned_batch.multimesh.instance_count = burned_capacity
@@ -326,27 +331,25 @@ func _update_burning(delta: float) -> void:
 		var sprite: Sprite2D = visual.target.sprite
 		var rect := sprite.get_rect()
 		var sprite_transform := sprite.global_transform
-		for i in burned_flames_per_unit:
-			var phase := i*2.399963+float(visual.get_instance_id()%31)
-			var height: float = rect.size.y*visual.settings.flame_sprite_height*(0.8+0.2*sin(phase))
-			var anchor := Vector2(rect.get_center().x+sin(phase)*rect.size.x*0.32,rect.end.y-rect.size.y*(0.18+0.28*float(i)/burned_flames_per_unit))
-			var instance_transform := sprite_transform*Transform2D(0.0,Vector2(height,height*1.25),0.0,anchor-Vector2(0,height*0.45))
-			var at := index*16
-			burned_buffer[at] = instance_transform.x.x
-			burned_buffer[at+1] = instance_transform.y.x
-			burned_buffer[at+3] = instance_transform.origin.x
-			burned_buffer[at+4] = instance_transform.x.y
-			burned_buffer[at+5] = instance_transform.y.y
-			burned_buffer[at+7] = instance_transform.origin.y
-			burned_buffer[at+8] = 1.0
-			burned_buffer[at+9] = 1.0
-			burned_buffer[at+10] = 1.0
-			burned_buffer[at+11] = visual.fade*visual.settings.flame_opacity
-			burned_buffer[at+12] = -1.0
-			burned_buffer[at+13] = 1000000.0
-			burned_buffer[at+14] = 0.01
-			burned_buffer[at+15] = 0.2
-			index += 1
+		var instance_transform := sprite_transform * Transform2D(0.0, rect.get_center())
+		var at := index * 16
+		burned_buffer[at] = instance_transform.x.x
+		burned_buffer[at+1] = instance_transform.y.x
+		burned_buffer[at+3] = instance_transform.origin.x
+		burned_buffer[at+4] = instance_transform.x.y
+		burned_buffer[at+5] = instance_transform.y.y
+		burned_buffer[at+7] = instance_transform.origin.y
+		burned_buffer[at+8] = 1.0
+		burned_buffer[at+9] = 1.0
+		burned_buffer[at+10] = 1.0
+		burned_buffer[at+11] = visual.fade * visual.settings.flame_opacity
+		burned_buffer[at+12] = rect.size.x
+		burned_buffer[at+13] = rect.size.y
+		burned_buffer[at+14] = visual.settings.flame_sprite_height
+		burned_buffer[at+15] = float(visual.get_instance_id() % 31)
+		index += 1
+	burned_material.set_shader_parameter("elapsed", FireContacts.clock)
+	burned_material.set_shader_parameter("flame_count", burned_flames_per_unit)
 	burned_batch.multimesh.buffer = burned_buffer
 	burned_batch.multimesh.visible_instance_count = index
 
@@ -403,6 +406,14 @@ func _write_instance(buffer: PackedFloat32Array, index: int, point: Vector2, siz
 	buffer[at+15] = timing.a
 
 func _update_visuals() -> void:
+	floor_material.set_shader_parameter("elapsed",FireContacts.clock)
+	flame_material.set_shader_parameter("elapsed",FireContacts.clock)
+	if configured_flames != flames_per_patch:
+		configured_flames = flames_per_patch
+		visual_dirty = true
+		visual_capacity = 0
+	if not visual_dirty: return
+	visual_dirty = false
 	if patches.size()>visual_capacity:
 		visual_capacity = maxi(64,patches.size()*2)
 		floor_batch.multimesh.instance_count = visual_capacity

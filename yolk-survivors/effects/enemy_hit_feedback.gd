@@ -3,6 +3,12 @@ extends Node2D
 # One shared draw node and a fixed particle pool, independent of hit frequency.
 const MAX_PARTICLES := 128
 const EMISSION_INTERVAL := 0.08
+@export_range(32, 128, 8) var active_limit := 96
+@export var gpu_animation := true
+var cream_buffer := PackedFloat32Array()
+var shell_buffer := PackedFloat32Array()
+var buffers_dirty := false
+var gpu_materials: Array[ShaderMaterial] = []
 const CREAM := Color("fff7e6")
 const SHELL := Color("ead6b5")
 const OUTLINE := Color("695039")
@@ -38,7 +44,9 @@ func emit_hit(enemy_id: int, at: Vector2, direction: Vector2, critical: bool) ->
 	var drops := 4 if critical else randi_range(2, 3)
 	var total := drops + (2 if critical else 1)
 	var emitted := 0
-	for particle in _particles:
+	for slot in _particles.size():
+		var particle: Dictionary = _particles[slot]
+		if active_count >= active_limit: break
 		if particle.life > 0.0: continue
 		var shell := emitted >= drops
 		particle.duration = randf_range(0.30, 0.40)
@@ -49,6 +57,7 @@ func emit_hit(enemy_id: int, at: Vector2, direction: Vector2, critical: bool) ->
 		particle.angle = randf_range(-PI, PI)
 		particle.spin = randf_range(-12.0, 12.0)
 		particle.shell = shell
+		if gpu_animation: _write_particle(slot, particle)
 		active_count += 1
 		emitted += 1
 		if emitted >= total: break
@@ -64,9 +73,10 @@ func _process(delta: float) -> void:
 		if particle.life == 0.0:
 			active_count -= 1
 			continue
-		particle.position += particle.velocity * delta
-		particle.velocity *= exp(-7.0 * delta)
-		particle.angle += particle.spin * delta
+		if not gpu_animation:
+			particle.position += particle.velocity * delta
+			particle.velocity *= exp(-7.0 * delta)
+			particle.angle += particle.spin * delta
 	_update_instances()
 	set_process(active_count > 0)
 
@@ -74,20 +84,65 @@ func _make_batch(mesh: Mesh, circular: bool) -> MultiMesh:
 	var instances := MultiMesh.new()
 	instances.transform_format = MultiMesh.TRANSFORM_2D
 	instances.use_colors = true
+	instances.use_custom_data = true
 	instances.mesh = mesh
 	instances.instance_count = MAX_PARTICLES*2
 	instances.visible_instance_count = 0
 	instances.custom_aabb = AABB(Vector3(-16384,-16384,-1),Vector3(32768,32768,2))
 	var batch := MultiMeshInstance2D.new()
 	batch.multimesh = instances
-	if circular:
+	if gpu_animation:
+		var particle_material := ShaderMaterial.new()
+		particle_material.shader = preload("res://shaders/hit_particle_batch.gdshader")
+		particle_material.set_shader_parameter("circular", circular)
+		batch.material = particle_material
+		gpu_materials.append(particle_material)
+		if circular: cream_buffer.resize(MAX_PARTICLES * 32)
+		else: shell_buffer.resize(MAX_PARTICLES * 32)
+	elif circular:
 		var particle_material := ShaderMaterial.new()
 		particle_material.shader = preload("res://shaders/mayonnaise_droplet.gdshader")
 		batch.material = particle_material
 	add_child(batch)
 	return instances
 
+func _write_particle(slot: int, particle: Dictionary) -> void:
+	var selected := shell_buffer if particle.shell else cream_buffer
+	var unused := cream_buffer if particle.shell else shell_buffer
+	for layer in 2:
+		var at := (slot * 2 + layer) * 16
+		# Erase the previous occupant of this slot in the other shape batch.
+		unused[at+11] = 0.0
+		var radius: float = particle.size * (0.84 if layer else 1.0)
+		var particle_angle: float = particle.angle if particle.shell else 0.0
+		var axis := Vector2.from_angle(particle_angle) * radius
+		selected[at] = axis.x
+		selected[at+1] = -axis.y
+		selected[at+3] = particle.position.x
+		selected[at+4] = axis.y
+		selected[at+5] = axis.x
+		selected[at+7] = particle.position.y
+		var tint := (SHELL if particle.shell else CREAM) if layer else OUTLINE
+		selected[at+8] = tint.r
+		selected[at+9] = tint.g
+		selected[at+10] = tint.b
+		selected[at+11] = particle.duration
+		selected[at+12] = particle.velocity.x
+		selected[at+13] = particle.velocity.y
+		selected[at+14] = particle.spin if particle.shell else 0.0
+		selected[at+15] = _time
+	buffers_dirty = true
+
 func _update_instances() -> void:
+	if gpu_animation:
+		if buffers_dirty:
+			cream_instances.buffer = cream_buffer
+			shell_instances.buffer = shell_buffer
+			buffers_dirty = false
+		for particle_material in gpu_materials: particle_material.set_shader_parameter("elapsed", _time)
+		cream_instances.visible_instance_count = MAX_PARTICLES * 2 if active_count > 0 else 0
+		shell_instances.visible_instance_count = MAX_PARTICLES * 2 if active_count > 0 else 0
+		return
 	var cream_count := 0
 	var shell_count := 0
 	for particle in _particles:
@@ -115,6 +170,10 @@ func _update_instances() -> void:
 func clear() -> void:
 	for particle in _particles: particle.life = 0.0
 	_enemy_cooldowns.clear()
+	if gpu_animation:
+		cream_buffer.fill(0.0)
+		shell_buffer.fill(0.0)
+		buffers_dirty = true
 	active_count = 0
 	cream_instances.visible_instance_count = 0
 	shell_instances.visible_instance_count = 0

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://effects/enemy_hit_feedback.gd" id="1"]
+[node name="EnemyHitFeedback" type="Node2D"]
+script = ExtResource("1")
+active_limit = 96
+gpu_animation = true

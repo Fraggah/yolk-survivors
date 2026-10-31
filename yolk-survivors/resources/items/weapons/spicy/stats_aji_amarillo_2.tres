@@ -27,6 +27,7 @@ maximum_active = 1
 color = Color(1, 0.8, 0.15, 1)
 opacity = 0.65
 column_height = 288.0
+column_visual_update_rate = 30.0
 column_hit_radius_multiplier = 1.5
 column_trail_lifetime = 1.1
 column_trail_radius_multiplier = 1.0

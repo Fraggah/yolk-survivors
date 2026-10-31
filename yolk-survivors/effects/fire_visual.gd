@@ -26,7 +26,10 @@ static func attach(unit: Unit, burn: Node, config: Resource, tint: Color) -> voi
 		visual.target = unit
 		unit.add_child(visual)
 	var next_settings: Resource = config if config else load("res://resources/statuses/fire_visual_default.tres")
-	visual.sources[burn.get_instance_id()] = weakref(burn)
+	var burn_id := burn.get_instance_id()
+	if not visual.sources.has(burn_id):
+		visual.sources[burn_id] = weakref(burn)
+		burn.tree_exiting.connect(visual._remove_source.bind(burn_id), CONNECT_ONE_SHOT)
 	if GroundFire.batch_burning:
 		visual.settings = next_settings
 		visual.applied_tint = tint
@@ -50,6 +53,9 @@ static func attach(unit: Unit, burn: Node, config: Resource, tint: Color) -> voi
 	visual.background_material.set_shader_parameter("opacity",visual.settings.background_flame_opacity)
 	visual.background_material.set_shader_parameter("size_pulse",visual.settings.size_pulse*0.5)
 	visual.layout_count = -1
+
+func _remove_source(id: int) -> void:
+	sources.erase(id)
 
 func _ready() -> void:
 	if GroundFire.batch_burning:
@@ -111,10 +117,12 @@ func _advance_visual(delta: float) -> void:
 	if not is_instance_valid(target) or target.is_queued_for_deletion() or target.health_component.current_health <= 0 or (target is Enemy and target.is_retiring):
 		queue_free()
 		return
-	for key in sources.keys():
-		var burn = sources[key].get_ref()
-		if not is_instance_valid(burn) or burn.is_queued_for_deletion() or burn.remaining <= 0:
-			sources.erase(key)
+	# Native burns notify expiration once instead of scanning every source each frame.
+	if not GroundFire.batch_burning:
+		for key in sources.keys():
+			var burn = sources[key].get_ref()
+			if not is_instance_valid(burn) or burn.is_queued_for_deletion() or burn.remaining <= 0:
+				sources.erase(key)
 	if sources.is_empty():
 		fade = maxf(0.0,fade-delta/maxf(0.01,settings.fade_duration))
 		if fade <= 0:
