@@ -15210,7 +15210,7 @@
       "source_sha256": "dca29811647e043b88fd34abebd6b3e19072097db6cf3855d50491d85321d28e"
     },
     {
-      "path": "resources/items/weapons/spicy/aura_settings.gd",
+      "path": "resources/items/weapons/chili/aura_settings.gd",
       "lines": 23,
       "exports": [
         [
@@ -15291,7 +15291,7 @@
       "source_sha256": "58b7aedd563dc714dc6e59724862a68f3b399b25f48ee4e778e776cf7771ecf0"
     },
     {
-      "path": "resources/items/weapons/spicy/explosion_settings.gd",
+      "path": "resources/items/weapons/chili/explosion_settings.gd",
       "lines": 25,
       "exports": [
         [
@@ -15384,7 +15384,7 @@
       "source_sha256": "02731501998a99be481efd9e1870ccc3e33eacfa0edb759c92e90246e87e7f69"
     },
     {
-      "path": "resources/items/weapons/spicy/item_aji_amarillo.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/item_aji_amarillo.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15392,7 +15392,7 @@
       "source_sha256": "e75da230ef7e935058536d6baba30f38666de5ed128eeae7ed4f38c017cc8b7d"
     },
     {
-      "path": "resources/items/weapons/spicy/item_aji_amarillo_2.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/item_aji_amarillo_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15400,7 +15400,7 @@
       "source_sha256": "acf2843dd12b0210980c6d2e49ed92f65eaa90358c69a01a92695be703fb24b4"
     },
     {
-      "path": "resources/items/weapons/spicy/item_aji_amarillo_3.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/item_aji_amarillo_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15408,7 +15408,7 @@
       "source_sha256": "0a7d6e96c52c666c7676fc1edd4cf782685e83121ef56dd1209476a6b933dd29"
     },
     {
-      "path": "resources/items/weapons/spicy/item_aji_amarillo_4.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/item_aji_amarillo_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15416,7 +15416,7 @@
       "source_sha256": "1697194882b7f057bf0f9f02c94daec69c9af68e13bee150144f2f44565872f0"
     },
     {
-      "path": "resources/items/weapons/spicy/item_bell_pepper.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15424,7 +15424,7 @@
       "source_sha256": "6649e0ef1fd122963e1341d734c7ba229603c7b12011f911f2cbccda802500a5"
     },
     {
-      "path": "resources/items/weapons/spicy/item_bell_pepper_2.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/item_bell_pepper_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15432,7 +15432,7 @@
       "source_sha256": "fc9203749991cb1e905cd4976b82ae376087523a51b819c8fa61b2134c8f60e8"
     },
     {
-      "path": "resources/items/weapons/spicy/item_bell_pepper_3.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/item_bell_pepper_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15440,7 +15440,7 @@
       "source_sha256": "c4465650d8063aeba97c46c9e763086fce3464347da62dccc5b56afb6536ba5f"
     },
     {
-      "path": "resources/items/weapons/spicy/item_bell_pepper_4.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/item_bell_pepper_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15448,7 +15448,7 @@
       "source_sha256": "15e75c4c3897535f741c9b7c3d66d08f9a21b24b2d788603e821b5209acfe47b"
     },
     {
-      "path": "resources/items/weapons/spicy/item_carolina_reaper.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres",
       "lines": 29,
       "exports": [],
       "uniforms": [],
@@ -15456,7 +15456,7 @@
       "source_sha256": "f9ebe5ba2081731270287de27b629257c74ee696323c2fc24f005f26fe1f8fe4"
     },
     {
-      "path": "resources/items/weapons/spicy/item_carolina_reaper_2.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/item_carolina_reaper_2.tres",
       "lines": 29,
       "exports": [],
       "uniforms": [],
@@ -15464,7 +15464,7 @@
       "source_sha256": "a0c4dfa07a2af2969aed9080773d559050c0b2fa3f337da969c96e7dd4ffa31a"
     },
     {
-      "path": "resources/items/weapons/spicy/item_carolina_reaper_3.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/item_carolina_reaper_3.tres",
       "lines": 29,
       "exports": [],
       "uniforms": [],
@@ -15472,7 +15472,7 @@
       "source_sha256": "66673473dca1b8ee72316b3114e68470b9c198deb6bd090e6d677f9e68b6ae72"
     },
     {
-      "path": "resources/items/weapons/spicy/item_carolina_reaper_4.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/item_carolina_reaper_4.tres",
       "lines": 27,
       "exports": [],
       "uniforms": [],
@@ -15480,7 +15480,7 @@
       "source_sha256": "b3a24fe148d68e0749b9f737aa19736a73c72b791d7acf0848a5fd2431643229"
     },
     {
-      "path": "resources/items/weapons/spicy/item_cayenne.tres",
+      "path": "resources/items/weapons/chili/cayenne/item_cayenne.tres",
       "lines": 28,
       "exports": [],
       "uniforms": [],
@@ -15488,7 +15488,7 @@
       "source_sha256": "8b5a7a4af42ee3c8391901d9303c783a436238ac470368e2249570c6b7ae889a"
     },
     {
-      "path": "resources/items/weapons/spicy/item_cayenne_2.tres",
+      "path": "resources/items/weapons/chili/cayenne/item_cayenne_2.tres",
       "lines": 28,
       "exports": [],
       "uniforms": [],
@@ -15496,7 +15496,7 @@
       "source_sha256": "2a79389b451f94ec6a6f70820add360d3b40b0b506aa5ae835d0ea46e7dc9e7b"
     },
     {
-      "path": "resources/items/weapons/spicy/item_cayenne_3.tres",
+      "path": "resources/items/weapons/chili/cayenne/item_cayenne_3.tres",
       "lines": 28,
       "exports": [],
       "uniforms": [],
@@ -15504,7 +15504,7 @@
       "source_sha256": "fac443de1d5b62df2fe57916399f398c04515a34709162f516f64ab585cd0d4b"
     },
     {
-      "path": "resources/items/weapons/spicy/item_cayenne_4.tres",
+      "path": "resources/items/weapons/chili/cayenne/item_cayenne_4.tres",
       "lines": 26,
       "exports": [],
       "uniforms": [],
@@ -15512,7 +15512,7 @@
       "source_sha256": "e92f42416dd3c935d9a451dd0e627770ce8773df08c7e21fbdc61f589fde3a60"
     },
     {
-      "path": "resources/items/weapons/spicy/item_ghost_pepper.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/item_ghost_pepper.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15520,7 +15520,7 @@
       "source_sha256": "5d19452d1732b4e8319ce55a9abbd139e42ec44fc087e9b8f9ba45efe4120c5f"
     },
     {
-      "path": "resources/items/weapons/spicy/item_ghost_pepper_2.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/item_ghost_pepper_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15528,7 +15528,7 @@
       "source_sha256": "c1e2bdf065f940d28aa9672a9cfa68825590a156126148e1fd7b3fcd07b4c4e0"
     },
     {
-      "path": "resources/items/weapons/spicy/item_ghost_pepper_3.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/item_ghost_pepper_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15536,7 +15536,7 @@
       "source_sha256": "e7eb98412eabcf01d4ce2648c0414aedbac8e63691cf4ebe1e7e8f31901bf408"
     },
     {
-      "path": "resources/items/weapons/spicy/item_ghost_pepper_4.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/item_ghost_pepper_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15544,7 +15544,7 @@
       "source_sha256": "22e0ad0d0080107add4b49cb1a0eb8a043668d2016de5ae46b1975fa00c192c9"
     },
     {
-      "path": "resources/items/weapons/spicy/item_habanero.tres",
+      "path": "resources/items/weapons/chili/habanero/item_habanero.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15552,7 +15552,7 @@
       "source_sha256": "b7a5889c81230298dcc681ca0f7487437f163ce00cfa0e4b22e445c27a23f6bb"
     },
     {
-      "path": "resources/items/weapons/spicy/item_habanero_2.tres",
+      "path": "resources/items/weapons/chili/habanero/item_habanero_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15560,7 +15560,7 @@
       "source_sha256": "7306ebcfe44a1a9f4f536a577a7fbe82649f257f53279ce69b4eb5bc6353bc38"
     },
     {
-      "path": "resources/items/weapons/spicy/item_habanero_3.tres",
+      "path": "resources/items/weapons/chili/habanero/item_habanero_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15568,7 +15568,7 @@
       "source_sha256": "34dd8ae9df9ff4f6257238d53ef21a943e2861a90991a7bdd803077855c22d72"
     },
     {
-      "path": "resources/items/weapons/spicy/item_habanero_4.tres",
+      "path": "resources/items/weapons/chili/habanero/item_habanero_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15576,7 +15576,7 @@
       "source_sha256": "33a4abfc82a99537f315c7e6367f1cb29e3c5215b27a4017c8ce643e3f06a201"
     },
     {
-      "path": "resources/items/weapons/spicy/item_jalapeno.tres",
+      "path": "resources/items/weapons/chili/jalapeno/item_jalapeno.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15584,7 +15584,7 @@
       "source_sha256": "f64df210c9a645cd2bc5b03829a72afb2bb8c0c83cec5362a1d0bfe740eb8919"
     },
     {
-      "path": "resources/items/weapons/spicy/item_jalapeno_2.tres",
+      "path": "resources/items/weapons/chili/jalapeno/item_jalapeno_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15592,7 +15592,7 @@
       "source_sha256": "e4fd5bf796a3bb6277a7995b2782590a0b67d27157f265ab81e2f1a91e73bf3f"
     },
     {
-      "path": "resources/items/weapons/spicy/item_jalapeno_3.tres",
+      "path": "resources/items/weapons/chili/jalapeno/item_jalapeno_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15600,7 +15600,7 @@
       "source_sha256": "4cbe1331b8dca5e70c4d39d0aaa35c488c3b97536a4a2fba664d7577d7a36c84"
     },
     {
-      "path": "resources/items/weapons/spicy/item_jalapeno_4.tres",
+      "path": "resources/items/weapons/chili/jalapeno/item_jalapeno_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15608,7 +15608,7 @@
       "source_sha256": "db9727dffe34bb103633a39c5e329feb0bf59a4fda1544f289f7cf5c03656fcf"
     },
     {
-      "path": "resources/items/weapons/spicy/item_poblano.tres",
+      "path": "resources/items/weapons/chili/poblano/item_poblano.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15616,7 +15616,7 @@
       "source_sha256": "0214dd54c590a25437709ab9b15402e46f3731adf7e375cbb00f10531d5b7322"
     },
     {
-      "path": "resources/items/weapons/spicy/item_poblano_2.tres",
+      "path": "resources/items/weapons/chili/poblano/item_poblano_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15624,7 +15624,7 @@
       "source_sha256": "5a5ff4d9175de13d3b584e0166d3976407547e9b7da56f9c3316a9ca9eed3246"
     },
     {
-      "path": "resources/items/weapons/spicy/item_poblano_3.tres",
+      "path": "resources/items/weapons/chili/poblano/item_poblano_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15632,7 +15632,7 @@
       "source_sha256": "e6ddf74b9d68a0c308c37b53ab1ac429a9e08220986f9f9d68927c0d77cd455e"
     },
     {
-      "path": "resources/items/weapons/spicy/item_poblano_4.tres",
+      "path": "resources/items/weapons/chili/poblano/item_poblano_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15640,7 +15640,7 @@
       "source_sha256": "58061cb69e02dc7f408c5d4314c2a20854a17b35e1240646c2b91117b2d3cad8"
     },
     {
-      "path": "resources/items/weapons/spicy/item_rocoto.tres",
+      "path": "resources/items/weapons/chili/rocoto/item_rocoto.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15648,7 +15648,7 @@
       "source_sha256": "756d120b7ba7a334605793f517e93d918747448b69e9c613dfe0a1018c3a7f2d"
     },
     {
-      "path": "resources/items/weapons/spicy/item_rocoto_2.tres",
+      "path": "resources/items/weapons/chili/rocoto/item_rocoto_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15656,7 +15656,7 @@
       "source_sha256": "431f9f2fa56b9f416d4bb516757b06e7747b88de040656fb2fb8525836fd33d9"
     },
     {
-      "path": "resources/items/weapons/spicy/item_rocoto_3.tres",
+      "path": "resources/items/weapons/chili/rocoto/item_rocoto_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15664,7 +15664,7 @@
       "source_sha256": "4db0cd49ebec26c2d16f44c0ec62e12546b3be2a23c421c1ca54eddb3cda41e1"
     },
     {
-      "path": "resources/items/weapons/spicy/item_rocoto_4.tres",
+      "path": "resources/items/weapons/chili/rocoto/item_rocoto_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15672,7 +15672,7 @@
       "source_sha256": "a2ae2f6b00091192bebecf1e24144e66cde024451fd34c6c4b5cb99928af3402"
     },
     {
-      "path": "resources/items/weapons/spicy/item_scotch_bonnet.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15680,7 +15680,7 @@
       "source_sha256": "8ca6e14f6b3bc4a3d7e64df9e1295ab5077e0018150cfce7bb61618b3cb693e7"
     },
     {
-      "path": "resources/items/weapons/spicy/item_scotch_bonnet_2.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet_2.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15688,7 +15688,7 @@
       "source_sha256": "cedb9fe73fd41d512711ac1cc4fb654d259b34bf881511658c0504b93a86cc49"
     },
     {
-      "path": "resources/items/weapons/spicy/item_scotch_bonnet_3.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet_3.tres",
       "lines": 25,
       "exports": [],
       "uniforms": [],
@@ -15696,7 +15696,7 @@
       "source_sha256": "6c70f55a5446280b4d1d68d244484ef20bbecc80770a27482e02a9a1f79e1a85"
     },
     {
-      "path": "resources/items/weapons/spicy/item_scotch_bonnet_4.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet_4.tres",
       "lines": 23,
       "exports": [],
       "uniforms": [],
@@ -15704,7 +15704,7 @@
       "source_sha256": "f00898f77ea3b2c5d42cde291455ccbc13bd156c39bdb77fb728755c60972635"
     },
     {
-      "path": "resources/items/weapons/spicy/pattern_settings.gd",
+      "path": "resources/items/weapons/chili/pattern_settings.gd",
       "lines": 132,
       "exports": [
         [
@@ -16141,7 +16141,7 @@
       "source_sha256": "faa06ac9693b2632bf83a7f17cb6fdeca4665986f03fd563059f097327a64fb0"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_aji_amarillo.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/stats_aji_amarillo.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16149,7 +16149,7 @@
       "source_sha256": "141d509df9a67de09d1988d15e9d115325a246ecd97c95abb4a744a4b8985da6"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_aji_amarillo_2.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/stats_aji_amarillo_2.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16157,7 +16157,7 @@
       "source_sha256": "a3ce80957124f10ce82d7af2efedac5ae973ffbb9047d94960d80d5311044a77"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_aji_amarillo_3.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/stats_aji_amarillo_3.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16165,7 +16165,7 @@
       "source_sha256": "e900f3d33e27c3af16374ab20b475115f2c9ebbde485d7eb53963a5c392cce07"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_aji_amarillo_4.tres",
+      "path": "resources/items/weapons/chili/aji_amarillo/stats_aji_amarillo_4.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16173,7 +16173,7 @@
       "source_sha256": "bc62d25726d1bb460c1af42c79a582894be2a783c55d95ac5c802ca7321e9587"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_bell_pepper.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/stats_bell_pepper.tres",
       "lines": 102,
       "exports": [],
       "uniforms": [],
@@ -16181,7 +16181,7 @@
       "source_sha256": "4da0f79fed6f1c7f081325d8befc1d510c5b1e19409278f5c58d2831321aa0b1"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_bell_pepper_2.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/stats_bell_pepper_2.tres",
       "lines": 102,
       "exports": [],
       "uniforms": [],
@@ -16189,7 +16189,7 @@
       "source_sha256": "dfbe0185577daee09ef10e028ad4cad683fb873a27cd459d350a00340c60a845"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_bell_pepper_3.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/stats_bell_pepper_3.tres",
       "lines": 102,
       "exports": [],
       "uniforms": [],
@@ -16197,7 +16197,7 @@
       "source_sha256": "0386183b590928bfb18094a179fb94cda46ff25a2731a0cb47cf136c1d175cac"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_bell_pepper_4.tres",
+      "path": "resources/items/weapons/chili/bell_pepper/stats_bell_pepper_4.tres",
       "lines": 102,
       "exports": [],
       "uniforms": [],
@@ -16205,7 +16205,7 @@
       "source_sha256": "31ea28ed2f5651484197d0778fa6d4c2233073df12134519177787f93c6cab53"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_carolina_reaper.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper.tres",
       "lines": 128,
       "exports": [],
       "uniforms": [],
@@ -16213,7 +16213,7 @@
       "source_sha256": "671f7f57063cd584e28b6ad31832f15649a0ba2dde52b2faaff7a8556b3e4f42"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_carolina_reaper_2.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper_2.tres",
       "lines": 128,
       "exports": [],
       "uniforms": [],
@@ -16221,7 +16221,7 @@
       "source_sha256": "ca92ca5d1bb2ab96160a847ef3e97054b895224b6f132ebc91c6677c77737fbc"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_carolina_reaper_3.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper_3.tres",
       "lines": 128,
       "exports": [],
       "uniforms": [],
@@ -16229,7 +16229,7 @@
       "source_sha256": "14adb56448d548039e5a84e82030c25a025d5dc9dac05d67cacc87ec0604e77d"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_carolina_reaper_4.tres",
+      "path": "resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper_4.tres",
       "lines": 128,
       "exports": [],
       "uniforms": [],
@@ -16237,7 +16237,7 @@
       "source_sha256": "9dfc732815de324e81396ff7bb4a6391104813b180b011e3038ef3d26af9c6c6"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_cayenne.tres",
+      "path": "resources/items/weapons/chili/cayenne/stats_cayenne.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16245,7 +16245,7 @@
       "source_sha256": "07b64e994eb1dda2e628ea91c387e05c08ac10b7162f5ebe1fa2498fca859f54"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_cayenne_2.tres",
+      "path": "resources/items/weapons/chili/cayenne/stats_cayenne_2.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16253,7 +16253,7 @@
       "source_sha256": "1331f1f8996883c87a77ee3af45ca93a7c33b9ad29bdf2a6d9620775c3570a99"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_cayenne_3.tres",
+      "path": "resources/items/weapons/chili/cayenne/stats_cayenne_3.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16261,7 +16261,7 @@
       "source_sha256": "f71a15069145e8fc4d05bb0e70c4ad4d697f738ac525764d6f2bf2e008db2f22"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_cayenne_4.tres",
+      "path": "resources/items/weapons/chili/cayenne/stats_cayenne_4.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16269,7 +16269,7 @@
       "source_sha256": "20feedf44c60ae750aa650ee9f72d7ccf059214e3219b0610c62195e8a0e2e1d"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_ghost_pepper.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/stats_ghost_pepper.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16277,7 +16277,7 @@
       "source_sha256": "c9f941eb8aabb6ece284beb399f1c3dacffe0772c6858594d488680a348b4573"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_ghost_pepper_2.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/stats_ghost_pepper_2.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16285,7 +16285,7 @@
       "source_sha256": "85247bb56ed6ae389c37a0ad989ea7f641461a2250be4389c521d121994f1e7b"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_ghost_pepper_3.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/stats_ghost_pepper_3.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16293,7 +16293,7 @@
       "source_sha256": "bc3c6218f5b422616974f3919bfee5533ad1c9d75be6facd4f80980318f7ba14"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_ghost_pepper_4.tres",
+      "path": "resources/items/weapons/chili/ghost_pepper/stats_ghost_pepper_4.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16301,7 +16301,7 @@
       "source_sha256": "c92abe449f2b7a0736a93a6b3b9a436f3194a2450e0ea9985e586982ee43c617"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_habanero.tres",
+      "path": "resources/items/weapons/chili/habanero/stats_habanero.tres",
       "lines": 51,
       "exports": [],
       "uniforms": [],
@@ -16309,7 +16309,7 @@
       "source_sha256": "59641115fc9be295d638dcd1d9f6b758edd69d5b766ef1a31f123ca962cfd20a"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_habanero_2.tres",
+      "path": "resources/items/weapons/chili/habanero/stats_habanero_2.tres",
       "lines": 51,
       "exports": [],
       "uniforms": [],
@@ -16317,7 +16317,7 @@
       "source_sha256": "219a242c1e6ce3658545919ffa3de3a1adb8c55924e2f65daa7752b405a4458c"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_habanero_3.tres",
+      "path": "resources/items/weapons/chili/habanero/stats_habanero_3.tres",
       "lines": 51,
       "exports": [],
       "uniforms": [],
@@ -16325,7 +16325,7 @@
       "source_sha256": "0978436c4e5929e1cb962fec8fa78895ec02e705e5d8b7d6a28868691d88e0fd"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_habanero_4.tres",
+      "path": "resources/items/weapons/chili/habanero/stats_habanero_4.tres",
       "lines": 51,
       "exports": [],
       "uniforms": [],
@@ -16333,7 +16333,7 @@
       "source_sha256": "0730ba25cf2cbc673945771b327e7e076d68886287d569fcdf4301e976674eae"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_jalapeno.tres",
+      "path": "resources/items/weapons/chili/jalapeno/stats_jalapeno.tres",
       "lines": 47,
       "exports": [],
       "uniforms": [],
@@ -16341,7 +16341,7 @@
       "source_sha256": "09d1c3772b3b69757911b11e07e4088470b7efbee50198ac06e22bdfc8c8f4d6"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_jalapeno_2.tres",
+      "path": "resources/items/weapons/chili/jalapeno/stats_jalapeno_2.tres",
       "lines": 47,
       "exports": [],
       "uniforms": [],
@@ -16349,7 +16349,7 @@
       "source_sha256": "d03200a91d9d803a9f15ff70a434ed17b128dd1f111cd82b1685a37e63e79dc7"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_jalapeno_3.tres",
+      "path": "resources/items/weapons/chili/jalapeno/stats_jalapeno_3.tres",
       "lines": 47,
       "exports": [],
       "uniforms": [],
@@ -16357,7 +16357,7 @@
       "source_sha256": "ce0aaf6a37b3619082de242e4039e000d99b9ac4dc80694e153f887cf784568b"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_jalapeno_4.tres",
+      "path": "resources/items/weapons/chili/jalapeno/stats_jalapeno_4.tres",
       "lines": 47,
       "exports": [],
       "uniforms": [],
@@ -16365,7 +16365,7 @@
       "source_sha256": "ba60c9aa8b6591614827e149f60064cb40ee501a12d81b13c83ecb7d04a5ad3a"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_poblano.tres",
+      "path": "resources/items/weapons/chili/poblano/stats_poblano.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16373,7 +16373,7 @@
       "source_sha256": "b51ca8149d77b1af613179ea16e9c07d6f4054b7b1ef604a466b2adbcf6be070"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_poblano_2.tres",
+      "path": "resources/items/weapons/chili/poblano/stats_poblano_2.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16381,7 +16381,7 @@
       "source_sha256": "6b8c4856e0243185dccf59d70a0b2533b593836ffd47152b942477285265bc5e"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_poblano_3.tres",
+      "path": "resources/items/weapons/chili/poblano/stats_poblano_3.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16389,7 +16389,7 @@
       "source_sha256": "757c7f2059991696d8b91d5cbdadf059e81c3add82861f746889b243d301af05"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_poblano_4.tres",
+      "path": "resources/items/weapons/chili/poblano/stats_poblano_4.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16397,7 +16397,7 @@
       "source_sha256": "ef68dfdc81847ecff6e8e3d03e0e852c42d6c836e99471460952b655e18426a7"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_rocoto.tres",
+      "path": "resources/items/weapons/chili/rocoto/stats_rocoto.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16405,7 +16405,7 @@
       "source_sha256": "3aca89af77f9c715cddc1cbf6bd21b0e5156e6186abc5207880c57dd5d837bd7"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_rocoto_2.tres",
+      "path": "resources/items/weapons/chili/rocoto/stats_rocoto_2.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16413,7 +16413,7 @@
       "source_sha256": "bf227f1386d0a547240af80755053d2a465758608dda0a9a60d1b4726247bc84"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_rocoto_3.tres",
+      "path": "resources/items/weapons/chili/rocoto/stats_rocoto_3.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16421,7 +16421,7 @@
       "source_sha256": "8ab6e892421cf4e128f953d209454b713edd6d94fb82362820ccd14518f055dd"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_rocoto_4.tres",
+      "path": "resources/items/weapons/chili/rocoto/stats_rocoto_4.tres",
       "lines": 122,
       "exports": [],
       "uniforms": [],
@@ -16429,7 +16429,7 @@
       "source_sha256": "3dc5098eb8ad5eb315df5238c04ee13fa11f3b8ab4e7234ae7a199d5de80ef4f"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_scotch_bonnet.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16437,7 +16437,7 @@
       "source_sha256": "c19a9561a7a4bfe62af66f6eabd5bd6cc8f7ef68874625fa516d0db983b40eab"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_scotch_bonnet_2.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet_2.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16445,7 +16445,7 @@
       "source_sha256": "3ab138136bc2484346457408a5e458c22700856259b0ffb2266b1a7ac8260650"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_scotch_bonnet_3.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet_3.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16453,7 +16453,7 @@
       "source_sha256": "cd3ed448d3e3971aa790f8de33383206a1604aee09eb9122b6e34c35c6397962"
     },
     {
-      "path": "resources/items/weapons/spicy/stats_scotch_bonnet_4.tres",
+      "path": "resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet_4.tres",
       "lines": 124,
       "exports": [],
       "uniforms": [],
@@ -16482,7 +16482,7 @@
           "line": 8,
           "function": "items",
           "kind": "texto",
-          "code": "var item := load(\"res://resources/items/weapons/spicy/item_%s.tres\" % id) as ItemWeapon"
+          "code": "var item := load(\"res://resources/items/weapons/chili/%s/item_%s.tres\" % [id, id]) as ItemWeapon"
         }
       ],
       "source_sha256": "6e3269a5feefd2849f5e3e9522412baf4cacf3ffb7e6c078e899aa7ac6a8654a"
@@ -24014,7 +24014,7 @@
           "line": 12,
           "function": "_ready",
           "kind": "texto",
-          "code": "var settings: Resource = load(\"res://resources/items/weapons/spicy/stats_scotch_bonnet.tres\").spicy_pattern.duplicate()"
+          "code": "var settings: Resource = load(\"res://resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet.tres\").spicy_pattern.duplicate()"
         },
         {
           "line": 15,

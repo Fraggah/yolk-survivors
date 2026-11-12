@@ -1,5 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body_bold.tres" id="ui_body_bold"]
 [ext_resource type="Script" path="res://scenes/ui/unlock_notice.gd" id="1_6rcvl"]
 
 [ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="fit"]
@@ -133,6 +135,8 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_td18a")
 
 [node name="RichTextLabel0" type="RichTextLabel" parent="UnlockScreen/Viewport/Stage/Panel5"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 0
 offset_left = 26.0
 offset_top = 24.0
@@ -157,3 +161,5 @@ position = Vector2(360,285)
 position = Vector2(120,650)
 [node name="RequirementEnd" type="Marker2D" parent="UnlockScreen/Viewport/Stage"]
 position = Vector2(60,740)
+
+[connection signal="pressed" from="UnlockScreen/Viewport/Stage/Button6" to="." method="_continue"]

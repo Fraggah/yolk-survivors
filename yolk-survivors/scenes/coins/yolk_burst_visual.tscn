@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/coins/yolk_burst_visual.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Yolk/yolk.png" id="2"]
+
+[node name="YolkBurstVisual" type="Node2D" groups=["yolk_burst_visuals"]]
+z_index = -1
+script = ExtResource("1")
+yolk_texture = ExtResource("2")

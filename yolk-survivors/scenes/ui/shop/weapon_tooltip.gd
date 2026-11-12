@@ -91,19 +91,22 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	style.shadow_size = UITheme.palette.shadow_size
 	add_theme_stylebox_override("panel", style)
 	var stats := weapon.stats
+	stats_grid.get_child(0).text = weapon.damage_label
 	var values: Array[String] = [
-		weapon.get_damage_description(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null),
-		"%s s" % _format_number(weapon.get_effective_cooldown(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
+		weapon.get_direct_damage_description(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null),
+		"%s s" % _format_number(weapon.get_display_cooldown(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
 		_format_number(weapon.get_effective_range(preview_stats)) if preview_stats else weapon.get_range_description(),
 		"%s%%" % _format_number(weapon.get_effective_critical_chance(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
 		"%s%%" % _format_number(weapon.get_effective_life_steal(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null) * 100.0),
-		"Unlimited" if stats.unlimited_piercing else str(weapon.get_effective_piercing(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
+		"∞" if stats.unlimited_piercing else str(weapon.get_effective_piercing(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
 		str(weapon.get_effective_bounces(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null)),
 		str(weapon.get_sell_price(shop_wave_override if shop_wave_override>=0 else (get_parent() as ShopPanel).shop_wave if get_parent() is ShopPanel else 1)),
 		"%s x" % _format_number(weapon.get_effective_critical_multiplier(preview_stats if preview_stats else Global.player.stats if is_instance_valid(Global.player) else null))
 	]
 	for index in values.size():
 		var show_stat := index < 5 or index >= 7 or (weapon.has_tag(ItemWeapon.Tag.RANGED) and ((index == 5 and stats.unlimited_piercing) or int(values[index]) > 0))
+		if index == 6: show_stat = show_stat and weapon.shows_bounce_count()
+		if index in [2, 3, 8]: show_stat = show_stat and not weapon.has_tag(ItemWeapon.Tag.CHILI)
 		stats_grid.get_child(index * 2).visible = show_stat
 		value_labels[index].visible = show_stat
 		value_labels[index].add_theme_color_override("default_color", UITheme.palette.positive)
@@ -112,7 +115,7 @@ func _update_weapon(weapon: ItemWeapon) -> void:
 	if show_full_description:
 		var extra: PackedStringArray=[]
 		for line in weapon.get_description(preview_stats).split("\n"):
-			if line.get_slice(":",0).strip_edges().to_lower() not in ["damage","cooldown","range","critical chance","life steal","piercing","bounces"]: extra.append(line)
+			if line.get_slice(":",0).strip_edges().to_lower() not in [weapon.damage_label.to_lower(),"cooldown","range","critical chance","life steal","piercing","bounces"]: extra.append(line)
 		var description=UITheme.rich_text("\n".join(extra))
 		if full_description.text!=description: full_description.text=description
 		full_description.visible=not extra.is_empty()

@@ -48,7 +48,7 @@ func verify():
 	shot.configure_effects(weapon.data.stats.ranged_settings)
 	assert(shot.hitbox.launch_speed == 780)
 	assert(is_equal_approx(shot.hitbox.launch_duration, weapon.data.stats.ranged_settings.airbourne_duration * 1.5))
-	assert(shot.hitbox.launch_damage == 3.5, "Control cannot increase collision damage")
+	assert(shot.hitbox.launch_damage == 10.0, "Control cannot increase collision damage")
 	shot.queue_free()
 	# A copied blast uses the template push once, even with final item modifiers.
 	player.stats.set_final_modifiers({"knockback": 20, "crowd_control": 20})

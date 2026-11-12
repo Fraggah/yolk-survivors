@@ -1,5 +1,5 @@
 extends SceneTree
-## Reproducible rendered co-op combat. No wave ending / jar collection is included.
+## Reproducible rendered co-op combat. --yolk-stress also exercises the cap and jar.
 var actors=[]
 var foes=[]
 var frames=[]
@@ -18,6 +18,7 @@ var replacements=0
 var no_status=false
 var capture=false
 var profile=false
+var yolk_stress=false
 var arena
 var global
 func _initialize(): call_deferred("run")
@@ -37,6 +38,7 @@ func run():
 		if arg=="--no-status": no_status=true
 		if arg=="--capture": capture=true
 		if arg=="--profile": profile=true
+		if arg=="--yolk-stress": yolk_stress=true
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps=0
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
@@ -52,7 +54,7 @@ func run():
 	arena.spawner.spawn_timer.stop()
 	arena.spawner.wave_timer.stop()
 	arena.stage_mechanics.stop()
-	var paths=["range/the_bloody/item_bloody_1","spicy/item_carolina_reaper","spicy/item_cayenne","range/kitchen_torch/item_kitchen_torch_1","melee/electric_knife/item_electric_knife_1","melee/butcher_knife/item_knife_1"]
+	var paths=["range/the_bloody/item_bloody_1","chili/carolina_reaper/item_carolina_reaper","chili/cayenne/item_cayenne","range/kitchen_torch/item_kitchen_torch_1","melee/electric_knife/item_electric_knife_1","melee/butcher_knife/item_knife_1"]
 	var catalogue=[]
 	for item in arena.weapon_selection_panel.weapons_list:
 		if item.item_tier==0 and not catalogue.has(item): catalogue.append(item)
@@ -93,6 +95,7 @@ func run():
 		var enemy=load("res://scenes/units/enemies/enemy_chaser_mid.tscn").instantiate()
 		enemy.stats=enemy.stats.duplicate()
 		enemy.stats.block_chance=0
+		if yolk_stress: enemy.stats.coin_drop=3
 		enemy.status_immune=no_status
 		arena.add_child(enemy)
 		enemy.global_position=Vector2.from_angle(i*2.399963)*lerpf(80.0,700.0,float(i)/population)
@@ -100,10 +103,19 @@ func run():
 		enemy.health_component.current_health=enemy.health_component.max_health
 		foes.append(enemy)
 		if i%10==0: await process_frame
-	for i in 150:
-		var coin=load("res://scenes/coins/coins.tscn").instantiate()
-		coin.position=Vector2.from_angle(i*2.399963)*800
-		arena.add_child(coin)
+	if yolk_stress:
+		var initial_value: int = arena.uncollected_yolk_value()
+		for i in 100:
+			arena.spawn_yolk_at(Vector2.from_angle(i*2.399963)*800, 3)
+		if arena.gold_list.size() != mini(300, arena.yolk_pickup_limit) or arena.uncollected_yolk_value() != initial_value + 300:
+			push_error("Initial yolk pressure did not preserve the cap and total")
+			quit(2)
+			return
+	else:
+		for i in 150:
+			var coin=load("res://scenes/coins/coins.tscn").instantiate()
+			coin.position=Vector2.from_angle(i*2.399963)*800
+			arena.add_child(coin)
 	var began=Time.get_ticks_usec()
 	var fire_contacts=root.get_node("FireContacts")
 	fire_contacts.profile_enabled=profile
@@ -115,6 +127,8 @@ func run():
 	var render_cpu=0.0
 	var physics_steps=0.0
 	var previous_physics=Engine.get_physics_frames()
+	var next_burst := 2.0
+	var bursts := 0
 	while Time.get_ticks_usec()-began<duration*1000000:
 		await process_frame
 		var now=Time.get_ticks_usec()
@@ -133,6 +147,7 @@ func run():
 				var enemy=load("res://scenes/units/enemies/enemy_chaser_mid.tscn").instantiate()
 				enemy.stats=enemy.stats.duplicate()
 				enemy.stats.block_chance=0
+				if yolk_stress: enemy.stats.coin_drop=3
 				arena.add_child(enemy)
 				enemy.global_position=Vector2.from_angle(randf()*TAU)*650
 				enemy.health_component.max_health=250
@@ -140,6 +155,15 @@ func run():
 				foes[i]=enemy
 				replacements+=1
 				break
+		if yolk_stress and elapsed >= next_burst:
+			var before: int = arena.uncollected_yolk_value()
+			arena.spawn_yolk_burst(Vector2.from_angle(bursts * 2.399963) * 650, 25)
+			if arena.uncollected_yolk_value() != before + 25 or arena.gold_list.size() > arena.yolk_pickup_limit:
+				push_error("Yolker burst exceeded the cap or lost currency")
+				quit(2)
+				return
+			bursts += 1
+			next_burst = elapsed + 3.0
 		fire_contacts.finish_profile("benchmark_replacement",spawn_started)
 		# Read last frame's timings without changing the real process order/delta.
 		for key in fire_contacts.profile_costs:
@@ -185,9 +209,36 @@ func run():
 	if capture:
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("user://goal60-capture.png"))
+	if yolk_stress:
+		for foe in foes:
+			if is_instance_valid(foe) and not foe.is_queued_for_deletion():
+				arena.spawner.spawned_enemies.append(foe)
+		var bank: int = arena.uncollected_yolk_value()
+		var physical: int = get_nodes_in_group("yolks").size()
+		var jar_frames: Array[float] = []
+		var jar_start := Time.get_ticks_usec()
+		var jar_last := jar_start
+		arena.coop.wave_completed()
+		var credited := 0
+		for session in arena.coop.sessions: credited += session.reserve
+		if credited != bank:
+			push_error("Co-op jar split did not preserve the pending and physical yolks")
+			quit(2)
+			return
+		while Time.get_ticks_usec() - jar_start < 900000:
+			await process_frame
+			var now := Time.get_ticks_usec()
+			jar_frames.append((now - jar_last) / 1000.0)
+			jar_last = now
+		result["yolk_stress"] = {"bursts": bursts, "pickup_limit": arena.yolk_pickup_limit, "jar_pickups": physical,
+			"jar_value": bank, "credited": credited, "end_wave_p95_ms": percentile(jar_frames, 0.95),
+			"end_wave_max_ms": jar_frames.max()}
+		while arena.coop.transitioning:
+			await process_frame
 	var path="res://../tmp/coop-benchmark-"+scenario+"-"+str(participants)+"-"+str(population)+".json"
 	if scenario=="catalogue": path=path.get_basename()+"-"+str(batch)+".json"
 	if mortal: path=path.get_basename()+"-mortal.json"
+	if yolk_stress: path=path.get_basename()+"-yolk-stress.json"
 	if not OS.is_debug_build(): path="user://"+path.get_file()
 	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
 	print(JSON.stringify(result))

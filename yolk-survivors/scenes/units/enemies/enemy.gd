@@ -17,6 +17,7 @@ var crowd_steering := Vector2.ZERO
 
 @onready var vision_area: Area2D = $VisionArea
 @onready var knockback_timer: Timer = $KnockbackTimer
+@onready var air_shadow := get_node_or_null("Visuals/Shadow") as Sprite2D
 
 var can_move := true
 var is_retiring := false
@@ -32,17 +33,22 @@ var launch_hitbox: HitboxComponent
 var _launch_duration := 0.0
 var _tortilla_relaunches := 0
 var _rest_visual_rotation := 0.0
+var _rest_shadow_rotation := 0.0
 var _airbourne_tilt := 0.0
 
 func _update_airbourne_tilt(delta: float) -> void:
 	var target := 0.0
 	if launch_left > 0.0 and absf(launch_velocity.x) > 0.001:
 		target = deg_to_rad(airbourne_tilt_degrees) * signf(launch_velocity.x)
-	if is_equal_approx(_airbourne_tilt, target): return
-	var speed := deg_to_rad(airbourne_tilt_degrees) / maxf(0.01, airbourne_tilt_transition)
-	_airbourne_tilt = move_toward(_airbourne_tilt, target, speed * delta)
-	# Rotate the visual subtree outside animation tracks, leaving ground depth and collisions intact.
-	visuals.rotation = _rest_visual_rotation + _airbourne_tilt
+	if not is_equal_approx(_airbourne_tilt, target):
+		var speed := deg_to_rad(airbourne_tilt_degrees) / maxf(0.01, airbourne_tilt_transition)
+		_airbourne_tilt = move_toward(_airbourne_tilt, target, speed * delta)
+		visuals.rotation = _rest_visual_rotation + _airbourne_tilt
+	elif is_zero_approx(_airbourne_tilt):
+		return
+	if air_shadow:
+		# The facing flip reverses the local rotation needed to cancel the lean.
+		air_shadow.rotation = _rest_shadow_rotation - _airbourne_tilt * signf(visuals.scale.x * visuals.scale.y)
 
 func pin_for(controller: Node) -> void:
 	if displacement_immune: return
@@ -94,6 +100,8 @@ func launch_from(hitbox: HitboxComponent) -> void:
 
 func _on_launch_collision(target: Unit, _amount: float, collision_hit: HitboxComponent) -> void:
 	if not is_instance_valid(collision_hit.source) or not collision_hit.source is Player: return
+	if target is Enemy and Progression.unlocked_weapons.has("mitten"):
+		Progression.record("airbourne_collisions", 1.0)
 	var items = collision_hit.source.passive_items
 	if not is_instance_valid(items) or items.airbourne_explosion_damage_percent <= 0.0: return
 	if not is_instance_valid(target): return
@@ -142,6 +150,7 @@ func _ready() -> void:
 	if targetable: add_to_group("combat_enemies")
 	_apply_size()
 	_rest_visual_rotation = visuals.rotation
+	if air_shadow: _rest_shadow_rotation = air_shadow.rotation
 	if targetable:
 		EnemyCrowd.register_enemy(self)
 		vision_area.set_deferred("monitoring",false)
@@ -272,7 +281,9 @@ func destroy_enemy() -> void:
 	var retirement := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	retirement.set_ignore_time_scale(true)
 	retirement.tween_property(self, "scale", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	await retirement.finished
+	retirement.tween_callback(_finish_retirement)
+
+func _finish_retirement() -> void:
 	load("res://effects/arena_bursts.gd").emit_at(self, global_position)
 	queue_free()
 

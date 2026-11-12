@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 34
-description = "Cuesta exactamente 1 yema. 50% de duplicar las yemas actuales; 50% de perderlas todas. El personaje Gambler siempre puede apostar al entrar a la tienda"
+description = "Double your yolks or lose them all."
 effect_key = "chocolate_coin"
 ready_for_shop = true
 pending_reason = ""
@@ -59,6 +59,7 @@ breading_explosion_radius = 40.0
 breading_explosion_damage_ratio = 0.25
 breading_slow_strength = 0.2
 breading_slow_duration = 1.0
+unlocked_by_default = false
 add_value = 0.0
 add_stats_id = "none"
 add_value_2 = 0.0

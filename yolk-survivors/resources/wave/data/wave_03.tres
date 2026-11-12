@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=9 format=3 uid="uid://c6deqy8v8ukqo"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=10 format=3 uid="uid://c6deqy8v8ukqo"]
 
+[ext_resource type="Resource" uid="uid://c6bovx8p26bso" path="res://resources/environments/stages/cooking_pot.tres" id="2_lupxb"]
 [ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="6_iebsx"]
-[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
@@ -11,12 +11,12 @@
 [sub_resource type="Resource" id="g0"]
 script = ExtResource("group")
 label = "Pressure"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_mini"), ExtResource("chaser_mid"), ExtResource("chaser_fast")])
-weights = Array[float]([4.0, 4.0, 3.0])
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid")])
+weights = Array[float]([4.0])
 spawn_zone = 0
 edge_width = 200.0
 start_second = 0.0
-interval = 1.15
+interval = 1.0
 minimum_count = 1
 maximum_count = 1
 repetitions = -1
@@ -28,8 +28,32 @@ priority = 0
 guaranteed = false
 school = false
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+
+[sub_resource type="Resource" id="Resource_iebsx"]
+script = ExtResource("group")
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mini")])
+weights = Array[float]([1.0])
+spawn_zone = 0
+edge_width = 200.0
+start_second = 0.0
+interval = 0.75
+minimum_count = 1
+maximum_count = 1
+repetitions = -1
+duration = -1.0
+activation_probability = 1.0
+interval_reduction = 0.0
+minimum_interval = 0.25
+priority = 0
+guaranteed = false
+school = false
+school_probability = 0.0
+affected_by_density = false
+school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
 [resource]
 script = ExtResource("wave")
@@ -37,10 +61,11 @@ number = 3
 wave_time = 30.0
 wave_type = 0
 music_tracks = Array[AudioStream]([])
-arena_mode = 0
+arena_mode = 1
+fixed_arena = ExtResource("2_lupxb")
 scheduled_spawns = Array[ExtResource("6_iebsx")]([])
 density_multiplier = 0
-groups = Array[ExtResource("group")]([SubResource("g0")])
+groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("Resource_iebsx")])
 events = Array[ExtResource("group")]([])
 common_limit = 35
 hazard_limit = 0

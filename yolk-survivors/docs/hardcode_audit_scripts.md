@@ -2471,7 +2471,7 @@ Hallazgos: BASE-08.
 - L90: `@export_range(0.0, 500.0, 5.0) var stream_particle_speed := 100.0`
 
 
-## resources/items/weapons/spicy/aura_settings.gd
+## resources/items/weapons/chili/aura_settings.gd
 
 23 líneas; 18 anotaciones export; 0 uniforms; 0 candidatos.
 
@@ -2497,7 +2497,7 @@ Hallazgos: BASE-08.
 - L23: `@export_range(0.0, 1.0, 0.05) var central_opacity := 0.45`
 
 
-## resources/items/weapons/spicy/explosion_settings.gd
+## resources/items/weapons/chili/explosion_settings.gd
 
 25 líneas; 21 anotaciones export; 0 uniforms; 0 candidatos.
 
@@ -2526,7 +2526,7 @@ Hallazgos: BASE-08.
 - L25: `@export var ember_size := 3.0`
 
 
-## resources/items/weapons/spicy/pattern_settings.gd
+## resources/items/weapons/chili/pattern_settings.gd
 
 132 líneas; 107 anotaciones export; 0 uniforms; 0 candidatos.
 
@@ -2649,7 +2649,7 @@ Hallazgos: BASE-08.
 
 - L3, `declaración` (constante): `const IDS := ["bell_pepper", "jalapeno", "habanero", "cayenne", "poblano", "carolina_reaper", "ghost_pepper", "aji_amarillo", "scotch_bonnet", "rocoto"]`
 - L6, `items` (regla/valor): `var result: Array[ItemWeapon] = []`
-- L8, `items` (texto): `var item := load("res://resources/items/weapons/spicy/item_%s.tres" % id) as ItemWeapon`
+- L8, `items` (texto): `var item := load("res://resources/items/weapons/chili/%s/item_%s.tres" % [id, id]) as ItemWeapon`
 
 ## resources/items/weapons/weapon_stats.gd
 
@@ -4206,7 +4206,7 @@ Hallazgos: BOSS-03.
 ### Candidatos / evidencia
 
 - L7, `declaración` (regla/valor): `var elapsed := 0.0`
-- L12, `_ready` (texto): `var settings: Resource = load("res://resources/items/weapons/spicy/stats_scotch_bonnet.tres").spicy_pattern.duplicate()`
+- L12, `_ready` (texto): `var settings: Resource = load("res://resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet.tres").spicy_pattern.duplicate()`
 - L15, `_ready` (texto): `blast=load("res://effects/scotch_mine_visual.gd").new()`
 - L18, `_ready` (literal adicional (revisión)): `blast.update_visual(0,true,0)`
 - L19, `_ready` (visual): `$Flash.scale=Vector2(visual_radius*3.0,visual_radius*3.0*y_ratio)`

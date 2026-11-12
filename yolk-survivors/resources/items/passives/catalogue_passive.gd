@@ -11,7 +11,8 @@ extends ItemPassive
 ## Zero means unlimited copies.
 @export_range(0, 99, 1) var max_copies := 0
 @export_range(0.0, 1.0, 0.01) var fire_interval_reduction := 0.0
-@export_range(0.0, 10.0, 0.01) var fire_duration_reduction := 0.0
+## Seconds subtracted from Burning duration. Negative values extend it.
+@export_range(-10.0, 10.0, 0.01) var fire_duration_reduction := 0.0
 @export_range(0.0, 1000.0, 1.0) var controlled_damage_percent := 0.0
 @export_range(0.0, 1000.0, 1.0) var airbourne_collision_damage_percent := 0.0
 @export_range(0.0, 1000.0, 1.0) var airbourne_explosion_damage_percent := 0.0
@@ -80,6 +81,7 @@ func apply_passive_values(target: Player = null) -> void:
 		target.passive_items.acquire(self, previous_gains)
 
 func available_for(player: Player) -> bool:
+	if not Progression.is_passive_unlocked(self): return false
 	if max_copies > 0 and is_instance_valid(player.passive_items) and player.passive_items.count(effect_key) >= max_copies: return false
 	return ready_for_shop and (effect_key != "extra_slot" or player.passive_items.count("extra_slot") < 3)
 

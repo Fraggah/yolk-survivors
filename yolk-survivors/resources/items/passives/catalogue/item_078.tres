@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 78
-description = "Consumible almacenable. Confirmá su uso y elegí un arma o pasivo. 25%: se rompe; 40%: mejora 10%; 23%: mejora 25%; 10%: mejora 50%; 2%: duplica beneficios y elimina penalizaciones. Mejora una sola copia. Los únicos destruidos pueden volver a aparecer en la tienda."
+description = "Consumable. Choose one weapon or passive to upgrade.
+25%: breaks. 40%: +10%. 23%: +25%. 10%: +50%. 2%: doubles bonuses and removes penalties.
+Destroyed unique items can reappear in the shop."
 effect_key = "golden_yolk"
 ready_for_shop = true
 pending_reason = ""

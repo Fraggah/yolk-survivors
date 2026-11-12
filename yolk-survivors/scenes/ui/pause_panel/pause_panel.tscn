@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmcklq2cvmlyg"]
+[gd_scene load_steps=4 format=3 uid="uid://bmcklq2cvmlyg"]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 [ext_resource type="Script" uid="uid://816bmo144xkw" path="res://scenes/ui/pause_panel/pause_panel.gd" id="1_t84es"]
 [ext_resource type="PackedScene" uid="uid://cj80og0famryw" path="res://scenes/ui/stats/stats_container.tscn" id="stats"]
 
@@ -113,6 +114,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Instructions" type="Label" parent="."]
+theme_override_fonts/font = ExtResource("ui_body")
 unique_name_in_owner = true
 visible = false
 layout_mode = 1

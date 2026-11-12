@@ -7,7 +7,9 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 41
-description = "+Alcance; +Armadura; +Vida máxima"
+description = "+20 Range
++4 Armor
++10 HP"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."
@@ -59,6 +61,7 @@ breading_explosion_radius = 40.0
 breading_explosion_damage_ratio = 0.25
 breading_slow_strength = 0.2
 breading_slow_duration = 1.0
+unlocked_by_default = false
 add_value = 20.0
 add_stats_id = "weapon_range"
 add_value_2 = 4.0

@@ -3,6 +3,7 @@ class_name ArenaEnvironmentController
 
 @export var stages: Array[ArenaStage]
 @export var debug_forced_stage := 0
+@export var show_debug_stage_selector := false
 ## World-space breathing room around the playable area in full-arena view.
 @export var overview_playable_margin := Vector2(140,160)
 var debug_stage_selector: OptionButton
@@ -29,7 +30,7 @@ func _ready() -> void:
 	flat_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(flat_background)
 	background.hide()
-	if OS.is_debug_build():
+	if OS.is_debug_build() and show_debug_stage_selector:
 		var debug_layer=preload("res://scenes/arena/debug_stage_selector.tscn").instantiate()
 		add_child(debug_layer)
 		debug_stage_selector=debug_layer.get_node("Stages")

@@ -27,12 +27,12 @@ func verify():
 	assert(not lighter.has_tag(6), "Ordinary push alone must not grant Control")
 	var pot = load("res://resources/items/weapons/range/pressure_cooker/item_pressure_cooker_1.tres")
 	assert(pot.get_category_label() == "Ranged · Explosive · Control")
-	var bell = load("res://resources/items/weapons/spicy/item_bell_pepper.tres")
+	var bell = load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres")
 	assert(bell.has_tag(1) and bell.get_damage_scaling_stat_id() == "ranged_damage" and bell.scales_with_effects)
 	var player_stats=load("res://resources/unit_stats.gd").new()
 	for tier in range(1,5):
 		var suffix="" if tier==1 else "_%d" % tier
-		var pepper=load("res://resources/items/weapons/spicy/item_bell_pepper%s.tres" % suffix)
+		var pepper=load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper%s.tres" % suffix)
 		player_stats.ranged_damage=0
 		var before=pepper.get_effective_damage(player_stats)
 		player_stats.ranged_damage=10

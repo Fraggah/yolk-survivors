@@ -1,21 +1,84 @@
-[gd_resource type="Resource" script_class="" load_steps=3 format=3]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://w54ugq1jkmcg"]
 
-[ext_resource type="Script" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Items/Catalogue/024.png" id="2"]
+[ext_resource type="Script" uid="uid://dnyefgc750gpo" path="res://resources/items/passives/catalogue_passive.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cr8lgha0l1kqk" path="res://assets/sprites/Items/Catalogue/024.png" id="2"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="2_myk2t"]
 
 [resource]
 script = ExtResource("1")
-item_name = "Queso untable"
-item_icon = ExtResource("2")
-item_type = 2
-item_tier = 0
-item_cost = 10
 catalogue_id = 24
-description = "+5% de probabilidad de bloqueo; −5 de velocidad de movimiento. Acumulable por copia. Máximo efectivo de bloqueo: 70%."
+description = "+5% Block Chance
+ −5 Speed"
 effect_key = "cream_cheese"
 ready_for_shop = true
 pending_reason = ""
+proc_chance = 0.0
+effect_radius = 80.0
+heal_amount = 0.1
+max_copies = 0
+fire_interval_reduction = 0.0
+fire_duration_reduction = 0.0
+controlled_damage_percent = 0.0
+airbourne_collision_damage_percent = 0.0
+airbourne_explosion_damage_percent = 0.0
+burning_regen_bonus = 0.0
+regen_per_level = 0.0
+electric_slow_strength = 0.0
+electric_slow_duration = 0.0
+minimum_discount_percent = 10
+maximum_discount_percent = 90
+two_for_one_chance = 0.02
+discount_band_weights = null
+golden_outcome_weights = null
+flambe_damage_per_enemy = 10.0
+ayahuasca_outcome_weights = null
+ayahuasca_levels = 10
+mushroom_interval = 5.0
+mushroom_explosion_radius = 220.0
+mushroom_effects_scaling = 1.0
+mushroom_health_scaling = 0.1
+mushroom_damage_bonus = 100.0
+mushroom_speed_percent = 50.0
+mushroom_attack_speed_bonus = 100.0
+mushroom_buff_duration = 4.0
+mushroom_health_loss = 0.5
+mushroom_burn_duration = 4.0
+mushroom_burn_tick_health = 0.01
+mushroom_shock_health = 0.05
+mushroom_heal_health = 0.1
+last_bite_health_threshold = 0.25
+last_bite_push_percent = 50.0
+last_bite_dash_reduction = 0.5
+relaunch_speed_multiplier = 0.75
+relaunch_duration_multiplier = 0.5
+relaunch_maximum = 2
+breading_extra_scaling = 0.25
+breading_chili_damage_percent = 10.0
+breading_pet_damage_percent = 10.0
+breading_proc_chance = 0.1
+breading_explosion_radius = 40.0
+breading_explosion_damage_ratio = 0.25
+breading_slow_strength = 0.2
+breading_slow_duration = 1.0
+unlocked_by_default = false
 add_value = 5.0
 add_stats_id = "block_chance"
 add_value_2 = -5.0
 add_stats_id_2 = "speed"
+add_value_3 = 0.0
+add_stats_id_3 = "none"
+add_value_4 = 0.0
+add_stats_id_4 = "none"
+add_value_5 = 0.0
+add_stats_id_5 = "none"
+add_value_6 = 0.0
+add_stats_id_6 = "none"
+add_value_7 = 0.0
+add_stats_id_7 = "none"
+on_hit_effects = Array[ExtResource("2_myk2t")]([])
+item_name = "Queso untable"
+item_icon = ExtResource("2")
+icon_scale = 1.0
+item_tier = 0
+item_type = 2
+item_cost = 10

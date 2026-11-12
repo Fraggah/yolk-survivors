@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 82
-description = "10% de probabilidad por copia de relanzar un enemigo Airbourne al aterrizar. Conserva el 75% de la fuerza y el 50% de la duración del lanzamiento anterior. Puede encadenar hasta dos relanzamientos; vuelve a aplicar las reducciones en el segundo. Conserva el daño de colisión y su atribución al arma."
+description = "10% chance per copy to relaunch an AIRBOURNE enemy when it lands.
+Each relaunch keeps 75% of the previous launch force and 50% of its duration. Up to 2 relaunches.
+Collision damage stays the same and counts toward the original weapon."
 effect_key = "tortilla_flip"
 ready_for_shop = true
 pending_reason = ""

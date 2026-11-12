@@ -17,7 +17,7 @@ func verify():
 	root.add_child(arena)
 	current_scene=arena
 	var global=root.get_node("Global")
-	var item=load("res://resources/items/weapons/spicy/item_habanero.tres")
+	var item=load("res://resources/items/weapons/chili/habanero/item_habanero.tres")
 	assert(not item.selection_only and item.type==2)
 	assert(arena.shop_panel.shop_items.has(item))
 	global.main_player_selected=arena.selection_panel.player_list[0]

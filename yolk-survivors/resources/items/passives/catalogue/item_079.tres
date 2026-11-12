@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 79
-description = "+1 slot de equipamiento ofensivo. Máximo 3 copias. Una mejora perfecta de Yema de oro da un segundo slot por copia; las mejoras menores conservan 1 slot. Hasta 12 armas con las tres copias perfectas."
+description = "+1 weapon slot
+Maximum 3 copies. A perfect Golden Yolk upgrade grants a second slot per copy, up to 12 slots total."
 effect_key = "extra_slot"
 ready_for_shop = true
 pending_reason = ""

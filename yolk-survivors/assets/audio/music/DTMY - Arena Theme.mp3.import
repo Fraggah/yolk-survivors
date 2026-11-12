@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dh75gd6hqdvyi"
+path="res://.godot/imported/DTMY - Arena Theme.mp3-8328899346a0bf187cd3c1eed87ebb01.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/music/DTMY - Arena Theme.mp3"
+dest_files=["res://.godot/imported/DTMY - Arena Theme.mp3-8328899346a0bf187cd3c1eed87ebb01.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -7,7 +7,8 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 37
-description = "+Alcance de recolección de yemas; +5% de experiencia obtenida"
+description = "+10 Pickup Range 
++5% XP Gain"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."
@@ -59,6 +60,7 @@ breading_explosion_radius = 40.0
 breading_explosion_damage_ratio = 0.25
 breading_slow_strength = 0.2
 breading_slow_duration = 1.0
+unlocked_by_default = false
 add_value = 10.0
 add_stats_id = "pickup_range"
 add_value_2 = 5.0

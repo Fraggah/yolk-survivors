@@ -1,6 +1,6 @@
 [gd_scene load_steps=50 format=3]
 
-[ext_resource type="FontFile" path="res://assets/font/Bake Soda.otf" id="1_45sdd"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_display.tres" id="1_45sdd"]
 [ext_resource type="Script" path="res://scenes/ui/shop/chocolate_coin_reveal.gd" id="2_2atiq"]
 
 [ext_resource type="Texture2D" path="res://assets/sprites/UI/chocolate_coin/coin-turn.png" id="99_coin_sheet"]

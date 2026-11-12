@@ -30,7 +30,7 @@ func verify():
 	for weapon in player.current_weapons: weapon.set_process(false)
 	for old in player.current_weapons: old.queue_free()
 	player.current_weapons.clear()
-	var base=load("res://resources/items/weapons/spicy/item_rocoto.tres")
+	var base=load("res://resources/items/weapons/chili/rocoto/item_rocoto.tres")
 	var items=[base,base,base.upgrade_to,base.upgrade_to,base.upgrade_to.upgrade_to]
 	for item in items: player.add_weapon(item)
 	for equipped in player.current_weapons:

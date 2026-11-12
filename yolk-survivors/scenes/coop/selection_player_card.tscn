@@ -1,5 +1,7 @@
-[gd_scene format=3]
+[gd_scene load_steps=3 format=3]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body_bold.tres" id="ui_body_bold"]
 [node name="PlayerCard" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 130)
 size_flags_horizontal = 3
@@ -39,6 +41,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
@@ -58,6 +62,7 @@ theme_override_constants/margin_bottom = 7
 mouse_filter = 2
 
 [node name="Message" type="Label" parent="Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 theme_override_font_sizes/font_size = 18
 text = "Para jugar solo, desactivá Coop Game.\nO esperá a que se una otro jugador."
 autowrap_mode = 2

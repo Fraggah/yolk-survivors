@@ -68,7 +68,7 @@ func verify() -> void:
 	var weapons = arena.weapon_selection_panel
 	var names: Array = []
 	for base in characters.player_list:
-		assert(not base.character_passives.is_empty())
+		assert(base.character_passives.is_empty() == (base.unlock_id == "well_rounded"))
 		var signature := ""
 		for passive in base.character_passives:
 			assert(passive.is_valid())
@@ -100,20 +100,20 @@ func verify() -> void:
 			assert(not arena.shop_panel.try_purchase_item(weapon))
 			player.add_weapon(weapon)
 			assert(player.current_weapons.size() == before_count and global.coins == before_coins)
-		# Use both real stat acquisition paths, with a gain bonus and a conversion.
+		# Well Rounded receives standard gains through both acquisition paths.
 		if base.name == "Well Rounded":
 			var upgrade = upgrade_script.new()
 			upgrade.stat_id = "damage_percent"
 			upgrade.value = 100.0
 			upgrade.apply_upgrade()
-			assert(player.stats.damage_percent == 125.0)
+			assert(player.stats.damage_percent == 100.0)
 			var item = load("res://resources/items/passives/item_passive.gd").new()
 			item.add_stats_id = "damage_percent"
 			item.add_value = 100.0
 			item.add_stats_id_2 = "speed"
 			item.add_value_2 = -10.0
 			item.apply_passive_values()
-			assert(player.stats.damage_percent == 250.0 and player.stats.speed == 290.0)
+			assert(player.stats.damage_percent == 200.0 and player.stats.speed == 290.0)
 		if base.name == "Tiny Egg":
 			var before = player.stats.ranged_damage
 			player.stats.apply_stat_change("speed", 50.0)

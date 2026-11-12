@@ -32,7 +32,7 @@ func verify():
 	for id in ids:
 		player.global_position=Vector2.ZERO
 		global.game_paused=false
-		var item=load("res://resources/items/weapons/spicy/item_%s.tres"%id)
+		var item=load("res://resources/items/weapons/chili/%s/item_%s.tres"% [id, id])
 		assert(not item.selection_only and arena.shop_panel.shop_items.has(item))
 		var data=item.duplicate()
 		data.stats=item.stats.duplicate(true)

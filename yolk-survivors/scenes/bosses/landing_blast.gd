@@ -9,7 +9,7 @@ var blast: Node2D
 func _ready() -> void:
 	add_to_group("projectiles")
 	add_to_group("boss_landing_effects")
-	var settings: Resource = load("res://resources/items/weapons/spicy/stats_scotch_bonnet.tres").spicy_pattern.duplicate()
+	var settings: Resource = load("res://resources/items/weapons/chili/scotch_bonnet/stats_scotch_bonnet.tres").spicy_pattern.duplicate()
 	settings.wave_duration=duration
 	settings.area_y_ratio=y_ratio
 	blast=load("res://effects/scotch_mine_visual.gd").new()

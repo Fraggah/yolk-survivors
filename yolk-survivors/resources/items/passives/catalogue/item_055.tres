@@ -7,8 +7,8 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 55
-description = "+Duración de Burning"
-effect_key = ""
+description = "+4 s Burning Duration"
+effect_key = "ebony_ember"
 ready_for_shop = false
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."
 proc_chance = 0.0
@@ -16,7 +16,7 @@ effect_radius = 80.0
 heal_amount = 0.1
 max_copies = 0
 fire_interval_reduction = 0.0
-fire_duration_reduction = 0.0
+fire_duration_reduction = -4.0
 controlled_damage_percent = 0.0
 airbourne_collision_damage_percent = 0.0
 airbourne_explosion_damage_percent = 0.0

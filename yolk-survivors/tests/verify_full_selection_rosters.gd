@@ -10,7 +10,6 @@ func verify():
 	weapons.selection_mode = weapons.SelectionMode.WEAPON
 	weapons.weapons_list.append_array(load("res://resources/items/weapons/ranged_catalogue.gd").items())
 	weapons.weapons_list.append_array(load("res://resources/items/weapons/spicy_catalogue.gd").items())
-	weapons.weapons_list.append_array(load("res://resources/items/weapons/pet_catalogue.gd").items())
 	while characters.player_list.size() < 30: characters.player_list.append(characters.player_list[0])
 	while weapons.weapons_list.size() < 40: weapons.weapons_list.append(weapons.weapons_list[0])
 	root.get_node("Global").main_player_selected = characters.player_list[0]

@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3 uid="uid://crom5fv3y1rqa"]
+
+[ext_resource type="Script" uid="uid://5wr5c6nkgmyu" path="res://resources/items/weapons/chili/aura_settings.gd" id="aura"]
+[ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="stats"]
+
+[sub_resource type="Resource" id="settings"]
+script = ExtResource("aura")
+area_y_ratio = 0.6
+color = Color(1, 0.31, 0.08, 1)
+opacity = 0.22
+breathing_speed = 2.0
+breathing_strength = 0.2
+orbit_particle_count = 16
+orbit_speed = 0.65
+orbit_particle_size = 0.025
+orbit_opacity = 0.4
+ring_opacity = 0.25
+ember_color = Color(1, 0.454902, 0.207843, 1)
+central_particle_count = 24
+central_particle_size = 0.008
+central_travel = 0.14
+central_lifetime = 0.9
+central_opacity = 0.45
+
+[resource]
+script = ExtResource("stats")
+damage = 3.0
+damage_scaling = 0.0
+accuracy = 1.0
+cooldown = 0.5
+crit_chance = 0.0
+crit_damage = 1.5
+max_range = 160.0
+unlimited_range = false
+unlimited_piercing = false
+knockback = 0.0
+slow_duration = 0.5
+piercing = 0
+bounces = 0
+life_steal = 0.0
+recoil = 25.0
+recoil_duration = 0.1
+attack_duration = 0.2
+back_duration = 0.15
+projectile_speed = 1500.0
+aura_settings = SubResource("settings")
+animation_cooldown_fraction = 0.9

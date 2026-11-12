@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 1
 item_cost = 25
 catalogue_id = 58
-description = "+25% de daño contra enemigos con Slow, Rooted o Airbourne. El bonus se aplica una sola vez aunque tengan varios de esos estados. Las copias suman el porcentaje."
+description = "+25% damage against enemies with SLOW, ROOT, or AIRBOURNE.
+Applies once per hit. Bonuses from copies stack."
 effect_key = "slow_cooking"
 ready_for_shop = true
 pending_reason = ""

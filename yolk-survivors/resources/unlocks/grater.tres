@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UnlockAchievement" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/unlocks/unlock_achievement.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "grater"
+metric = "flawless_wave"
+goal = 6.0
+requirement = "Complete wave 6 or later without taking damage."
+reward_label = "Grater"
+reward_weapons = PackedStringArray("grater")

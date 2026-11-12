@@ -28,7 +28,7 @@ func verify():
 	player.set_process(false)
 	player.health_component.debug_invulnerable=true
 	for weapon in player.current_weapons: weapon.set_process(false)
-	var item=load("res://resources/items/weapons/spicy/item_jalapeno.tres")
+	var item=load("res://resources/items/weapons/chili/jalapeno/item_jalapeno.tres")
 	for old in player.current_weapons: old.queue_free()
 	player.current_weapons.clear()
 	player.add_weapon(item)

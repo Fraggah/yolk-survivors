@@ -14,6 +14,7 @@ class_name UIPalette
 @export var positive := Color("34704c")
 @export var negative := Color("a33836")
 @export var accent := Color("a06a18")
+@export var control_effect := Color("28758f")
 @export var hud_text := Color("fff7e6")
 @export var health_fill := Color("e45d68")
 @export var experience_fill := Color("619bb5")

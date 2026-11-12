@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 77
-description = "Único. Una de las cuatro tarjetas recibe una oferta del 10–90% o un 2×1 excepcional que reemplaza el descuento. Bloquear la oferta la conserva al refrescar. Todas las ofertas terminan al salir de la tienda."
+description = "Unique. One shop offer gets a 10–90% discount or a rare 2-for-1 deal.
+Lock the offer to keep it through a refresh. The deal expires when you leave the shop."
 effect_key = "liquidation"
 ready_for_shop = true
 pending_reason = ""

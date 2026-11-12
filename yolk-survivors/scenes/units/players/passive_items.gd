@@ -85,7 +85,7 @@ func acquire(item: ItemPassive, previous_gains: Dictionary = {}) -> void:
 			airbourne_collision_damage_percent += item.airbourne_collision_damage_percent
 		"slow_cooking":
 			controlled_damage_percent += item.controlled_damage_percent
-		"oil_bath":
+		"oil_bath", "ebony_ember":
 			player.stats.fire_interval_reduction += item.fire_interval_reduction
 			player.stats.fire_duration_reduction += item.fire_duration_reduction
 		"yellow_magnet":
@@ -139,7 +139,7 @@ func acquire(item: ItemPassive, previous_gains: Dictionary = {}) -> void:
 		var conversion: CharacterPassive = null
 		if player.stats.character_passives.size() > conversions_before: conversion = player.stats.character_passives.back()
 		owned_records.append({"item": item, "deltas": deltas, "conversion": conversion})
-	if key == "oil_bath":
+	if key in ["oil_bath", "ebony_ember"]:
 		_oil_interval_total += item.fire_interval_reduction
 		_oil_duration_total += item.fire_duration_reduction
 	player.refresh_equipment_modifiers()
@@ -188,7 +188,7 @@ func should_attract_spawned_yolk() -> bool:
 func on_block() -> void:
 	if count("slippery_shell") == 0: return
 	if slip_left <= 0.0:
-		_slip_bonus = player.stats.unmodified_stat("speed") * 0.2 * maximum_power("slippery_shell")
+		_slip_bonus = maxf(0.0, 100.0 + player.stats.unmodified_stat("speed")) * 0.2 * maximum_power("slippery_shell")
 		player.stats.apply_stat_change("speed", _slip_bonus)
 	slip_left = 3.0 * maximum_power("slippery_shell")
 
@@ -335,7 +335,7 @@ func _rebuild_continuous_effects() -> void:
 				airbourne_explosion_radius = maxf(airbourne_explosion_radius, item.effect_radius)
 			"pancake": airbourne_collision_damage_percent += item.airbourne_collision_damage_percent
 			"slow_cooking": controlled_damage_percent += item.controlled_damage_percent
-			"oil_bath":
+			"oil_bath", "ebony_ember":
 				interval += item.fire_interval_reduction
 				duration += item.fire_duration_reduction
 			"yellow_magnet": yolk_magnet_chance += item.proc_chance

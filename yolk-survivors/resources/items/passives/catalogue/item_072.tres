@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 1
 item_cost = 25
 catalogue_id = 72
-description = "Al bloquear un ataque, +20% de Velocidad de movimiento durante 3 segundos. No acumula intensidad; cada nuevo bloqueo reinicia el temporizador"
+description = "+20% Speed for 3 s after blocking.
+Blocking again refreshes the duration."
 effect_key = "slippery_shell"
 ready_for_shop = true
 pending_reason = ""

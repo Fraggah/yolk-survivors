@@ -1,4 +1,5 @@
 extends Resource
+class_name BossEncounterSettings
 ## Incremental boss prototype. Balance and debug buffs remain editable.
 @export var boss_name := "Salchichón del Infierno"
 @export var arena_stage: ArenaStage

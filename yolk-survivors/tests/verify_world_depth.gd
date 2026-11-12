@@ -42,7 +42,7 @@ func verify():
 	current_scene = arena
 	var global = root.get_node("Global")
 	global.main_player_selected = arena.selection_panel.player_list[0]
-	global.main_weapon_selected = load("res://resources/items/weapons/spicy/item_carolina_reaper.tres")
+	global.main_weapon_selected = load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres")
 	arena._on_level_selected(0)
 	arena.spawner.spawn_timer.stop()
 	assert(arena.y_sort_enabled)
@@ -141,7 +141,7 @@ func verify():
 	await check_pixel(origin-Vector2(0,40),Color.RED)
 	drop.hide()
 	for id in ["cayenne","ghost_pepper","scotch_bonnet","rocoto","poblano"]:
-		var item=load("res://resources/items/weapons/spicy/item_"+id+".tres")
+		var item=load("res://resources/items/weapons/chili/"+id+"/item_"+id+".tres")
 		var pattern=load("res://effects/spicy_pattern_effect.gd").new()
 		pattern.configure(weapon,item.stats.spicy_pattern,origin)
 		arena.add_child(pattern)

@@ -46,7 +46,7 @@ func verify() -> void:
 		var before_damage: float = player.stats.damage_percent
 		passive.apply_passive_values()
 		assert(player.stats.damage_percent == before_damage + passive.add_value * player.stats.get_stat_gain_multiplier(passive.add_stats_id))
-		assert(passive.get_description().contains("% Damage"))
+		assert(passive.get_description().begins_with("Damage bonuses are "))
 	player.stats.damage_percent = 25.0
 	player.stats.melee_damage = 8.0
 	player.stats.ranged_damage = 8.0

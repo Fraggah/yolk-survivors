@@ -7,7 +7,6 @@ var launch_elapsed := 0.0
 var launch_height := 60.0
 var landed := false
 var _rest_position := Vector2.ZERO
-var _rest_shadow_scale := Vector2.ONE
 
 func launch(from: Vector2, to: Vector2, duration: float, height: float) -> void:
 	launch_start=from
@@ -19,11 +18,13 @@ func launch(from: Vector2, to: Vector2, duration: float, height: float) -> void:
 func _ready() -> void:
 	super._ready()
 	_rest_position=sprite.position
-	_rest_shadow_scale=$Shadow.scale
 
 func _try_spawn_attraction() -> void:
 	# Spawn magnets are evaluated after landing, never in the explosion itself.
 	if landed: super._try_spawn_attraction()
+
+func can_merge_on_ground() -> bool:
+	return landed and super.can_merge_on_ground()
 
 func _on_area_entered(area: Area2D) -> void:
 	if landed: super._on_area_entered(area)
@@ -44,11 +45,11 @@ func _process(delta: float) -> void:
 		global_position=launch_start.lerp(launch_end,eased)
 		var arc:=sin(PI*progress)
 		sprite.position=_rest_position+Vector2(0,-arc*launch_height/maxf(0.001,absf(global_scale.y)))
-		$Shadow.scale=_rest_shadow_scale*(1.0-0.35*arc)
+		shadow.scale=shadow_base_scale*(1.0-0.35*arc)
 		if progress>=1.0:
 			landed=true
 			sprite.position=_rest_position
-			$Shadow.scale=_rest_shadow_scale
+			shadow.scale=shadow_base_scale
 		return
 	_try_spawn_attraction()
 	super._process(delta)

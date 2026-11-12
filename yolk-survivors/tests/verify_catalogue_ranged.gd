@@ -28,7 +28,7 @@ func verify():
 	global.player.set_process(false)
 	global.player.set_physics_process(false)
 	for equipped in global.player.current_weapons: equipped.set_process(false)
-	assert(arena.weapon_selection_panel.weapons_list.size() == 42)
+	assert(arena.weapon_selection_panel.weapons_list.size() == 40)
 	for item in catalogue.items():
 		assert(arena.weapon_selection_panel.weapons_list.has(item))
 		assert(root.get_node("Progression").is_weapon_unlocked(item))

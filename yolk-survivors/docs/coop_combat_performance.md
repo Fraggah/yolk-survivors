@@ -156,8 +156,8 @@ Esto cambia la frecuencia de los impactos y, por tanto, de los procs ligados a e
 Configuración editable:
 
 - `effects/fire_contacts.tscn`: `burn_tick_batch = 2` (1 restaura la cadencia anterior).
-- `resources/items/weapons/spicy/stats_cayenne*.tres`: separación 48 y radio +15%.
-- `resources/items/weapons/spicy/stats_carolina_reaper*.tres`: separación de estelas
+- `resources/items/weapons/chili/cayenne/stats_cayenne*.tres`: separación 48 y radio +15%.
+- `resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper*.tres`: separación de estelas
   36 y multiplicador de radio 1,15. El tornado principal conserva su tamaño.
 
 Las zonas más grandes amplían ligeramente la cobertura; es un ajuste de jugabilidad

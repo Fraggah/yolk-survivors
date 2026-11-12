@@ -51,32 +51,25 @@ func set_next_stage(stage: ArenaStage, wave: int) -> void:
 	next_stage_wave = wave
 	if not next_stage_panel: return
 	next_stage_panel.hide()
-	if not stage: return
-	var special_arena := stage.id != &"neutral_plate"
 	var notices: Array[String] = []
 	var arena = get_tree().current_scene
 	if arena is Arena:
 		var data = arena.spawner.wave_data_for(wave)
 		if data:
 			if data.has_boss_encounter():
-				var boss_settings: Resource = data.boss_encounter
-				next_stage = boss_settings.arena_stage
 				next_stage_panel.show()
-				next_stage_icon.show()
-				next_stage_icon.texture = next_stage.vessel
-				next_stage_label.text = boss_settings.boss_name
-				next_stage_description.text = "BOSS · Defeat the boss to complete the wave"
-				next_stage_description.show()
+				next_stage_icon.texture = null
+				next_stage_label.text = "BOSS"
+				next_stage_description.hide()
 				return
 			if data.wave_type == WaveData.WaveType.HORDE or (is_instance_valid(Global.player) and Global.player.passive_items.force_horde): notices.append("HORDE")
-			elif data.wave_type == WaveData.WaveType.BOSS: notices.append("BOSS")
 			elif data.wave_type == WaveData.WaveType.SPECIAL: notices.append("SPECIAL WAVE")
 			for event in data.scheduled_spawns:
 				if event and event.enemy: notices.append("%s · %ds" % [String(event.enemy.id).capitalize(), roundi(event.second)])
-	next_stage_panel.visible = special_arena or not notices.is_empty()
-	next_stage_icon.visible = special_arena
+	if not stage: return
+	next_stage_panel.show()
 	next_stage_icon.texture = stage.vessel
-	next_stage_label.text = stage.display_name if special_arena else "EVENTS"
+	next_stage_label.text = stage.display_name
 	next_stage_description.text = " · ".join(notices)
 	next_stage_description.visible = not notices.is_empty()
 
@@ -200,6 +193,7 @@ func _eligible_shop_items() -> Array[ItemBase]:
 	var held = policy.equipped(Global.player)
 	for item in shop_items:
 		if item == null: continue
+		if item is ItemPassive and not Progression.is_passive_unlocked(item): continue
 		if item is ItemPassive and item.get_script().resource_path == "res://resources/items/passives/catalogue_passive.gd" and is_instance_valid(Global.player) and not item.available_for(Global.player): continue
 		if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or (is_instance_valid(Global.player) and not Global.player.stats.can_use_weapon(item))): continue
 		if item is ItemWeapon and is_instance_valid(Global.player) and not policy.useful_tier(item, held, Global.player.get_weapon_limit()): continue
@@ -313,6 +307,8 @@ func _on_reroll_button_pressed() -> void:
 
 func _process(_delta: float) -> void:
 	if not is_visible_in_tree(): return
+	for card: ShopCard in items_container.get_children():
+		if card.shop_item: card.set_price_unaffordable(Global.coins < card.get_effective_price())
 	_sync_weapon_slots()
 	_update_reroll_button()
 	if is_instance_valid(gamble_button): gamble_button.disabled = Global.coins <= 0
@@ -360,6 +356,7 @@ func _get_auto_upgrade_card(weapon: ItemWeapon) -> ItemCard:
 
 func try_purchase_item(item: ItemBase, price_wave: int = -1, price_override: int = -1) -> bool:
 	if not item or not is_instance_valid(Global.player): return false
+	if item is ItemPassive and not Progression.is_passive_unlocked(item): return false
 	if item is ItemPassive and item.get_script().resource_path == "res://resources/items/passives/catalogue_passive.gd" and not item.available_for(Global.player): return false
 	if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or not Global.player.stats.can_use_weapon(item)): return false
 	var price := item.get_shop_price(shop_wave if price_wave < 0 else price_wave)
@@ -374,6 +371,7 @@ func try_purchase_item(item: ItemBase, price_wave: int = -1, price_override: int
 	return true
 
 func _on_item_purchased(item: ItemBase) -> void:
+	if item is ItemPassive and not Progression.is_passive_unlocked(item): return
 	if item is ItemPassive and item.get_script().resource_path == "res://resources/items/passives/catalogue_passive.gd" and not item.available_for(Global.player): return
 	if item is ItemWeapon and (not Progression.is_weapon_unlocked(item) or not Global.player.stats.can_use_weapon(item)): return
 	SoundManager.play_sound(SoundManager.Sound.SHOP_BUY)
@@ -740,6 +738,7 @@ func _ensure_test_consumable() -> void:
 	elif test_glass_egg_golden_yolk and character == "glass_egg": path = "res://resources/items/passives/catalogue/item_078.tres"
 	if path.is_empty(): return
 	var test_item: ItemBase = load(path)
+	if not test_item is ItemPassive or not Progression.is_passive_unlocked(test_item): return
 	var replacement: ShopCard = null
 	for card: ShopCard in items_container.get_children():
 		if card.shop_item.get_offer_key() == test_item.get_offer_key(): return

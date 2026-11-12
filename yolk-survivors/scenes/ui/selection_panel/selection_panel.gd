@@ -37,9 +37,9 @@ var transitioning := false
 const DISPLAY_STATS := [
 	["health", "Health", false], ["damage_percent", "Damage", true],
 	["melee_damage", "Melee damage", false], ["ranged_damage", "Ranged damage", false],
-	["attack_speed", "Attack speed", true], ["speed", "Speed", false],
+	["attack_speed", "Attack speed", true], ["speed", "Speed", true],
 	["luck", "Luck", false], ["block_chance", "Block chance", true],
-	["hp_regen", "HP regen", false], ["life_steal", "Life steal", true],
+	["hp_regen", "HP regen", false], ["life_steal", "Life Steal", false],
 	["harvesting", "Harvesting", false], ["armor", "Armor", false],
 	["critical_chance", "Critical chance", true], ["pickup_range", "Pickup range", true],
 	["area_of_effect", "Area of effect", true], ["critical_multiplier", "Crit multiplier bonus", true],
@@ -60,8 +60,6 @@ func _ready() -> void:
 	for item in RangedCatalogue.items():
 		if not weapons_list.has(item): weapons_list.append(item)
 	for item in load("res://resources/items/weapons/spicy_catalogue.gd").items():
-		if not weapons_list.has(item): weapons_list.append(item)
-	for item in load("res://resources/items/weapons/pet_catalogue.gd").items():
 		if not weapons_list.has(item): weapons_list.append(item)
 	roster_layout.setup(self)
 	if selection_mode == SelectionMode.CHARACTER:
@@ -85,6 +83,9 @@ func _refresh_selection_info() -> void:
 	transitioning = false
 	players_container.modulate.a = 1.0
 	roster_layout.right_players.modulate.a = 1.0
+	if player_panel.get_meta("selection_transition_active", false):
+		for content in _player_panel_fade_targets():
+			content.self_modulate.a = 1.0
 	roster_layout.refresh()
 	_update_card_locks()
 	_update_weapon_availability()
@@ -101,8 +102,25 @@ func show_weapon_info(value: bool) -> void:
 	weapon_description.visible = value
 
 func load_players() -> void:
+	var silhouettes: Array[Texture2D] = []
+	for character in player_list:
+		if character.icon: silhouettes.append(character.icon)
+	var shuffled_silhouettes := silhouettes.duplicate()
+	shuffled_silhouettes.shuffle()
 	for grid in [players_container,roster_layout.right_players]:
 		for card in grid.get_children():
+			if card is Button and not card.has_meta("selection_data") and card.has_node("Portrait"):
+				var portrait := card.get_node("Portrait") as TextureRect
+				if not silhouettes.is_empty():
+					if shuffled_silhouettes.is_empty():
+						shuffled_silhouettes = silhouettes.duplicate()
+						shuffled_silhouettes.shuffle()
+					portrait.texture = shuffled_silhouettes.pop_back()
+				card.mouse_entered.connect(_show_empty_player_preview.bind(portrait.texture, true))
+				card.focus_entered.connect(_show_empty_player_preview.bind(portrait.texture, false))
+				card.mouse_exited.connect(_restore_selected_player_preview)
+				card.focus_exited.connect(_restore_selected_player_preview)
+				continue
 			if not card is SelectionCard or not card.has_meta("selection_data"): continue
 			var player=card.get_meta("selection_data") as UnitStats
 			card.pressed.connect(_on_player_selected.bind(player))
@@ -159,6 +177,17 @@ func _show_player_preview(player: UnitStats) -> void:
 	player_title.text = "Player" if unlocked else "Locked"
 	_set_portrait_lock(player_icon, not unlocked)
 	player_description.text = get_character_description(player) if unlocked else Progression.requirement_for(player.unlock_id, true)
+	roster_layout.fit_descriptions.call_deferred()
+
+func _show_empty_player_preview(texture: Texture2D, from_mouse: bool) -> void:
+	if transitioning or (from_mouse and MenuInput.coop_mouse_blocked()): return
+	preview_player = null
+	show_player_info(true)
+	player_icon.texture = texture
+	_set_portrait_lock(player_icon, true)
+	player_name.text = "???"
+	player_title.text = "???"
+	player_description.text = "???"
 	roster_layout.fit_descriptions.call_deferred()
 
 func _restore_selected_player_preview() -> void:
@@ -267,12 +296,12 @@ func get_character_description(player: UnitStats) -> String:
 	if lines.is_empty(): lines.append("Balanced base stats.")
 	if Global.is_valid_starting_weapon(player.starting_weapon):
 		lines.append("\nStarting weapon: %s" % player.starting_weapon.item_name)
-	lines.append("\n[color=%s]PASSIVES[/color]" % UITheme.color_hex("accent"))
 	var passive_lines: PackedStringArray = []
 	for passive in player.character_passives:
 		if passive and passive.is_valid(): passive_lines.append("[color=%s]- %s[/color]" % [UITheme.color_hex("accent"), passive.get_description()])
-	if passive_lines.is_empty(): passive_lines.append("No character passives.")
-	lines.append_array(passive_lines)
+	if not passive_lines.is_empty():
+		lines.append("\n[color=%s]PASSIVES[/color]" % UITheme.color_hex("accent"))
+		lines.append_array(passive_lines)
 	return UITheme.rich_text("\n".join(lines))
 
 func get_player_cards() -> Array[Node]:
@@ -282,6 +311,13 @@ func get_player_cards() -> Array[Node]:
 			if card.has_meta("selection_data"): cards.append(card)
 	return cards
 
+func _player_panel_fade_targets() -> Array[Control]:
+	var targets: Array[Control] = []
+	for type in ["Label", "RichTextLabel", "TextureRect"]:
+		for content in player_panel.find_children("*", type, true, false):
+			targets.append(content)
+	return targets
+
 func animate_character_to_weapons() -> void:
 	transitioning = true
 	player_panel.set_meta("selection_transition_active",true)
@@ -289,6 +325,8 @@ func animate_character_to_weapons() -> void:
 	tween.set_parallel(true)
 	tween.tween_property(players_container, "modulate:a", 0.0, 0.18)
 	tween.tween_property(roster_layout.right_players, "modulate:a", 0.0, 0.18)
+	for content in _player_panel_fade_targets():
+		tween.tween_property(content, "self_modulate:a", 0.0, 0.18)
 	var target: Rect2 = roster_layout.player_slot_rects(1, true)[0]
 	tween.tween_property(player_panel, "position", target.position, 0.38).set_delay(0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(player_panel, "size", target.size, 0.38).set_delay(0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
@@ -300,6 +338,9 @@ func reveal_weapon_roster() -> void:
 	var tween := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_parallel(true)
 	tween.tween_property(weapons_container, "modulate:a", 1.0, 0.2)
 	tween.tween_property(weapon_panel, "modulate:a", 1.0, 0.2)
+	for content in _player_panel_fade_targets():
+		content.self_modulate.a = 0.0
+		tween.tween_property(content, "self_modulate:a", 1.0, 0.2)
 
 func _complete_selection() -> void:
 	if selection_mode == SelectionMode.WEAPON: hide()

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="DifficultyData" load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://resources/wave/difficulty_data.gd" id="difficulty"]
+[ext_resource type="Script" path="res://resources/wave/wave_data.gd" id="wave_data"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_01.tres" id="wave_1"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_02.tres" id="wave_2"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_03.tres" id="wave_3"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_04.tres" id="wave_4"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_05.tres" id="wave_5"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_06.tres" id="wave_6"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_07.tres" id="wave_7"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_08.tres" id="wave_8"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_09.tres" id="wave_9"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_10.tres" id="wave_10"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_11.tres" id="wave_11"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_12.tres" id="wave_12"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_13.tres" id="wave_13"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_14.tres" id="wave_14"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_15.tres" id="wave_15"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_16.tres" id="wave_16"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_17.tres" id="wave_17"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_18.tres" id="wave_18"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_19.tres" id="wave_19"]
+[ext_resource type="Resource" path="res://resources/wave/data/wave_20.tres" id="wave_20"]
+
+[resource]
+script = ExtResource("difficulty")
+waves = Array[ExtResource("wave_data")]([ExtResource("wave_1"), ExtResource("wave_2"), ExtResource("wave_3"), ExtResource("wave_4"), ExtResource("wave_5"), ExtResource("wave_6"), ExtResource("wave_7"), ExtResource("wave_8"), ExtResource("wave_9"), ExtResource("wave_10"), ExtResource("wave_11"), ExtResource("wave_12"), ExtResource("wave_13"), ExtResource("wave_14"), ExtResource("wave_15"), ExtResource("wave_16"), ExtResource("wave_17"), ExtResource("wave_18"), ExtResource("wave_19"), ExtResource("wave_20")])
+health_multiplier = 1.0
+damage_multiplier = 1.0
+spawn_frequency_multiplier = 1.16

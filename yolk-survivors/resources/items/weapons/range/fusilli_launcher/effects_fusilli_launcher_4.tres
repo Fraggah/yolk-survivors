@@ -1,9 +1,76 @@
-[gd_resource type="Resource" script_class="RangedSettings" load_steps=2 format=3]
-[ext_resource type="Script" path="res://resources/items/weapons/ranged_settings.gd" id="1"]
+[gd_resource type="Resource" script_class="RangedSettings" load_steps=2 format=3 uid="uid://itbtw705rxbx"]
+
+[ext_resource type="Script" uid="uid://d2qcdgll7iume" path="res://resources/items/weapons/ranged_settings.gd" id="1"]
+
 [resource]
 script = ExtResource("1")
-
+projectile_count = 1
+spread_degrees = 0.0
+burst_count = 1
+burst_interval = 0.1
+lock_burst_aim = false
 applies_airbourne = true
 airbourne_speed = 520.0
 airbourne_duration = 0.45
-airbourne_damage_multiplier = 0.35
+airbourne_direct_damage_multiplier = 0.3
+airbourne_damage_multiplier = 1.0
+explodes = false
+explode_on_impact = true
+fuse = 0.8
+explosion_radius = 70.0
+area_y_ratio = 0.6
+explosion_damage_multiplier = 1.0
+explosion_color = Color(0.964706, 0.737255, 0.396078, 1)
+explosion_visual_duration = 0.18
+plate_break_chance = 0.8
+plate_fragment_count = 12
+plate_fragment_duration = 0.45
+plate_fragment_speed = 180.0
+plate_fragment_edge_color = Color(0.768627, 0.733333, 0.654902, 1)
+plate_fragment_edge_width = 0.1
+harpoon_pin_duration = 0.5
+harpoon_embed_duration = 0.1
+harpoon_embed_angle = -0.25
+harpoon_capture_radius = 16.0
+landing_slow_radius = 110.0
+landing_slow_factor = 0.6
+landing_slow_duration = 1.5
+landing_visual_duration = 0.3
+pot_inflate_amount = 0.2
+pot_sprite_scale = 0.5
+corn_explosion_chance = 0.3
+corn_contact_damage_multiplier = 0.25
+popcorn_speed = 700.0
+popcorn_range = 240.0
+popcorn_damage_multiplier = 1.0
+lob_height = 45.0
+egg_contact_push = 1.25
+egg_fall_duration = 0.1
+pre_explosion_shake_duration = 0.2
+pre_explosion_shake_amount = 2.0
+pre_explosion_shake_frequency = 35.0
+bonus_yolks = 1
+leaves_pit = false
+pit_projectile_speed = 700.0
+pit_range_multiplier = 0.5
+pit_deviation_degrees = 45.0
+pit_duration = 3.0
+pit_radius = 16.0
+pit_damage_multiplier = 0.5
+pit_hit_interval = 0.5
+splatter_count = 3
+splatter_damage_multiplier = 0.25
+splatter_spread_degrees = 50.0
+splatter_speed = 700.0
+splatter_range_multiplier = 0.1
+stream_width = 10.0
+stream_color = Color(1, 0.941176, 0.745098, 1)
+stream_core_color = Color(1, 0.992157, 0.941176, 1)
+stream_edge_color = Color(0.772549, 0.709804, 0.529412, 1)
+stream_wobble = 1.6
+stream_flow_speed = 8.0
+stream_particle_interval = 0.06
+stream_muzzle_particles = 3
+stream_impact_particles = 10
+stream_particle_lifetime = 0.4
+stream_particle_speed = 100.0

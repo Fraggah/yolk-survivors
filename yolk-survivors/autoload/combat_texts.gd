@@ -16,6 +16,7 @@ func queue_damage(unit: Node2D, amount: float, tint: Color, critical: bool) -> v
 	var id := unit.get_instance_id()
 	if pending_damage.has(id):
 		pending_damage[id].amount += amount
+		pending_damage[id].position = unit.global_position
 		if critical: pending_damage[id].tint = tint
 	else:
 		pending_damage[id] = {"position": unit.global_position, "amount": amount, "tint": tint,"unit":weakref(unit)}
@@ -28,12 +29,14 @@ func _process(_delta: float) -> void:
 	# Combine simultaneous hits on the same enemy, preserving the total displayed damage.
 	for id in pending_damage.keys():
 		var entry: Dictionary = pending_damage[id]
+		var unit := entry.unit.get_ref() as Node2D
 		var shown := floori(float(entry.amount)+0.00000001)
 		if shown<1:
-			if not is_instance_valid(entry.unit.get_ref()): pending_damage.erase(id)
+			if not is_instance_valid(unit): pending_damage.erase(id)
 			continue
 		var text = acquire()
-		text.global_position = entry.position + Vector2.RIGHT.rotated(randf_range(0, TAU))
+		var position: Vector2 = unit.global_position if is_instance_valid(unit) and unit.is_inside_tree() else entry.position
+		text.global_position = position + Vector2.RIGHT.rotated(randf_range(0, TAU))
 		text.setup_text(str(shown), entry.tint,damage_lifetime)
 		entry.amount = maxf(0.0,float(entry.amount)-shown)
 		if entry.amount<=0.00000001: pending_damage.erase(id)

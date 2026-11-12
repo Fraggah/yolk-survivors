@@ -1,16 +1,30 @@
-[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3]
-[ext_resource type="Script" path="res://resources/items/weapons/weapon_stats.gd" id="1"]
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=4 format=3 uid="uid://ca3ct00sbvm0x"]
+
+[ext_resource type="Script" uid="uid://dt1gvvs3u6pgk" path="res://resources/items/weapons/weapon_stats.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/projectiles/projectile_fusilli_launcher.tscn" id="2"]
-[ext_resource type="Resource" path="res://resources/items/weapons/range/fusilli_launcher/effects_fusilli_launcher_3.tres" id="3"]
+[ext_resource type="Resource" uid="uid://df8oevpdynce4" path="res://resources/items/weapons/range/fusilli_launcher/effects_fusilli_launcher_3.tres" id="3"]
+
 [resource]
 script = ExtResource("1")
-damage = 5.4
-cooldown = 0.484
+damage = 18.0
+damage_scaling = 1.0
 accuracy = 1.0
+cooldown = 0.484
+crit_chance = 0.05
+crit_damage = 1.5
 max_range = 270.0
+unlimited_range = false
+unlimited_piercing = false
 knockback = 3.5
+slow_duration = 0.5
 piercing = 0
 bounces = 0
+life_steal = 0.0
+recoil = 25.0
+recoil_duration = 0.1
+attack_duration = 0.2
+back_duration = 0.15
 projectile_scene = ExtResource("2")
 projectile_speed = 900.0
 ranged_settings = ExtResource("3")
+animation_cooldown_fraction = 0.9

@@ -24,7 +24,7 @@ func verify():
 			group.minimum_count = 1
 			group.maximum_count = 1
 		copies.append(wave)
-	spawner.waves_data = copies
+	spawner.difficulties[0].waves = copies
 	spawner.debug_enabled = true
 	spawner.debug_time_scale = 8.0
 	spawner.debug_invulnerable = true
@@ -53,8 +53,9 @@ func verify():
 			arena._on_enemy_died(enemy)
 			assert(arena.run_experience.experience == before + reward, "No double kill reward")
 			await process_frame
-			assert(arena.gold_list.size() == 1)
-			assert(arena.gold_list[0].value == (1 if spawner.temporary_reward_test else 2))
+			var expected_yolks := 1 if spawner.temporary_reward_test else 2
+			assert(arena.gold_list.size() == expected_yolks)
+			assert(arena.uncollected_yolk_value() == expected_yolks)
 			global.collect_yolk(30)
 			assert(arena.run_experience.experience == before + reward, "Money gives no XP")
 		await spawner.on_wave_completed

@@ -103,7 +103,7 @@ func verify():
 	assert(player.health_component.current_health==hp-2)
 	player.stats.area_of_effect=300
 	assert(player.stats.get_area_radius_multiplier()==2)
-	var item=load("res://resources/items/weapons/spicy/item_bell_pepper.tres")
+	var item=load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres")
 	assert(item.get_effective_damage(player.stats)==10)
 	player.stats.critical_multiplier=50
 	assert(is_equal_approx(global.main_weapon_selected.get_effective_critical_multiplier(player.stats),3))

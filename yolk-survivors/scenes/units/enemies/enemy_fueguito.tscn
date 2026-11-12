@@ -60,6 +60,7 @@ libraries = {
 autoplay = "flame"
 
 [node name="HurtboxComponent" parent="." index="4"]
+position = Vector2(0, 10)
 collision_layer = 0
 collision_mask = 0
 monitoring = false

@@ -1,9 +1,9 @@
-[gd_scene load_steps=51 format=3 uid="uid://b7ssr2jk2imcv"]
+[gd_scene load_steps=52 format=3 uid="uid://b7ssr2jk2imcv"]
 
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_jiwb3"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_display.tres" id="1_jiwb3"]
 [ext_resource type="Script" uid="uid://c6e4r5ja4dokm" path="res://scenes/ui/start_panel/start_panel.gd" id="2_15efs"]
 [ext_resource type="Texture2D" uid="uid://cyqwdjbm5s4ei" path="res://assets/startscreen_roster.png" id="3_1bf33"]
-[ext_resource type="Texture2D" uid="uid://djthvdwamlhu8" path="res://assets/sprites/Players/Redesign/berserker.png" id="4_jvqnm"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kssjo"]
 content_margin_left = 0.0
@@ -727,6 +727,10 @@ VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_7wq67")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_xnnq6")
 VScrollBar/styles/scroll = SubResource("StyleBoxFlat_mkou2")
 
+[sub_resource type="AtlasTexture" id="RosterLeft"]
+atlas = ExtResource("3_1bf33")
+region = Rect2(0, 0, 500, 941)
+
 [node name="StartPanel" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -737,16 +741,25 @@ theme = SubResource("Theme_uhdrd")
 theme_type_variation = &"ScreenPanel"
 script = ExtResource("2_15efs")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="RosterLeft" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_right = 0.299043
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource("RosterLeft")
+expand_mode = 1
+
+[node name="RosterRight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.700957
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
-theme = SubResource("Theme_uhdrd")
-texture = ExtResource("3_1bf33")
+texture = SubResource("RosterLeft")
+expand_mode = 1
+flip_h = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -771,24 +784,16 @@ theme_override_constants/separation = 15
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
+theme_override_colors/font_color = Color(0.988871, 0.976824, 0.955366, 1)
+theme_override_colors/font_outline_color = Color(0.266667, 0.207843, 0.156863, 1)
+theme_override_constants/outline_size = 32
 theme_override_font_sizes/font_size = 150
-text = "ARMADOS"
+text = "Don't Touch
+my Yolk!"
 horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_font_sizes/font_size = 50
-text = "(Hasta los huevos)"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/VBoxContainer/Label2"]
-position = Vector2(610, -112)
-scale = Vector2(1.05, 1.05)
-texture = ExtResource("4_jvqnm")
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
 
@@ -912,39 +917,10 @@ offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_uhdrd")
+theme_override_fonts/font = ExtResource("ui_body")
 theme_override_font_sizes/font_size = 24
-text = "Silvio StefanucciÂ©"
-
-[node name="DebugProgressTools" type="VBoxContainer" parent="."]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -390.0
-offset_top = -185.0
-offset_right = -25.0
-offset_bottom = -25.0
-theme = SubResource("Theme_uhdrd")
-
-[node name="Button0" type="Button" parent="DebugProgressTools"]
-custom_minimum_size = Vector2(365, 48)
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_font_sizes/font_size = 22
-text = "TEST: Resetear progreso"
-
-[node name="Button1" type="Button" parent="DebugProgressTools"]
-custom_minimum_size = Vector2(365, 48)
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_font_sizes/font_size = 22
-text = "TEST: Desbloquear todo"
-
-[node name="Label2" type="Label" parent="DebugProgressTools"]
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_font_sizes/font_size = 18
+text = "Silvio Stefanucci ©"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

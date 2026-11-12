@@ -5,7 +5,7 @@ const IDS := ["bell_pepper", "jalapeno", "habanero", "cayenne", "poblano", "caro
 static func items(all_tiers: bool = false) -> Array[ItemWeapon]:
 	var result: Array[ItemWeapon] = []
 	for id in IDS:
-		var item := load("res://resources/items/weapons/spicy/item_%s.tres" % id) as ItemWeapon
+		var item := load("res://resources/items/weapons/chili/%s/item_%s.tres" % [id, id]) as ItemWeapon
 		while item:
 			result.append(item)
 			if not all_tiers: break

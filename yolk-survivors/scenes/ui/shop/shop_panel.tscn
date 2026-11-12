@@ -1,5 +1,6 @@
-[gd_scene load_steps=92 format=3 uid="uid://c4xdsqfy0uqgj"]
+[gd_scene load_steps=93 format=3 uid="uid://c4xdsqfy0uqgj"]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 [ext_resource type="PackedScene" uid="uid://dpqx5cjywg1wo" path="res://scenes/ui/shop/shop_card.tscn" id="1_g5vmb"]
 [ext_resource type="Script" uid="uid://tawhd5hlgqhi" path="res://scenes/ui/shop/shop_panel.gd" id="1_ir0lx"]
 [ext_resource type="Script" uid="uid://cyxhvg2wsk5t3" path="res://resources/items/item_base.gd" id="2_2rpxx"]
@@ -364,18 +365,27 @@ stretch_mode = 5
 [node name="Text" type="VBoxContainer" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 1
 
 [node name="Title" type="Label" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row/Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "NEXT EVENT"
+horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="Description" type="Label" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row/Text"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Event details"
+horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="IconSpacer" type="Control" parent="MarginContainer/Control/VBoxContainer/NextStagePreview/Row"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="RefreshHeader" type="CenterContainer" parent="MarginContainer/Control"]
 layout_mode = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=51 format=3 uid="uid://cj80og0famryw"]
+[gd_scene load_steps=52 format=3 uid="uid://cj80og0famryw"]
 
-[ext_resource type="FontFile" uid="uid://kfh6ooeul77g" path="res://assets/font/Bake Soda.otf" id="1_53n3w"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_display.tres" id="1_53n3w"]
 [ext_resource type="Script" uid="uid://iqom7pi7h224" path="res://scenes/ui/stats/stats_container.gd" id="2_p31gk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t687y"]
@@ -809,6 +810,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/health/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -817,6 +819,7 @@ text = "max hp:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/health/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -847,6 +850,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/hp_regen/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -855,6 +859,7 @@ text = "hp regen:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/hp_regen/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -885,14 +890,16 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/life_steal/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
-text = "% life steal:"
+text = "Life Steal:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/life_steal/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -923,6 +930,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/damage_percent/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -931,6 +939,7 @@ text = "damage %:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/damage_percent/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -961,6 +970,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/melee_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -969,6 +979,7 @@ text = "melee damage:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/melee_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -999,6 +1010,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ranged_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1007,6 +1019,7 @@ text = "ranged damage:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ranged_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1037,6 +1050,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/effects/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1045,6 +1059,7 @@ text = "Effects:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/effects/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1073,6 +1088,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/weapon_range/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1081,6 +1097,7 @@ text = "Range:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/weapon_range/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1109,6 +1126,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/attack_speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1117,6 +1135,7 @@ text = "attack speed %:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/attack_speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1147,6 +1166,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/critical_chance/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1155,6 +1175,7 @@ text = "critical chance:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/critical_chance/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1185,6 +1206,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/armor/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1193,6 +1215,7 @@ text = "armor:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/armor/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1223,6 +1246,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/block_chance/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1231,6 +1255,7 @@ text = "% block chance:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/block_chance/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1261,6 +1286,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1269,6 +1295,7 @@ text = "speed:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1299,6 +1326,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/luck/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1307,6 +1335,7 @@ text = "luck:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/luck/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1337,6 +1366,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/harvesting/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1345,6 +1375,7 @@ text = "harvesting:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/harvesting/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1376,6 +1407,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/slow_strength/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1384,6 +1416,7 @@ text = "Slow potency:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/slow_strength/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1413,6 +1446,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/knockback/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1421,6 +1455,7 @@ text = "Push:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/knockback/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1450,6 +1485,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/experience_gain/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1458,6 +1494,7 @@ text = "Experience gain:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/experience_gain/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1487,6 +1524,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/critical_multiplier/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1495,6 +1533,7 @@ text = "Crit multiplier bonus:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/critical_multiplier/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1524,6 +1563,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/area_of_effect/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1532,6 +1572,7 @@ text = "Area of effect:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/area_of_effect/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1561,6 +1602,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/chili_power/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1569,6 +1611,7 @@ text = "Chili Power:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/chili_power/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1598,6 +1641,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/explosive_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1606,6 +1650,7 @@ text = "Explosive damage:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/explosive_damage/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1635,6 +1680,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/crowd_control/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1643,6 +1689,7 @@ text = "Crowd control:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/crowd_control/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1672,6 +1719,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/fire_tick_speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1680,6 +1728,7 @@ text = "Fire tick speed:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/fire_tick_speed/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1709,6 +1758,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/block_effectiveness/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1717,6 +1767,7 @@ text = "Block Power:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/block_effectiveness/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1746,6 +1797,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/pickup_range/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1754,6 +1806,7 @@ text = "pickup range:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/pickup_range/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1785,6 +1838,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/piercing/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1793,6 +1847,7 @@ text = "Piercing:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/piercing/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1822,6 +1877,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/bounces/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1830,6 +1886,7 @@ text = "Bounces:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/bounces/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1859,6 +1916,7 @@ offset_right = -13.0
 theme = SubResource("Theme_owj43")
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/dash_cooldown/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_owj43")
@@ -1867,6 +1925,7 @@ text = "Dash cooldown:"
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/dash_cooldown/Line"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 23
@@ -1881,6 +1940,7 @@ theme = SubResource("Theme_owj43")
 flat = true
 
 [node name="Hint" type="Label" parent="MarginContainer/VBoxContainer"]
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 18
@@ -1917,6 +1977,7 @@ theme = SubResource("Theme_owj43")
 theme_override_font_sizes/font_size = 26
 
 [node name="Description" type="Label" parent="StatHelp/Margin/Content"]
+theme_override_fonts/font = ExtResource("ui_body")
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 theme = SubResource("Theme_owj43")

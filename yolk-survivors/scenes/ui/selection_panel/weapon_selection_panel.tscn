@@ -1,6 +1,8 @@
-[gd_scene load_steps=385 format=3]
+[gd_scene load_steps=374 format=3]
 
-[ext_resource type="FontFile" path="res://assets/font/Bake Soda.otf" id="1_tldsk"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body_bold.tres" id="ui_body_bold"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_display.tres" id="1_tldsk"]
 [ext_resource type="Script" path="res://scenes/ui/selection_panel/selection_panel.gd" id="2_28nfn"]
 [ext_resource type="Resource" path="res://resources/units/players/player_well_rounded.tres" id="3_v3dau"]
 [ext_resource type="Script" path="res://resources/unit_stats.gd" id="4_cnrhk"]
@@ -44,18 +46,16 @@
 [ext_resource type="Resource" path="res://resources/items/weapons/range/olive_launcher/item_olive_launcher_1.tres" id="42_ikpel"]
 [ext_resource type="Resource" path="res://resources/items/weapons/range/fusilli_launcher/item_fusilli_launcher_1.tres" id="43_gtx0k"]
 [ext_resource type="Resource" path="res://resources/items/weapons/range/kitchen_torch/item_kitchen_torch_1.tres" id="44_wgems"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_bell_pepper.tres" id="45_1gwv8"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_jalapeno.tres" id="46_xxuts"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_habanero.tres" id="47_dwb4o"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_cayenne.tres" id="48_nsji2"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_poblano.tres" id="49_67agy"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_carolina_reaper.tres" id="50_srwgi"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_ghost_pepper.tres" id="51_afegr"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_aji_amarillo.tres" id="52_csvex"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_scotch_bonnet.tres" id="53_ojlq1"]
-[ext_resource type="Resource" path="res://resources/items/weapons/spicy/item_rocoto.tres" id="54_wtji0"]
-[ext_resource type="Resource" path="res://resources/items/weapons/pets/item_sausage_dog.tres" id="55_nw0cc"]
-[ext_resource type="Resource" path="res://resources/items/weapons/pets/item_toaster_cat.tres" id="56_72mrr"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres" id="45_1gwv8"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/jalapeno/item_jalapeno.tres" id="46_xxuts"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/habanero/item_habanero.tres" id="47_dwb4o"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/cayenne/item_cayenne.tres" id="48_nsji2"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/poblano/item_poblano.tres" id="49_67agy"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres" id="50_srwgi"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/ghost_pepper/item_ghost_pepper.tres" id="51_afegr"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/aji_amarillo/item_aji_amarillo.tres" id="52_csvex"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet.tres" id="53_ojlq1"]
+[ext_resource type="Resource" path="res://resources/items/weapons/chili/rocoto/item_rocoto.tres" id="54_wtji0"]
 [ext_resource type="Script" path="res://scenes/coop/coop_game_toggle.gd" id="57_lfql8"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Players/Redesign/hardboiled.png" id="58_cvgoi"]
 [ext_resource type="Script" path="res://scenes/ui/selection_panel/selection_card.gd" id="59_vsgh3"]
@@ -99,8 +99,6 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/aji_amarillo.png" id="97_jbhjx"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/scotch_bonnet.png" id="98_5ltuj"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Spicy/Icons/rocoto.png" id="99_wplk2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Pets/Icons/sausage_dog.png" id="100_g5x7a"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Pets/Icons/toaster_cat.png" id="101_5rdou"]
 
 [ext_resource type="Script" path="res://scenes/coop/shop_canvas_fit.gd" id="99_native_fit"]
 
@@ -4408,166 +4406,6 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ygi4"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.87451, 0.847059, 0.788235, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.72549, 0.698039, 0.64549, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sya88"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.541176, 0.772549, 0.803922, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_syulg"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.72549, 0.87451, 0.886275, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3gouh"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.929412, 0.890039, 0.820549, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxckg"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(1, 0.968627, 0.901961, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.137255, 0.462745, 0.32549, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efdt6"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.87451, 0.847059, 0.788235, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.72549, 0.698039, 0.64549, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gf8v"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.541176, 0.772549, 0.803922, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ifv6"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.72549, 0.87451, 0.886275, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nrl6"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.929412, 0.890039, 0.820549, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.0901961, 0.435294, 0.501961, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oujai"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(1, 0.968627, 0.901961, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.137255, 0.462745, 0.32549, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
 [node name="WeaponSelectionPanel" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -4580,7 +4418,7 @@ script = ExtResource("2_28nfn")
 selection_mode = 1
 base_player_stats = ExtResource("3_v3dau")
 player_list = Array[ExtResource("4_cnrhk")]([ExtResource("3_v3dau"), ExtResource("5_jbe6q"), ExtResource("6_fxjfk"), ExtResource("7_7pndy"), ExtResource("8_37pce"), ExtResource("9_figac"), ExtResource("10_ebg5q"), ExtResource("11_awiqq"), ExtResource("12_a0eb4"), ExtResource("13_88gir")])
-weapons_list = Array[ExtResource("14_p4a3x")]([ExtResource("15_vrq0o"), ExtResource("16_yi2ws"), ExtResource("17_4lm3n"), ExtResource("18_lm278"), ExtResource("19_kc7ng"), ExtResource("20_tab8p"), ExtResource("21_m1sfh"), ExtResource("22_fw2ow"), ExtResource("23_20qgt"), ExtResource("24_jycyp"), ExtResource("25_3kelh"), ExtResource("26_b8el0"), ExtResource("27_cwrno"), ExtResource("28_c75o5"), ExtResource("29_3b1e2"), ExtResource("30_u1j6k"), ExtResource("31_3tdwm"), ExtResource("32_ivqdr"), ExtResource("33_ckjxr"), ExtResource("34_6ig44"), ExtResource("35_rp3bw"), ExtResource("36_au1fq"), ExtResource("37_p8oxr"), ExtResource("38_57ry3"), ExtResource("39_sjf4p"), ExtResource("40_t8vuj"), ExtResource("41_tpixv"), ExtResource("42_ikpel"), ExtResource("43_gtx0k"), ExtResource("44_wgems"), ExtResource("45_1gwv8"), ExtResource("46_xxuts"), ExtResource("47_dwb4o"), ExtResource("48_nsji2"), ExtResource("49_67agy"), ExtResource("50_srwgi"), ExtResource("51_afegr"), ExtResource("52_csvex"), ExtResource("53_ojlq1"), ExtResource("54_wtji0"), ExtResource("55_nw0cc"), ExtResource("56_72mrr")])
+weapons_list = Array[ExtResource("14_p4a3x")]([ExtResource("15_vrq0o"), ExtResource("16_yi2ws"), ExtResource("17_4lm3n"), ExtResource("18_lm278"), ExtResource("19_kc7ng"), ExtResource("20_tab8p"), ExtResource("21_m1sfh"), ExtResource("22_fw2ow"), ExtResource("23_20qgt"), ExtResource("24_jycyp"), ExtResource("25_3kelh"), ExtResource("26_b8el0"), ExtResource("27_cwrno"), ExtResource("28_c75o5"), ExtResource("29_3b1e2"), ExtResource("30_u1j6k"), ExtResource("31_3tdwm"), ExtResource("32_ivqdr"), ExtResource("33_ckjxr"), ExtResource("34_6ig44"), ExtResource("35_rp3bw"), ExtResource("36_au1fq"), ExtResource("37_p8oxr"), ExtResource("38_57ry3"), ExtResource("39_sjf4p"), ExtResource("40_t8vuj"), ExtResource("41_tpixv"), ExtResource("42_ikpel"), ExtResource("43_gtx0k"), ExtResource("44_wgems"), ExtResource("45_1gwv8"), ExtResource("46_xxuts"), ExtResource("47_dwb4o"), ExtResource("48_nsji2"), ExtResource("49_67agy"), ExtResource("50_srwgi"), ExtResource("51_afegr"), ExtResource("52_csvex"), ExtResource("53_ojlq1"), ExtResource("54_wtji0")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 visible = false
@@ -4832,6 +4670,8 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="PlayerDescription" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/MarginContainer/Control"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 unique_name_in_owner = true
 layout_mode = 1
 offset_top = 285.78
@@ -4924,6 +4764,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -4949,6 +4791,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player1/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5024,6 +4867,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5049,6 +4894,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player2/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5124,6 +4970,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5149,6 +4997,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player3/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5224,6 +5073,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5249,6 +5100,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/Panel/CoopRows/Rows/Player4/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5334,6 +5186,8 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="WeaponDescription" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/MarginContainer/Control"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 unique_name_in_owner = true
 layout_mode = 1
 offset_top = 285.78
@@ -5426,6 +5280,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player1/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5451,6 +5307,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player1/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5526,6 +5383,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player2/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5551,6 +5410,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player2/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5626,6 +5486,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player3/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5651,6 +5513,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player3/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5726,6 +5589,8 @@ theme_override_font_sizes/font_size = 18
 text = "Ready"
 
 [node name="Description" type="RichTextLabel" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player4/Margin/Content"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -5751,6 +5616,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
 [node name="Message" type="Label" parent="Viewport/RosterLayout/WeaponPanel/CoopRows/Rows/Player4/Margin/Content/SoloNotice/Margin"]
+theme_override_fonts/font = ExtResource("ui_body")
 mouse_filter = 2
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")
@@ -5793,12 +5659,12 @@ offset_top = 225.44
 offset_right = 1870.88
 offset_bottom = 844.56
 theme = SubResource("Theme_uhdrd")
-follow_focus = true
 horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
 
 [node name="WeaponsContainer" type="GridContainer" parent="Viewport/RosterLayout/WeaponRosterScroll"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(976.96, 728.4)
+custom_minimum_size = Vector2(976.96, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_uhdrd")
@@ -5905,7 +5771,7 @@ button_group = SubResource("ButtonGroup_6j5vr")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("59_vsgh3")
-metadata/selection_data = ExtResource("16_yi2ws")
+metadata/selection_data = ExtResource("19_kc7ng")
 
 [node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button1"]
 layout_mode = 0
@@ -5918,7 +5784,7 @@ offset_bottom = -8.0
 pivot_offset = Vector2(45.5, 45.5)
 mouse_filter = 2
 theme = SubResource("Theme_uhdrd")
-texture = ExtResource("61_etjng")
+texture = ExtResource("64_oj0k6")
 expand_mode = 1
 stretch_mode = 5
 metadata/item_icon_scale = 1.0
@@ -6160,7 +6026,7 @@ button_group = SubResource("ButtonGroup_6j5vr")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("59_vsgh3")
-metadata/selection_data = ExtResource("19_kc7ng")
+metadata/selection_data = ExtResource("16_yi2ws")
 
 [node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button4"]
 layout_mode = 0
@@ -6173,7 +6039,7 @@ offset_bottom = -8.0
 pivot_offset = Vector2(45.5, 45.5)
 mouse_filter = 2
 theme = SubResource("Theme_uhdrd")
-texture = ExtResource("64_oj0k6")
+texture = ExtResource("61_etjng")
 expand_mode = 1
 stretch_mode = 5
 metadata/item_icon_scale = 1.0
@@ -9206,176 +9072,6 @@ theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
 theme_override_font_sizes/font_size = 14
 text = "P4"
 
-[node name="Button40" type="Button" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer"]
-custom_minimum_size = Vector2(107, 107)
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_3ygi4")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_sya88")
-theme_override_styles/hover = SubResource("StyleBoxFlat_syulg")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_3gouh")
-theme_override_styles/normal = SubResource("StyleBoxFlat_uxckg")
-toggle_mode = true
-button_group = SubResource("ButtonGroup_6j5vr")
-icon_alignment = 1
-expand_icon = true
-script = ExtResource("59_vsgh3")
-metadata/selection_data = ExtResource("55_nw0cc")
-
-[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-pivot_offset = Vector2(45.5, 45.5)
-mouse_filter = 2
-theme = SubResource("Theme_uhdrd")
-texture = ExtResource("100_g5x7a")
-expand_mode = 1
-stretch_mode = 5
-metadata/item_icon_scale = 1.0
-
-[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40"]
-visible = false
-layout_mode = 0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -8.0
-offset_right = -12.0
-offset_bottom = -8.0
-grow_vertical = 0
-mouse_filter = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_constants/h_separation = 3
-theme_override_constants/v_separation = 0
-columns = 2
-
-[node name="P1" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
-theme_override_font_sizes/font_size = 14
-text = "P1"
-
-[node name="P2" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
-theme_override_font_sizes/font_size = 14
-text = "P2"
-
-[node name="P3" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
-theme_override_font_sizes/font_size = 14
-text = "P3"
-
-[node name="P4" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
-theme_override_font_sizes/font_size = 14
-text = "P4"
-
-[node name="Button41" type="Button" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer"]
-custom_minimum_size = Vector2(107, 107)
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_efdt6")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8gf8v")
-theme_override_styles/hover = SubResource("StyleBoxFlat_4ifv6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_6nrl6")
-theme_override_styles/normal = SubResource("StyleBoxFlat_oujai")
-toggle_mode = true
-button_group = SubResource("ButtonGroup_6j5vr")
-icon_alignment = 1
-expand_icon = true
-script = ExtResource("59_vsgh3")
-metadata/selection_data = ExtResource("56_72mrr")
-
-[node name="TextureRect0" type="TextureRect" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-pivot_offset = Vector2(45.5, 45.5)
-mouse_filter = 2
-theme = SubResource("Theme_uhdrd")
-texture = ExtResource("101_5rdou")
-expand_mode = 1
-stretch_mode = 5
-metadata/item_icon_scale = 1.0
-
-[node name="CoopMarkers" type="GridContainer" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41"]
-visible = false
-layout_mode = 0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -8.0
-offset_right = -12.0
-offset_bottom = -8.0
-grow_vertical = 0
-mouse_filter = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_constants/h_separation = 3
-theme_override_constants/v_separation = 0
-columns = 2
-
-[node name="P1" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.0862745, 0.466667, 0.545098, 1)
-theme_override_font_sizes/font_size = 14
-text = "P1"
-
-[node name="P2" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.682353, 0.301961, 0.32549, 1)
-theme_override_font_sizes/font_size = 14
-text = "P2"
-
-[node name="P3" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.286275, 0.403922, 0.643137, 1)
-theme_override_font_sizes/font_size = 14
-text = "P3"
-
-[node name="P4" type="Label" parent="Viewport/RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41/CoopMarkers"]
-mouse_filter = 2
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_uhdrd")
-theme_override_colors/font_color = Color(0.576471, 0.403922, 0.0980392, 1)
-theme_override_font_sizes/font_size = 14
-text = "P4"
-
 [connection signal="on_level_select_exited" from="." to="../.." method="_on_weapon_selection_exited"]
 [connection signal="on_selection_completed" from="." to="../.." method="_on_weapon_selection_completed"]
 [connection signal="pressed" from="Viewport/RosterLayout/CustomButtonExit" to="." method="_on_custom_button_exit_pressed"]
@@ -9459,7 +9155,3 @@ text = "P4"
 [connection signal="pressed" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button38" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button38" method="_on_pressed"]
 [connection signal="mouse_entered" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button39" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button39" method="_on_mouse_entered"]
 [connection signal="pressed" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button39" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button39" method="_on_pressed"]
-[connection signal="mouse_entered" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40" method="_on_mouse_entered"]
-[connection signal="pressed" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button40" method="_on_pressed"]
-[connection signal="mouse_entered" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41" method="_on_mouse_entered"]
-[connection signal="pressed" from="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41" to="RosterLayout/WeaponRosterScroll/WeaponsContainer/Button41" method="_on_pressed"]

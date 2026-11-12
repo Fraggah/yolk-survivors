@@ -1,7 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://d20lcl5nw3b7d"]
+[gd_scene load_steps=16 format=3 uid="uid://d20lcl5nw3b7d"]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 [ext_resource type="Script" uid="uid://clghdlon2p61t" path="res://scenes/ui/level_panel/level_panel.gd" id="1_j37y7"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_801sb"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_0.png" id="egg_0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_1.png" id="egg_1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_2.png" id="egg_2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_3.png" id="egg_3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_4.png" id="egg_4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/UI/difficulty/egg_5.png" id="egg_5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_0"]
+atlas = ExtResource("egg_0")
+region = Rect2(187, 132, 859, 1017)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_1"]
+atlas = ExtResource("egg_1")
+region = Rect2(195, 146, 838, 993)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_2"]
+atlas = ExtResource("egg_2")
+region = Rect2(171, 94, 889, 1086)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_3"]
+atlas = ExtResource("egg_3")
+region = Rect2(224, 138, 788, 997)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_4"]
+atlas = ExtResource("egg_4")
+region = Rect2(156, 132, 961, 1003)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egg_5"]
+atlas = ExtResource("egg_5")
+region = Rect2(153, 25, 928, 1203)
 
 [node name="LevelPanel" type="Panel" node_paths=PackedStringArray("buttons")]
 anchors_preset = 15
@@ -11,6 +43,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"ScreenPanel"
 script = ExtResource("1_j37y7")
+display_wave_counts = PackedInt32Array(-1, 15, 20, 25, 50, 100)
 buttons = [NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level0Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level1Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level2Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level3Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level4Button"), NodePath("MarginContainer/VBoxContainer/HBoxContainer/Level5Button")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -41,102 +74,133 @@ theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Level0Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level0Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level0Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_0")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Level1Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_1")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Level2Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "2"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_2")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Level3Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "3"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_3")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Level4Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "4"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_4")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Level5Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level5Button"]
+[node name="EggSprite" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level5Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "5"
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture_filter = 4
+texture = SubResource("AtlasTexture_egg_5")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DifficultyDescription" type="Label" parent="MarginContainer/VBoxContainer"]
+theme_override_fonts/font = ExtResource("ui_body")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(700, 100)
 layout_mode = 2
@@ -146,24 +210,29 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Stress500Button" type="Button" parent="MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(700, 70)
 layout_mode = 2
 tooltip_text = "Objetivo de rendimiento: 500 enemigos. Inmortal y 6 armas. Sin progreso ni mejoras."
 text = "PRUEBA DE ESTRÃ‰S â€” 500 ENEMIGOS"
 
 [node name="StressTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(700, 70)
 layout_mode = 2
 tooltip_text = "Inmortal. 6 copias del arma elegida. Tandas de 100 enemigos hasta mantener 1000. Sin progreso ni mejoras."
 text = "PRUEBA DE ESTRÃ‰S â€” 1000 ENEMIGOS"
 
 [node name="StressTestDescription" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
+theme_override_fonts/font = ExtResource("ui_body")
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Inmortal Â· 6 armas Â· tandas de enemigos Â· contador de FPS"
 horizontal_alignment = 1
 
 [node name="BossTestButton" type="Button" parent="MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(700, 60)
 layout_mode = 2
 tooltip_text = "Boss en desarrollo: 1000 HP, secciones de 30 s. Las tres fases y sus nueve secciones son jugables. Personaje elegido: 85 HP, 15 armadura, 20% bloqueo, 0 regeneraciÃ³n y 20% robo de vida, 15 daÃ±o a distancia y +40% daÃ±o. No otorga progreso."

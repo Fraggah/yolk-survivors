@@ -39,7 +39,7 @@ window/stretch/mode="canvas_items"
 [gui]
 
 theme/custom="res://resources/ui/default_theme.tres"
-theme/custom_font="uid://kfh6ooeul77g"
+theme/custom_font="res://assets/font/ui_display.tres"
 
 [input]
 
@@ -95,4 +95,4 @@ renderer/rendering_method="mobile"
 [yolk]
 
 ui/palette="cream"
-testing/unlock_characters_and_weapons=true
+testing/unlock_characters_and_weapons=false

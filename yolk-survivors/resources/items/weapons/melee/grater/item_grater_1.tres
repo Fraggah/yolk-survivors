@@ -10,15 +10,29 @@
 [resource]
 script = ExtResource("1")
 tags = Array[int]([0, 6])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("2_e14a3")]([])
 scales_with_effects = false
+effects_damage_scaling = 1.0
 damage_scaling_stat = 1
-unlock_id = ""
+unlock_id = "grater"
 selection_only = false
 type = 0
 scene = ExtResource("3")
 stats = ExtResource("4")
 upgrade_to = ExtResource("5")
-attack_description = "Holds enemies for three hits."
+attack_description = "Applies [color=control_effect]ROOT[/color]."
+show_projectile_count_in_damage = false
+damage_only_on_explosion = false
+burning_description_format = ""
+damage_label = "Damage"
 final_stat_modifiers = {}
 health_drain_per_second = 0.0
 max_health_drain_percent_per_second = 0.0

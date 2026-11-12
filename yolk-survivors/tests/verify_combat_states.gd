@@ -50,7 +50,7 @@ func verify():
 	shot.global_position = victim.global_position
 	shot.setup_projectile(Vector2.RIGHT * 900, 10, false, 0, player, 500)
 	shot.configure_effects(item.stats.ranged_settings)
-	assert(shot.hitbox.launch_on_hit and shot.hitbox.launch_damage == 3.5)
+	assert(shot.hitbox.launch_on_hit and shot.hitbox.launch_damage == 10.0 and is_equal_approx(shot.hitbox.base_damage, 3.0))
 	assert(item.has_tag(6))
 	victim.get_node("HurtboxComponent")._on_area_entered(shot.hitbox)
 	assert(victim.has_status_named("Airbourne"))
@@ -60,14 +60,14 @@ func verify():
 	await physics_frame
 	var hp = other.health_component.current_health
 	victim._move_launched(0.1)
-	assert(other.health_component.current_health == hp - 3.5, "Airbourne collides with other enemies")
+	assert(other.health_component.current_health == hp - 10.0, "Airbourne collides with other enemies")
 	victim._move_launched(0.1)
-	assert(other.health_component.current_health == hp - 3.5, "One collision per victim per launch")
+	assert(other.health_component.current_health == hp - 10.0, "One collision per victim per launch")
 	victim._move_launched(0.3)
 	assert(not victim.has_status_named("Airbourne"))
 	for tier in range(1, 5):
 		var glove = load("res://resources/items/weapons/melee/mitten/item_mitten_%d.tres" % tier)
 		assert(glove.has_tag(6))
-		assert(glove.stats.melee_settings.collision_damage_multiplier > item.stats.ranged_settings.airbourne_damage_multiplier)
+		assert(glove.stats.melee_settings.collision_damage_multiplier > glove.stats.melee_settings.direct_damage_multiplier)
 	print("PASS combat states: multi-source burning, shock without slow, root/slow overlap, expiry, Fusilli launch collisions, tags and tiers")
 	quit()

@@ -67,9 +67,9 @@ func verify():
 	var odd := simulate(2, 2.5, false)
 	check(odd.events == [6.0, 6.0, 3.0], "Five ticks become two double hits and a final single hit: %s" % [odd.events])
 	for tier in ["", "_2", "_3", "_4"]:
-		var cayenne = load("res://resources/items/weapons/spicy/stats_cayenne%s.tres" % tier).spicy_pattern
+		var cayenne = load("res://resources/items/weapons/chili/cayenne/stats_cayenne%s.tres" % tier).spicy_pattern
 		check(cayenne.trail_spacing == 48.0 and cayenne.radius * 2.0 > cayenne.trail_spacing, "Cayenne has fewer, continuously overlapping patches")
-		var reaper = load("res://resources/items/weapons/spicy/stats_carolina_reaper%s.tres" % tier).spicy_pattern
+		var reaper = load("res://resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper%s.tres" % tier).spicy_pattern
 		check(reaper.column_trail_spacing == 36.0 and reaper.column_trail_radius_multiplier == 1.15, "Reaper trail configuration")
 	root.get_node("FireContacts").burn_tick_batch = 2
 	root.get_node("FireContacts").prevent_burning_reapplication = true

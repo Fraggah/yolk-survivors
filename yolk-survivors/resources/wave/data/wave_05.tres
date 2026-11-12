@@ -1,82 +1,61 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=12 format=3 uid="uid://bgw62ofsabl23"]
+[gd_resource type="Resource" script_class="WaveData" load_steps=11 format=3 uid="uid://bgw62ofsabl23"]
 
+[ext_resource type="Resource" uid="uid://crj3rb3r41iyb" path="res://resources/environments/stages/nonstick_pan.tres" id="2_s6i2m"]
 [ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="7_s6i2m"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
-[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_slow.tres" id="chaser_slow"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
 [ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
 
-[sub_resource type="Resource" id="g2"]
+[sub_resource type="Resource" id="Resource_u42km"]
 script = ExtResource("group")
-label = "Introduction chaser_slow"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_slow")])
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mini")])
 weights = Array[float]([1.0])
 spawn_zone = 0
 edge_width = 200.0
-start_second = 2.0
-interval = 1.0
-minimum_count = 1
-maximum_count = 1
-repetitions = 1
-duration = -1.0
-activation_probability = 1.0
-interval_reduction = 0.0
-minimum_interval = 0.35
-priority = 100
-guaranteed = true
-school = false
-school_probability = 0.0
-affected_by_density = true
-school_radius = 140.0
-
-[sub_resource type="Resource" id="g0"]
-script = ExtResource("group")
-label = "Pressure"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid"), ExtResource("chaser_fast"), ExtResource("chaser_mini")])
-weights = Array[float]([4.0, 3.0, 4.0])
-spawn_zone = 0
-edge_width = 200.0
 start_second = 0.0
-interval = 1.35
+interval = 0.75
 minimum_count = 1
 maximum_count = 1
 repetitions = -1
 duration = -1.0
 activation_probability = 1.0
 interval_reduction = 0.0
-minimum_interval = 0.35
+minimum_interval = 0.25
 priority = 0
 guaranteed = false
 school = false
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
-[sub_resource type="Resource" id="g1"]
+[sub_resource type="Resource" id="Resource_jcyt4"]
 script = ExtResource("group")
-label = "Reinforcements"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_slow")])
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_mid")])
 weights = Array[float]([1.0])
 spawn_zone = 0
 edge_width = 200.0
-start_second = 8.0
-interval = 3.7
+start_second = 0.0
+interval = 1.0
 minimum_count = 1
 maximum_count = 1
 repetitions = -1
 duration = -1.0
 activation_probability = 1.0
 interval_reduction = 0.0
-minimum_interval = 0.35
-priority = 10
+minimum_interval = 0.25
+priority = 0
 guaranteed = false
 school = false
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
 [resource]
 script = ExtResource("wave")
@@ -84,11 +63,12 @@ number = 5
 wave_time = 30.0
 wave_type = 0
 music_tracks = Array[AudioStream]([])
-arena_mode = 0
+arena_mode = 1
+fixed_arena = ExtResource("2_s6i2m")
 scheduled_spawns = Array[ExtResource("7_s6i2m")]([])
 density_multiplier = 0
-groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1")])
-events = Array[ExtResource("group")]([SubResource("g2")])
+groups = Array[ExtResource("group")]([SubResource("Resource_u42km"), SubResource("Resource_jcyt4")])
+events = Array[ExtResource("group")]([])
 common_limit = 35
 hazard_limit = 0
 boss_limit = 0

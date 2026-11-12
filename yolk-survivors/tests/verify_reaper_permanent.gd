@@ -18,7 +18,7 @@ func verify():
 	var total=0
 	for tier in [1,3,2,1,4]:
 		var suffix="" if tier==1 else "_"+str(tier)
-		var item=load("res://resources/items/weapons/spicy/item_carolina_reaper"+suffix+".tres")
+		var item=load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper"+suffix+".tres")
 		assert(item.stats.spicy_pattern.count==tier and item.stats.spicy_pattern.lifetime==0)
 		var weapon=item.scene.instantiate()
 		player.add_child(weapon)

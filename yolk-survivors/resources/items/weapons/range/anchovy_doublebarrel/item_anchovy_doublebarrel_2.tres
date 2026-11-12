@@ -1,21 +1,45 @@
-[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3]
-[ext_resource type="Script" path="res://resources/items/weapons/item_weapon.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Weapons/Redesign/Icons/anchovy_doublebarrel.png" id="2"]
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://c0qa0ywva1i83"]
+
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="1"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="1_17cvk"]
+[ext_resource type="Texture2D" uid="uid://slklngrha5bq" path="res://assets/sprites/Weapons/Redesign/Icons/anchovy_doublebarrel.png" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/range/weapon_anchovy_doublebarrel.tscn" id="3"]
 [ext_resource type="Resource" path="res://resources/items/weapons/range/anchovy_doublebarrel/stats_anchovy_doublebarrel_2.tres" id="4"]
-[ext_resource type="Resource" path="res://resources/items/weapons/range/anchovy_doublebarrel/item_anchovy_doublebarrel_3.tres" id="5"]
+[ext_resource type="Resource" uid="uid://cc6gkmhlr1cwg" path="res://resources/items/weapons/range/anchovy_doublebarrel/item_anchovy_doublebarrel_3.tres" id="5"]
+
 [resource]
 script = ExtResource("1")
 tags = Array[int]([1])
-damage_scaling_stat = 2
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("1_17cvk")]([])
 scales_with_effects = false
+effects_damage_scaling = 1.0
+damage_scaling_stat = 2
+unlock_id = ""
+selection_only = false
 type = 1
 scene = ExtResource("3")
 stats = ExtResource("4")
-item_icon = ExtResource("2")
+upgrade_to = ExtResource("5")
+attack_description = ""
+show_projectile_count_in_damage = true
+damage_only_on_explosion = false
+burning_description_format = ""
+damage_label = "Damage"
+final_stat_modifiers = {}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("1_17cvk")]([])
 item_name = "Double Anchovy II"
+item_icon = ExtResource("2")
+icon_scale = 1.0
 item_tier = 1
 item_type = 0
 item_cost = 36
-attack_description = "Fires two anchovies simultaneously."
-upgrade_to = ExtResource("5")

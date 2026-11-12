@@ -5,8 +5,8 @@ signal unlock_earned(reward: String)
 
 const SAVE_PATH := "user://progress.cfg"
 const INITIAL_CHARACTERS := ["well_rounded"]
-const INITIAL_WEAPONS := ["spatula", "b_knife", "knifer", "hydrant"]
-const ACHIEVEMENT_IDS := ["tiny_egg", "hardboiled", "mutant", "vampire", "gambler", "scrapper", "glass_egg", "hoarder", "berserker", "wood_mace", "blender", "mitten", "corpse_l", "smasher"]
+const INITIAL_WEAPONS := ["spatula", "b_knife"]
+const ACHIEVEMENT_IDS := ["demo_tiny_egg", "demo_hardboiled", "mutant", "scrapper", "demo_glass_egg", "carving_fork", "frying_pan", "bloody", "toothpick_shotgun", "grater", "spark_lighter", "bell_pepper", "demo_mitten", "pressure_cooker", "fusilli_launcher"]
 
 var save_path := SAVE_PATH
 var achievements: Array[Resource] = []
@@ -85,10 +85,13 @@ func _rebuild_unlocks() -> void:
 			if not unlocked_weapons.has(id): unlocked_weapons.append(id)
 
 func is_character_unlocked(stats: Resource) -> bool:
-	return stats != null and (_testing_unlocks_enabled() or stats.unlock_id.is_empty() or unlocked_characters.has(stats.unlock_id))
+	return stats != null and (_testing_unlocks_enabled() or unlocked_characters.has(stats.unlock_id))
 
 func is_weapon_unlocked(weapon: Resource) -> bool:
-	return weapon != null and (_testing_unlocks_enabled() or weapon.unlock_id.is_empty() or unlocked_weapons.has(weapon.unlock_id))
+	return weapon != null and (_testing_unlocks_enabled() or unlocked_weapons.has(weapon.unlock_id))
+
+func is_passive_unlocked(item: ItemPassive) -> bool:
+	return item != null and (_testing_unlocks_enabled() or item.unlocked_by_default)
 
 func _testing_unlocks_enabled() -> bool:
 	# Temporary access for playtesting; does not mark achievements as completed.
@@ -107,7 +110,7 @@ func debug_reset_progress() -> bool:
 func debug_unlock_all() -> bool:
 	if not OS.is_debug_build() or run_active: return false
 	completed.assign(ACHIEVEMENT_IDS)
-	testing_unlock_override = 0
+	testing_unlock_override = 1
 	Global.level_reached = 5
 	return _finish_debug_progress_change()
 
@@ -136,19 +139,41 @@ func begin_run(character: String, stats: Resource) -> void:
 	wave_open = false
 	check_stats(stats)
 
-func begin_wave() -> void:
+func begin_wave(player: Player = null) -> void:
 	if run_active:
 		wave_damaged = false
 		wave_open = true
+		if is_instance_valid(player):
+			for weapon in player.current_weapons:
+				if weapon.data.has_tag(ItemWeapon.Tag.MELEE):
+					_record_peak("wave_start_melee_tier", weapon.data.item_tier + 1)
 
 func record_damage() -> void:
 	if run_active: wave_damaged = true
 
-func finish_wave() -> void:
+func finish_wave(wave: int = 0, player: Player = null) -> void:
 	if not run_active or not wave_open: return
 	wave_open = false
 	if not wave_damaged: record("flawless_waves", 1.0)
+	if not wave_damaged: _record_peak("flawless_wave", wave)
+	_record_peak("wave", wave)
+	if is_instance_valid(player):
+		_record_peak("wave_end_speed", player.stats.speed)
+		for weapon in player.current_weapons:
+			if not weapon.data.unlock_id.is_empty():
+				_record_peak("wave_with:" + weapon.data.unlock_id, wave)
 	save_progress()
+
+func record_boss_victory(difficulty: int, player: Player) -> void:
+	if not run_active or not is_instance_valid(player): return
+	record("boss:%d" % difficulty, 1.0)
+	var health_percent := player.health_component.current_health / maxf(1.0, player.health_component.max_health) * 100.0
+	_record_peak("boss_health:%d:%s" % [difficulty, current_character], health_percent)
+
+func _record_peak(metric: String, value: float) -> void:
+	if value <= float(counters.get(metric, 0.0)): return
+	counters[metric] = value
+	_changed()
 
 func end_run(won: bool = false) -> void:
 	if not run_active: return

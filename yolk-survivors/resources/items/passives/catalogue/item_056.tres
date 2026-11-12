@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 1
 item_cost = 25
 catalogue_id = 56
-description = "−0,05 s entre ticks de fuego; −0,1 s de duración del fuego por copia. Máximo: 5 copias."
+description = "−0.05 s between Burning ticks
+−0.1 s Burning duration
+Maximum 5 copies."
 effect_key = "oil_bath"
 ready_for_shop = true
 pending_reason = ""

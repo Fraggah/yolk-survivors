@@ -57,7 +57,7 @@ func verify() -> void:
 				spawner.prepare_enemy(enemy, profile)
 				assert(enemy.stats != base and base.health == hp)
 				assert(is_equal_approx(enemy.stats.speed, base.speed))
-				assert(is_equal_approx(enemy.stats.health, (base.initial_health + base.health_increase_per_wave*(n-1)) * spawner.DIFFICULTY_RULES.stat_multiplier(difficulty)))
+				assert(is_equal_approx(enemy.stats.health, (base.initial_health + base.health_increase_per_wave*(n-1)) * spawner.difficulty_data_for(difficulty).health_multiplier))
 				enemy.free()
 	# Shapes, facing and animation preserve relative visual size without root scaling.
 	spawner.wave_index = 1

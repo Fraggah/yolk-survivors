@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 80
-description = "Al finalizar cada oleada, una estadística PRIMARIA aleatoria gana 5 puntos y se restan 3 puntos repartidos aleatoriamente entre otras estadísticas PRIMARIAS. Los cambios son permanentes"
+description = "After each wave, one random primary stat gains 5 points. Other primary stats lose 3 points split at random.
+These changes last for the run."
 effect_key = "lunchbox"
 ready_for_shop = true
 pending_reason = ""

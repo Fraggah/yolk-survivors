@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 76
-description = "Tus ataques eléctricos también aplican 20% de Slow durante 1 segundo, incluidos los enemigos alcanzados por la cadena eléctrica. Refresca la duración sin acumular intensidad. Escala con Control de masas."
+description = "Electricity applies 20% SLOW for 1 s, including chained hits.
+Repeated hits refresh the duration. Scales with Crowd Control."
 effect_key = "fridge_magnet"
 ready_for_shop = true
 pending_reason = ""

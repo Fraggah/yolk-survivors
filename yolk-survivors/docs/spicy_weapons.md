@@ -19,19 +19,19 @@ Final modifiers are configured on each `item_<id>.tres` under `final_stat_modifi
 
 Bonus-based stats scale their effective total: AoE +10% works with zero ordinary AoE bonus; critical chance includes the weapon's intrinsic chance; damage includes flat damage and general bonuses. Armor/Luck/block chance scale their numeric totals, so a zero base stays zero. A negative numeric stat retains its sign. Slow strength scales the amount removed from movement speed, capped at full immobilization. Duration extends burns, slows, holds and persistent pepper effects, without delaying attacks or anticipation. Enemy population uses faster non-guaranteed spawn scheduling, preserving hard population caps and guaranteed introductions. Enemy speed scales after wave/profile modifiers. Reaper cost bypasses armor/block, pauses with gameplay and resets its fractional timer between waves; it can kill the player.
 
-Tune `resources/items/weapons/spicy/stats_bell_pepper.tres` in the editor: damage, cooldown, max_range (seed travel distance), projectile_speed, knockback, crit_chance, crit_damage, life_steal, piercing, bounces and recoil. The ranged_settings subresource controls projectile_count. Defaults: 3 seeds per 0.8 seconds, 5 base damage, 650 speed, 450 range before entity scale. Each seed chooses an independent angle across 360 degrees, even with no enemies around. Damage uses the player's general damage bonus, not melee/ranged flat damage; attack speed, critical chance and lifesteal use existing systems.
+Tune `resources/items/weapons/chili/bell_pepper/stats_bell_pepper.tres` in the editor: damage, cooldown, max_range (seed travel distance), projectile_speed, knockback, crit_chance, crit_damage, life_steal, piercing, bounces and recoil. The ranged_settings subresource controls projectile_count. Defaults: 3 seeds per 0.8 seconds, 5 base damage, 650 speed, 450 range before entity scale. Each seed chooses an independent angle across 360 degrees, even with no enemies around. Damage uses the player's general damage bonus, not melee/ranged flat damage; attack speed, critical chance and lifesteal use existing systems.
 
 The seed collision/visual are in `scenes/projectiles/projectile_pepper_seed.tscn`. Rotation stays upright for the pepper; shots do not select a target. Pause and wave cleanup use the normal weapon/projectile lifecycle.
 
 ## Jalapeño
 
-Tune `resources/items/weapons/spicy/stats_jalapeno.tres`: damage per tick, cooldown between ticks, max_range (horizontal aura radius before entity scale), knockback, critical and lifesteal. Defaults: 3 damage every 0.5 seconds, radius 160, Y ratio 0.6. Attack speed affects the interval. Aura damage and visuals are centered on the player regardless of weapon-slot position. The aura_settings subresource controls Y ratio, color, opacity and breathing speed/strength. Its soft shader stays within the effective oval, without a hard border. Multiple copies tick independently; visuals overlap.
+Tune `resources/items/weapons/chili/jalapeno/stats_jalapeno.tres`: damage per tick, cooldown between ticks, max_range (horizontal aura radius before entity scale), knockback, critical and lifesteal. Defaults: 3 damage every 0.5 seconds, radius 160, Y ratio 0.6. Attack speed affects the interval. Aura damage and visuals are centered on the player regardless of weapon-slot position. The aura_settings subresource controls Y ratio, color, opacity and breathing speed/strength. Its soft shader stays within the effective oval, without a hard border. Multiple copies tick independently; visuals overlap.
 
 The final Armor and movement modifiers are active while equipped.
 
 ## Habanero
 
-Tune `resources/items/weapons/spicy/stats_habanero.tres`: damage (initial explosion), cooldown between volleys, max_range (maximum distance from player), knockback, critical and lifesteal. The spicy_explosion_settings subresource controls explosion_count, minimum_distance, explosion_radius, area_y_ratio, anticipation, visual_duration, color, opacity, burn_duration, burn_interval and burn_damage_multiplier. Distances use the same entity scale as other weapons.
+Tune `resources/items/weapons/chili/habanero/stats_habanero.tres`: damage (initial explosion), cooldown between volleys, max_range (maximum distance from player), knockback, critical and lifesteal. The spicy_explosion_settings subresource controls explosion_count, minimum_distance, explosion_radius, area_y_ratio, anticipation, visual_duration, color, opacity, burn_duration, burn_interval and burn_damage_multiplier. Distances use the same entity scale as other weapons.
 
 Defaults: 3 random oval explosions every 2.4 seconds, 8 initial damage, 95 radius, 0.25-second heat anticipation; burn for 3 seconds with 35% of initial damage per 0.5-second tick. Position selection never targets enemies and is clamped to the arena surface. Each equipped copy maintains one burn per enemy: subsequent hits refresh its duration while preserving tick timing; different copies stack independently. Initial hit and burn use the existing damage/critical/lifesteal recording path. Effects pause and join projectile cleanup at wave transitions.
 
@@ -39,7 +39,7 @@ The final AoE and critical chance modifiers are active while equipped.
 
 ## Remaining seven attacks
 
-Each has `stats_<id>.tres` in the same `resources/items/weapons/spicy/` folder. WeaponStats controls base damage, cooldown, critical, lifesteal, knockback and max_range. The `spicy_pattern` subresource controls the attack pattern, affected radius, oval Y ratio, effect lifetime, damage interval, movement/rotation, color/opacity and active-effect cap. Spicy damage uses general damage and Effects; affected radii use AoE. All effects pause and join wave cleanup. Independent copies have separate timers and limits.
+Each has `stats_<id>.tres` in its own `resources/items/weapons/chili/<id>/` folder. WeaponStats controls base damage, cooldown, critical, lifesteal, knockback and max_range. The `spicy_pattern` subresource controls the attack pattern, affected radius, oval Y ratio, effect lifetime, damage interval, movement/rotation, color/opacity and active-effect cap. Spicy damage uses general damage and Effects; affected radii use AoE. All effects pause and join wave cleanup. Independent copies have separate timers and limits.
 
 | ID | Attack / initial values |
 |---|---|
@@ -146,7 +146,7 @@ El contacto se comprueba en cada actualización, barriendo segmentos cortos a lo
 
 Velocidad base orbit_speed por tier: 2,4 / 2,8 / 3,2 / 3,6 rad/s. Se multiplica por stats.cooldown / get_effective_cooldown(player.stats), reutilizando la curva de velocidad de ataque de las armas, con modificadores finales incluidos. +100% duplica el giro; -100% lo reduce a la mitad. Se actualiza sobre el orbitador existente sin recrearlo. max_range sigue controlando la distancia orbital. Cada copia conserva su propio orbitador, daño y registro.
 
-Edición: resources/items/weapons/spicy/stats_poblano.tres y stats_poblano_2/3/4.tres > spicy_pattern: orbit_center_offset (altura), orbit_speed (giro base), radius (zona de golpe), area_y_ratio (aplastamiento), tick_interval (intervalo por enemigo) y sprite_scale (tamaño visual).
+Edición: resources/items/weapons/chili/poblano/stats_poblano.tres y stats_poblano_2/3/4.tres > spicy_pattern: orbit_center_offset (altura), orbit_speed (giro base), radius (zona de golpe), area_y_ratio (aplastamiento), tick_interval (intervalo por enemigo) y sprite_scale (tamaño visual).
 
 Validación: verify_poblano cubre altura, contacto barrido en media vuelta, exclusión de enemigos lejanos, intervalo por enemigo, velocidad de ataque positiva/negativa, progresión por tier, pausa, seguimiento y limpieza. verify_remaining_spicy y verify_spicy_tiers aprobadas.
 

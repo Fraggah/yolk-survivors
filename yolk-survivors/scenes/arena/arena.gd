@@ -6,6 +6,8 @@ class_name Arena
 @export var block_color: Color
 @export var critical_color: Color
 @export var hp_reg_color: Color
+## Maximum number of physical yolk pickups per wave, including pending spawns.
+@export_range(1, 500) var yolk_pickup_limit := 60
 ## Temporary solo UI fixture; disable after testing consumable placement.
 @export var test_tiny_egg_consumables := true
 
@@ -33,6 +35,8 @@ class_name Arena
 
 
 var gold_list: Array[Coins]
+var _pending_yolk_value := 0
+var _pending_yolk_position := Vector2.ZERO
 
 var in_arena := false
 var wave_active := false
@@ -62,6 +66,7 @@ func _ready() -> void:
 	add_child(projectile_pool)
 	stress_test = load("res://scenes/arena/stress_test.tscn").instantiate()
 	add_child(stress_test)
+	level_panel.setup_difficulties(spawner)
 	level_panel.on_stress_test_selected.connect(_on_stress_test_selected)
 	boss_encounter = load("res://scenes/bosses/boss_encounter.gd").new()
 	add_child(boss_encounter)
@@ -100,7 +105,7 @@ func _apply_wave_environment(wave: int) -> void:
 	last_warning_second = -1
 	wave_index_label.show()
 	wave_timer_label.show()
-	Progression.begin_wave()
+	Progression.begin_wave(Global.player)
 	var environment := environment_controller.apply_wave(wave)
 	_configure_environment(environment)
 
@@ -117,6 +122,10 @@ func _configure_environment(environment: ArenaEnvironment) -> void:
 	if coop and coop.active: coop.configure_players()
 
 func _process(_delta: float) -> void:
+	if _pending_yolk_value > 0 and not Global.game_paused:
+		var pending := _pending_yolk_value
+		_pending_yolk_value = 0
+		spawn_yolk_at(_pending_yolk_position, pending)
 	if stress_test and stress_test.active:
 		wave_index_label.text = "STRESS TEST"
 		wave_timer_label.text = ""
@@ -228,29 +237,107 @@ func spawn_coins(enemy: Enemy) -> void:
 		spawn_yolk_at(spawn_pos, reward)
 
 func spawn_yolk_burst(origin: Vector2, count: int, minimum_distance: float = 150.0, maximum_distance: float = 320.0, duration: float = 0.5) -> void:
+	if count <= 0: return
 	var geometry := spawner.arena_environment
 	if geometry: origin=geometry.clamp_position(origin)
-	for index in maxi(0,count):
-		var angle := TAU*float(index)/maxi(1,count)+randf_range(-0.1,0.1)
+	var slots := _available_yolk_slots()
+	if slots < count:
+		slots += _compact_yolks_near(origin, count - slots)
+	var pieces := mini(count, slots)
+	var visual = null
+	if pieces < count:
+		visual = preload("res://scenes/coins/yolk_burst_visual.tscn").instantiate()
+		visual.position = to_local(origin)
+	for index in count:
+		var angle := TAU*float(index)/count+randf_range(-0.1,0.1)
 		var distance := randf_range(maxf(0,minimum_distance),maxf(minimum_distance,maximum_distance))
 		var destination := origin+Vector2.from_angle(angle)*distance
 		if geometry: destination=geometry.clamp_position(destination)
+		var flight_time := maxf(0.1, duration * randf_range(0.85, 1.15))
+		var height := randf_range(40, 85)
+		if index >= pieces:
+			var offset: Vector2 = to_local(destination) - visual.position
+			visual.arcs.append(Vector4(offset.x, offset.y, flight_time, height))
+			visual.lifetime = maxf(visual.lifetime, flight_time)
+			continue
 		var pickup := load("res://scenes/coins/burst_yolk.tscn").instantiate() as Coins
 		pickup.value=1
-		pickup.launch(origin,destination,duration*randf_range(0.85,1.15),randf_range(40,85))
+		pickup.launch(origin, destination, flight_time, height)
 		gold_list.append(pickup)
 		call_deferred("add_child",pickup)
+	if visual: call_deferred("add_child", visual)
+	_merge_or_hold_yolks(origin, count - pieces)
+
+func _compact_yolks_near(origin: Vector2, needed: int) -> int:
+	var resting: Array[Coins] = []
+	for pickup in gold_list:
+		if pickup.is_inside_tree() and pickup.can_merge_on_ground(): resting.append(pickup)
+	if resting.size() < 2: return 0
+	resting.sort_custom(func(a: Coins, b: Coins) -> bool:
+		return a.global_position.distance_squared_to(origin) < b.global_position.distance_squared_to(origin))
+	var freed := mini(needed, resting.size() - 1)
+	var merged_value := 0
+	for index in range(1, freed + 1):
+		var pickup := resting[index]
+		merged_value += pickup.value
+		gold_list.erase(pickup)
+		pickup.hide()
+		pickup.queue_free()
+	resting[0].merge_yolks(merged_value)
+	return freed
 
 func spawn_yolk_at(spawn_pos: Vector2, value: int = 1) -> void:
-	var instance := Global.COINS_SCENE.instantiate()
-	gold_list.append(instance)
+	if value <= 0: return
+	var pieces := mini(value, _available_yolk_slots())
+	var geometry := spawner.arena_environment
+	var angle_offset := randf_range(0.0, TAU) if pieces > 1 else 0.0
+	for index in pieces:
+		var point := spawn_pos
+		if pieces > 1:
+			point += Vector2.from_angle(angle_offset + TAU * float(index) / pieces) * 22.0
+			if geometry: point = geometry.clamp_position(point)
+		var pickup := Global.COINS_SCENE.instantiate() as Coins
+		pickup.position = to_local(point)
+		gold_list.append(pickup)
+		call_deferred("add_child", pickup)
+	_merge_or_hold_yolks(spawn_pos, value - pieces)
 
-	instance.global_position = spawn_pos
-	instance.value = value
-	call_deferred("add_child", instance)
+func _available_yolk_slots() -> int:
+	for index in range(gold_list.size() - 1, -1, -1):
+		var pickup := gold_list[index]
+		if not is_instance_valid(pickup) or pickup.is_queued_for_deletion():
+			gold_list.remove_at(index)
+	return maxi(0, yolk_pickup_limit - gold_list.size())
+
+func _merge_or_hold_yolks(point: Vector2, amount: int) -> void:
+	if amount <= 0: return
+	var closest: Coins
+	var best_distance := INF
+	for pickup in gold_list:
+		if not pickup.can_merge_on_ground(): continue
+		var position_world := pickup.global_position if pickup.is_inside_tree() else to_global(pickup.position)
+		var distance := point.distance_squared_to(position_world)
+		if distance < best_distance:
+			closest = pickup
+			best_distance = distance
+	if closest:
+		closest.merge_yolks(amount)
+	else:
+		# All pickups are moving. Retry as soon as one lands or frees a slot.
+		if _pending_yolk_value == 0: _pending_yolk_position = point
+		_pending_yolk_value += amount
+
+func uncollected_yolk_value() -> int:
+	var total := _pending_yolk_value
+	for pickup in gold_list:
+		if is_instance_valid(pickup) and not pickup.is_queued_for_deletion() and not pickup.awarded:
+			total += maxi(0, pickup.value)
+	return total
 
 func clear_arena(bank_yolks: bool = false, jar_target: Control = null) -> void:
 	boss_wave_active = false
+	for visual in get_tree().get_nodes_in_group("yolk_burst_visuals"):
+		visual.queue_free()
 	if is_instance_valid(boss_encounter): boss_encounter.stop()
 	CombatTexts.clear()
 	ElectricRays.clear()
@@ -269,11 +356,11 @@ func clear_arena(bank_yolks: bool = false, jar_target: Control = null) -> void:
 		if projectile is CanvasItem: projectile.hide()
 		projectile.queue_free()
 	# Replace (never accumulate) the old unused bonus with this wave's base drops.
-	Global.yolk_reserve = 0
+	Global.yolk_reserve = uncollected_yolk_value() if bank_yolks else 0
+	_pending_yolk_value = 0
 	for coin in gold_list:
 		if not is_instance_valid(coin) or coin.is_queued_for_deletion(): continue
 		if bank_yolks:
-			Global.yolk_reserve += maxi(0, coin.value)
 			coin.call_deferred("fly_to_jar", jar_target if is_instance_valid(jar_target) else coins_bag.jar_icon)
 		else:
 			coin.queue_free()
@@ -355,7 +442,7 @@ func _on_spawner_on_wave_completed() -> void:
 	Weapon.finish_damage_wave()
 	wave_active = false
 	if not Global.player: return
-	Progression.finish_wave()
+	Progression.finish_wave(spawner.wave_index, Global.player)
 	Global.game_paused = true
 	coocking_player.stream_paused = true
 	if spawner.wave_index >= spawner.last_wave_number(): _play_menu_music()
@@ -485,7 +572,7 @@ func _on_level_selected(level: int, stress_mode: bool = false, boss_mode: bool =
 		player.stats.apply_stat_change("block_chance", boss_encounter.settings.test_block_chance - player.stats.block_chance)
 		player.stats.apply_stat_change("life_steal", boss_encounter.settings.test_life_steal - player.stats.life_steal)
 	_reset_damage_feedback()
-	level = spawner.DIFFICULTY_RULES.normalize_level(level)
+	level = spawner.normalize_difficulty(level)
 	Global.level_selected = level
 	environment_controller.reset_stage_selection()
 	incognito_rewards.reset()
@@ -691,9 +778,6 @@ func _on_start_panel_on_exit_pressed() -> void:
 
 
 
-func _on_options_panel_on_load_game() -> void:
-	level_panel.enable_buttons(Global.level_reached)
-
 func rewind_upcoming_waves(amount: int) -> int:
 	var previous_next := spawner.wave_index + 1
 	spawner.wave_index = maxi(0, spawner.wave_index - maxi(0, amount))
@@ -708,6 +792,7 @@ func _on_boss_test_defeated() -> void:
 		return
 	if defeat_in_progress or not is_instance_valid(Global.player): return
 	if boss_wave_active:
+		Progression.record_boss_victory(Global.level_selected, Global.player)
 		boss_wave_active = false
 		_on_spawner_on_wave_completed()
 		return

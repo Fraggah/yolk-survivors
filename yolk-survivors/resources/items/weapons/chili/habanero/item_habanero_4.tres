@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=6 format=3 uid="uid://fna68w4tr3mw"]
+
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="1_w7h3j"]
+[ext_resource type="Texture2D" uid="uid://c0ifliejwa1t2" path="res://assets/sprites/Spicy/Icons/habanero.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_habanero.tscn" id="scene"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Resource" uid="uid://2bixup24ncvk" path="res://resources/items/weapons/chili/habanero/stats_habanero_4.tres" id="stats"]
+
+[resource]
+script = ExtResource("script")
+tags = Array[int]([2, 3, 5])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("1_w7h3j")]([])
+scales_with_effects = true
+effects_damage_scaling = 1.0
+damage_scaling_stat = 3
+unlock_id = ""
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+attack_description = "Triggers random explosions."
+show_projectile_count_in_damage = false
+damage_only_on_explosion = false
+burning_description_format = "Applies Burning {damage} for {duration} sec."
+damage_label = "Damage"
+final_stat_modifiers = {
+"area_of_effect": 10.0,
+"critical_chance": -5.0
+}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("1_w7h3j")]([])
+item_name = "Habanero IV"
+item_icon = ExtResource("icon")
+icon_scale = 1.0
+item_tier = 3
+item_type = 0
+item_cost = 96

@@ -8,7 +8,7 @@ func verify():
 	current_scene=arena
 	var global=root.get_node("Global")
 	global.main_player_selected=arena.selection_panel.player_list[0]
-	global.main_weapon_selected=load("res://resources/items/weapons/spicy/item_bell_pepper.tres")
+	global.main_weapon_selected=load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres")
 	arena._on_level_selected(0)
 	arena.spawner.spawn_timer.stop()
 	var player=global.player
@@ -57,8 +57,8 @@ func verify():
 	close(enemy.stats.speed,base_speed*arena.spawner.current_wave_data.speed_multiplier*1.1)
 	enemy.free()
 	stats.set_final_modifiers({})
-	player.add_weapon(load("res://resources/items/weapons/spicy/item_carolina_reaper.tres"))
-	player.add_weapon(load("res://resources/items/weapons/spicy/item_carolina_reaper.tres"))
+	player.add_weapon(load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres"))
+	player.add_weapon(load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres"))
 	close(stats.final_multiplier("damage_percent"),1.1)
 	close(player.health_drain_per_second,0)
 	close(player.max_health_drain_percent_per_second,2)
@@ -75,7 +75,7 @@ func verify():
 	player.health_component.max_health=25
 	player._process(1)
 	close(player.health_component.current_health,17.5)
-	player.add_weapon(load("res://resources/items/weapons/spicy/item_carolina_reaper_3.tres"))
+	player.add_weapon(load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper_3.tres"))
 	close(player.max_health_drain_percent_per_second,5)
 	player.health_component.max_health=200
 	player.health_component.current_health=100
@@ -83,7 +83,7 @@ func verify():
 	close(player.health_component.current_health,90)
 	for tier in range(1,5):
 		var suffix="" if tier==1 else "_"+str(tier)
-		var reaper=load("res://resources/items/weapons/spicy/item_carolina_reaper"+suffix+".tres")
+		var reaper=load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper"+suffix+".tres")
 		close(reaper.max_health_drain_percent_per_second,tier)
 		close(reaper.health_drain_per_second,0)
 		assert("%s%% max HP/s" % tier in reaper.get_description())
@@ -91,7 +91,7 @@ func verify():
 	close(player._drain_elapsed,0)
 	# Every catalogue entry carries its editable modifier configuration.
 	for id in ["bell_pepper","jalapeno","habanero","cayenne","poblano","carolina_reaper","ghost_pepper","aji_amarillo","scotch_bonnet","rocoto"]:
-		var item=load("res://resources/items/weapons/spicy/item_%s.tres" % id)
+		var item=load("res://resources/items/weapons/chili/%s/item_%s.tres" % [id, id])
 		assert(not item.final_stat_modifiers.is_empty())
 		assert(not "pending" in item.get_description())
 	print("PASS spicy final modifiers: additive copies, effective totals, stable recalculation, removal, statuses and paused HP cost")

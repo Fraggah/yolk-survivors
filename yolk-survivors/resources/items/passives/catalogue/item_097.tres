@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 3
 item_cost = 80
 catalogue_id = 97
-description = "Convierte todo el Daño melee y Daño a distancia planos en Daño de efectos, a razón de 1:1, incluyendo futuras ganancias y penalizaciones. No modifica los coeficientes de las armas"
+description = "Converts all flat Melee and Ranged Damage into Effects at a 1:1 ratio.
+Includes future gains and penalties."
 effect_key = "reduction"
 ready_for_shop = true
 pending_reason = ""

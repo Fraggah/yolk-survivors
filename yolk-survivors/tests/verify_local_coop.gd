@@ -118,7 +118,7 @@ func verify():
 	assert(first.actor.health_component.current_health>0 and first.actor.visible)
 	# Production boss entry shares the encounter and completes the team run.
 	await coop.wave_completed()
-	arena.spawner.wave_index=19
+	arena.spawner.wave_index = arena.spawner.last_wave_number() - 1
 	first.ready=false; second.ready=false
 	coop.next_wave()
 	assert(arena.boss_wave_active and arena.boss_encounter.active and coop.mode=="combat")

@@ -7,7 +7,8 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 70
-description = "+Poder de bloqueo; −Daño general"
+description = "+5% Block Power
+−10% Damage"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."

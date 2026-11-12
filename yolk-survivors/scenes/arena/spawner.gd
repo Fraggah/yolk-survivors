@@ -7,8 +7,7 @@ signal on_wave_completed
 signal on_wave_cleared
 signal on_wave_started(wave: int)
 signal on_boss_wave_started(settings: Resource)
-const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
-@export var waves_data: Array[WaveData]
+@export var difficulties: Array[DifficultyData]
 @export var spawn_area_size := Vector2(1000, 500)
 @export var min_spawn_distance := 120.0
 @export_flags_2d_physics var obstacle_mask := 1
@@ -18,6 +17,11 @@ const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
 @export_range(0.1, 5.0) var debug_density := 1.0
 @export_range(0.1, 8.0) var debug_time_scale := 1.0
 @export var debug_invulnerable := false
+@export_group("Co-op Enemy Multipliers")
+## Each array is ordered by starting party size: 1, 2, 3, 4.
+@export var coop_enemy_frequency := PackedFloat32Array([1.0, 1.3, 1.6, 1.9])
+@export var coop_enemy_health := PackedFloat32Array([1.0, 1.3, 1.6, 1.9])
+@export var coop_enemy_damage := PackedFloat32Array([1.0, 1.08, 1.16, 1.24])
 @export_group("Temporary crowd test")
 @export var temporary_crowd_test := true
 @export_range(1.0, 10.0) var test_heavy_health_multiplier := 4.0
@@ -27,13 +31,19 @@ const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
 @onready var wave_timer: Timer = $WaveTimer
 @onready var spawn_timer: Timer = $SpawnTimer
 var wave_index := 1
+var _party_frequency := 1.0
+var _party_health := 1.0
+var _party_damage := 1.0
 var current_wave_data: WaveData
 var spawned_enemies: Array[Enemy] = []
 var special_enemies: Array[Enemy] = []
 var boss_enemies: Array[Enemy] = []
 var reward_enemies: Array[Enemy] = []
 var difficulty_index := 0:
-	set(value): difficulty_index = DIFFICULTY_RULES.normalize_level(value)
+	set(value): difficulty_index = normalize_difficulty(value)
+var default_difficulty := DifficultyData.new()
+var waves_data: Array[WaveData]:
+	get: return difficulty_data_for(difficulty_index).waves
 var spawn_generation := 0
 var pending_spawns := 0
 var pending_population := [0, 0, 0, 0]
@@ -67,16 +77,21 @@ func _process(_delta: float) -> void:
 		var info := debug_snapshot()
 		debug_label.text = "DEBUG Wave %d | common %d/%d + %d pending\nHazards %d | bosses %d | generated %d\nGroups: %s | density %.2f | time %.2f" % [wave_index, info.common, info.limit, pending_population[0], info.hazards, info.bosses, total_spawned, ", ".join(info.groups), debug_density, Engine.time_scale]
 
+func normalize_difficulty(level: int) -> int:
+	return clampi(level, 0, maxi(0, difficulties.size() - 1))
+
+func difficulty_data_for(level: int) -> DifficultyData:
+	var index := normalize_difficulty(level)
+	if index < difficulties.size() and difficulties[index]:
+		return difficulties[index]
+	return default_difficulty
+
 func last_wave_number() -> int:
-	var last := 0
-	for wave in waves_data:
-		if wave: last = maxi(last, wave.number)
-	return last
+	return waves_data.size()
 
 func wave_data_for(number: int) -> WaveData:
-	for wave in waves_data:
-		if wave and wave.is_valid_index(number): return wave
-	return null
+	if number < 1 or number > waves_data.size(): return null
+	return waves_data[number - 1]
 
 func find_wave_data() -> WaveData:
 	return wave_data_for(wave_index)
@@ -97,7 +112,6 @@ func start_wave() -> void:
 		for wave in waves_data:
 			if wave and wave.wave_type == WaveData.WaveType.HORDE:
 				current_wave_data = wave.duplicate()
-				current_wave_data.number = wave_index
 				break
 		Global.player.passive_items.force_horde = false
 	if not current_wave_data:
@@ -142,6 +156,7 @@ func scheduler_tick(elapsed: float) -> void:
 			var point := get_safe_spawn_position(event.enemy, event.spawn_zone, event.edge_width)
 			if not point.is_finite(): break
 			_spawn_profile_at(event.enemy, point, state, event.telegraph)
+	var horde_multiplier := 2 if current_wave_data.wave_type == WaveData.WaveType.HORDE else 1
 	for state in active_groups:
 		if not state.active: continue
 		var group: SpawnGroup = state.group
@@ -151,18 +166,21 @@ func scheduler_tick(elapsed: float) -> void:
 		if elapsed < state.next or (group.guaranteed and state.pending > 0): continue
 		# Drop missed ticks. Never accumulate a backlog or catch up in a burst.
 		var density := debug_density if OS.is_debug_build() and debug_enabled and not group.guaranteed else 1.0
-		var difficulty_density := DIFFICULTY_RULES.density_multiplier(difficulty_index)
+		var difficulty_density := maxf(0.01, difficulty_data_for(difficulty_index).spawn_frequency_multiplier)
+		if not group.guaranteed: difficulty_density *= _party_frequency
 		state.next = elapsed + maxf(group.minimum_interval, group.interval_at(elapsed) / (density * difficulty_density * (Global.player.stats.final_multiplier("enemy_count") if is_instance_valid(Global.player) and not group.guaranteed else 1.0)))
 		state.executions += 1
 		var count := randi_range(maxi(1, group.minimum_count), maxi(group.minimum_count, group.maximum_count))
 		if group.school:
 			var school_profile := group.select_enemy()
-			if school_profile: spawn_school(school_profile, count, Vector2.INF, group.school_radius, state)
+			if school_profile: spawn_school(school_profile, count * horde_multiplier, Vector2.INF, group.school_radius, state)
 			continue
 		for i in count:
 			var profile := group.select_enemy()
 			if profile:
 				var members := test_profile_count(profile) if group.affected_by_density else 1
+				if profile.population == EnemyProfile.Population.COMMON:
+					members *= horde_multiplier
 				if group.school_probability > 0.0 and randf() < group.school_probability and profile.id in [&"chaser_mini", &"chaser_mid", &"chaser_fast"]:
 					spawn_school(profile, members, Vector2.INF, group.school_radius, state)
 					continue
@@ -192,7 +210,9 @@ func alive_enemy_count() -> int:
 
 func population_limit(population: int) -> int:
 	if not current_wave_data: return 0
-	return mini(max_alive_enemies, current_wave_data.common_limit * test_wave_multiplier()) if population == 0 else current_wave_data.hazard_limit if population == 1 else current_wave_data.boss_limit if population == 2 else current_wave_data.reward_limit
+	if population == EnemyProfile.Population.COMMON:
+		return mini(max_alive_enemies, roundi(current_wave_data.common_limit * test_wave_multiplier() * _party_frequency))
+	return current_wave_data.hazard_limit if population == 1 else current_wave_data.boss_limit if population == 2 else current_wave_data.reward_limit
 
 func has_capacity(population: int) -> bool:
 	return population_count(population) + pending_population[population] < population_limit(population)
@@ -256,12 +276,14 @@ func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
 	var base := instance.stats
 	var scaled := base.duplicate() as UnitStats
 	var elapsed := maxi(0, wave_index - 1)
-	var multiplier := DIFFICULTY_RULES.stat_multiplier(difficulty_index)
+	var difficulty := difficulty_data_for(difficulty_index)
 	var hp_growth := profile.health_growth_multiplier if profile else 1.0
 	var damage_growth := profile.damage_growth_multiplier if profile else 1.0
-	scaled.health = maxf(1.0, (base.initial_health + base.health_increase_per_wave * elapsed * hp_growth) * multiplier * (current_wave_data.health_multiplier if current_wave_data else 1.0))
-	scaled.damage = maxf(0.0, (base.initial_damage + base.damage_increase_per_wave * elapsed * damage_growth) * multiplier * (current_wave_data.damage_multiplier if current_wave_data else 1.0))
-	scaled.speed = maxf(0.0, base.speed + (profile.speed_growth_per_wave * elapsed if profile else 0.0)) * (current_wave_data.speed_multiplier if current_wave_data else 1.0)
+	var health_multiplier := difficulty.health_multiplier * _party_health * (current_wave_data.health_multiplier if current_wave_data else 1.0)
+	var damage_multiplier := difficulty.damage_multiplier * _party_damage * (current_wave_data.damage_multiplier if current_wave_data else 1.0)
+	scaled.health = maxf(1.0, (base.initial_health + base.health_increase_per_wave * elapsed * hp_growth) * health_multiplier)
+	scaled.damage = maxf(0.0, (base.initial_damage + base.damage_increase_per_wave * elapsed * damage_growth) * damage_multiplier)
+	scaled.speed = maxf(0.0, base.speed + (profile.speed_growth_per_wave * elapsed if profile else 0.0)) * difficulty.speed_multiplier * (current_wave_data.speed_multiplier if current_wave_data else 1.0)
 	if is_instance_valid(Global.player): scaled.speed *= Global.player.stats.final_multiplier("enemy_speed")
 	if temporary_crowd_test and profile:
 		if profile.id in [&"chaser_slow", &"charger"]: scaled.health *= test_heavy_health_multiplier
@@ -272,11 +294,11 @@ func prepare_enemy(instance: Enemy, profile: EnemyProfile = null) -> void:
 	var shooting := instance.get_node_or_null("ShootingBehaviour") as ShootingBehaviour
 	if shooting:
 		shooting.wave_offset = elapsed
-		shooting.damage_multiplier = multiplier * (current_wave_data.damage_multiplier if current_wave_data else 1.0) * damage_growth
+		shooting.damage_multiplier = damage_multiplier * damage_growth
 	instance.arena_environment = arena_environment
 	if profile:
 		instance.visual_scale = profile.visual_scale
-		instance.knockback_resistance = clampf((profile.knockback_resistance + profile.resistance_growth_per_wave * elapsed) * current_wave_data.resistance_multiplier, 0.0, 1.0)
+		instance.knockback_resistance = clampf((profile.knockback_resistance + profile.resistance_growth_per_wave * elapsed) * difficulty.resistance_multiplier * (current_wave_data.resistance_multiplier if current_wave_data else 1.0), 0.0, 1.0)
 		instance.set_meta("enemy_profile", profile.id)
 
 func spawn_profile(profile: EnemyProfile, state: Dictionary = {}) -> void:
@@ -384,7 +406,10 @@ func get_wave_timer_text() -> String:
 func get_wave_text() -> String:
 	return "Wave %d%s" % [wave_index, " - Horde" if current_wave_data and current_wave_data.wave_type == WaveData.WaveType.HORDE else ""]
 
-func reset_run(level: int) -> void:
+func _party_multiplier(values: PackedFloat32Array, index: int) -> float:
+	return maxf(0.01, values[index]) if index < values.size() else 1.0
+
+func reset_run(level: int, party_size: int = 1) -> void:
 	wave_timer.stop()
 	spawn_timer.stop()
 	wave_timer.paused = false
@@ -392,8 +417,12 @@ func reset_run(level: int) -> void:
 	clear_enemies()
 	clear_fueguito()
 	Engine.time_scale = 1.0
-	wave_index = clampi(debug_start_wave, 1, last_wave_number()) if OS.is_debug_build() and debug_enabled else 1
 	difficulty_index = level
+	var party_index := clampi(party_size, 1, 4) - 1
+	_party_frequency = _party_multiplier(coop_enemy_frequency, party_index)
+	_party_health = _party_multiplier(coop_enemy_health, party_index)
+	_party_damage = _party_multiplier(coop_enemy_damage, party_index)
+	wave_index = clampi(debug_start_wave, 1, maxi(1, last_wave_number())) if OS.is_debug_build() and debug_enabled else 1
 	current_wave_data = null
 
 func _on_spawn_timer_timeout() -> void:

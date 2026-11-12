@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 3
 item_cost = 80
 catalogue_id = 100
-description = "Al caer por debajo del 25% de Vida, +50% de Empuje y cooldown de dash reducido a la mitad. Activo mientras estés por debajo del umbral; se desactiva al recuperar 25% o más"
+description = "While below 25% HP:
++50% Push
+−50% Dash Cooldown"
 effect_key = "last_bite"
 ready_for_shop = true
 pending_reason = ""

@@ -21,7 +21,8 @@ func _on_hitbox_component_on_hit_hurtbox(hurtbox: HurtboxComponent) -> void:
 	if Global.game_paused or contacted or is_queued_for_deletion(): return
 	contacted = true
 	hit_targets[hurtbox.get_instance_id()] = true
-	if effects and randf() < effects.corn_explosion_chance:
+	var luck: float = hitbox.source.stats.luck if is_instance_valid(hitbox.source) and hitbox.source is Unit else 0.0
+	if effects and randf() < effects.get_corn_explosion_chance(luck):
 		armed = true
 		velocity = Vector2.ZERO
 		hide()
@@ -50,4 +51,7 @@ func detonate() -> void:
 		popcorn.hitbox.status_effects.assign(hitbox.status_effects)
 		popcorn.remaining_piercing = remaining_piercing
 		popcorn.remaining_bounces = remaining_bounces
+	var source_stats: UnitStats = hitbox.source.stats if is_instance_valid(hitbox.source) and hitbox.source is Unit else null
+	if source_stats:
+		explosion_base_damage = maxf(0.0, explosion_base_damage + effects.get_corn_explosion_bonus(source_stats.luck) * ItemWeapon.status_damage_multiplier(hitbox.weapon_damage_record, source_stats))
 	super.detonate()

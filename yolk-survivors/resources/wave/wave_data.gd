@@ -1,13 +1,16 @@
 extends Resource
 class_name WaveData
 const ScheduledSpawnResource = preload("res://resources/wave/scheduled_spawn.gd")
+const BossEncounterResource = preload("res://resources/bosses/boss_encounter_settings.gd")
 
 enum WaveType { NORMAL, HORDE, SPECIAL, BOSS }
-@export_range(1, 100) var number := 1
+## Kept for existing resources. The difficulty list sets the in-game wave number.
+@export_storage var number := 1
 @export_range(0.1, 600.0, 0.1) var wave_time := 30.0
 @export var wave_type := WaveType.NORMAL
-## Dedicated encounter replaces timed groups when this is a BOSS wave.
-@export var boss_encounter: Resource
+## Assign the encounter to use its boss, arena and mechanics for this wave.
+## An assigned encounter takes precedence over Wave Type and Arena Mode.
+@export var boss_encounter: BossEncounterResource
 ## Empty inherits arena/default music. One entry forces a track; several randomize.
 @export var music_tracks: Array[AudioStream] = []
 
@@ -29,8 +32,5 @@ enum ArenaMode { BASE, FIXED, RANDOM_SPECIAL }
 @export var speed_multiplier := 1.0
 @export var resistance_multiplier := 1.0
 
-func is_valid_index(index: int) -> bool:
-	return number == index
-
 func has_boss_encounter() -> bool:
-	return wave_type == WaveType.BOSS and boss_encounter != null
+	return boss_encounter != null and boss_encounter.arena_stage != null and boss_encounter.boss_scene != null

@@ -1,22 +1,30 @@
-[gd_scene load_steps=52 format=3 uid="uid://dy6m2b3eopxya"]
+[gd_scene load_steps=40 format=3 uid="uid://dy6m2b3eopxya"]
 
 [ext_resource type="Script" uid="uid://dtjmwp4ex4uth" path="res://scenes/arena/arena.gd" id="1_asdgj"]
 [ext_resource type="Script" uid="uid://pj2fjdoqjgtl" path="res://scenes/arena/camera_2d.gd" id="4_aj7ud"]
 [ext_resource type="Script" uid="uid://cik2jcd8fmr6v" path="res://scenes/arena/spawner.gd" id="8_ii07k"]
-[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="9_t3vx8"]
 [ext_resource type="PackedScene" uid="uid://bjya0gr4fuwcq" path="res://scenes/ui/coins_bag/coins_bag.tscn" id="15_rhjlh"]
 [ext_resource type="PackedScene" uid="uid://b7hhtxfn6wpfg" path="res://scenes/ui/upgrades/upgrade_panel.tscn" id="15_w4nra"]
 [ext_resource type="PackedScene" uid="uid://c4xdsqfy0uqgj" path="res://scenes/ui/shop/shop_panel.tscn" id="16_t3vx8"]
 [ext_resource type="PackedScene" uid="uid://cnnnbrv4c08c3" path="res://scenes/ui/selection_panel/selection_panel.tscn" id="17_rhjlh"]
 [ext_resource type="PackedScene" uid="uid://bmcklq2cvmlyg" path="res://scenes/ui/pause_panel/pause_panel.tscn" id="24_io46r"]
 [ext_resource type="AudioStream" uid="uid://c452emcawya5n" path="res://assets/audio/ASMR - Frying Food _ Sizzling Sounds (no talking) [l5RblQ3OCfM].mp3" id="25_o7rjm"]
-[ext_resource type="AudioStream" uid="uid://b2qhtos1ey4l3" path="res://assets/audio/armados.mp3" id="26_c13hg"]
 [ext_resource type="PackedScene" uid="uid://d20lcl5nw3b7d" path="res://scenes/ui/level_panel/level_panel.tscn" id="26_o7rjm"]
 [ext_resource type="PackedScene" uid="uid://dxgobdv45wbll" path="res://scenes/ui/credits_panel/credits_panel.tscn" id="26_vspv4"]
 [ext_resource type="PackedScene" uid="uid://f2xh1o8ymjuc" path="res://scenes/ui/options_panel/options_panel.tscn" id="27_io46r"]
 [ext_resource type="PackedScene" uid="uid://b7ssr2jk2imcv" path="res://scenes/ui/start_panel/start_panel.tscn" id="28_f7e6h"]
+[ext_resource type="AudioStream" uid="uid://bfbtyrskpflu3" path="res://assets/audio/music/DTMY - Menu Theme.mp3" id="35_6epk0"]
+[ext_resource type="AudioStream" uid="uid://tcs5c3s23ib2" path="res://assets/audio/music/DTMY - Shop Theme.mp3" id="36_0qb3g"]
 [ext_resource type="Shader" uid="uid://d37r2cff40u07" path="res://scenes/health_bar/rounded_fill.gdshader" id="36_kqoan"]
+[ext_resource type="AudioStream" uid="uid://dh75gd6hqdvyi" path="res://assets/audio/music/DTMY - Arena Theme.mp3" id="37_okl5r"]
 [ext_resource type="Script" uid="uid://dbxsmcjjr82ye" path="res://scenes/coop/coop_selection.gd" id="coop_selection"]
+[ext_resource type="Resource" uid="uid://cg2imortteojy" path="res://resources/wave/difficulties/difficulty_0.tres" id="difficulty_0"]
+[ext_resource type="Resource" path="res://resources/wave/difficulties/difficulty_1.tres" id="difficulty_1"]
+[ext_resource type="Resource" path="res://resources/wave/difficulties/difficulty_2.tres" id="difficulty_2"]
+[ext_resource type="Resource" path="res://resources/wave/difficulties/difficulty_3.tres" id="difficulty_3"]
+[ext_resource type="Resource" path="res://resources/wave/difficulties/difficulty_4.tres" id="difficulty_4"]
+[ext_resource type="Resource" path="res://resources/wave/difficulties/difficulty_5.tres" id="difficulty_5"]
+[ext_resource type="Script" uid="uid://c73uet6fvsrup" path="res://resources/wave/difficulty_data.gd" id="difficulty_data"]
 [ext_resource type="Script" uid="uid://rnc2khrv478v" path="res://scenes/arena/environment_controller.gd" id="env_controller"]
 [ext_resource type="PackedScene" path="res://scenes/ui/final_screen.tscn" id="final_screen"]
 [ext_resource type="PackedScene" path="res://scenes/health_bar/health_bar_ui.tscn" id="hud_health"]
@@ -29,26 +37,6 @@
 [ext_resource type="Resource" uid="uid://crj3rb3r41iyb" path="res://resources/environments/stages/nonstick_pan.tres" id="stage_nonstick_pan"]
 [ext_resource type="Resource" uid="uid://diytj0pixcxjt" path="res://resources/environments/stages/oven_tray.tres" id="stage_oven_tray"]
 [ext_resource type="Script" uid="uid://bfsy6moqgm6nj" path="res://resources/arena_stage.gd" id="stage_type"]
-[ext_resource type="Resource" uid="uid://q8v7y2ftym2y" path="res://resources/wave/data/wave_01.tres" id="wave_1"]
-[ext_resource type="Resource" uid="uid://kh61qnquwlqu" path="res://resources/wave/data/wave_02.tres" id="wave_2"]
-[ext_resource type="Resource" uid="uid://c6deqy8v8ukqo" path="res://resources/wave/data/wave_03.tres" id="wave_3"]
-[ext_resource type="Resource" uid="uid://dg61154712v3a" path="res://resources/wave/data/wave_04.tres" id="wave_4"]
-[ext_resource type="Resource" uid="uid://bgw62ofsabl23" path="res://resources/wave/data/wave_05.tres" id="wave_5"]
-[ext_resource type="Resource" uid="uid://byjv8inngmhmn" path="res://resources/wave/data/wave_06.tres" id="wave_6"]
-[ext_resource type="Resource" uid="uid://b6obg587at0mp" path="res://resources/wave/data/wave_07.tres" id="wave_7"]
-[ext_resource type="Resource" uid="uid://b8a0x0mvu1wqx" path="res://resources/wave/data/wave_08.tres" id="wave_8"]
-[ext_resource type="Resource" uid="uid://dsuwkg73gttnw" path="res://resources/wave/data/wave_09.tres" id="wave_9"]
-[ext_resource type="Resource" uid="uid://dswg5o43hkps3" path="res://resources/wave/data/wave_10.tres" id="wave_10"]
-[ext_resource type="Resource" uid="uid://b08tjupm6bued" path="res://resources/wave/data/wave_11.tres" id="wave_11"]
-[ext_resource type="Resource" uid="uid://fx21vrq6bwjs" path="res://resources/wave/data/wave_12.tres" id="wave_12"]
-[ext_resource type="Resource" uid="uid://bwngow8a6c3f6" path="res://resources/wave/data/wave_13.tres" id="wave_13"]
-[ext_resource type="Resource" uid="uid://cr5j78fhd3ft6" path="res://resources/wave/data/wave_14.tres" id="wave_14"]
-[ext_resource type="Resource" uid="uid://d0e0qbx2l8e4d" path="res://resources/wave/data/wave_15.tres" id="wave_15"]
-[ext_resource type="Resource" uid="uid://bkaffiarte1ba" path="res://resources/wave/data/wave_16.tres" id="wave_16"]
-[ext_resource type="Resource" uid="uid://dmmkijvhbjfyc" path="res://resources/wave/data/wave_17.tres" id="wave_17"]
-[ext_resource type="Resource" uid="uid://dp50vro8iw2t8" path="res://resources/wave/data/wave_18.tres" id="wave_18"]
-[ext_resource type="Resource" uid="uid://bxt0kklj3addc" path="res://resources/wave/data/wave_19.tres" id="wave_19"]
-[ext_resource type="Resource" uid="uid://d2tq5ik8hr0iq" path="res://resources/wave/data/wave_20.tres" id="wave_20"]
 [ext_resource type="PackedScene" path="res://scenes/ui/selection_panel/weapon_selection_panel.tscn" id="weapon_selection"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23se2"]
@@ -88,7 +76,10 @@ script = ExtResource("4_aj7ud")
 
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("8_ii07k")
-waves_data = Array[ExtResource("9_t3vx8")]([ExtResource("wave_1"), ExtResource("wave_2"), ExtResource("wave_3"), ExtResource("wave_4"), ExtResource("wave_5"), ExtResource("wave_6"), ExtResource("wave_7"), ExtResource("wave_8"), ExtResource("wave_9"), ExtResource("wave_10"), ExtResource("wave_11"), ExtResource("wave_12"), ExtResource("wave_13"), ExtResource("wave_14"), ExtResource("wave_15"), ExtResource("wave_16"), ExtResource("wave_17"), ExtResource("wave_18"), ExtResource("wave_19"), ExtResource("wave_20")])
+difficulties = Array[ExtResource("difficulty_data")]([ExtResource("difficulty_0"), ExtResource("difficulty_1"), ExtResource("difficulty_2"), ExtResource("difficulty_3"), ExtResource("difficulty_4"), ExtResource("difficulty_5")])
+coop_enemy_frequency = PackedFloat32Array(1, 1.3, 1.6, 1.9)
+coop_enemy_health = PackedFloat32Array(1, 1.3, 1.6, 1.9)
+coop_enemy_damage = PackedFloat32Array(1, 1.08, 1.16, 1.24)
 
 [node name="WaveTimer" type="Timer" parent="Spawner"]
 one_shot = true
@@ -212,14 +203,14 @@ script = ExtResource("coop_selection")
 volume_db = -5.0
 bus = &"Music"
 script = ExtResource("music_controller")
-menu_music = ExtResource("26_c13hg")
-shop_music = ExtResource("26_c13hg")
-wave_music_tracks = Array[AudioStream]([ExtResource("26_c13hg")])
-boss_music_tracks = Array[AudioStream]([ExtResource("26_c13hg")])
+menu_music = ExtResource("35_6epk0")
+shop_music = ExtResource("36_0qb3g")
+wave_music_tracks = Array[AudioStream]([ExtResource("37_okl5r")])
+boss_music_tracks = Array[AudioStream]([ExtResource("37_okl5r")])
 
 [node name="CoockingPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("25_o7rjm")
-volume_db = -20.0
+volume_db = -80.0
 autoplay = true
 bus = &"Music"
 parameters/looping = true
@@ -237,7 +228,6 @@ parameters/looping = true
 [connection signal="replay_requested" from="GameUI/FinalScreen" to="." method="_on_final_button_pressed"]
 [connection signal="on_level_selection_exited" from="GameUI/LevelPanel" to="." method="_on_level_panel_on_level_selection_exited"]
 [connection signal="on_credits_exited" from="GameUI/CreditsPanel" to="." method="_on_credits_panel_on_credits_exited"]
-[connection signal="on_load_game" from="GameUI/OptionsPanel" to="." method="_on_options_panel_on_load_game"]
 [connection signal="on_options_exited" from="GameUI/OptionsPanel" to="." method="_on_options_panel_on_options_exited"]
 [connection signal="on_credits_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_credits_pressed"]
 [connection signal="on_exit_pressed" from="GameUI/StartPanel" to="." method="_on_start_panel_on_exit_pressed"]

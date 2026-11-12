@@ -36,6 +36,10 @@ enum DamageScalingStat { AUTO, MELEE, RANGED, NONE, EFFECTS }
 @export var stats: WeaponStats
 @export var upgrade_to: ItemWeapon
 @export_multiline var attack_description: String
+@export var show_projectile_count_in_damage := false
+@export var damage_only_on_explosion := false
+@export var burning_description_format := ""
+@export var damage_label := "Damage"
 ## Percentage deltas summed across equipped copies, applied after all ordinary stats.
 @export var final_stat_modifiers: Dictionary = {}
 @export var health_drain_per_second := 0.0
@@ -106,6 +110,10 @@ func get_effective_critical_chance(player_stats: UnitStats = null) -> float:
 	if has_tag(Tag.CHILI) and (player_stats == null or not player_stats.chili_crit_enabled): return 0.0
 	return clampf((stats.crit_chance + (player_stats.unmodified_stat("critical_chance") / 100.0 if player_stats else 0.0)) * (player_stats.final_multiplier("critical_chance") if player_stats else 1.0), 0.0, 1.0)
 
+func get_display_cooldown(player_stats: UnitStats = null) -> float:
+	var ranged := stats.ranged_settings
+	return ranged.burst_interval if ranged and ranged.burst_count > 1 else get_effective_cooldown(player_stats)
+
 static func record_allows_critical(record: Dictionary, player_stats: UnitStats) -> bool:
 	if player_stats.chili_crit_enabled: return true
 	if record.has("contributors"):
@@ -126,38 +134,115 @@ func get_effective_range(player_stats: UnitStats = null) -> float:
 func get_range_description(player_stats: UnitStats = null) -> String:
 	return format_number(get_effective_range(player_stats))
 
-func get_damage_description(player_stats: UnitStats = null) -> String:
+static func _scaling_component(stat_id: String, coefficient: float) -> String:
+	var icon := "damage_ranged"
+	match stat_id:
+		"melee_damage": icon = "damage_melee"
+		"effects": icon = "damage_effects"
+		"luck": icon = "luck_die"
+	return "%s%% [img width=22 height=22 color=green]res://assets/sprites/UI/%s.svg[/img]" % [format_number(coefficient * 100.0), icon]
+
+func get_damage_description(player_stats: UnitStats = null, multiplier: float = 1.0, for_explosion: bool = false) -> String:
+	if damage_only_on_explosion and not for_explosion:
+		return "0"
 	var components := PackedStringArray()
 	var stat_id := get_damage_scaling_stat_id()
 	if not stat_id.is_empty():
-		var icon := "damage_melee" if stat_id == "melee_damage" else "damage_ranged"
-		if stat_id == "effects": components.append("%s%% Effects" % format_number(stats.damage_scaling * 100.0))
-		else: components.append("%s%% [img width=22 height=22 color=green]res://assets/sprites/UI/%s.svg[/img]" % [format_number(stats.damage_scaling * 100.0), icon])
-	if scales_with_effects and stat_id != "effects": components.append("%s%% Effects" % format_number(effects_damage_scaling * 100.0))
+		components.append(_scaling_component(stat_id, stats.damage_scaling * multiplier))
+	if scales_with_effects and stat_id != "effects":
+		components.append(_scaling_component("effects", effects_damage_scaling * multiplier))
 	for key in extra_damage_scalings:
-		var icon := "damage_melee" if key == "melee_damage" else "damage_ranged"
-		components.append("%s%% [img width=22 height=22 color=green]res://assets/sprites/UI/%s.svg[/img]" % [format_number(float(extra_damage_scalings[key]) * 100.0), icon])
-	return "%s (%s)" % [format_number(get_effective_damage(player_stats)), " + ".join(components)] if not components.is_empty() else format_number(get_effective_damage(player_stats))
+		components.append(_scaling_component(str(key), float(extra_damage_scalings[key]) * multiplier))
+	var damage := format_number(get_effective_damage(player_stats, for_explosion) * multiplier)
+	if show_projectile_count_in_damage and stats.ranged_settings:
+		damage += "x%d" % stats.ranged_settings.projectile_count
+	return "%s (%s)" % [damage, " + ".join(components)] if not components.is_empty() else damage
+
+func get_direct_damage_description(player_stats: UnitStats = null) -> String:
+	var ranged := stats.ranged_settings
+	return get_damage_description(player_stats, ranged.airbourne_direct_damage_multiplier if ranged and ranged.applies_airbourne else 1.0)
 
 func get_description(player_stats: UnitStats = null) -> String:
 	if selection_only: return "Ability not available yet.\nStart without equipment."
-	var description := "Damage: [color=green]%s[/color]\nCooldown: [color=green]%s s[/color]\nRange: [color=green]%s[/color]\nCritical chance: [color=green]%s%%[/color]" % [get_damage_description(player_stats), format_number(get_effective_cooldown(player_stats)), get_range_description(player_stats), format_number(get_effective_critical_chance(player_stats) * 100.0)]
+	var damage_description := "%s: [color=green]%s[/color]" % [damage_label, get_direct_damage_description(player_stats)]
+	var ranged := stats.ranged_settings
+	var description := "%s\nCooldown: [color=green]%s s[/color]" % [damage_description, format_number(get_display_cooldown(player_stats))]
+	if not has_tag(Tag.CHILI):
+		description += "\nRange: [color=green]%s[/color]" % get_range_description(player_stats)
+		description += "\nCritical chance: [color=green]%s%%[/color]" % format_number(get_effective_critical_chance(player_stats) * 100.0)
 	if has_tag(Tag.RANGED):
-		if stats.unlimited_piercing: description += "\nPiercing: [color=green]Unlimited[/color]"
+		if stats.unlimited_piercing: description += "\nPiercing: [color=green]∞[/color]"
 		elif get_effective_piercing(player_stats) > 0: description += "\nPiercing: [color=green]%d[/color]" % get_effective_piercing(player_stats)
-		if get_effective_bounces(player_stats) > 0: description += "\nBounces: [color=green]%d[/color]" % get_effective_bounces(player_stats)
-	description += get_status_damage_description(player_stats)
+		if shows_bounce_count() and get_effective_bounces(player_stats) > 0: description += "\nBounces: [color=green]%d[/color]" % get_effective_bounces(player_stats)
+	var status_description := get_status_damage_description(player_stats)
+	if not stats.spicy_explosion_settings: description += status_description
 	if breading_chili_damage_percent > 0.0: description += "\n+%s%% damage per equipped Chili (includes self)" % format_number(breading_chili_damage_percent)
 	if breading_pet_damage_percent > 0.0: description += "\n+%s%% damage per equipped Pet (includes self)" % format_number(breading_pet_damage_percent)
-	if not attack_description.is_empty(): description += "\n" + attack_description
+	var attack_text := attack_description
+	if "{push}" in attack_text:
+		var push := player_stats.get_push_force(stats.knockback) if player_stats else stats.knockback
+		attack_text = attack_text.replace("{push}", "[color=green]%s[/color]" % format_number(push))
+	if ranged and "{pit_damage}" in attack_text:
+		var pit_damage := get_damage_description(player_stats, ranged.pit_damage_multiplier)
+		attack_text = attack_text.replace("{pit_damage}", "[color=green]%s[/color]" % pit_damage)
+	if ranged and not shows_bounce_count():
+		var bounce_chance := ranged.get_plate_bounce_chance(player_stats.luck if player_stats else 0.0)
+		var scaling := _scaling_component("luck", ranged.plate_bounce_chance_per_luck * 100.0)
+		attack_text = attack_text.replace("{bounce_chance}", "[color=green]%s%% (%s)[/color]" % [format_number(bounce_chance * 100.0), scaling])
+	if ranged and "{pin_duration}" in attack_text:
+		attack_text = attack_text.replace("{pin_duration}", format_number(ranged.harpoon_pin_duration))
+	if ranged and ranged.burst_count > 1 and "{reload_cooldown}" in attack_text:
+		var shot_span := (ranged.burst_count - 1) * ranged.burst_interval
+		var reload_cooldown := maxf(0.01 if ranged.lock_burst_aim else 0.0, get_effective_cooldown(player_stats) - shot_span)
+		attack_text = attack_text.format({"burst_count": ranged.burst_count, "reload_cooldown": format_number(reload_cooldown)})
+	if ranged and ("{fuse}" in attack_text or "{explosion_damage}" in attack_text):
+		attack_text = attack_text.format({
+			"fuse": format_number(ranged.fuse),
+			"explosion_damage": "[color=green]%s[/color]" % get_damage_description(player_stats, ranged.explosion_damage_multiplier, true),
+		})
+	if "{airbourne_damage}" in attack_text and ((ranged and ranged.applies_airbourne) or stats.melee_settings):
+		var collision_multiplier := ranged.airbourne_damage_multiplier if ranged and ranged.applies_airbourne else stats.melee_settings.collision_damage_multiplier
+		var collision_damage := get_damage_description(player_stats, collision_multiplier)
+		attack_text = attack_text.replace("{airbourne_damage}", "[color=green]%s[/color]" % collision_damage)
+	var has_ketchup_splatter := ranged != null and stats.projectile_scene != null and stats.projectile_scene.resource_path == "res://scenes/projectiles/projectile_ketchup_capsule.tscn"
+	if has_ketchup_splatter:
+		attack_text = attack_text.replace("{droplets}", str(ranged.splatter_count))
+	if not attack_text.is_empty(): description += "\n" + attack_text
+	if stats.spicy_explosion_settings: description += status_description
+	if has_ketchup_splatter:
+		description += "\nDamage per droplet: [color=green]%s[/color]" % get_damage_description(player_stats, ranged.splatter_damage_multiplier)
+	if ranged and stats.projectile_scene and stats.projectile_scene.resource_path == "res://scenes/projectiles/projectile_bomb_corn.tscn":
+		var luck := player_stats.luck if player_stats else 0.0
+		var bonus_multiplier := status_damage_multiplier({"weapon": self}, player_stats) if player_stats else 1.0
+		var blast_ratio := explosion_damage_ratio({"weapon": self}, player_stats) if player_stats else 1.0
+		var blast_damage := maxf(0.0, get_effective_damage(player_stats) + ranged.get_corn_explosion_bonus(luck) * bonus_multiplier)
+		blast_damage *= ranged.explosion_damage_multiplier * blast_ratio
+		description += "\nExplosion chance: [color=green]%s%% (%s)[/color]" % [format_number(ranged.get_corn_explosion_chance(luck) * 100.0), _scaling_component("luck", ranged.corn_chance_per_luck * 100.0)]
+		description += "\nExplosion damage: [color=green]%s (%s)[/color]" % [format_number(blast_damage), _scaling_component("luck", ranged.corn_damage_per_luck)]
+	var special_color := UITheme.color_hex("negative" if has_tag(Tag.CHILI) else "accent")
 	for stat_id in final_stat_modifiers:
-		description += "\n%s: %s%s%% final" % [str(stat_id).replace("_", " ").capitalize(), "+" if float(final_stat_modifiers[stat_id]) > 0.0 else "", format_number(final_stat_modifiers[stat_id])]
-	if health_drain_per_second > 0.0: description += "\nHealth cost: %s HP/s" % format_number(health_drain_per_second)
-	if max_health_drain_percent_per_second > 0.0: description += "\nHealth cost: %s%% max HP/s" % format_number(max_health_drain_percent_per_second)
+		var modifier := float(final_stat_modifiers[stat_id])
+		var direct_label: String = {"fire_tick_speed": "Fire tick speed", "slow_strength": "Slow potency", "effect_duration": "Effect duration", "enemy_count": "Enemy spawn rate", "enemy_speed": "Enemy speed"}.get(stat_id, "")
+		if not direct_label.is_empty():
+			description += "\n[color=%s]%s%s%% %s[/color]" % [
+				special_color, "+" if modifier > 0.0 else "", format_number(modifier), direct_label,
+			]
+			continue
+		var stat_name := str(CharacterPassive.STAT_LABELS.get(stat_id, str(stat_id).replace("_", " ").capitalize()))
+		if stat_id == "damage_percent": stat_name = "Damage"
+		if stat_id == "area_of_effect": stat_name = "AOE"
+		description += "\n[color=%s]%s bonuses are %s%% %s.[/color]" % [
+			special_color, stat_name, format_number(absf(modifier)), "stronger" if modifier > 0.0 else "weaker",
+		]
+	if health_drain_per_second > 0.0: description += "\n[color=%s]Health cost: %s HP/s[/color]" % [special_color, format_number(health_drain_per_second)]
+	if max_health_drain_percent_per_second > 0.0: description += "\n[color=%s]Health cost: %s%% max HP/s[/color]" % [special_color, format_number(max_health_drain_percent_per_second)]
 	return description
 
 func get_effective_piercing(player_stats: UnitStats = null) -> int:
 	return maxi(0, stats.piercing + (player_stats.piercing if player_stats else 0))
+
+func shows_bounce_count() -> bool:
+	return "{bounce_chance}" not in attack_description
 
 func get_effective_bounces(player_stats: UnitStats = null) -> int:
 	if stats.unlimited_piercing: return 0
@@ -184,22 +269,43 @@ func get_breading_burning_damage(base_damage: float, player_stats: UnitStats) ->
 ## State damage is independent from the weapon's direct hit and its scaling stat.
 func get_status_damage_description(player_stats: UnitStats = null) -> String:
 	var result := ""
-	for effect in on_hit_effects + breading_status_effects:
+	var burning_description := ""
+	var display_effects := on_hit_effects + breading_status_effects
+	if not burning_description_format.is_empty() and stats.spicy_explosion_settings and stats.spicy_explosion_settings.burn_duration > 0.0:
+		var burn := StatusEffect.new()
+		burn.kind = StatusEffect.Kind.FIRE
+		burn.duration = stats.spicy_explosion_settings.burn_duration
+		display_effects.append(burn)
+	for effect in display_effects:
 		if effect == null: continue
-		if effect.kind == StatusEffect.Kind.FIRE and not effect.configured_fire_damage: continue
+		var uses_base_burning := effect.kind == StatusEffect.Kind.FIRE and not effect.configured_fire_damage
+		if uses_base_burning and burning_description_format.is_empty(): continue
 		var amount: float = player_stats.get_effect_damage(effect.damage, effect.damage_scaling) if player_stats else effect.damage
 		if effect.kind == StatusEffect.Kind.FIRE: amount = maxf(0.1, amount)
 		if player_stats: amount *= status_damage_multiplier({"weapon": self}, player_stats)
-		var formula := "%s + %s%% Effects" % [format_number(effect.damage), format_number(effect.damage_scaling * 100.0)]
+		var formula := "%s + %s" % [format_number(effect.damage), _scaling_component("effects", effect.damage_scaling)]
+		if uses_base_burning:
+			amount = player_stats.get_burning_damage() * player_stats.get_damage_percent_multiplier(has_tag(Tag.CHILI), has_tag(Tag.EXPLOSIVE)) if player_stats else 0.1
+			formula = _scaling_component("effects", UnitStats.BURNING_EFFECTS_SCALING * FireContacts.burn_tick_batch)
 		if effect.kind == StatusEffect.Kind.FIRE:
 			amount *= FireContacts.burn_tick_batch
-			formula = "(%s) x %s" % [formula, FireContacts.burn_tick_batch]
+			if not uses_base_burning:
+				formula = _scaling_component("effects", effect.damage_scaling * FireContacts.burn_tick_batch)
 		var label := "Burning / tick" if effect.kind == StatusEffect.Kind.FIRE else "Electricity"
-		result += "\n%s: [color=green]%s[/color] (%s)" % [label, format_number(amount), formula]
+		var damage_text := "[color=green]%s[/color] (%s)" % [format_number(amount), formula]
+		var chance_text := " — %s%% chance" % format_number(effect.chance * 100.0) if effect.chance < 1.0 else ""
 		if effect.kind == StatusEffect.Kind.FIRE:
 			var interval: float = player_stats.get_fire_interval() if player_stats else StatusEffect.BASE_FIRE_INTERVAL
 			interval *= FireContacts.burn_tick_batch
 			var duration: float = player_stats.get_fire_duration(effect.duration) if player_stats else effect.duration
-			result += " — every %s s, for %s s" % [format_number(interval), format_number(duration)]
-		if effect.chance < 1.0: result += " — %s%% chance" % format_number(effect.chance * 100.0)
-	return result
+			if burning_description_format.is_empty():
+				result += "\n%s: %s — every %s s, for %s s" % [label, damage_text, format_number(interval), format_number(duration)]
+			else:
+				burning_description += "\n" + burning_description_format.format({
+					"damage": damage_text, "interval": format_number(interval), "duration": format_number(duration),
+				}) + chance_text
+				continue
+		else:
+			result += "\n%s: %s" % [label, damage_text]
+		result += chance_text
+	return result + burning_description

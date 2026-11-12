@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 [ext_resource type="Script" path="res://scenes/coop/local_coop.gd" id="script"]
 
 [ext_resource type="Script" path="res://scenes/coop/shop_quadrants.gd" id="quadrants"]
@@ -73,6 +75,7 @@ theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 14
 
 [node name="Hint" type="Label" parent="UI/Screen/Margin/Content"]
+theme_override_fonts/font = ExtResource("ui_body")
 theme_override_font_sizes/font_size = 21
 horizontal_alignment = 1
 autowrap_mode = 2

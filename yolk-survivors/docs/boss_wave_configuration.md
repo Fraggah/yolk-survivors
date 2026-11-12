@@ -1,8 +1,8 @@
-# Boss en la oleada 20
+# Configurar una oleada de boss
 
-`resources/wave/data/wave_20.tres` usa el tipo BOSS y referencia `resources/bosses/salchichon.tres` mediante `boss_encounter`.
+En el WaveData, asigná `resources/bosses/salchichon.tres` a **Boss Encounter**. Esa asignación activa el combate y tiene prioridad sobre **Wave Type** y **Arena Mode**. La arena y las mecánicas ya forman parte del encuentro. `salchichon_arena.tres` solo se edita para cambiar la arena propia del boss.
 
-El encuentro elige su propia arena, conserva la build de la partida y reemplaza los grupos y eventos de spawn de esa oleada. No usa el límite de tiempo de la wave: termina al derrotar al boss y continúa por el flujo habitual de recompensas y victoria. La tienda posterior a la oleada 19 muestra el aviso del boss. El recurso del boss sigue controlando vida, tiempos y ataques; no se aplican los atributos del personaje de prueba.
+El encuentro conserva la build de la partida y reemplaza los grupos y eventos de spawn de esa oleada. La oleada termina al derrotar al boss. Si es la última de la dificultad, activa la victoria. La tienda anterior muestra el aviso del boss. El recurso del encuentro controla la vida, los tiempos y los ataques.
 
 El botón de prueba conserva su comportamiento aislado. Las escenas mantienen sus transformaciones editables como base.
 

@@ -28,7 +28,7 @@ func verify():
 	player.set_process(false)
 	player.health_component.debug_invulnerable=true
 	for weapon in player.current_weapons: weapon.set_process(false)
-	var item=load("res://resources/items/weapons/spicy/item_ghost_pepper.tres").duplicate()
+	var item=load("res://resources/items/weapons/chili/ghost_pepper/item_ghost_pepper.tres").duplicate()
 	item.stats=item.stats.duplicate(true)
 	item.stats.crit_chance=0
 	var weapon=item.scene.instantiate()

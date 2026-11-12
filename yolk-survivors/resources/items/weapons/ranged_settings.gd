@@ -10,6 +10,8 @@ class_name RangedSettings
 @export var applies_airbourne := false
 @export var airbourne_speed := 520.0
 @export var airbourne_duration := 0.45
+## Contact damage relative to the full hit when this projectile applies Air.
+@export_range(0.0, 1.0, 0.01) var airbourne_direct_damage_multiplier := 1.0
 ## Collision damage relative to the full weapon hit, independently from contact damage.
 @export_range(0.0, 5.0, 0.05) var airbourne_damage_multiplier := 0.35
 @export_group("Explosion")
@@ -24,6 +26,10 @@ class_name RangedSettings
 @export_range(0.05, 2.0, 0.01) var explosion_visual_duration := 0.18
 @export_group("Plate break")
 @export_range(0.0, 1.0, 0.01) var plate_break_chance := 0.8
+@export var plate_bounce_chance_per_luck := 0.0
+
+func get_plate_bounce_chance(luck: float) -> float:
+	return clampf(1.0 - plate_break_chance + luck * plate_bounce_chance_per_luck, 0.0, 1.0)
 @export_range(0, 40, 1) var plate_fragment_count := 12
 @export var plate_fragment_duration := 0.45
 @export var plate_fragment_speed := 180.0
@@ -43,6 +49,14 @@ class_name RangedSettings
 @export var pot_sprite_scale := 0.5
 @export_group("Corn impact")
 @export_range(0.0, 1.0, 0.01) var corn_explosion_chance := 0.3
+@export var corn_chance_per_luck := 0.0
+@export var corn_damage_per_luck := 0.0
+
+func get_corn_explosion_chance(luck: float) -> float:
+	return clampf(corn_explosion_chance + luck * corn_chance_per_luck, 0.0, 1.0)
+
+func get_corn_explosion_bonus(luck: float) -> float:
+	return luck * corn_damage_per_luck
 @export_range(0.0, 5.0, 0.05) var corn_contact_damage_multiplier := 0.25
 @export_group("Popcorn follow-up")
 @export var popcorn_scene: PackedScene

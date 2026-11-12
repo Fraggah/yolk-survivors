@@ -14,7 +14,8 @@ func _on_hitbox_component_on_hit_hurtbox(hurtbox: HurtboxComponent) -> void:
 	var id := hurtbox.get_instance_id()
 	if hit_targets.has(id): return
 	hit_targets[id] = true
-	if not settings or randf() < settings.plate_break_chance:
+	var luck: float = hitbox.source.stats.luck if is_instance_valid(hitbox.source) and hitbox.source is Unit else 0.0
+	if not settings or randf() >= settings.get_plate_bounce_chance(luck):
 		_break_plate()
 		return
 	var target: Node2D = EnemyCrowd.random_target(hit_targets)

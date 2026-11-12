@@ -7,7 +7,7 @@ const PALETTES := {
 	"sage": preload("res://resources/ui/palettes/sage.tres"),
 	"cocoa": preload("res://resources/ui/palettes/cocoa.tres")
 }
-const FONT = preload("res://assets/font/Bake Soda.otf")
+const FONT = preload("res://assets/font/ui_display.tres")
 var palette: Resource = PALETTES.cream
 var ui_theme := Theme.new()
 var tier_styles: Array[StyleBoxFlat] = []
@@ -29,6 +29,7 @@ func color_hex(role: String) -> String:
 	return "#" + (palette.get(role) as Color).to_html(false)
 
 func rich_text(text: String) -> String:
+	text = text.replace("[color=control_effect]", "[color=%s]" % color_hex("control_effect"))
 	return text.replace("color=green]", "color=%s]" % color_hex("positive")).replace("[color=#ff6969]", "[color=%s]" % color_hex("negative")).replace("[color=#ffe395]", "[color=%s]" % color_hex("accent"))
 
 func box(fill: Color, edge: Color, radius: int = -1, border: int = -1) -> StyleBoxFlat:

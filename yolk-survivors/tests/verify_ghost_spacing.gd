@@ -28,7 +28,7 @@ func verify():
 	player.set_process(false)
 	player.health_component.debug_invulnerable=true
 	for weapon in player.current_weapons: weapon.set_process(false)
-	var base=load("res://resources/items/weapons/spicy/item_ghost_pepper.tres")
+	var base=load("res://resources/items/weapons/chili/ghost_pepper/item_ghost_pepper.tres")
 	var weapons=[]
 	player.global_position=player.arena_environment.movement_bounds.get_center()
 	for index in 6:

@@ -1,37 +1,44 @@
 extends Panel
 class_name LevelPanel
 
-const DIFFICULTY_RULES = preload("res://resources/difficulty_rules.gd")
+var spawner: Spawner
 
 signal on_level_selection_exited
 signal on_stress_test_selected(population: int)
 signal on_boss_test_selected
 
 @export var buttons: Array[Button] = []
+@export var display_wave_counts: PackedInt32Array
 
 func _ready() -> void:
-	$MarginContainer/VBoxContainer/BossTestButton.visible = OS.is_debug_build()
 	Progression.progress_changed.connect(_refresh_locks)
 	for index in buttons.size():
-		buttons[index].tooltip_text = DIFFICULTY_RULES.description(index)
 		buttons[index].mouse_entered.connect(_show_difficulty.bind(index))
 		buttons[index].focus_entered.connect(_show_difficulty.bind(index))
 	UITheme.palette_changed.connect(_refresh_locks)
 	visibility_changed.connect(_refresh_locks)
 	call_deferred("_refresh_locks")
+
+func setup_difficulties(source: Spawner) -> void:
+	spawner = source
 	enable_buttons(Global.level_reached)
 	_show_difficulty(0)
 
+func _difficulty_description(level: int) -> String:
+	if not spawner: return ""
+	var count := display_wave_counts[level] if level < display_wave_counts.size() else -1
+	return spawner.difficulty_data_for(level).description(count)
+
 func _show_difficulty(level: int) -> void:
-	var description := DIFFICULTY_RULES.description(level)
-	if level > DIFFICULTY_RULES.normalize_level(Global.level_reached):
+	var description := _difficulty_description(level)
+	if level > Global.level_reached:
 		description = "LOCKED — Win a run on difficulty %d to unlock." % (level - 1)
 	%DifficultyDescription.text = description
 
 func enable_buttons(level: int) -> void:
 	for i in buttons.size():
 		var button := buttons[i]
-		var locked := i > DIFFICULTY_RULES.normalize_level(level)
+		var locked := i > level
 		UITheme._clear_button_focus(button)
 		button.disabled = false # Inspectable with mouse, touch or controller.
 		button.set_meta("difficulty_locked", locked)
@@ -42,8 +49,7 @@ func enable_buttons(level: int) -> void:
 				button.add_theme_stylebox_override(state, UITheme.box(UITheme.palette.locked_surface, edge, -1, width))
 			else:
 				button.remove_theme_stylebox_override(state)
-		button.get_node("Label").add_theme_color_override("font_color", UITheme.palette.hud_text if locked else UITheme.palette.text)
-		button.tooltip_text = "Win a run on difficulty %d to unlock." % (i - 1) if locked else DIFFICULTY_RULES.description(i)
+		button.tooltip_text = "Win a run on difficulty %d to unlock." % (i - 1) if locked else _difficulty_description(i)
 		UITheme._bind_button_focus(button)
 
 func _refresh_locks() -> void:
@@ -52,7 +58,7 @@ func _refresh_locks() -> void:
 
 func _select_difficulty(level: int) -> void:
 	_show_difficulty(level)
-	if level > DIFFICULTY_RULES.normalize_level(Global.level_reached): return
+	if level > Global.level_reached: return
 	Global.on_level_selected.emit(level)
 
 func _on_level_0_button_pressed() -> void:

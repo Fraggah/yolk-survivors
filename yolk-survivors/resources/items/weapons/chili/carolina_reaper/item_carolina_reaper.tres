@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=8 format=3 uid="uid://bn0kuhfaih65r"]
+
+[ext_resource type="Resource" path="res://resources/statuses/spicy_trail_fire.tres" id="fire"]
+[ext_resource type="Texture2D" uid="uid://dasfu8gbspkmt" path="res://assets/sprites/Spicy/Icons/carolina_reaper.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_carolina_reaper.tscn" id="scene"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Resource" uid="uid://c67e4s8gcni2e" path="res://resources/items/weapons/chili/carolina_reaper/stats_carolina_reaper.tres" id="stats"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="status_script"]
+[ext_resource type="Resource" uid="uid://ssual4v1ignx" path="res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper_2.tres" id="upgrade"]
+
+[resource]
+script = ExtResource("script")
+tags = Array[int]([3, 5])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("status_script")]([])
+scales_with_effects = true
+effects_damage_scaling = 1.0
+damage_scaling_stat = 3
+unlock_id = ""
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+upgrade_to = ExtResource("upgrade")
+attack_description = "Creates a permanent fire tornado that roams the arena."
+show_projectile_count_in_damage = false
+damage_only_on_explosion = false
+burning_description_format = ""
+damage_label = "Damage"
+final_stat_modifiers = {
+"damage_percent": 5.0
+}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 1.0
+on_hit_effects = Array[ExtResource("status_script")]([ExtResource("fire")])
+item_name = "Carolina Reaper I"
+item_icon = ExtResource("icon")
+icon_scale = 1.0
+item_tier = 0
+item_type = 0
+item_cost = 14

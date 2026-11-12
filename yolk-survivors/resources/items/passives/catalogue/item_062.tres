@@ -11,7 +11,8 @@ item_type = 2
 item_tier = 1
 item_cost = 25
 catalogue_id = 62
-description = "Un golpe letal deja al personaje con vida y concede 1 segundo de invulnerabilidad. Una activación por oleada"
+description = "Survive a lethal hit and become invulnerable for 1 s.
+Once per wave."
 effect_key = "extra_shell"
 ready_for_shop = true
 pending_reason = ""

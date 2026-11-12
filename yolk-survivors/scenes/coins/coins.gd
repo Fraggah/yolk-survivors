@@ -9,7 +9,9 @@ class_name Coins
 @export_range(0.2, 0.9, 0.05) var jar_flight_duration := 0.65
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var shadow: Sprite2D = $Shadow
 var sprite_base_scale: Vector2
+var shadow_base_scale: Vector2
 var squash_phase := 0.0
 
 var value := 1
@@ -23,6 +25,16 @@ var awarded := false
 var spawn_attraction_checked := false
 var magnet_target: Player
 var magnet_attracted := false
+var merge_scale := 1.0
+var merge_pulse := 0.0
+
+func can_merge_on_ground() -> bool:
+	return not collected and not awarded and not flying_to_jar and not is_queued_for_deletion()
+
+func merge_yolks(amount: int) -> void:
+	value += amount
+	merge_scale = 1.0 + minf(0.65, 0.12 * log(float(value)) / log(2.0))
+	merge_pulse = 0.18
 
 func _try_spawn_attraction() -> void:
 	if spawn_attraction_checked: return
@@ -57,7 +69,11 @@ func _advance_pickup(delta: float) -> void:
 	if Global.game_paused: return
 	squash_phase = fmod(squash_phase + delta * TAU / squash_period, TAU)
 	var stretch := 1.0 + sin(squash_phase) * squash_amount
-	sprite.scale = sprite_base_scale * Vector2(stretch, 1.0 / stretch)
+	merge_pulse = move_toward(merge_pulse, 0.0, delta)
+	var growth := merge_scale * (1.0 + merge_pulse)
+	sprite.scale = sprite_base_scale * growth * Vector2(stretch, 1.0 / stretch)
+	if merge_scale > 1.0:
+		shadow.scale = shadow_base_scale * growth
 	var target:=_pickup_target()
 	if not is_instance_valid(target): return
 	if not collected and global_position.distance_squared_to(target.global_position) <= pow(target.stats.get_pickup_distance(attraction_distance), 2): collected = true
@@ -75,7 +91,7 @@ func fly_to_jar(target: Control) -> void:
 	flight_elapsed = 0.0
 	# Capture the visible sprite's center, not the Area2D's offset origin.
 	flight_start_screen = sprite.get_global_transform_with_canvas().origin
-	$Shadow.hide()
+	shadow.hide()
 	set_deferred("monitoring", false)
 
 func animate_jar_flight(delta: float) -> void:
@@ -117,9 +133,10 @@ func _ready() -> void:
 	sprite.z_as_relative = false
 	# Pickups stay on the floor, below the Y-sorted actors (Z = 0).
 	sprite.z_index = -1
-	$Shadow.z_as_relative = false
-	$Shadow.z_index = -2
+	shadow.z_as_relative = false
+	shadow.z_index = -2
 	scale *= Global.GAME_ENTITY_SCALE
 	sprite_base_scale = sprite.scale
+	shadow_base_scale = shadow.scale
 	squash_phase = randf() * TAU
 	_try_spawn_attraction()

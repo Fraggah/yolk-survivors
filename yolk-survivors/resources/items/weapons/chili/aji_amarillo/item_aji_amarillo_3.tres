@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=7 format=3 uid="uid://dcswra0iseyl0"]
+
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="1_0rknh"]
+[ext_resource type="Texture2D" uid="uid://cbbo1mk5fuyq4" path="res://assets/sprites/Spicy/Icons/aji_amarillo.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_aji_amarillo.tscn" id="scene"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Resource" uid="uid://domb1lqax3yx1" path="res://resources/items/weapons/chili/aji_amarillo/stats_aji_amarillo_3.tres" id="stats"]
+[ext_resource type="Resource" uid="uid://baiw3bkbeu3y0" path="res://resources/items/weapons/chili/aji_amarillo/item_aji_amarillo_4.tres" id="upgrade"]
+
+[resource]
+script = ExtResource("script")
+tags = Array[int]([1, 5])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("1_0rknh")]([])
+scales_with_effects = true
+effects_damage_scaling = 1.0
+damage_scaling_stat = 2
+unlock_id = ""
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+upgrade_to = ExtResource("upgrade")
+attack_description = "Fires seeds in a continuous spiral."
+show_projectile_count_in_damage = false
+damage_only_on_explosion = false
+burning_description_format = ""
+damage_label = "Damage"
+final_stat_modifiers = {
+"attack_speed": 5.0,
+"critical_multiplier": -5.0
+}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("1_0rknh")]([])
+item_name = "Ají amarillo III"
+item_icon = ExtResource("icon")
+icon_scale = 1.0
+item_tier = 2
+item_type = 0
+item_cost = 40

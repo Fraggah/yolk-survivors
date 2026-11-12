@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://tcs5c3s23ib2"
+path="res://.godot/imported/DTMY - Shop Theme.mp3-7484f4fe8a6c68299126c0a44f0b5e35.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/music/DTMY - Shop Theme.mp3"
+dest_files=["res://.godot/imported/DTMY - Shop Theme.mp3-7484f4fe8a6c68299126c0a44f0b5e35.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

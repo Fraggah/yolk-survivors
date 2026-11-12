@@ -7,7 +7,9 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 54
-description = "+Vida máxima; +Daño melee; +Potencia de control de masas"
+description = "+15 Max HP
++10 Melee Damage
++10% Crowd Control"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."

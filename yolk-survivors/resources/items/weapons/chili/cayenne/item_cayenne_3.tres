@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="ItemWeapon" load_steps=8 format=3 uid="uid://cqrylgq2kfiaw"]
+
+[ext_resource type="Resource" path="res://resources/statuses/spicy_trail_fire.tres" id="fire"]
+[ext_resource type="Texture2D" uid="uid://nkmpw5oyvb5x" path="res://assets/sprites/Spicy/Icons/cayenne.png" id="icon"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/spicy/weapon_cayenne.tscn" id="scene"]
+[ext_resource type="Script" uid="uid://c0q0amdc3e7tu" path="res://resources/items/weapons/item_weapon.gd" id="script"]
+[ext_resource type="Resource" uid="uid://c35h4w5jebpma" path="res://resources/items/weapons/chili/cayenne/stats_cayenne_3.tres" id="stats"]
+[ext_resource type="Script" uid="uid://bii5la3divy3" path="res://resources/status_effect.gd" id="status_script"]
+[ext_resource type="Resource" uid="uid://f6d4m2krtn7w" path="res://resources/items/weapons/chili/cayenne/item_cayenne_4.tres" id="upgrade"]
+
+[resource]
+script = ExtResource("script")
+tags = Array[int]([3, 5])
+breading_tags = Array[int]([])
+extra_damage_scalings = {}
+breading_chili_damage_percent = 0.0
+breading_pet_damage_percent = 0.0
+breading_explosion_radius = 0.0
+breading_explosion_damage_ratio = 0.0
+breading_slow_strength = 0.0
+breading_slow_duration = 0.0
+breading_status_effects = Array[ExtResource("status_script")]([])
+scales_with_effects = true
+effects_damage_scaling = 1.0
+damage_scaling_stat = 3
+unlock_id = ""
+selection_only = false
+type = 2
+scene = ExtResource("scene")
+stats = ExtResource("stats")
+upgrade_to = ExtResource("upgrade")
+attack_description = "Leaves a trail of fire as you move."
+show_projectile_count_in_damage = false
+damage_only_on_explosion = false
+burning_description_format = ""
+damage_label = "Damage"
+final_stat_modifiers = {
+"fire_tick_speed": 10.0,
+"speed": -5.0
+}
+health_drain_per_second = 0.0
+max_health_drain_percent_per_second = 0.0
+on_hit_effects = Array[ExtResource("status_script")]([ExtResource("fire")])
+item_name = "Cayenne III"
+item_icon = ExtResource("icon")
+icon_scale = 1.0
+item_tier = 2
+item_type = 0
+item_cost = 40

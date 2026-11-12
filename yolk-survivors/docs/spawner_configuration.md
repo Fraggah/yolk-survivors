@@ -1,11 +1,15 @@
 # Configuración de oleadas y spawner
 
-Cada oleada se edita en `resources/wave/data/wave_01.tres` hasta `wave_20.tres`. El nodo Spawner de `scenes/arena/arena.tscn` referencia esta lista en **Waves Data**. Se mantienen los enemigos, grupos, pesos, cantidades y eventos que había; todas las duraciones pasan a 30 segundos.
+En `scenes/arena/arena.tscn → Spawner → Difficulties`, cada posición (0 a 5) referencia un recurso de `resources/wave/difficulties/`. Abrí la dificultad y editá **Waves** para cambiar el orden o la longitud de la partida. La primera entrada es la oleada 1 y la última marca la victoria. Asignar **Boss Encounter** activa ese encuentro con su propia arena y mecánicas.
+
+Los seis recursos arrancan con la progresión existente de 20 oleadas y comparten las referencias a `resources/wave/data/`. Si editás un WaveData compartido, el cambio se aplica a todas sus referencias. Para balancear una sola dificultad, duplicá el WaveData y los SpawnGroup o ScheduledSpawn que quieras modificar, guardá la copia como recurso y reemplazá esa entrada solo en su lista.
+
+**Enemy Multipliers** configura vida, daño, velocidad, resistencia al empuje y frecuencia de aparición. Un valor de 1 conserva la base. Los modificadores de oleada se aplican además de los de dificultad. La frecuencia divide el intervalo de los grupos, respetando su mínimo. Los eventos programados conservan su segundo y cantidad. El encuentro dedicado de Salchichón conserva sus propias estadísticas.
 
 ## Duración y tipo
 
 - **Wave Time**: segundos de la oleada. Valor base y configuración de las 20 actuales: **30**. Se puede editar individualmente.
-- **Wave Type**: Normal, Horde, Special o Boss. Horde identifica la oleada de horda; sus grupos y cantidades se editan igual que en las otras. Cambiar el tipo no copia automáticamente los grupos de otra oleada ni cambia sus pesos.
+- **Wave Type**: Normal, Horde, Special o Boss. Horde aplica ×2 a los enemigos comunes por tanda en Groups y Events, incluidos los cardúmenes. Se combina con la densidad aplicable y respeta el cupo común. Scheduled Spawns conserva su cantidad literal.
 - **Arena Mode**: Base, Fixed o Random Special. Es independiente del tipo: una horda puede usar la arena base o una especial.
 - **Base**: plato sin mecánicas (`neutral_plate`).
 - **Fixed**: asignar la arena concreta en **Fixed Arena**, usando un recurso de `resources/environments/stages/`.

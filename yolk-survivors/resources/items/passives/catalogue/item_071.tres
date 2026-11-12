@@ -7,7 +7,8 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 71
-description = "+Potencia de control de masas; −Velocidad de ataque"
+description = "+15% Crowd Control
+−10% Attack Speed"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."

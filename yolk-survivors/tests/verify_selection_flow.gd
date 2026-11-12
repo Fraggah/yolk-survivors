@@ -41,7 +41,7 @@ func verify() -> void:
 	assert(not characters.visible and weapons.visible and not arena.level_panel.visible)
 	assert(not weapons.players_container.visible and weapons.weapons_container.visible)
 	assert(global.main_weapon_selected == null)
-	assert(weapons.weapons_container.get_child_count() == 42)
+	assert(weapons.weapons_container.get_child_count() == 40)
 	await process_frame
 	for card in weapons.weapons_container.get_children():
 		assert(card.get_parent() == weapons.weapons_container, "Weapon cards belong to scrollable grid")

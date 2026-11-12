@@ -251,6 +251,7 @@ func present() -> void:
 		card.lock_button.disabled=session.ready or session.disconnected
 		controls[i].disabled=session.ready or session.disconnected
 		card.item_cost.text="CONSERVAR" if reward and i==0 else "VENDER %d"%item.get_sell_price(card.shop_wave) if reward else "ELEGIR" if upgrades else str(item.get_shop_price(card.shop_wave))
+		card.set_price_unaffordable(not reward and not upgrades and session.coins < item.get_shop_price(card.shop_wave))
 		if item is ItemUpgrade: card.item_description.text="%s %s"%[ItemWeapon.format_number(item.value),item.stat_id]
 	for i in 4:
 		controls[4+i].disabled=session.disconnected or reward or (session.ready and i!=3) or (upgrades and i>0)

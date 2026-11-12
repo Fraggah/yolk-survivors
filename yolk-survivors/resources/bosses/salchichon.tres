@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=10 format=3 uid="uid://bw1r3x0c0a2gc"]
+[gd_resource type="Resource" script_class="BossEncounterSettings" load_steps=10 format=3 uid="uid://bw1r3x0c0a2gc"]
 
 [ext_resource type="PackedScene" uid="uid://ds4d18asn4qqr" path="res://scenes/bosses/salchichon/salchichon.tscn" id="boss"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/fueguito.tres" id="fueguito"]

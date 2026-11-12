@@ -11,7 +11,12 @@ item_type = 2
 item_tier = 2
 item_cost = 50
 catalogue_id = 81
-description = "Consumible almacenable. Elegís un arma y recibe una tag aleatoria nueva. Melee/Ranged: escalado extra del 25%. Chili/Pet: +10% de daño por cada arma equipada de esa tag, incluyéndose. Pyro/Electric: 10% de aplicar el estado. Explosive: explosión de radio 40 y 25% del golpe. Control: ralentiza 20% por 1 segundo."
+description = "Consumable. Choose a weapon to gain a random new tag.
+Melee or Ranged: +25% scaling with the matching stat.
+Chili or Pet: +10% damage per equipped weapon with that tag, including itself.
+Pyro or Electric: 10% chance to apply the status.
+Explosive: explosion with a radius of 40 that deals 25% of the hit damage.
+Control: applies 20% SLOW for 1 s."
 effect_key = "breading"
 ready_for_shop = true
 pending_reason = ""

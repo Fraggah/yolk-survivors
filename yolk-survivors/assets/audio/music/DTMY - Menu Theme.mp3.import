@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bfbtyrskpflu3"
+path="res://.godot/imported/DTMY - Menu Theme.mp3-2e9e77c5bf3265057d809edde0152ac0.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/music/DTMY - Menu Theme.mp3"
+dest_files=["res://.godot/imported/DTMY - Menu Theme.mp3-2e9e77c5bf3265057d809edde0152ac0.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

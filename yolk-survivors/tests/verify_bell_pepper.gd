@@ -6,7 +6,7 @@ func verify():
 	root.add_child(arena)
 	current_scene=arena
 	var global=root.get_node("Global")
-	var item=load("res://resources/items/weapons/spicy/item_bell_pepper.tres")
+	var item=load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres")
 	assert(not item.selection_only and item.type==2)
 	global.main_player_selected=arena.selection_panel.player_list[0]
 	global.main_weapon_selected=item

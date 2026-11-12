@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 3
 item_cost = 80
 catalogue_id = 98
-description = "Consumible inmediato. Cuatro resultados equiprobables (25% cada uno). Al comprarla, ocurre uno de cuatro resultados aleatorios: retroceder 1 oleada, retroceder 2 oleadas, ganar 10 niveles o reducir a la mitad una estadística primaria positiva aleatoria. Al retroceder se conserva el progreso y se pueden volver a ganar yemas y experiencia"
+description = "On purchase, one of four equally likely effects occurs:
+Go back 1 wave, go back 2 waves, gain 10 levels, or halve a random positive primary stat.
+Going back preserves progress and lets you earn yolks and XP again."
 effect_key = "ayahuasca"
 ready_for_shop = true
 pending_reason = ""

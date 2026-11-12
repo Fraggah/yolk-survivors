@@ -1,82 +1,85 @@
 [gd_resource type="Resource" script_class="WaveData" load_steps=12 format=3 uid="uid://b6obg587at0mp"]
 
+[ext_resource type="Resource" path="res://resources/wave/enemies/charger.tres" id="5_fnfu6"]
 [ext_resource type="Script" uid="uid://cnsp17wp0s7q0" path="res://resources/wave/scheduled_spawn.gd" id="7_fnfu6"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_fast.tres" id="chaser_fast"]
-[ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mid.tres" id="chaser_mid"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/chaser_mini.tres" id="chaser_mini"]
 [ext_resource type="Script" uid="uid://cjfkiqmjxuv7s" path="res://resources/wave/spawn_group.gd" id="group"]
 [ext_resource type="Script" uid="uid://duewt500txhhd" path="res://resources/wave/enemy_profile.gd" id="profile"]
 [ext_resource type="Resource" path="res://resources/wave/enemies/shooter.tres" id="shooter"]
 [ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave"]
 
-[sub_resource type="Resource" id="g0"]
+[sub_resource type="Resource" id="Resource_s0tsq"]
 script = ExtResource("group")
-label = "Pressure"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mid"), ExtResource("chaser_mini")])
-weights = Array[float]([3.0, 4.0, 4.0])
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mini")])
+weights = Array[float]([1.0, 1.0])
 spawn_zone = 0
 edge_width = 200.0
 start_second = 0.0
-interval = 1.2
-minimum_count = 1
-maximum_count = 2
+interval = 3.0
+minimum_count = 15
+maximum_count = 15
 repetitions = -1
 duration = -1.0
 activation_probability = 1.0
 interval_reduction = 0.0
-minimum_interval = 0.35
+minimum_interval = 0.25
 priority = 0
 guaranteed = false
-school = false
+school = true
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
-[sub_resource type="Resource" id="g1"]
+[sub_resource type="Resource" id="Resource_fnfu6"]
 script = ExtResource("group")
-label = "Reinforcements"
-enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("5_fnfu6")])
 weights = Array[float]([1.0])
 spawn_zone = 0
 edge_width = 200.0
-start_second = 8.0
-interval = 7.4
+start_second = 10.0
+interval = 10.0
 minimum_count = 1
 maximum_count = 1
 repetitions = -1
 duration = -1.0
 activation_probability = 1.0
 interval_reduction = 0.0
-minimum_interval = 0.7
-priority = 10
+minimum_interval = 0.25
+priority = 0
 guaranteed = false
 school = false
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
-[sub_resource type="Resource" id="g2"]
+[sub_resource type="Resource" id="Resource_ggigx"]
 script = ExtResource("group")
-label = "Fast packs"
-enemies = Array[ExtResource("profile")]([ExtResource("chaser_fast"), ExtResource("chaser_mid")])
-weights = Array[float]([3.0, 4.0])
+label = "Group"
+enemies = Array[ExtResource("profile")]([ExtResource("shooter")])
+weights = Array[float]([1.0])
 spawn_zone = 0
 edge_width = 200.0
-start_second = 12.0
-interval = 8.0
-minimum_count = 3
-maximum_count = 3
+start_second = 6.0
+interval = 6.0
+minimum_count = 1
+maximum_count = 1
 repetitions = -1
 duration = -1.0
 activation_probability = 1.0
 interval_reduction = 0.0
-minimum_interval = 0.35
-priority = 5
+minimum_interval = 0.25
+priority = 0
 guaranteed = false
 school = false
 school_probability = 0.0
-affected_by_density = true
+affected_by_density = false
 school_radius = 140.0
+metadata/_custom_type_script = "uid://cjfkiqmjxuv7s"
 
 [resource]
 script = ExtResource("wave")
@@ -87,7 +90,7 @@ music_tracks = Array[AudioStream]([])
 arena_mode = 0
 scheduled_spawns = Array[ExtResource("7_fnfu6")]([])
 density_multiplier = 0
-groups = Array[ExtResource("group")]([SubResource("g0"), SubResource("g1"), SubResource("g2")])
+groups = Array[ExtResource("group")]([SubResource("Resource_s0tsq"), SubResource("Resource_fnfu6"), SubResource("Resource_ggigx")])
 events = Array[ExtResource("group")]([])
 common_limit = 55
 hazard_limit = 0

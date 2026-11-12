@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="DifficultyData" load_steps=13 format=3 uid="uid://cg2imortteojy"]
+
+[ext_resource type="Script" uid="uid://c73uet6fvsrup" path="res://resources/wave/difficulty_data.gd" id="difficulty"]
+[ext_resource type="Resource" uid="uid://q8v7y2ftym2y" path="res://resources/wave/data/wave_01.tres" id="wave_1"]
+[ext_resource type="Resource" uid="uid://kh61qnquwlqu" path="res://resources/wave/data/wave_02.tres" id="wave_2"]
+[ext_resource type="Resource" uid="uid://c6deqy8v8ukqo" path="res://resources/wave/data/wave_03.tres" id="wave_3"]
+[ext_resource type="Resource" uid="uid://dg61154712v3a" path="res://resources/wave/data/wave_04.tres" id="wave_4"]
+[ext_resource type="Resource" uid="uid://bgw62ofsabl23" path="res://resources/wave/data/wave_05.tres" id="wave_5"]
+[ext_resource type="Resource" uid="uid://byjv8inngmhmn" path="res://resources/wave/data/wave_06.tres" id="wave_6"]
+[ext_resource type="Resource" uid="uid://b6obg587at0mp" path="res://resources/wave/data/wave_07.tres" id="wave_7"]
+[ext_resource type="Resource" uid="uid://b8a0x0mvu1wqx" path="res://resources/wave/data/wave_08.tres" id="wave_8"]
+[ext_resource type="Resource" uid="uid://dsuwkg73gttnw" path="res://resources/wave/data/wave_09.tres" id="wave_9"]
+[ext_resource type="Resource" uid="uid://dswg5o43hkps3" path="res://resources/wave/data/wave_10.tres" id="wave_10"]
+[ext_resource type="Script" uid="uid://cu8bripac0efh" path="res://resources/wave/wave_data.gd" id="wave_data"]
+
+[resource]
+script = ExtResource("difficulty")
+waves = Array[ExtResource("wave_data")]([ExtResource("wave_1"), ExtResource("wave_2"), ExtResource("wave_3"), ExtResource("wave_4"), ExtResource("wave_5"), ExtResource("wave_6"), ExtResource("wave_7"), ExtResource("wave_8"), ExtResource("wave_9"), ExtResource("wave_10")])
+health_multiplier = 1.0
+damage_multiplier = 1.0
+speed_multiplier = 1.0
+resistance_multiplier = 1.0
+spawn_frequency_multiplier = 1.0

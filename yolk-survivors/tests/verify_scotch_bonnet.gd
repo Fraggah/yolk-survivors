@@ -30,7 +30,7 @@ func verify():
 	for weapon in player.current_weapons: weapon.set_process(false)
 	for old in player.current_weapons: old.queue_free()
 	player.current_weapons.clear()
-	var base=load("res://resources/items/weapons/spicy/item_scotch_bonnet.tres")
+	var base=load("res://resources/items/weapons/chili/scotch_bonnet/item_scotch_bonnet.tres")
 	var weapon=null
 	for copies in range(1,4):
 		player.add_weapon(base)

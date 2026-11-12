@@ -30,6 +30,7 @@ signal stats_changed
 @export var initial_damage := 1.0
 @export var damage_increase_per_wave := 1.0
 @export var speed := 300.0
+@export var base_movement_speed := 300.0
 @export var luck := 1.0
 @export var initial_luck := 1.0
 @export var block_chance := 0.0
@@ -211,8 +212,8 @@ func _recalculate_character_stats() -> void:
 		set(passive.target_stat, float(get(passive.target_stat)) + bonus)
 
 	if energy_shakes > 0:
-		var base_speed: float = _base_stat_values.get("speed", speed)
-		attack_speed += maxf(0.0, (speed * final_multiplier("speed") / maxf(1.0, base_speed) - 1.0) * 100.0) * 2.0 * energy_shakes
+		var speed_bonus := ((1.0 + speed / 100.0) * final_multiplier("speed") - 1.0) * 100.0
+		attack_speed += maxf(0.0, speed_bonus) * 2.0 * energy_shakes
 	if infernal_reduction:
 		effects += (melee_damage + ranged_damage) * infernal_reduction_multiplier
 		melee_damage = 0.0
@@ -226,13 +227,16 @@ func _apply_final_modifiers() -> void:
 		var original := float(get(stat_id))
 		_before_final[stat_id] = original
 		var factor := final_multiplier(stat_id)
-		if stat_id in ["damage_percent", "area_of_effect", "critical_multiplier", "fire_tick_speed", "crowd_control", "slow_strength"]:
+		if stat_id in ["speed", "area_of_effect", "critical_multiplier", "fire_tick_speed", "crowd_control", "slow_strength"]:
 			set(stat_id, ((1.0 + original / 100.0) * factor - 1.0) * 100.0)
 		elif stat_id == "attack_speed":
 			var rate := (1.0 + original / 100.0 if original >= 0.0 else 1.0 / (1.0 + absf(original) / 100.0)) * factor
 			set(stat_id, (rate - 1.0) * 100.0 if rate >= 1.0 else -(1.0 / maxf(0.0001, rate) - 1.0) * 100.0)
 		else:
 			set(stat_id, original * factor)
+
+func get_player_movement_speed() -> float:
+	return base_movement_speed * maxf(0.0, 1.0 + speed / 100.0)
 
 func can_use_weapon(weapon: ItemWeapon) -> bool:
 	if weapon == null: return false
@@ -260,13 +264,15 @@ func get_effect_damage(base_damage: float, coefficient: float = 1.0) -> float:
 	return maxf(0.0, base_damage + effects * coefficient)
 
 func get_damage_percent_multiplier(chili: bool = false, explosive: bool = false) -> float:
-	var percent := unmodified_stat("damage_percent")
+	var percent := damage_percent
 	if chili: percent += chili_power
 	if explosive: percent += explosive_damage
-	return maxf(0.0, 1.0 + percent / 100.0) * final_multiplier("damage_percent")
+	return maxf(0.0, 1.0 + percent / 100.0)
+
+const BURNING_EFFECTS_SCALING := 0.25
 
 func get_burning_damage() -> float:
-	return maxf(0.1, effects * 0.25)
+	return maxf(0.1, effects * BURNING_EFFECTS_SCALING)
 
 func get_fire_interval(_base_interval: float = 0.5) -> float:
 	return maxf(0.05, maxf(0.05, StatusEffect.BASE_FIRE_INTERVAL - fire_interval_reduction) / maxf(0.05, 1.0 + fire_tick_speed / 100.0))

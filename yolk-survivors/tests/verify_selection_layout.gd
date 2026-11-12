@@ -33,7 +33,7 @@ func verify():
 		assert(weapons.player_description.scroll_active or weapons.player_description.get_content_height() <= weapons.player_description.size.y, "Player text clipped at " + str(viewport_size))
 		assert(characters.players_container.get_child_count() == 15)
 		assert(characters.roster_layout.right_players.get_child_count() == 15)
-		assert(weapons.weapons_container.get_child_count() == 42)
+		assert(weapons.weapons_container.get_child_count() == 40)
 		for menu in [characters,weapons]:
 			var grids = [menu.players_container,menu.roster_layout.right_players] if menu == characters else [menu.weapons_container]
 			for grid in grids:

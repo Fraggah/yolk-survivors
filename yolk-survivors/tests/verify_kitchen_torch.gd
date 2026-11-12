@@ -89,7 +89,7 @@ func verify():
 		for tier in range(1,5):
 			var electric=load("res://resources/items/weapons/melee/%s/item_%s_%d.tres" % [family,family,tier])
 			assert(electric.get_description(player.stats).contains("Electricity:"))
-			assert(electric.get_status_damage_description(player.stats).contains("% Effects"))
+			assert(electric.get_status_damage_description(player.stats).contains("damage_effects.svg"))
 	arena.queue_free()
 	await process_frame
 	print("PASS Kitchen Torch: short continuous trace, fire only, recurring damage, pause, reset, four shop tiers and selection")

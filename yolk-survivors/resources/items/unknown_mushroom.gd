@@ -77,7 +77,7 @@ func trigger(item: ItemPassive, outcome: int = -1) -> int:
 			# Remove this item's previous speed bonus before taking the snapshot.
 			player.stats.set_temporary_stat_bonus("mushroom_" + stat_id, stat_id, 0.0)
 			var bonus: float = item.mushroom_damage_bonus if outcome == 1 else item.mushroom_attack_speed_bonus
-			if outcome == 2: bonus = maxf(0.0, player.stats.unmodified_stat("speed")) * item.mushroom_speed_percent / 100.0
+			if outcome == 2: bonus = maxf(0.0, 100.0 + player.stats.unmodified_stat("speed")) * item.mushroom_speed_percent / 100.0
 			player.stats.set_temporary_stat_bonus("mushroom_" + stat_id, stat_id, bonus)
 			buffs[stat_id] = item.mushroom_buff_duration
 		4:

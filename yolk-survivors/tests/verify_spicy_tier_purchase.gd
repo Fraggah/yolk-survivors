@@ -6,7 +6,7 @@ func verify():
 	root.add_child(arena)
 	current_scene=arena
 	var global=root.get_node("Global")
-	var mini=load("res://resources/items/weapons/spicy/item_habanero.tres")
+	var mini=load("res://resources/items/weapons/chili/habanero/item_habanero.tres")
 	global.main_player_selected=arena.selection_panel.player_list[0]
 	global.main_weapon_selected=mini
 	arena._on_level_selected(0)

@@ -14,7 +14,7 @@ func verify():
 	global.game_paused = false
 	player.stats.apply_stat_change("critical_chance", 100)
 	player.stats.apply_stat_change("effects", 10)
-	var chili = load("res://resources/items/weapons/spicy/item_jalapeno.tres")
+	var chili = load("res://resources/items/weapons/chili/jalapeno/item_jalapeno.tres")
 	var normal = load("res://resources/items/weapons/melee/spatula/item_spatula_1.tres")
 	var pepper = load("res://resources/items/passives/catalogue/item_040.tres")
 	assert(pepper.ready_for_shop and pepper.effect_key == "pepper")

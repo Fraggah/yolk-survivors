@@ -40,6 +40,7 @@ Lista de cierre de la versión demo acordada con el usuario. Esta es la referenc
 - [ ] Animación de muerte del boss.
 - [ ] Pantalla final.
 - [ ] Personajes restantes.
+- [ ] Mascotas: completar Perro salchicha y Gato tostadora antes de reincorporarlos a la selección de armas.
 - [ ] Balance general.
 - [ ] SFX.
 - [ ] Música.

@@ -6,10 +6,11 @@
 [resource]
 script = ExtResource("2_826pp")
 value = 20.0
-description = "+20"
+description = "+20%"
 stat_id = "speed"
 item_name = "Speed"
 item_icon = ExtResource("1_ars2s")
+icon_scale = 1.0
 item_tier = 3
 item_type = 1
 item_cost = 0

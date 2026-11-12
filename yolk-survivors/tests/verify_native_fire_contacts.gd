@@ -32,7 +32,7 @@ func verify():
 	player.set_process(false)
 	player.set_physics_process(false)
 	for equipped in player.current_weapons: equipped.set_process(false)
-	var item = load("res://resources/items/weapons/spicy/item_carolina_reaper.tres").duplicate()
+	var item = load("res://resources/items/weapons/chili/carolina_reaper/item_carolina_reaper.tres").duplicate()
 	item.stats = item.stats.duplicate(true)
 	item.stats.crit_chance = 0
 	var weapon = item.scene.instantiate()

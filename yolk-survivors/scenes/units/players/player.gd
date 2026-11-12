@@ -98,7 +98,7 @@ func _process(delta: float) -> void:
 	life_steal_cooldown = maxf(0.0, life_steal_cooldown - delta)
 	move_dir = coop_session.poll_movement() if coop_session else Input.get_vector("move_left","move_right","move_up","move_down")
 
-	var current_velocity := move_dir * stats.speed * get_status_movement_multiplier()
+	var current_velocity := move_dir * stats.get_player_movement_speed() * get_status_movement_multiplier()
 	if is_dashing:
 		current_velocity *= dash_speed_multi
 

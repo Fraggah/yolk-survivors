@@ -2,6 +2,7 @@ extends ItemBase
 class_name ItemPassive
 
 const STAT_SLOT_COUNT := 7
+@export var unlocked_by_default := false
 
 @export_group("Stat 1")
 @export var add_value: float = 0.0
@@ -58,7 +59,7 @@ func apply_passive_values(target: Player = null) -> void:
 	apply_stat_values(target)
 
 func _format_value(value: float, stat_id: String) -> String:
-	return ItemWeapon.format_number(value) + ("%" if stat_id in ["damage_percent", "attack_speed", "life_steal", "block_chance", "critical_chance", "pickup_range", "area_of_effect", "critical_multiplier", "block_effectiveness", "chili_power", "explosive_damage", "fire_tick_speed", "crowd_control", "experience_gain", "slow_strength"] else "")
+	return ItemWeapon.format_number(value) + ("%" if stat_id in ["speed", "damage_percent", "attack_speed", "life_steal", "block_chance", "critical_chance", "pickup_range", "area_of_effect", "critical_multiplier", "block_effectiveness", "chili_power", "explosive_damage", "fire_tick_speed", "crowd_control", "experience_gain", "slow_strength"] else "")
 
 func _stat_label(stat_id: String) -> String:
 	return {"damage_percent": "Damage", "melee_damage": "Melee damage", "ranged_damage": "Ranged damage", "attack_speed": "Attack speed"}.get(stat_id, stat_id.replace("_", " "))

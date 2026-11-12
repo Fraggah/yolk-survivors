@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cw0dx3phrq4iu"]
+[gd_scene load_steps=7 format=3 uid="uid://cw0dx3phrq4iu"]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
 [ext_resource type="Script" uid="uid://b7x4w0f8pdegh" path="res://scenes/ui/upgrades/upgrade_card.gd" id="1_fd2m1"]
 [ext_resource type="Texture2D" uid="uid://c1dfhxu3fti0d" path="res://assets/sprites/Upgrades/Redesign/damage.png" id="2_tf707"]
 [ext_resource type="Resource" uid="uid://d02b0hc72ib3d" path="res://resources/items/upgrades/data/damage/upgrade_damage_1.tres" id="3_4ru3d"]
@@ -58,6 +59,7 @@ theme_override_font_sizes/font_size = 30
 text = "damage"
 
 [node name="ItemDescription" type="Label" parent="MarginContainer/Control"]
+theme_override_fonts/font = ExtResource("ui_body")
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5

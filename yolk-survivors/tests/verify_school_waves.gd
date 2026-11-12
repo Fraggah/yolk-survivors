@@ -33,8 +33,8 @@ func verify():
 		spawner.spawn_timer.stop()
 		var expected_density = spawner.current_wave_data.density_multiplier if spawner.current_wave_data.density_multiplier > 0 else 5
 		assert(spawner.test_wave_multiplier() == expected_density)
-		var expected_count = 10 if n == 9 else expected_density
-		# Test one isolated scheduled batch without timer interference.
+		var expected_count = 10 if n == 9 else 2 * expected_density
+		# Test one isolated group batch without timer interference.
 		var group = spawner.current_wave_data.groups[0].duplicate(true)
 		group.enemies.assign([mini])
 		group.weights.assign([1.0])

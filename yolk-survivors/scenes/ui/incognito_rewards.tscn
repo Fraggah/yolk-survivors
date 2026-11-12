@@ -1,6 +1,8 @@
-[gd_scene load_steps=50 format=3]
+[gd_scene load_steps=52 format=3]
 
-[ext_resource type="FontFile" path="res://assets/font/Bake Soda.otf" id="1_ufh42"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body_bold.tres" id="ui_body_bold"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_display.tres" id="1_ufh42"]
 [ext_resource type="Script" path="res://scenes/ui/incognito_rewards.gd" id="2_qkxl3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kssjo"]
@@ -804,6 +806,8 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="RichTextLabel4" type="RichTextLabel" parent="CenterContainer1/PanelContainer0/MarginContainer0/VBoxContainer0"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 custom_minimum_size = Vector2(600, 170)
 layout_mode = 2
 theme = SubResource("Theme_uhdrd")

@@ -30,7 +30,7 @@ func verify():
 	for weapon in player.current_weapons: weapon.set_process(false)
 	for old in player.current_weapons: old.queue_free()
 	player.current_weapons.clear()
-	var base=load("res://resources/items/weapons/spicy/item_aji_amarillo.tres")
+	var base=load("res://resources/items/weapons/chili/aji_amarillo/item_aji_amarillo.tres")
 	for count in range(1,7):
 		var item=base if count%2 else base.upgrade_to.upgrade_to
 		player.add_weapon(item)
@@ -74,7 +74,7 @@ func verify():
 	while tier:
 		assert(tier.stats.damage_scaling==1.0 and tier.damage_scaling_stat==2)
 		tier=tier.upgrade_to
-	var bell=load("res://resources/items/weapons/spicy/item_bell_pepper.tres")
+	var bell=load("res://resources/items/weapons/chili/bell_pepper/item_bell_pepper.tres")
 	assert(bell.get_damage_scaling_stat_id().is_empty())
 	player.stats.ranged_damage=0
 	var bell_damage=bell.get_effective_damage(player.stats)

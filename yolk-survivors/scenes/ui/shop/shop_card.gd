@@ -20,6 +20,13 @@ func get_effective_price() -> int:
 	var base := shop_item.get_shop_price(shop_wave)
 	return maxi(1, floori(base * (100 - sale_discount_percent) / 100.0))
 
+func set_price_unaffordable(value: bool) -> void:
+	if value:
+		if not item_cost.has_theme_color_override("font_color") or item_cost.get_theme_color("font_color") != UITheme.palette.negative:
+			item_cost.add_theme_color_override("font_color", UITheme.palette.negative)
+	elif item_cost.has_theme_color_override("font_color"):
+		item_cost.remove_theme_color_override("font_color")
+
 func set_sale(discount: int = 0, two_for_one: bool = false) -> void:
 	sale_two_for_one = two_for_one
 	sale_discount_percent = 0 if two_for_one else clampi(discount, 0, 90)

@@ -1,5 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpqx5cjywg1wo"]
+[gd_scene load_steps=9 format=3 uid="uid://dpqx5cjywg1wo"]
 
+[ext_resource type="FontVariation" path="res://assets/font/ui_body.tres" id="ui_body"]
+[ext_resource type="FontVariation" path="res://assets/font/ui_body_bold.tres" id="ui_body_bold"]
 [ext_resource type="Script" uid="uid://gwh83xytoyuf" path="res://scenes/ui/shop/shop_card.gd" id="1_ki3oh"]
 [ext_resource type="Texture2D" uid="uid://cyh23wqn8vcac" path="res://assets/sprites/Weapons/Icons/weapon_punch_icon.png" id="3_xpfk3"]
 [ext_resource type="PackedScene" uid="uid://dep0tblwkko8c" path="res://scenes/ui/custom_button/custom_button.tscn" id="4_x7obv"]
@@ -76,6 +78,7 @@ text = "item name"
 clip_text = true
 
 [node name="ItemType" type="Label" parent="MarginContainer/Control"]
+theme_override_fonts/font = ExtResource("ui_body")
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -90,6 +93,8 @@ theme_override_font_sizes/font_size = 20
 text = "item type"
 
 [node name="ItemDescription" type="RichTextLabel" parent="MarginContainer/Control"]
+theme_override_fonts/normal_font = ExtResource("ui_body")
+theme_override_fonts/bold_font = ExtResource("ui_body_bold")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(288, 212)
 layout_mode = 1

@@ -28,7 +28,7 @@ func verify():
 	assert(is_equal_approx(item.get_effective_damage(stats), 22.5))
 	item.tags.append(2)
 	assert(is_equal_approx(item.get_effective_damage(stats), 24.75))
-	assert(item.get_damage_description(stats).contains("50% Effects"))
+	assert(item.get_damage_description(stats).contains("50% [img") and item.get_damage_description(stats).contains("damage_effects.svg"))
 	# Direct hits and explosions on an explosive weapon both gain the bonus once.
 	var template = load("res://scenes/components/hitbox_component.tscn").instantiate()
 	arena.add_child(template)

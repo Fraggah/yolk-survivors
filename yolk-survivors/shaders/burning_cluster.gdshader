@@ -8,7 +8,8 @@ void vertex() {
 	VERTEX *= layout.xy * 1.25;
 }
 void fragment() {
-	vec2 point = (UV - vec2(0.5)) * layout.xy * 1.25;
+	// QuadMesh UVs run upward. Lay out and sample the flames in 2D coordinates.
+	vec2 point = (vec2(UV.x, 1.0 - UV.y) - vec2(0.5)) * layout.xy * 1.25;
 	vec4 fire = vec4(0.0);
 	for (int i = 0; i < 12; i++) {
 		if (i >= flame_count) break;
@@ -25,5 +26,5 @@ void fragment() {
 		}
 	}
 	fire.rgb /= max(0.0001, fire.a);
-	COLOR *= fire;
+	COLOR *= fire * vec4(1.12, 1.08, 1.0, 1.0);
 }

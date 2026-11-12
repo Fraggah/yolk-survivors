@@ -11,7 +11,9 @@ item_type = 2
 item_tier = 1
 item_cost = 25
 catalogue_id = 63
-description = "Las colisiones de enemigos en Airbourne generan una explosión física de 60 unidades de radio con 50% del daño de colisión por copia. Las explosiones no generan otras explosiones."
+description = "AIRBOURNE collisions cause an explosion with a radius of 60.
+Each copy adds 50% of the collision damage to the explosion.
+Explosions cannot chain."
 effect_key = "fierce_saute"
 ready_for_shop = true
 pending_reason = ""

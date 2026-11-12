@@ -19,11 +19,14 @@ func verify():
 	hit.launch_direction = Vector2.RIGHT
 	var collision = enemy.get_node("HurtboxComponent/CollisionShape2D")
 	var shape_rotation = collision.global_rotation
+	var shadow = enemy.get_node("Visuals/Shadow")
+	var shadow_rotation = shadow.global_rotation
 	enemy.launch_from(hit)
 	enemy._update_airbourne_tilt(0.04)
 	assert(enemy.visuals.rotation_degrees > 0 and enemy.visuals.rotation_degrees < 35)
 	enemy._update_airbourne_tilt(0.04)
 	assert(is_equal_approx(enemy.visuals.rotation_degrees, 35))
+	assert(is_zero_approx(sin(shadow.global_rotation - shadow_rotation)))
 	assert(is_equal_approx(collision.global_rotation, shape_rotation) and enemy.rotation == 0)
 	# Facing flips do not reverse the horizontal launch direction's lean.
 	enemy.visuals.scale.x *= -1
@@ -33,6 +36,7 @@ func verify():
 	enemy.launch_from(hit)
 	enemy._update_airbourne_tilt(0.16)
 	assert(is_equal_approx(enemy.visuals.rotation_degrees, -35))
+	assert(is_zero_approx(sin(shadow.global_rotation - shadow_rotation)))
 	# Relaying an Airbourne state retains the tilt; ending it restores rest.
 	enemy.launch_left = 0
 	enemy._update_airbourne_tilt(0.08)

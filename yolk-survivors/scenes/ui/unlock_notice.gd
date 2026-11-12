@@ -54,6 +54,12 @@ func enqueue(resource: Resource, requirement: String) -> void:
 
 func _begin_next() -> void:
 	current = pending.pop_front()
+	var other_unlocks := PackedStringArray()
+	for entry in pending:
+		var reward: Resource = entry.resource
+		other_unlocks.append(reward.name if reward is UnitStats else reward.item_name)
+	current["other_unlocks"] = other_unlocks
+	pending.clear()
 	elapsed = 0
 	revealed = false
 	active = true
@@ -92,7 +98,8 @@ func _begin_next() -> void:
 
 func _process(delta: float) -> void:
 	if not active:
-		if pending.is_empty() or get_parent().defeat_in_progress: return
+		var arena = get_parent()
+		if pending.is_empty() or arena.wave_active or (arena.defeat_in_progress and not arena.final_screen.visible): return
 		was_paused = Global.game_paused
 		_begin_next()
 	elapsed += delta/maxf(0.01,Engine.time_scale)
@@ -118,6 +125,8 @@ func _process(delta: float) -> void:
 				details.text = _character_details(resource)
 			else:
 				details.text = UITheme.rich_text(resource.get_description())
+			if not current.other_unlocks.is_empty():
+				details.text += "\n\n[b]Also unlocked[/b]\n" + "\n".join(current.other_unlocks)
 		var bounce := sin((elapsed-1.25)*22.0)*exp(-(elapsed-1.25)*5.0)*0.22
 		icon.scale = Vector2(1.22+bounce,1.22-bounce)
 		icon.rotation = 0

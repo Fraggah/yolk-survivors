@@ -7,7 +7,9 @@
 [resource]
 script = ExtResource("1")
 catalogue_id = 52
-description = "−Vida máxima; +Suerte; −Daño de efectos"
+description = "−10 Max HP
++50 Luck
+−10 Effects"
 effect_key = ""
 ready_for_shop = true
 pending_reason = "Definir magnitudes numéricas de las bonificaciones y/o penalizaciones."

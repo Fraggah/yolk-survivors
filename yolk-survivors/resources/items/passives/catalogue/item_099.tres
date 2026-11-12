@@ -11,7 +11,12 @@ item_type = 2
 item_tier = 3
 item_cost = 80
 catalogue_id = 99
-description = "Único. Cada 5 s de combate, uno de 9 resultados equiprobables: explosión grande (100% Efectos + 10% vida máxima); +100% daño, +50% movimiento o +100% velocidad de ataque durante 4 s; perder 50% de vida actual sin morir; Burning 4 s (1% vida máxima por tick de 0,5 s); Shocked (5% vida máxima); curar 10% de vida máxima; curación total."
+description = "Unique. Every 5 s in combat, one of nine effects occurs at random:
+Large explosion (100% Effects + 10% Max HP).
+Gain +100% Damage, +50% Speed, or +100% Attack Speed for 4 s.
+Lose 50% of current HP without dying.
+Burning for 4 s (1% Max HP every 0.5 s) or Shocked (5% Max HP).
+Heal 10% Max HP or fully heal."
 effect_key = "unknown_mushroom"
 ready_for_shop = true
 pending_reason = ""

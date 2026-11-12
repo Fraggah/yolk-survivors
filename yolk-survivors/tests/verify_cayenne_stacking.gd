@@ -28,7 +28,7 @@ func verify():
 	player.set_process(false)
 	player.health_component.debug_invulnerable=true
 	for weapon in player.current_weapons: weapon.set_process(false)
-	var item=load("res://resources/items/weapons/spicy/item_cayenne.tres")
+	var item=load("res://resources/items/weapons/chili/cayenne/item_cayenne.tres")
 	# Replace the starting weapon using the normal equipment path.
 	for old in player.current_weapons: old.queue_free()
 	player.current_weapons.clear()

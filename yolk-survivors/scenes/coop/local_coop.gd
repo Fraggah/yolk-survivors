@@ -340,8 +340,8 @@ func start_run(difficulty: int = 0) -> void:
 	arena.defeat_in_progress=false
 	arena.boss_test_mode=false
 	arena.environment_controller.reset_stage_selection()
-	Global.level_selected=arena.spawner.DIFFICULTY_RULES.normalize_level(difficulty)
-	arena.spawner.reset_run(Global.level_selected)
+	Global.level_selected=arena.spawner.normalize_difficulty(difficulty)
+	arena.spawner.reset_run(Global.level_selected, sessions.size())
 	arena.level_panel.hide()
 	arena.selection_panel.hide()
 	arena.weapon_selection_panel.hide()
@@ -439,9 +439,7 @@ func wave_completed() -> void:
 	arena.wave_active=false
 	Global.game_paused=true
 	Weapon.finish_damage_wave()
-	var bank:=0
-	for pickup in arena.gold_list:
-		if is_instance_valid(pickup) and not pickup.awarded: bank+=maxi(0,pickup.value)
+	var bank: int = arena.uncollected_yolk_value()
 	for i in sessions.size(): sessions[i].reserve=floori(float(bank)/sessions.size())+(1 if i<bank%sessions.size() else 0)
 	SoundManager.play_sound(SoundManager.Sound.WAVE_COMPLETE)
 	arena.clear_arena(true,hud.get_node("P1/Wallet/Reserve/Icon"))
@@ -538,6 +536,7 @@ func _pool(session) -> Array:
 		if item is ItemWeapon:
 			if Progression.is_weapon_unlocked(item) and session.actor.stats.can_use_weapon(item) and Bias.useful_tier(item,held,session.actor.get_weapon_limit()): pool.append(item)
 		elif item is ItemPassive:
+			if not Progression.is_passive_unlocked(item): continue
 			# Consumable presentations and global changes are a separate follow-up.
 			if item.get("effect_key")!=null and (session.actor.passive_items.is_consumable(item) or item.effect_key in ["liquidation","printer","grocery"]): continue
 			if item.has_method("available_for") and not item.available_for(session.actor): continue

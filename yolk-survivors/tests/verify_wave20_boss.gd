@@ -9,7 +9,34 @@ func verify():
 	global.main_player_selected=arena.selection_panel.player_list[0]
 	global.main_weapon_selected=arena.weapon_selection_panel.weapons_list[0]
 	arena.start_panel.hide()
-	arena._on_level_selected(0)
+	var short_run := "--short-difficulty" in OS.get_cmdline_user_args()
+	var difficulty := 1 if short_run else 0
+	if short_run:
+		var route = arena.spawner.difficulties[1].duplicate()
+		var boss_wave = load("res://resources/wave/data/wave_20.tres").duplicate()
+		boss_wave.wave_type = 0
+		route.waves = route.waves.slice(3, 4)
+		route.waves.append(boss_wave)
+		route.health_multiplier = 2.0
+		route.damage_multiplier = 1.5
+		route.speed_multiplier = 0.75
+		arena.spawner.difficulties[1] = route
+		assert(arena.level_panel._difficulty_description(1).contains("2 waves"))
+	arena._on_level_selected(difficulty)
+	var final_wave: int = arena.spawner.last_wave_number()
+	if short_run:
+		var spawner = arena.spawner
+		assert(spawner.wave_index == 1 and spawner.last_wave_number() == 2)
+		assert(spawner.find_wave_data() == spawner.difficulties[0].waves[3])
+		assert(spawner.wave_data_for(3) == null)
+		var profile = load("res://resources/wave/enemies/chaser_mid.tres")
+		var enemy = profile.scene.instantiate()
+		var base = enemy.stats
+		spawner.prepare_enemy(enemy, profile)
+		assert(is_equal_approx(enemy.stats.health, base.initial_health * 2.0))
+		assert(is_equal_approx(enemy.stats.damage, base.initial_damage * 1.5))
+		assert(is_equal_approx(enemy.stats.speed, base.speed * 0.75))
+		enemy.free()
 	var player=global.player
 	player.get_node("HPTimer").stop()
 	player.set_process(false)
@@ -19,15 +46,15 @@ func verify():
 	var stats=player.stats
 	var max_health=player.health_component.max_health
 	var weapon=player.current_weapons[0]
-	arena.spawner.wave_index=19
-	var stage=arena.environment_controller.prepare_wave(20)
-	arena.shop_panel.set_next_stage(stage,20)
+	arena.spawner.wave_index=final_wave - 1
+	var stage=arena.environment_controller.prepare_wave(final_wave)
+	arena.shop_panel.set_next_stage(stage,final_wave)
 	assert(arena.shop_panel.next_stage_panel.visible)
 	assert(arena.shop_panel.next_stage_label.text==load("res://resources/bosses/salchichon.tres").boss_name)
 	arena.start_new_wave()
 	var encounter=arena.boss_encounter
 	encounter.set_process(false)
-	assert(arena.spawner.wave_index==20 and arena.boss_wave_active and not arena.boss_test_mode)
+	assert(arena.spawner.wave_index==final_wave and arena.boss_wave_active and not arena.boss_test_mode)
 	assert(arena.wave_active and encounter.active and root.get_node("Progression").run_active)
 	assert(arena.spawner.wave_timer.is_stopped() and arena.spawner.spawn_timer.is_stopped())
 	assert(global.player==player and player.stats==stats and player.current_weapons[0]==weapon)
@@ -59,7 +86,7 @@ func verify():
 	assert(arena.final_screen.visible and arena.final_label.text=="YOU WIN!")
 	assert(not root.get_node("Progression").run_active and global.player==null)
 	assert(not encounter.active and not arena.boss_wave_active)
-	print("PASS wave20: shop preview, real build preserved, untimed encounter, pause, three phase caps and normal run victory")
+	print("PASS difficulty %d: boss preview and victory at wave %d, build preserved, pause and three phases" % [difficulty, final_wave])
 	arena.queue_free()
 	await process_frame
 	await process_frame
