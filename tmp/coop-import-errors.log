@@ -1,8 +1,0 @@
-ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
-   at: _close (drivers/windows/file_access_windows.cpp:276)
-SCRIPT ERROR: Parse Error: Too many arguments for "get_description()" call. Expected at most 0 but received 1.
-   at: GDScript::reload (res://scenes/coop/local_coop.gd:495)
-ERROR: Failed to load script "res://scenes/coop/local_coop.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript.cpp:3022)
-WARNING: Scan thread aborted...
-   at: _notification (editor/editor_file_system.cpp:1710)

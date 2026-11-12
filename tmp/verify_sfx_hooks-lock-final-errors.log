@@ -1,4 +1,0 @@
-ERROR: Resource file not found: res://assets/audio/SFX/UI_Acept.wav (expected type: )
-   at: _load (core/io/resource_loader.cpp:352)
-SCRIPT ERROR: Assertion failed.
-   at: verify (res://tests/verify_sfx_hooks.gd:22)

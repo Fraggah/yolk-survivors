@@ -1,8 +1,0 @@
-ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
-   at: _close (drivers/windows/file_access_windows.cpp:276)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "rest_scale" variable because the value doesn't have a set type.
-   at: GDScript::reload (res://scenes/bosses/fixed_turrets.gd:74)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "beams" variable because the value doesn't have a set type.
-   at: GDScript::reload (res://scenes/bosses/fixed_turrets.gd:91)
-ERROR: Failed to load script "res://scenes/bosses/fixed_turrets.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript.cpp:3022)

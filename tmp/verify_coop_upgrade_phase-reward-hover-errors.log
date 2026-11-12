@@ -1,2 +1,0 @@
-SCRIPT ERROR: Assertion failed.
-   at: verify (res://tests/verify_coop_upgrade_phase.gd:34)

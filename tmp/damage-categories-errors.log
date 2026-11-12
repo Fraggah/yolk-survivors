@@ -1,6 +1,0 @@
-ERROR: Attempt to open script 'res://resources/items/weapons/range/ranged_settings.gd' resulted in error 'File not found'.
-   at: load_source_code (modules/gdscript/gdscript.cpp:1115)
-ERROR: Failed loading resource: res://resources/items/weapons/range/ranged_settings.gd. Make sure resources have been imported by opening the project in the editor at least once.
-   at: _load (core/io/resource_loader.cpp:343)
-SCRIPT ERROR: Attempt to call function 'new' in base 'null instance' on a null instance.
-   at: verify (res://tests/verify_damage_categories.gd:37)

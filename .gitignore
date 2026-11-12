@@ -8,3 +8,5 @@
 # Generated outputs stay local.
 /output/
 /outputs/
+/tmp/
+/AGENTS.md

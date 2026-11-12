@@ -1,3 +1,0 @@
-Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
-
-PASS healing: 0.1 HP/s per regen point, 0.1 pulses, fractional stats, pause/full/death/reset, actual timer and one lifesteal heal per hit with shared cooldown

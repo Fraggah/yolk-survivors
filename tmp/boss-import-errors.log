@@ -1,6 +1,0 @@
-ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
-   at: _close (drivers/windows/file_access_windows.cpp:276)
-SCRIPT ERROR: Parse Error: Identifier "unit" not declared in the current scope.
-   at: GDScript::reload (res://effects/status_controller.gd:170)
-ERROR: Failed to load script "res://effects/status_controller.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript.cpp:3022)

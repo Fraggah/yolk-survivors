@@ -1,5 +1,0 @@
-Godot Engine v4.4.1.stable.official.49a5bc7b6 - https://godotengine.org
-
-Wave: 1, Luck: 5.0 => Chances C:1.00 R:0.00 E:0.00 L:0.00
-Wave: 1, Luck: 5.0 => Chances C:1.00 R:0.00 E:0.00 L:0.00
-PASS: aligned HUD, paused flights reach jar sprite center under translated/zoomed canvas, reserve replaces leftovers, pickup x2 and partial bonuses, no duplicate payout, harvesting and death cleanup

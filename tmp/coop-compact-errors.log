@@ -1,4 +1,0 @@
-ERROR: Node not found: "CustomButtonExit" (relative to "/root/Arena/GameUI/SelectionPanel/RosterLayout/Label").
-   at: get_node (scene/main/node.cpp:1877)
-SCRIPT ERROR: Invalid access to property or key 'size' on a base object of type 'null instance'.
-   at: verify (res://tests/verify_coop_hover_toggle.gd:45)

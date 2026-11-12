@@ -1,2 +1,0 @@
-SCRIPT ERROR: Invalid access to property or key 'spark_lighter' on a base object of type 'Dictionary'.
-   at: verify (res://tests/verify_shop_economy.gd:30)

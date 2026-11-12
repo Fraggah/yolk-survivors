@@ -1,2 +1,0 @@
-SCRIPT ERROR: Assertion failed: count=1 damage=18.75
-   at: verify (res://tests/verify_flambe.gd:35)

@@ -1,8 +1,0 @@
-SCRIPT ERROR: Compile Error: Identifier not found: Global
-   at: GDScript::reload (res://resources/items/weapons/item_weapon.gd:170)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-   at: GDScript::reload (res://tests/verify_shop_progression.gd:0)
-ERROR: Failed to load script "res://tests/verify_shop_progression.gd" with error "Compilation failed".
-   at: load (modules/gdscript/gdscript.cpp:3022)
-SCRIPT ERROR: Assertion failed.
-   at: verify (res://tests/verify_shop_progression.gd:24)
